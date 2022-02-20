@@ -18,7 +18,7 @@ extension Tag {
     /// Set vale of <style> attribute with Array
     @discardableResult
     public func style(_ keyValues: [CssKeyValue], _ condition: Bool = true) -> Self {
-        return style(keyValues.map{ String($0) }.joined())
+        return style(keyValues.map{ String($0) }.joined(separator: ";"))
     }
     
     /// Add optional to value of <style> attribute
@@ -55,7 +55,7 @@ extension Tag {
     /// Remove key:value pair from value of <style> attribute using String
     @discardableResult
     public func style(remove key: String, _ condition: Bool = true) -> Self {
-        guard condition else { return self }
+        guard condition, !key.isEmpty else { return self }
         if let styleValue = styleAttributeValue() {
             let keyValues = styleValue.split(separator: ";")
             let newKeyValues = keyValues.filter {

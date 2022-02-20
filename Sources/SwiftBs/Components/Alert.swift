@@ -6,7 +6,6 @@
 //
 
 import SwiftHtml
-import SwiftSvg
 
 public class Alert: Component {
     
@@ -14,11 +13,11 @@ public class Alert: Component {
     let heading: String?
     let body: String?
         
-    public convenience init(@TagBuilder svg: () -> Svg, heading: String? = nil, body: String? = nil, @TagBuilder _ children: @escaping () -> [Tag]) {
+    public convenience init(@TagBuilder svg: () -> Tag, heading: String? = nil, body: String? = nil, @TagBuilder _ children: @escaping () -> [Tag]) {
         self.init(svg: svg(), heading: heading, body: body, children)
     }
     
-    public init(svg: Svg? = nil, heading: String? = nil, body: String? = nil, @TagBuilder _ children: @escaping () -> [Tag]) {
+    public init(svg: Tag? = nil, heading: String? = nil, body: String? = nil, @TagBuilder _ children: @escaping () -> [Tag]) {
         self.svg = svg
         self.heading = heading
         self.body = body

@@ -9,6 +9,21 @@ public struct CssKeyValue {
 
     let key: String
     let value: String
+    
+    public init?(_ key: String, _ value: String) {
+        self.init(key: key, value: value)
+    }
+
+    public init?(key: String, value: String) {
+        guard
+            !key.isEmpty,
+            !key.contains(":"),
+            !key.contains(";")
+        else { return nil }
+        
+        self.key = key
+        self.value = value
+    }
 }
 
 extension CssKeyValue {
@@ -1051,8 +1066,23 @@ extension String {
 
                  let key: String
                  let value: String
-             }
+                 
+                 public init?(_ key: String, _ value: String) {
+                     self.init(key: key, value: value)
+                 }
 
+                 public init?(key: String, value: String) {
+                     guard
+                         !key.isEmpty,
+                         !key.contains(":"),
+                         !key.contains(";")
+                     else { return nil }
+                     
+                     self.key = key
+                     self.value = value
+                 }
+             }
+             
              extension CssKeyValue {
 
                  public init(_ property: CssProperty, _ value: String) {
