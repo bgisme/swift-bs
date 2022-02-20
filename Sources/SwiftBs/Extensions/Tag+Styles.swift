@@ -5,7 +5,6 @@
 //  Created by BG on 2/19/22.
 //
 
-import Foundation
 import SwiftHtml
 
 extension Tag {
@@ -19,8 +18,7 @@ extension Tag {
     /// Set vale of <style> attribute with Array
     @discardableResult
     public func style(_ keyValues: [CssKeyValue], _ condition: Bool = true) -> Self {
-        guard condition else { return self }
-        return attribute("style", cssString(keyValues))
+        return style(keyValues.map{ String($0) }.joined())
     }
     
     /// Add optional to value of <style> attribute
@@ -40,7 +38,7 @@ extension Tag {
     @discardableResult
     public func style(add keyValues: [CssKeyValue]?, _ condition: Bool = true) -> Self {
         guard condition, let keyValues = keyValues else { return self }
-        let keyValueStr = cssString(keyValues)
+        let keyValueStr = keyValues.map{ String($0) }.joined()
         if let styleValue = styleAttributeValue() {
             attribute("style", styleValue + keyValueStr)
             return self
@@ -59,7 +57,7 @@ extension Tag {
     public func style(remove key: String, _ condition: Bool = true) -> Self {
         guard condition else { return self }
         if let styleValue = styleAttributeValue() {
-            let keyValues = styleValue.components(separatedBy: ";")
+            let keyValues = styleValue.split(separator: ";")
             let newKeyValues = keyValues.filter {
                 // component key is everything up to first colon
                 // do not return if it's less than whole string and matches supplied key
@@ -83,10 +81,5 @@ extension Tag {
     /// Retrieve the <style> attribute if it exists
     private func styleAttributeValue() -> String? {
         node.attributes.first(where: { $0.key == "style" })?.value
-    }
-        
-    /// Convert CssKeyValue to formatted string for <style> attribute
-    private func cssString(_ keyValues: [CssKeyValue]) -> String {
-        keyValues.map { "\($0.key):\($0.value);" }.joined()
-    }    
+    }        
 }

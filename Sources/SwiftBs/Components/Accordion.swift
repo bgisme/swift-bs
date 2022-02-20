@@ -31,7 +31,7 @@ extension Accordion: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         Div {
-            items(id, isAlwaysOpen)
+            self.items(id, isAlwaysOpen)
         }
         .class(.accordion)
         .class(add: .accordionFlush, if: isFlush)

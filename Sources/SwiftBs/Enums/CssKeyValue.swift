@@ -983,13 +983,12 @@ extension CssKeyValue {
     }
 }
 
-extension CssKeyValue: Hashable {
+extension String {
     
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(key)
+    init(_ kv: CssKeyValue) {
+        self.init("\(kv.key):\(kv.value);")
     }
 }
-
 
 /*
  
@@ -1063,10 +1062,10 @@ extension CssKeyValue: Hashable {
                  \(cssProps.map { $0.swiftEnum().staticFunc() }.joined(separator: "\n"))
              }
 
-             extension CssKeyValue: Hashable {
+             extension String {
                  
-                 public func hash(into hasher: inout Hasher) {
-                     hasher.combine(key)
+                 init(_ kv: CssKeyValue) {
+                     self.init("\(kv.key):\(kv.value);")
                  }
              }
              """
