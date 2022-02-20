@@ -1,3 +1,3 @@
 # SwiftBs
 
-A description of this package.
+A library for creating Bootstrap components.
