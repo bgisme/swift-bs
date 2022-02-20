@@ -30,7 +30,7 @@ public class Breadcrumb: Component {
         if let divider = divider {
             self.divider = Style(.breadcrumbDivider, divider)
         }
-        super.init(nil, nil, nil, children)
+        super.init() { children() }
     }
 }
 
@@ -55,11 +55,11 @@ public class BreadcrumbItem: Component {
     let href: String?
     let isActive: Bool
     
-    public init(_ title: String, href: String? = nil, isActive: Bool = false, classes: Classes? = nil, attributes: Attributes? = nil, styles: Styles? = nil, @TagBuilder children: @escaping () -> [Tag]) {
+    public init(_ title: String, href: String? = nil, isActive: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
         self.title = title
         self.href = href
         self.isActive = isActive
-        super.init(classes, attributes, styles, children)
+        super.init() { children() }
     }
 }
 

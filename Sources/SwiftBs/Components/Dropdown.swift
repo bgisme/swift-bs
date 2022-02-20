@@ -24,7 +24,7 @@ public class Dropdown: Component {
         self.id = id
         self.title = title
         self.isSplit = isSplit
-        super.init(nil, nil, nil, children)
+        super.init() { children() }
     }
 }
 
@@ -68,20 +68,20 @@ public class DropdownItem: Component {
     let isActive: Bool
     let isDisabled: Bool
     
-    public convenience init(_ title: String, href: String, isActive: Bool = false, isDisabled: Bool = false, classes: Classes? = nil, attributes: Attributes? = nil, styles: Styles? = nil, @TagBuilder _ children: @escaping () -> [Tag]) {
+    public convenience init(_ title: String, href: String, isActive: Bool = false, isDisabled: Bool = false, @TagBuilder _ children: @escaping () -> [Tag]) {
         let a = A(title).href(href)
-        self.init(a: a, isActive: isActive, isDisabled: isDisabled, classes: classes, attributes: attributes, children: children)
+        self.init(a: a, isActive: isActive, isDisabled: isDisabled) {}
     }
     
-    public convenience init(_ a: A, isActive: Bool = false, isDisabled: Bool = false, classes: Classes? = nil, attributes: Attributes? = nil, styles: Styles? = nil, @TagBuilder children: @escaping () -> [Tag]) {
-        self.init(a: a, isActive: isActive, isDisabled: isDisabled, classes: classes, attributes: attributes, children: children)
+    public convenience init(_ a: A, isActive: Bool = false, isDisabled: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
+        self.init(a: a, isActive: isActive, isDisabled: isDisabled, children)
     }
     
-    public init(a: A, isActive: Bool = false, isDisabled: Bool = false, classes: Classes? = nil, attributes: Attributes? = nil, styles: Styles? = nil, @TagBuilder children: @escaping () -> [Tag]) {
+    public init(a: A, isActive: Bool = false, isDisabled: Bool = false, @TagBuilder _ children: @escaping () -> [Tag]) {
         self.a = a
         self.isActive = isActive
         self.isDisabled = isDisabled
-        super.init(classes, attributes, styles, children)
+        super.init() { children() }
     }
 }
 

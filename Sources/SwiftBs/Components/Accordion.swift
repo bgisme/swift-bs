@@ -48,13 +48,13 @@ public class AccordionItem: Component {
     var isAlwaysOpen: Bool
     var accordionId: String
     
-    public init(_ label: String, index: Int = 0, isExpanded: Bool = false, isAlwaysOpen: Bool = false, accordionId: String, classes: Classes? = nil, attributes: Attributes? = nil, styles: Styles? = nil, @TagBuilder _ children: @escaping () -> [Tag]) {
+    public init(_ label: String, index: Int = 0, isExpanded: Bool = false, isAlwaysOpen: Bool = false, accordionId: String, @TagBuilder _ children: @escaping () -> [Tag]) {
         self.label = label
         self.index = index
         self.isExpanded = isExpanded
         self.isAlwaysOpen = isAlwaysOpen
         self.accordionId = accordionId
-        super.init(classes, attributes, styles, children)
+        super.init() { children() }
     }
 }
 
@@ -92,11 +92,11 @@ public class AccordionHeader: Component {
     let collapseId: String
     let isExpanded: Bool
     
-    public init(id: String, collapseId: String, isExpanded: Bool = false, classes: Classes? = nil, attributes: Attributes? = nil, styles: Styles? = nil, @TagBuilder _ children: @escaping () -> [Tag]) {
+    public init(id: String, collapseId: String, isExpanded: Bool = false, @TagBuilder _ children: @escaping () -> [Tag]) {
         self.id = id
         self.collapseId = collapseId
         self.isExpanded = isExpanded
-        super.init(classes, attributes, styles, children)
+        super.init() { children () }
     }
 }
 
@@ -120,13 +120,13 @@ public class AccordionCollapse: Component {
     let isExpanded: Bool
     let isAlwaysOpen: Bool
     
-    public init(id: String, accordionId: String, headerId: String, isExpanded: Bool = false, isAlwaysOpen: Bool = false, classes: Classes? = nil, attributes: Attributes? = nil, styles: Styles? = nil, @TagBuilder _ children: @escaping () -> [Tag]) {
+    public init(id: String, accordionId: String, headerId: String, isExpanded: Bool = false, isAlwaysOpen: Bool = false, @TagBuilder _ children: @escaping () -> [Tag]) {
         self.id = id
         self.accordionId = accordionId
         self.headerId = headerId
         self.isExpanded = isExpanded
         self.isAlwaysOpen = isAlwaysOpen
-        super.init(classes, attributes, styles, children)
+        super.init() { children() }
     }
 }
 
@@ -166,16 +166,16 @@ public class AccordionButton: Component {
     let isExpanded: Bool
     let collapseId: String
 
-    public convenience init(_ title: String, isExpanded: Bool = false, collapseId: String, classes: Classes? = nil, attributes: Attributes? = nil, styles: Styles? = nil) {
+    public convenience init(_ title: String, isExpanded: Bool = false, collapseId: String) {
         let button = Button(title)
-        self.init(button, isExpanded: isExpanded, collapseId: collapseId, classes: classes, attributes: attributes, styles: styles)
+        self.init(button, isExpanded: isExpanded, collapseId: collapseId)
     }
 
-    public init(_ button: Button, isExpanded: Bool = false, collapseId: String, classes: Classes? = nil, attributes: Attributes? = nil, styles: Styles? = nil) {
+    public init(_ button: Button, isExpanded: Bool = false, collapseId: String) {
         self.button = button
         self.isExpanded = isExpanded
         self.collapseId = collapseId
-        super.init(classes, attributes, styles, {})
+        super.init() {}
     }
 }
 

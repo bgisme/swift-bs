@@ -12,14 +12,14 @@ public class Navbar: Component {
     var isListBased: Bool
     var brand: () -> [Tag]
 
-    public convenience init(isListBased: Bool = true, _ classes: Class..., attributes: Attributes? = nil, styles: Styles? = nil, @TagBuilder brand: @escaping () -> [Tag], @TagBuilder items: @escaping () -> [Tag]) {
-        self.init(isListBased: isListBased, classes: classes, attributes: attributes, styles: styles, brand: brand, children: items)
+    public convenience init(isListBased: Bool = true, @TagBuilder items: @escaping () -> [Tag]) {
+        self.init(isListBased: isListBased, brand: {}, children: items)
     }
     
-    public init(isListBased: Bool = true, classes: Classes? = nil, attributes: Attributes? = nil, styles: Styles? = nil, @TagBuilder brand: @escaping () -> [Tag], @TagBuilder children: @escaping () -> [Tag]) {
+    public init(isListBased: Bool = true, @TagBuilder brand: @escaping () -> [Tag], @TagBuilder children: @escaping () -> [Tag]) {
         self.isListBased = isListBased
         self.brand = brand
-        super.init(classes, attributes, styles, children)
+        super.init() { children() }
     }
 }
 
@@ -69,22 +69,22 @@ public class NavbarBrand: Component {
     let href: String?
     
     /// Text with-without Href
-    public convenience init(_ text: String, href: String?, classes: Classes? = nil, attributes: Attributes? = nil, styles: Styles? = nil) {
-        self.init(src: nil, alt: nil, text: text, href: href, classes: classes, attributes: attributes, styles: styles){}
+    public convenience init(_ text: String, href: String?) {
+        self.init(src: nil, alt: nil, text: text, href: href){}
     }
     
     /// Img with-without Text with-without Href
-    public convenience init(_ imgSrc: String, alt: String, text: String?, href: String?, classes: Classes? = nil, attributes: Attributes? = nil, styles: Styles? = nil) {
-        self.init(src: imgSrc, alt: alt, text: text, href: href, classes: classes, attributes: attributes, styles: styles){}
+    public convenience init(_ imgSrc: String, alt: String, text: String?, href: String?) {
+        self.init(src: imgSrc, alt: alt, text: text, href: href){}
     }
     
     /// Convenience inits insure correct combination of parameters supplied
-    private init(src: String?, alt: String?, text: String?, href: String?, classes: Classes? = nil, attributes: Attributes? = nil, styles: Styles? = nil, @TagBuilder children: @escaping () -> [Tag]) {
+    private init(src: String?, alt: String?, text: String?, href: String?, @TagBuilder children: @escaping () -> [Tag]) {
         self.src = src
         self.alt = alt
         self.text = text
         self.href = href
-        super.init(classes, attributes, styles, children)
+        super.init() { children() }
     }
 }
 

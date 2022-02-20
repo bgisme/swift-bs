@@ -21,7 +21,7 @@ public class Alert: Component {
         self.svg = svg
         self.heading = heading
         self.body = body
-        super.init(nil, nil, nil, children)
+        super.init() { children() }
     }
 }
 

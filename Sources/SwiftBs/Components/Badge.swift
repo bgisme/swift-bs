@@ -21,7 +21,7 @@ public class Badge: Component {
         self.text = text
         self.isPositioned = isPositioned
         self.isRounded = isRounded
-        super.init(nil, nil, nil, children)
+        super.init() { children() }
     }
 }
 
