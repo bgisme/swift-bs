@@ -12,14 +12,10 @@ public class Navbar: Component {
     var isListBased: Bool
     var brand: () -> [Tag]
 
-    public convenience init(isListBased: Bool = true, @TagBuilder items: @escaping () -> [Tag]) {
-        self.init(isListBased: isListBased, brand: {}, children: items)
-    }
-    
-    public init(isListBased: Bool = true, @TagBuilder brand: @escaping () -> [Tag], @TagBuilder children: @escaping () -> [Tag]) {
+    public init(isListBased: Bool = true, @TagBuilder brand: @escaping () -> [Tag], @TagBuilder items: @escaping () -> [Tag]) {
         self.isListBased = isListBased
         self.brand = brand
-        super.init() { children() }
+        super.init() { items() }
     }
 }
 
