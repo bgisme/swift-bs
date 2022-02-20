@@ -13,7 +13,7 @@ extension TagBuilder {
         [expression.build()]
     }
 
-    static func buildExpression(_ expression: [TagRepresentable]) -> [Tag] {
+    public static func buildExpression(_ expression: [TagRepresentable]) -> [Tag] {
         expression.map { $0.build() }
     }        
 }
