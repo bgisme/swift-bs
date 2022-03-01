@@ -86,7 +86,8 @@ extension BsButtonLink: TagRepresentable {
         }
         .class(isDisabled ? [.btn, .disabled] : [.btn])
         .role(.button)
-        .ariaDisabled(isDisabled)
+        .href(href)
+        .ariaDisabled(isDisabled, isDisabled)
         .add(classes, attributes, styles)
     }
 }
