@@ -33,11 +33,11 @@ extension BsButton: TagRepresentable {
         }
         .class(.btn)
         .type(.button)
-        .add(classes, attributes, styles)
         .dataToggle(.button, isToggle)
         .class(add: .disabled, if: isToggle && isPressed)
         .ariaPressed(isPressed, isToggle && isPressed)
         .autoComplete(false, isToggle && isPressed)
+        .add(classes, attributes, styles)
     }
 }
 
@@ -59,6 +59,7 @@ extension BsButtonInput: TagRepresentable {
         .class(.btn)
         .type(type)
         .value(text)
+        .add(classes, attributes, styles)
     }
 }
 
