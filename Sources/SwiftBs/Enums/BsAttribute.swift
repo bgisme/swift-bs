@@ -16,9 +16,9 @@ public enum BsAttribute: String {
     case ariaPressed = "aria-pressed"
     case autoComplete = "auto-complete"
     case checked
-    case dataParent = "data-bs-parent"
-    case dataTarget = "data-bs-target"
-    case dataToggle = "data-bs-toggle"
+    case dataParent = "data-parent"
+    case dataTarget = "data-target"
+    case dataToggle = "data-toggle"
     case disabled = "disabled"
     case grid
     case id
