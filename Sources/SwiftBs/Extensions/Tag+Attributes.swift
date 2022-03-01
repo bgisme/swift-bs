@@ -35,11 +35,6 @@ extension Tag {
         self.attribute(attribute.rawValue, value, condition)
     }
     
-    @discardableResult
-    private func attributeOnly(_ attribute: BsAttribute, _ condition: Bool = true) -> Self {
-        self.flagAttribute(attribute.rawValue, nil, condition)
-    }
-    
     // MARK: - Attribute Shortcuts
     
     @discardableResult
@@ -90,7 +85,7 @@ extension Tag {
     
     @discardableResult
     public func checked(_ condition: Bool = true) -> Self {
-        self.attributeOnly(.checked, condition)
+        flagAttribute(BsAttribute.checked.rawValue, nil, condition)
     }
     
     @discardableResult
@@ -112,15 +107,6 @@ extension Tag {
     public func dataToggle(_ value: BsClass, _ condition: Bool = true) -> Self {
         self.attribute(.dataToggle, value.rawValue, condition)
     }
-    
-//    @discardableResult
-//    public func disabled(_ condition: Bool = true) -> Self {
-//        _ = self.attributeOnly(.disabled, condition)
-//        if condition {
-//            _ = self.ariaDisabled(condition)
-//        }
-//        return self
-//    }
     
     @discardableResult
     public func list(_ value: String, _ condition: Bool = true) -> Self {
@@ -149,12 +135,12 @@ extension Tag {
     
     @discardableResult
     public func multiple(_ condition: Bool = true) -> Self {
-        self.attributeOnly(.multiple, condition)
+        flagAttribute(BsAttribute.multiple.rawValue, nil, condition)
     }
     
     @discardableResult
     public func readOnly(_ condition: Bool = true) -> Self {
-        self.attributeOnly(.readonly, condition)
+        flagAttribute(BsAttribute.readonly, nil, condition)
     }
     
     @discardableResult
@@ -164,7 +150,7 @@ extension Tag {
     
     @discardableResult
     public func selected(_ condition: Bool = true) -> Self {
-        self.attributeOnly(.selected, condition)
+        flagAttribute(BsAttribute.selected.rawValue, nil, condition)
     }
     
     @discardableResult

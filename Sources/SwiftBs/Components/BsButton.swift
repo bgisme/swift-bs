@@ -72,14 +72,14 @@ extension BsButtonInput: TagRepresentable {
 public class BsButtonLink: Component {
     let text: String
     let href: String
-    let isActive: Bool
     let isDisabled: Bool
-    
-    public init(_ text: String, href: String = "#", isActive: Bool = false, isDisabled: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
+    let isActive: Bool
+
+    public init(_ text: String, href: String = "#", isDisabled: Bool = false, isActive: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
         self.text = text
-        self.isActive = isActive
         self.href = href
         self.isDisabled = isDisabled
+        self.isActive = isActive
         super.init() { children() }
     }
 }
