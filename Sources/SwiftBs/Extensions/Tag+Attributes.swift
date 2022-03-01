@@ -140,7 +140,7 @@ extension Tag {
     
     @discardableResult
     public func readOnly(_ condition: Bool = true) -> Self {
-        flagAttribute(BsAttribute.readonly, nil, condition)
+        flagAttribute(BsAttribute.readonly.rawValue, nil, condition)
     }
     
     @discardableResult
