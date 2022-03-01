@@ -32,6 +32,7 @@ extension BsButton: TagRepresentable {
             children()
         }
         .class(.btn)
+        .type(.button)
         .add(classes, attributes, styles)
         .dataToggle(.button, isToggle)
         .class(add: .disabled, if: isToggle && isPressed)
