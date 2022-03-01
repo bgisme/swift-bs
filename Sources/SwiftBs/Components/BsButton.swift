@@ -12,11 +12,17 @@ public class BsButton: Component {
     let text: String?
     let isToggle: Bool
     let isPressed: Bool
+    let isDisabled: Bool
 
-    public init(_ text: String? = nil, isToggle: Bool = false, isPressed: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
+    public init(_ text: String? = nil,
+                isToggle: Bool = false,
+                isPressed: Bool = false,
+                isDisabled: Bool = false,
+                @TagBuilder children: @escaping () -> [Tag]) {
         self.text = text
         self.isToggle = isToggle
         self.isPressed = isPressed
+        self.isDisabled = isDisabled
         super.init() { children() }
     }
 }
@@ -34,7 +40,7 @@ extension BsButton: TagRepresentable {
         .class(.btn)
         .type(.button)
         .dataToggle(.button, isToggle)
-        .class(add: .disabled, if: isToggle && isPressed)
+        .disabled(isDisabled)
         .ariaPressed(isPressed, isToggle && isPressed)
         .autoComplete(false, isToggle && isPressed)
         .add(classes, attributes, styles)
@@ -66,10 +72,12 @@ extension BsButtonInput: TagRepresentable {
 public class BsButtonLink: Component {
     let text: String
     let href: String
+    let isActive: Bool
     let isDisabled: Bool
     
-    public init(_ text: String, href: String = "#", isDisabled: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
+    public init(_ text: String, href: String = "#", isActive: Bool = false, isDisabled: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
         self.text = text
+        self.isActive = isActive
         self.href = href
         self.isDisabled = isDisabled
         super.init() { children() }
