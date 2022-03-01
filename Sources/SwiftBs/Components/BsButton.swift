@@ -39,6 +39,7 @@ extension BsButton: TagRepresentable {
         }
         .class(.btn)
         .type(.button)
+        .class(add: .active, if: isToggle && isPressed)
         .dataToggle(.button, isToggle)
         .disabled(isDisabled)
         .ariaPressed(isPressed, isToggle && isPressed)
