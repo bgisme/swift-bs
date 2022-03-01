@@ -38,7 +38,7 @@ extension Dropdown: TagRepresentable {
                 .type(.button)
                 .class(add: classes)
                 .class(add: .dropdownToggle, if: !isSplit)
-                .dataBsToggle(.dropdown, !isSplit)
+                .dataToggle(.dropdown, !isSplit)
                 .ariaExpanded(String(false), !isSplit)
                 .id(id)
             if isSplit {
@@ -48,7 +48,7 @@ extension Dropdown: TagRepresentable {
                 .type(.button)
                 .class(.btn, .dropdownToggle, .dropdownToggleSplit)
                 .class(add: classes)
-                .dataBsToggle(.dropdown)
+                .dataToggle(.dropdown)
                 .ariaExpanded(String(false))
             }
             Ul {

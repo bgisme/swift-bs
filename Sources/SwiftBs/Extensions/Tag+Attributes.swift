@@ -25,77 +25,109 @@ extension Tag {
         self.attribute(attribute.rawValue, value?.rawValue, condition)
     }
     
-    // MARK: - Attribute Shortcuts
-    
+    @discardableResult
     private func attribute(_ attribute: BsAttribute, _ value: BsClass, _ condition: Bool = true) -> Self {
         self.attribute(attribute, value.rawValue, condition)
     }
     
+    @discardableResult
     private func attribute(_ attribute: BsAttribute, _ value: String, _ condition: Bool = true) -> Self {
         self.attribute(attribute.rawValue, value, condition)
     }
     
+    @discardableResult
     private func attributeOnly(_ attribute: BsAttribute, _ condition: Bool = true) -> Self {
         self.flagAttribute(attribute.rawValue, nil, condition)
     }
     
+    // MARK: - Attribute Shortcuts
+    
+    @discardableResult
     public func ariaControls(_ value: BsClass, _ condition: Bool = true) -> Self {
         self.ariaControls(value.rawValue, condition)
     }
     
+    @discardableResult
     public func ariaControls(_ value: String, _ condition: Bool = true) -> Self {
         self.attribute(.ariaControls, value, condition)
     }
     
     /// Note: Only need ariaCurrent attribute when the value = "true"... so no need for serparate value parameter
+    @discardableResult
     public func ariaCurrent(_ condition: Bool = true) -> Self {
         self.attribute(.ariaCurrent, String(condition), condition)
     }
     
+    @discardableResult
     public func ariaExpanded(_ value: String? = nil, _ condition: Bool = true) -> Self {
         self.attribute(.ariaExpanded, value ?? String(condition), condition)
     }
     
+    @discardableResult
     public func ariaLabelledBy(_ value: String, _ condition: Bool = true) -> Self {
         self.attribute(.ariaLabelledBy, value, condition)
     }
     
+    @discardableResult
     public func ariaDescribedBy(_ value: String, _ condition: Bool = true) -> Self {
         self.attribute(.ariaDescribedby, value, condition)
     }
     
-    public func ariaDisabled(_ condition: Bool = true) -> Self {
-        self.attribute(.ariaDisabled, BsClass.disabled.rawValue, condition)
+    @discardableResult
+    public func ariaDisabled(_ value: Bool, _ condition: Bool = true) -> Self {
+        return self.attribute(.ariaDisabled, String(value), condition)
     }
     
+    @discardableResult
+    public func ariaPressed(_ value: Bool, _ condition: Bool = true) -> Self {
+        return self.attribute(.ariaPressed, String(value), condition)
+    }
+    
+    @discardableResult
+    public func autoComplete(_ value: Bool, _ condition: Bool = true) -> Self {
+        return self.attribute(.autoComplete, String(value), condition)
+    }
+    
+    @discardableResult
     public func checked(_ condition: Bool = true) -> Self {
         self.attributeOnly(.checked, condition)
     }
     
-    public func dataBsParent(_ value: String, _ condition: Bool = true) -> Self {
-        self.attribute(.dataBsParent, "#" + value, condition)
+    @discardableResult
+    public func dataParent(_ value: String, _ condition: Bool = true) -> Self {
+        self.attribute(.dataParent, "#" + value, condition)
     }
     
-    public func dataBsTarget(_ value: BsClass, _ condition: Bool = true) -> Self {
-        self.dataBsTarget(value.rawValue, condition)
+    @discardableResult
+    public func dataTarget(_ value: BsClass, _ condition: Bool = true) -> Self {
+        self.dataTarget(value.rawValue, condition)
     }
     
-    public func dataBsTarget(_ value: String, _ condition: Bool = true) -> Self {
-        self.attribute(.dataBsTarget, "#" + value, condition)
+    @discardableResult
+    public func dataTarget(_ value: String, _ condition: Bool = true) -> Self {
+        self.attribute(.dataTarget, "#" + value, condition)
     }
     
-    public func dataBsToggle(_ value: BsClass, _ condition: Bool = true) -> Self {
-        self.attribute(.dataBsToggle, value.rawValue, condition)
+    @discardableResult
+    public func dataToggle(_ value: BsClass, _ condition: Bool = true) -> Self {
+        self.attribute(.dataToggle, value.rawValue, condition)
     }
     
+    @discardableResult
     public func disabled(_ condition: Bool = true) -> Self {
-        self.attributeOnly(.disabled, condition)
+        _ = self.attributeOnly(.disabled, condition)
+        if condition {
+            _ = self.ariaDisabled(condition)
+        }
+        return self
     }
     
+    @discardableResult
     public func list(_ value: String, _ condition: Bool = true) -> Self {
         self.attribute(.list, value, condition)
     }
     
+    @discardableResult
     public func minMaxStep(_ min: Int, _ max: Int, _ step: Double, _ condition: Bool = true) -> Self {
         if condition {
             _ = self.min(min)
@@ -105,42 +137,52 @@ extension Tag {
         return self
     }
     
+    @discardableResult
     public func min(_ value: Int, _ condition: Bool = true) -> Self {
         self.attribute(.min, String(value), condition)
     }
     
+    @discardableResult
     public func max(_ value: Int, _ condition: Bool = true) -> Self {
         self.attribute(.max, String(value), condition)
     }
     
+    @discardableResult
     public func multiple(_ condition: Bool = true) -> Self {
         self.attributeOnly(.multiple, condition)
     }
     
+    @discardableResult
     public func readOnly(_ condition: Bool = true) -> Self {
         self.attributeOnly(.readonly, condition)
     }
     
+    @discardableResult
     public func role(_ role: Attribute.Role, _ condition: Bool = true) -> Self {
         self.attribute(Attribute.role, role.rawValue, condition)
     }
     
+    @discardableResult
     public func selected(_ condition: Bool = true) -> Self {
         self.attributeOnly(.selected, condition)
     }
     
+    @discardableResult
     public func size(_ value: Int, _ condition: Bool = true) -> Self {
         self.attribute(.size, String(value), condition)
     }
     
+    @discardableResult
     public func step(_ value: Double, _ condition: Bool = true) -> Self {
         self.attribute(.step, String(value), condition)
     }
     
+    @discardableResult
     public func type(_ type: Attribute.`Type`, _ condition: Bool = true) -> Self {
         self.attribute(Attribute.type, type.rawValue, condition)
     }
     
+    @discardableResult
     public func hrefOptional(_ value: String?) -> Self {
         if let value = value {
             return attribute("href", value)

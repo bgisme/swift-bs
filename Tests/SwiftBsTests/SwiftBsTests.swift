@@ -14,7 +14,7 @@ final class SwiftBsTests: XCTestCase {
         let html = DocumentRenderer(minify: true).render(doc)
         XCTAssertEqual(#"<span style="\#(CssProperty.margin.rawValue):\#(margin);\#(CssProperty.backgroundColor.rawValue):\#(bkgndColor);">a</span>"#, html)
     }
-    
+
     func testRemoveProperty() throws {
         let margin = "10px 5px 15px 20px"
         let bkgndColor = "chartreuse"

@@ -68,8 +68,11 @@ public enum BsClass: String {
     case btn
     case btnCheck = "btn-check"
     case btnGroup = "btn-group"
-    case btnGroupLg = "btn-group-lg"
     case btnGroupSm = "btn-group-sm"
+    case btnGroupMd = "btn-group-md"
+    case btnGroupLg = "btn-group-lg"
+    case btnGroupXl = "btn-group-xl"
+    case btnGroupXxl = "btn-group-xxl"
     case btnGroupVertical = "btn-group-vertical"
     case btnLg = "btn-lg"
     case btnSm = "btn-sm"
@@ -81,6 +84,7 @@ public enum BsClass: String {
     case btnLink = "btn-link"
     case btnPrimary = "btn-primary"
     case btnSecondary = "btn-secondary"
+    case btnToolbar = "btn-toolbar"
     case btnSuccess = "btn-success"
     case btnWarning = "btn-warning"
     
@@ -93,7 +97,7 @@ public enum BsClass: String {
     case btnOutlineSuccess = "btn-outline-success"
     case btnOutlineWarning = "btn-outline-warning"
     
-//    case button
+    case button
     
     // MARK: - C
     case captionTop = "caption-top"

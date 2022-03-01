@@ -141,7 +141,7 @@ extension AccordionCollapse: TagRepresentable {
         .class(.accordionCollapse, .collapse)
         .class(add: .show, if: isExpanded)
         .ariaLabelledBy(headerId)
-        .dataBsParent(accordionId, !isAlwaysOpen)
+        .dataParent(accordionId, !isAlwaysOpen)
         .add(classes, attributes, styles)
     }
 }
@@ -187,8 +187,8 @@ extension AccordionButton: TagRepresentable {
             .class(add: .accordionButton)
             .class(add: .collapsed, if: !isExpanded)
             .type(.button)
-            .dataBsToggle(.collapse)
-            .dataBsTarget(collapseId)
+            .dataToggle(.collapse)
+            .dataTarget(collapseId)
             .ariaExpanded(String(isExpanded), true)
             .ariaControls(collapseId)
             .add(classes, attributes, styles)

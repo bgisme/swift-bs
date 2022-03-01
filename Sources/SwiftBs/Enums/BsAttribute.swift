@@ -13,10 +13,12 @@ public enum BsAttribute: String {
     case ariaExpanded = "aria-expanded"
     case ariaLabel = "aria-label"
     case ariaLabelledBy = "aria-labelledby"
+    case ariaPressed = "aria-pressed"
+    case autoComplete = "auto-complete"
     case checked
-    case dataBsParent = "data-bs-parent"
-    case dataBsTarget = "data-bs-target"
-    case dataBsToggle = "data-bs-toggle"
+    case dataParent = "data-bs-parent"
+    case dataTarget = "data-bs-target"
+    case dataToggle = "data-bs-toggle"
     case disabled = "disabled"
     case grid
     case id
