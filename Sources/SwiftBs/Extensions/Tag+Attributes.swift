@@ -113,14 +113,14 @@ extension Tag {
         self.attribute(.dataToggle, value.rawValue, condition)
     }
     
-    @discardableResult
-    public func disabled(_ condition: Bool = true) -> Self {
-        _ = self.attributeOnly(.disabled, condition)
-        if condition {
-            _ = self.ariaDisabled(condition)
-        }
-        return self
-    }
+//    @discardableResult
+//    public func disabled(_ condition: Bool = true) -> Self {
+//        _ = self.attributeOnly(.disabled, condition)
+//        if condition {
+//            _ = self.ariaDisabled(condition)
+//        }
+//        return self
+//    }
     
     @discardableResult
     public func list(_ value: String, _ condition: Bool = true) -> Self {
