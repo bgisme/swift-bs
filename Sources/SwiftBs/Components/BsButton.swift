@@ -44,7 +44,7 @@ public class BsButtonInput: Component {
     let text: String
     let `type`: Input.`Type`
     
-    init(_ text: String, type: Input.`Type`) {
+    public init(_ text: String, type: Input.`Type`) {
         self.text = text
         self.type = type
         super.init() { }
@@ -66,7 +66,7 @@ public class BsButtonLink: Component {
     let href: String
     let isDisabled: Bool
     
-    init(_ text: String, href: String = "#", isDisabled: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
+    public init(_ text: String, href: String = "#", isDisabled: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
         self.text = text
         self.href = href
         self.isDisabled = isDisabled
