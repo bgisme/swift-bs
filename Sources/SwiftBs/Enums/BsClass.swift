@@ -66,6 +66,7 @@ public enum BsClass: String {
     case breadcrumbItem = "breadcrumb-item"
     
     case btn
+    case btnBlock = "btn-block"
     case btnCheck = "btn-check"
     case btnGroup = "btn-group"
     case btnGroupSm = "btn-group-sm"
