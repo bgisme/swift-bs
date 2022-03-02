@@ -97,6 +97,7 @@ extension DropdownButton: TagRepresentable {
                     }
                 }
                 .type(.button)
+                .class(.btn)
                 .add(classes, attributes, styles)
                 
                 Button {
