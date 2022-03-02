@@ -99,6 +99,11 @@ extension Component {
         return self
     }
     
+    @discardableResult
+    public func `id`(_ value: String) -> Self {
+        attribute("id", value)
+    }
+    
     // MARK: - Styles
     
     @discardableResult
