@@ -41,9 +41,8 @@ public class BsButton: Component {
     }
     
     @discardableResult
-    public func toggles(_ value: Bool, isPressed: Bool = false, if condition: Bool = true) -> Self {
-        guard condition else { return self }
-        self.isToggle = value
+    public func toggles(isPressed: Bool = false) -> Self {
+        self.isToggle = true
         self.isPressed = isPressed
         return self
     }
