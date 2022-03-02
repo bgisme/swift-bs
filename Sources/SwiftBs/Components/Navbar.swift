@@ -31,7 +31,7 @@ extension Navbar: TagRepresentable {
                 }
                 .class(.navbarToggler)
                 .type(.button)
-                .dataToggle(.collapse)
+                .dataBsToggle(.collapse)
                 .dataTarget(.navbarSupportedContent)
                 .ariaControls(.navbarSupportedContent)
                 .ariaExpanded(false)
@@ -127,7 +127,7 @@ extension NavDropdown: TagRepresentable {
                 .class(.navLink, .dropdownToggle)
                 .href("#")
                 .role(.button)
-                .dataToggle(.dropdown)
+                .dataBsToggle(.dropdown)
                 .ariaExpanded(false)
             Ul {
                 children()

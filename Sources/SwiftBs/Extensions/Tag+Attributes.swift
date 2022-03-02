@@ -109,8 +109,8 @@ extension Tag {
     }
     
     @discardableResult
-    public func dataToggle(_ value: BsClass, _ condition: Bool = true) -> Self {
-        self.attribute(.dataToggle, value.rawValue, condition)
+    public func dataBsToggle(_ value: BsClass, _ condition: Bool = true) -> Self {
+        self.attribute(.dataBsToggle, value.rawValue, condition)
     }
     
     @discardableResult

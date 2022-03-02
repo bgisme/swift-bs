@@ -187,7 +187,7 @@ extension AccordionButton: TagRepresentable {
             .class(add: .accordionButton)
             .class(add: .collapsed, if: !isExpanded)
             .type(.button)
-            .dataToggle(.collapse)
+            .dataBsToggle(.collapse)
             .dataTarget(collapseId)
             .ariaExpanded(isExpanded)
             .ariaControls(collapseId)

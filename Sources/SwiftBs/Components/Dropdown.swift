@@ -6,28 +6,27 @@
 //
 
 import SwiftHtml
+import SwiftSgml
 
 public class Dropdown: Component {
     
     public typealias Title = String
     public typealias Href = String
     
-    let id: String
-    let title: String?
-    let isSplit: Bool
-    
-    public convenience init(id: String, title: String? = nil, isSplit: Bool = false, @TagBuilder _ children: @escaping () -> [Tag]) {
-        self.init(id: id, title: title, isSplit: isSplit, children: children)
-    }
+    private let id: String
+    private let isSplit: Bool
+    private let isButtonGroup: Bool
+    private var button: () -> Tag
     
     public init(id: String,
-                title: String? = nil,
                 isSplit: Bool = false,
                 isButtonGroup: Bool = false,
+                @TagBuilder button: @escaping () -> Tag,
                 @TagBuilder children: @escaping () -> [Tag]) {
         self.id = id
-        self.title = title
         self.isSplit = isSplit
+        self.isButtonGroup = isButtonGroup
+        self.button = button
         super.init(children)
     }
 }
@@ -37,58 +36,18 @@ extension Dropdown: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         Div {
-            Button(title)
-                .class(.btn, .dropdownToggle)
-                .type(.button)
-                .dataToggle(.dropdown)
-                .type(.button)
-                .ariaHaspopup(true)
+            button()
+                .class(add: .dropdownToggle)
+                .dataBsToggle(.dropdown)
                 .ariaExpanded(false)
-                .id(id)
-            if isSplit {
-                Button {
-                    Span("Toggle Dropdown").class(.visuallyHidden)
-                }
-                .class(.btn, .dropdownToggle, .dropdownToggleSplit)
-                .type(.button)
-                .ariaExpanded(false)
-            }
-            Div {
+            Ul {
                 children()
             }
             .class(.dropdownMenu)
             .ariaLabelledBy(id, !isSplit)
         }
-        .class(.btnGroup)
+        .class(isButtonGroup ? .btnGroup : .dropdown)
         .add(classes, attributes, styles)
-        
-//        Div {
-//            Button(title)
-//                .class(.btn)
-//                .type(.button)
-//                .class(add: classes)
-//                .class(add: .dropdownToggle, if: !isSplit)
-//                .dataToggle(.dropdown, !isSplit)
-//                .ariaExpanded(false, !isSplit)
-//                .id(id)
-//            if isSplit {
-//                Button {
-//                    Span("Toggle Dropdown").class(.visuallyHidden)
-//                }
-//                .type(.button)
-//                .class(.btn, .dropdownToggle, .dropdownToggleSplit)
-//                .class(add: classes)
-//                .dataToggle(.dropdown)
-//                .ariaExpanded(false)
-//            }
-//            Ul {
-//                children()
-//            }
-//            .class(.dropdownMenu)
-//            .ariaLabelledBy(id, !isSplit)
-//        }
-//        .class(.btnGroup, if: isSplit)
-//        .class(.dropdown, if: !isSplit)
     }
 }
 
