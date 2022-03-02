@@ -21,15 +21,15 @@ public class Dropdown: Component {
     public init(id: String,
                 isSplit: Bool = false,
                 isButtonGroup: Bool = false,
-                button: BsButton,
+                button: Tag,
                 @TagBuilder children: @escaping () -> [Tag]) {
         self.id = id
         self.isSplit = isSplit
         self.isButtonGroup = isButtonGroup
-        self.button = button.build()
-//            .class(add: .dropdownToggle)
-//            .attribute(BsAttribute.id.rawValue, id)
-//            .attribute(BsAttribute.ariaExpanded.rawValue, String(false))
+        self.button = button
+            .class(add: .dropdownToggle)
+            .attribute(BsAttribute.id.rawValue, id)
+            .attribute(BsAttribute.ariaExpanded.rawValue, String(false))
         super.init(children)
     }
 }
@@ -40,9 +40,6 @@ extension Dropdown: TagRepresentable {
     public func build() -> Tag {
         Div {
             button
-                .id(id)
-                .class(add: .dropdownToggle)
-                .ariaExpanded(false)
             Ul {
                 children()
             }
