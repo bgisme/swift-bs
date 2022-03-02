@@ -16,12 +16,12 @@ public class Dropdown: Component {
     private let id: String
     private let isSplit: Bool
     private let isButtonGroup: Bool
-    private var button: () -> Tag
+    private var button: Tag
     
     public init(id: String,
                 isSplit: Bool = false,
                 isButtonGroup: Bool = false,
-                @TagBuilder button: @escaping () -> Tag,
+                button: Tag,
                 @TagBuilder children: @escaping () -> [Tag]) {
         self.id = id
         self.isSplit = isSplit
@@ -36,7 +36,7 @@ extension Dropdown: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         Div {
-            button()
+            button
                 .class(add: .dropdownToggle)
                 .dataBsToggle(.dropdown)
                 .ariaExpanded(false)
