@@ -15,7 +15,7 @@ public class BsButton: Component {
         case link(href: String)
     }
     
-    var title: String?
+    public var title: String?
     private var type: `Type` = .button
     private var isToggle: Bool = false
     private var isPressed: Bool = false
