@@ -14,17 +14,16 @@ public class Dropdown: Component {
     public typealias Href = String
     public typealias Id = String
     public typealias IsSplit = Bool
-    public typealias IsButtonGroup = Bool
     
     private let id: String
     private let isSplit: Bool
     private let isButtonGroup: Bool
-    private var button: (Id, IsSplit, IsButtonGroup) -> [Tag]
+    private var button: (Id, IsSplit) -> [Tag]
     
     public init(id: String,
                 isSplit: Bool = false,
                 isButtonGroup: Bool = false,
-                @TagBuilder button: @escaping (Id, IsSplit, IsButtonGroup) -> [Tag],
+                @TagBuilder button: @escaping (Id, IsSplit) -> [Tag],
                 @TagBuilder children: @escaping () -> [Tag]) {
         self.id = id
         self.isSplit = isSplit
@@ -39,7 +38,7 @@ extension Dropdown: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         Div {
-            button(id, isSplit, isButtonGroup)
+            button(id, isSplit)
             Ul {
                 children()
             }
