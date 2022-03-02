@@ -16,12 +16,12 @@ public class Dropdown: Component {
     private let id: String
     private let isSplit: Bool
     private let isButtonGroup: Bool
-    private var button: TagRepresentable
+    private var button: BsButton
     
     public init(id: String,
                 isSplit: Bool = false,
                 isButtonGroup: Bool = false,
-                button: TagRepresentable,
+                button: BsButton,
                 @TagBuilder children: @escaping () -> [Tag]) {
         self.id = id
         self.isSplit = isSplit
