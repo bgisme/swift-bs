@@ -12,7 +12,7 @@ public class BsButton: Component {
     enum `Type` {
         case button
         case input(type: Input.`Type`)
-        case link(rel: A.Rel, href: String)
+        case link(href: String)
     }
     
     var title: String?
@@ -38,8 +38,8 @@ public class BsButton: Component {
         Self.init(.input(type: type))
     }
     
-    public static func link(_ rel: A.Rel, href: String) -> Self {
-        Self.init(.link(rel: rel, href: href))
+    public static func link(_ href: String) -> Self {
+        Self.init(.link(href: href))
     }
     
     @discardableResult
@@ -84,14 +84,13 @@ extension BsButton: TagRepresentable {
             .type(type)
             .value(title ?? "")
             .add(classes, attributes, styles)
-        case .link(let rel, let href):
+        case .link(let href):
             A {
                 if let title = title {
                     Text(title)
                 }
                 children()
             }
-            .rel(rel)
             .class(isDisabled ? [.btn, .disabled] : [.btn])
             .role(.button)
             .href(href)
