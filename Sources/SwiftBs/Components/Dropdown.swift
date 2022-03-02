@@ -30,7 +30,6 @@ public class Dropdown: Component {
             .class(add: .dropdownToggle)
             .attribute(BsAttribute.id.rawValue, id)
             .attribute(BsAttribute.ariaExpanded.rawValue, String(false))
-        print(button.attributes!)
         super.init(children)
     }
 }

@@ -94,6 +94,10 @@ extension Component {
         if condition, let value = value, condition {
             if var existing = attributes?.first(where: {$0.key == key} ) {
                 existing.value = value
+            } else if attributes != nil {
+                attributes?.append(Attribute(key: key, value: value))
+            } else {
+                attributes = [Attribute(key: key, value: value)]
             }
         }
         return self
