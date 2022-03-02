@@ -26,7 +26,10 @@ public class Dropdown: Component {
         self.id = id
         self.isSplit = isSplit
         self.isButtonGroup = isButtonGroup
-        self.button = button.class(add: .dropdownToggle)
+        self.button = button
+//            .class(add: .dropdownToggle)
+//            .attribute(BsAttribute.id.rawValue, id)
+//            .attribute(BsAttribute.ariaExpanded.rawValue, String(false))
         super.init(children)
     }
 }
@@ -35,9 +38,9 @@ extension Dropdown: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
+        let button = self.button.build()
         Div {
             button
-                .build()
                 .id(id)
                 .class(add: .dropdownToggle)
                 .ariaExpanded(false)
