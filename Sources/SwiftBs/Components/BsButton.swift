@@ -36,6 +36,7 @@ public class BsButton: Component {
         Self.init(.input(type: type, value: value))
     }
     
+    
     public static func link(_ href: String) -> Self {
         Self.init(.link(href: href))
     }
