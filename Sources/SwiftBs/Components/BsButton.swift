@@ -10,12 +10,11 @@ import SwiftHtml
 public class BsButton: Component {
     
     enum `Type` {
-        case button
-        case input(type: Input.`Type`)
+        case button(title: String?)
+        case input(type: Input.`Type`, value: String?)
         case link(href: String)
     }
     
-    public var title: String?
     private var type: `Type` = .button
     private var isToggle: Bool = false
     private var isPressed: Bool = false
@@ -28,14 +27,13 @@ public class BsButton: Component {
     }
     
     public static func button(title: String? = nil, @TagBuilder _ children: @escaping () -> [Tag]) -> Self {
-        let button = Self.init(.button)
+        let button = Self.init(.button(title: title))
         button.children(children)
-        button.title = title
         return button
     }
     
-    public static func input(_ type: Input.`Type`) -> Self {
-        Self.init(.input(type: type))
+    public static func input(_ type: Input.`Type`, value: String? = nil) -> Self {
+        Self.init(.input(type: type, value: value))
     }
     
     public static func link(_ href: String) -> Self {
@@ -78,11 +76,11 @@ extension BsButton: TagRepresentable {
             .ariaPressed(isPressed, isToggle && isPressed)
             .autoComplete(false, isToggle && isPressed)
             .add(classes, attributes, styles)
-        case .input(let type):
+        case .input(let type, let value):
             Input()
             .class(.btn)
             .type(type)
-            .value(title ?? "")
+            .value(value ?? "")
             .add(classes, attributes, styles)
         case .link(let href):
             A {
