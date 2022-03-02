@@ -21,7 +21,7 @@ public class Dropdown: Component {
     public init(id: String,
                 isSplit: Bool = false,
                 isButtonGroup: Bool = false,
-                button: Tag,
+                button: BsButton,
                 @TagBuilder children: @escaping () -> [Tag]) {
         self.id = id
         self.isSplit = isSplit
@@ -30,6 +30,7 @@ public class Dropdown: Component {
             .class(add: .dropdownToggle)
             .attribute(BsAttribute.id.rawValue, id)
             .attribute(BsAttribute.ariaExpanded.rawValue, String(false))
+            .build()
         super.init(children)
     }
 }
