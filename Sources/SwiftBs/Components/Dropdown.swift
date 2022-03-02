@@ -22,7 +22,7 @@ public class Dropdown: Component {
     
     public init(id: String,
                 isSplit: Bool = false,
-                isButtonGroup: Bool = false,
+                isButtonGroup: Bool = true,
                 @TagBuilder button: @escaping (Id, IsSplit) -> [Tag],
                 @TagBuilder children: @escaping () -> [Tag]) {
         self.id = id
@@ -45,7 +45,7 @@ extension Dropdown: TagRepresentable {
             .class(.dropdownMenu)
             .ariaLabelledBy(id, isSplit)
         }
-        .class(isButtonGroup ? .btnGroup : .dropdown)
+        .class(isButtonGroup || isSplit ? .btnGroup : .dropdown)    // split buttons only work as button group
         .add(classes, attributes, styles)
     }
 }
