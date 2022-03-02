@@ -16,8 +16,8 @@ public class Dropdown: Component {
     let title: String?
     let isSplit: Bool
     
-    public convenience init(id: String, title: String? = nil, isSplit: Bool = false, @TagBuilder _ ulItems: @escaping () -> [Tag]) {
-        self.init(id: id, title: title, isSplit: isSplit, children: ulItems)
+    public convenience init(id: String, title: String? = nil, isSplit: Bool = false, @TagBuilder _ children: @escaping () -> [Tag]) {
+        self.init(id: id, title: title, isSplit: isSplit, children: children)
     }
     
     public init(id: String,
@@ -98,20 +98,16 @@ public class DropdownItem: Component {
     let isActive: Bool
     let isDisabled: Bool
     
-    public convenience init(_ title: String, href: String, isActive: Bool = false, isDisabled: Bool = false, @TagBuilder _ children: @escaping () -> [Tag]) {
+    public convenience init(_ title: String, href: String, isActive: Bool = false, isDisabled: Bool = false) {
         let a = A(title).href(href)
         self.init(a: a, isActive: isActive, isDisabled: isDisabled) {}
     }
     
-    public convenience init(_ a: A, isActive: Bool = false, isDisabled: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
-        self.init(a: a, isActive: isActive, isDisabled: isDisabled, children)
-    }
-    
-    public init(a: A, isActive: Bool = false, isDisabled: Bool = false, @TagBuilder _ children: @escaping () -> [Tag]) {
+    public init(a: A, isActive: Bool = false, isDisabled: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
         self.a = a
         self.isActive = isActive
         self.isDisabled = isDisabled
-        super.init() { children() }
+        super.init(children)
     }
 }
 
