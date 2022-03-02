@@ -28,8 +28,8 @@ public class Dropdown: Component {
         self.isButtonGroup = isButtonGroup
         self.button = button
             .class(add: .dropdownToggle)
-            .attributes(add: BsAttribute.id.rawValue, id)
-            .attributes(add: BsAttribute.ariaExpanded.rawValue, String(false))
+            .attribute(BsAttribute.id.rawValue, id)
+            .attribute(BsAttribute.ariaExpanded.rawValue, String(false))
         super.init(children)
     }
 }
