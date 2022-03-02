@@ -44,7 +44,7 @@ extension Dropdown: TagRepresentable {
                 children()
             }
             .class(.dropdownMenu)
-            .ariaLabelledBy(id, !isSplit)
+            .ariaLabelledBy(id, isSplit)
         }
         .class(isButtonGroup ? .btnGroup : .dropdown)
         .add(classes, attributes, styles)
