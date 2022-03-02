@@ -151,6 +151,7 @@ extension DropdownButton: TagRepresentable {
                         Text(title)
                     }
                 }
+                .href(href)
                 .role(.button)
                 .class(.btn, .dropdownToggle)
                 .id(id)
