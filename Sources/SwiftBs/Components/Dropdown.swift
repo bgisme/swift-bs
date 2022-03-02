@@ -18,7 +18,7 @@ public class Dropdown: Component {
     private let isButtonGroup: Bool
     private var button: Tag
     
-    internal init(id: String,
+    public init(id: String,
                 isSplit: Bool = false,
                 isButtonGroup: Bool = false,
                 button: BsButton,
