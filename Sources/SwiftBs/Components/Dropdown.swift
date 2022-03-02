@@ -27,7 +27,6 @@ public class Dropdown: Component {
         self.isSplit = isSplit
         self.isButtonGroup = isButtonGroup
         self.button = button
-            .class(add: .dropdownToggle)
             .attribute(BsAttribute.id.rawValue, id)
             .attribute(BsAttribute.ariaExpanded.rawValue, String(false))
         super.init(children)
