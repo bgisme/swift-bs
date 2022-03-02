@@ -25,8 +25,8 @@ public class Dropdown: Component {
                 @TagBuilder children: @escaping () -> [Tag]) {
         self.id = id
         self.isSplit = isSplit
-        self.isButtonGroup = isButtonGroup.class(add: .dropdownToggle)
-        self.button = button
+        self.isButtonGroup = isButtonGroup
+        self.button = button.class(add: .dropdownToggle)
         super.init(children)
     }
 }
