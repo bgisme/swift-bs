@@ -20,11 +20,15 @@ public class Dropdown: Component {
         self.init(id: id, title: title, isSplit: isSplit, children: ulItems)
     }
     
-    public init(id: String, title: String? = nil, isSplit: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
+    public init(id: String,
+                title: String? = nil,
+                isSplit: Bool = false,
+                isButtonGroup: Bool = false,
+                @TagBuilder children: @escaping () -> [Tag]) {
         self.id = id
         self.title = title
         self.isSplit = isSplit
-        super.init() { children() }
+        super.init(children)
     }
 }
 
@@ -34,31 +38,57 @@ extension Dropdown: TagRepresentable {
     public func build() -> Tag {
         Div {
             Button(title)
-                .class(.btn)
+                .class(.btn, .dropdownToggle)
                 .type(.button)
-                .class(add: classes)
-                .class(add: .dropdownToggle, if: !isSplit)
-                .dataToggle(.dropdown, !isSplit)
-                .ariaExpanded(String(false), !isSplit)
+                .dataToggle(.dropdown)
+                .type(.button)
+                .ariaHaspopup(true)
+                .ariaExpanded(false)
                 .id(id)
             if isSplit {
                 Button {
                     Span("Toggle Dropdown").class(.visuallyHidden)
                 }
-                .type(.button)
                 .class(.btn, .dropdownToggle, .dropdownToggleSplit)
-                .class(add: classes)
-                .dataToggle(.dropdown)
-                .ariaExpanded(String(false))
+                .type(.button)
+                .ariaExpanded(false)
             }
-            Ul {
+            Div {
                 children()
             }
             .class(.dropdownMenu)
             .ariaLabelledBy(id, !isSplit)
         }
-        .class(.btnGroup, if: isSplit)
-        .class(.dropdown, if: !isSplit)
+        .class(.btnGroup)
+        .add(classes, attributes, styles)
+        
+//        Div {
+//            Button(title)
+//                .class(.btn)
+//                .type(.button)
+//                .class(add: classes)
+//                .class(add: .dropdownToggle, if: !isSplit)
+//                .dataToggle(.dropdown, !isSplit)
+//                .ariaExpanded(false, !isSplit)
+//                .id(id)
+//            if isSplit {
+//                Button {
+//                    Span("Toggle Dropdown").class(.visuallyHidden)
+//                }
+//                .type(.button)
+//                .class(.btn, .dropdownToggle, .dropdownToggleSplit)
+//                .class(add: classes)
+//                .dataToggle(.dropdown)
+//                .ariaExpanded(false)
+//            }
+//            Ul {
+//                children()
+//            }
+//            .class(.dropdownMenu)
+//            .ariaLabelledBy(id, !isSplit)
+//        }
+//        .class(.btnGroup, if: isSplit)
+//        .class(.dropdown, if: !isSplit)
     }
 }
 
@@ -99,12 +129,7 @@ extension DropdownItem: TagRepresentable {
     }
 }
 
-public class DropdownDivider: Component {
-    
-    public init(@TagBuilder _ children: @escaping () -> [Tag]) {
-        super.init() {}
-    }
-}
+public class DropdownDivider: Component { }
 
 extension DropdownDivider: TagRepresentable {
     

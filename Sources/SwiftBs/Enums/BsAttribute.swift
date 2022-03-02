@@ -11,6 +11,7 @@ public enum BsAttribute: String {
     case ariaDescribedby = "aria-describedby"
     case ariaDisabled = "aria-disabled"
     case ariaExpanded = "aria-expanded"
+    case ariaHaspopup = "aria-haspopup"
     case ariaLabel = "aria-label"
     case ariaLabelledBy = "aria-labelledby"
     case ariaPressed = "aria-pressed"

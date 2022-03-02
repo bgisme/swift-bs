@@ -70,7 +70,6 @@ public enum BsClass: String {
     case btnCheck = "btn-check"
     case btnGroup = "btn-group"
     case btnGroupSm = "btn-group-sm"
-    case btnGroupMd = "btn-group-md"
     case btnGroupLg = "btn-group-lg"
     case btnGroupXl = "btn-group-xl"
     case btnGroupXxl = "btn-group-xxl"
@@ -1236,6 +1235,8 @@ public enum BsClass: String {
     case show
     
     case small
+    
+    case srOnly = "sr-only"
     
     case start100 = "start-100"
     

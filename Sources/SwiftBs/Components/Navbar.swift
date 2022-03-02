@@ -34,7 +34,7 @@ extension Navbar: TagRepresentable {
                 .dataToggle(.collapse)
                 .dataTarget(.navbarSupportedContent)
                 .ariaControls(.navbarSupportedContent)
-                .ariaExpanded(String(false))
+                .ariaExpanded(false)
                 .ariaLabelledBy("Toggle navigation")
                 
                 Div {
@@ -112,9 +112,9 @@ public class NavDropdown: Component {
     
     let title: String
     
-    public init(_ title: String, classes: Classes? = nil, attributes: Attributes? = nil, styles: Styles? = nil, @TagBuilder children: @escaping () -> [Tag]) {
+    public init(_ title: String, @TagBuilder children: @escaping () -> [Tag]) {
         self.title = title
-        super.init(classes, attributes, styles, children)
+        super.init(children)
     }
 }
 
@@ -128,7 +128,7 @@ extension NavDropdown: TagRepresentable {
                 .href("#")
                 .role(.button)
                 .dataToggle(.dropdown)
-                .ariaExpanded(String(false))
+                .ariaExpanded(false)
             Ul {
                 children()
             }
@@ -147,23 +147,28 @@ public class NavItem: Component {
     let isActive: Bool
     let isDisabled: Bool
     
-    public convenience init(_ title: String, href: String, isActive: Bool = false, isDisabled: Bool = false, classes: Classes? = nil, attributes: Attributes? = nil, styles: Styles? = nil, @TagBuilder children: @escaping () -> [Tag]) {
+    public convenience init(_ title: String,
+                            href: String,
+                            isActive: Bool = false,
+                            isDisabled: Bool = false,
+                            @TagBuilder children: @escaping () -> [Tag]) {
         self.init(a: A(title).href(href),
                   isListBased: true,
                   isActive: isActive,
                   isDisabled: isDisabled,
-                  classes: classes,
-                  attributes: attributes,
-                  styles: styles,
                   children: children)
     }
     
-    public init(a: A, isListBased: Bool = true, isActive: Bool = false, isDisabled: Bool = false, classes: Classes? = nil, attributes: Attributes? = nil, styles: Styles? = nil, @TagBuilder children: @escaping () -> [Tag]) {
+    public init(a: A,
+                isListBased: Bool = true,
+                isActive: Bool = false,
+                isDisabled: Bool = false,
+                @TagBuilder children: @escaping () -> [Tag]) {
         self.a = a
         self.isListBased = isListBased
         self.isActive = isActive
         self.isDisabled = isDisabled
-        super.init(classes, attributes, styles, children)
+        super.init(children)
     }
 }
 

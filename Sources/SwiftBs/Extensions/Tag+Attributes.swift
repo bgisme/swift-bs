@@ -54,8 +54,8 @@ extension Tag {
     }
     
     @discardableResult
-    public func ariaExpanded(_ value: String? = nil, _ condition: Bool = true) -> Self {
-        self.attribute(.ariaExpanded, value ?? String(condition), condition)
+    public func ariaExpanded(_ value: Bool, _ condition: Bool = true) -> Self {
+        self.attribute(.ariaExpanded, String(value), condition)
     }
     
     @discardableResult
@@ -76,6 +76,11 @@ extension Tag {
     @discardableResult
     public func ariaPressed(_ value: Bool, _ condition: Bool = true) -> Self {
         return self.attribute(.ariaPressed, String(value), condition)
+    }
+    
+    @discardableResult
+    public func ariaHaspopup(_ value: Bool, _ condition: Bool = true) -> Self {
+        return self.attribute(.ariaHaspopup, String(value), condition)
     }
     
     @discardableResult

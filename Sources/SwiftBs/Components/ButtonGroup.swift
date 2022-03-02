@@ -8,7 +8,7 @@
 import SwiftHtml
 
 public class ButtonGroup: Component {
-
+    
     let isVertical: Bool
     let ariaLabel: String
     

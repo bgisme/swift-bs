@@ -21,11 +21,19 @@ public class Component {
     public private(set) var styles: Styles?
     public private(set) var children: () -> [Tag]
     
-    public init(_ classes: Classes? = nil, _ attributes: Attributes? = nil, _ styles: Styles? = nil, @TagBuilder _ children: @escaping () -> [Tag]) {
-        self.classes = classes
-        self.attributes = attributes
-        self.styles = styles
+    public convenience init() {
+        self.init {}
+    }
+    
+    public init(@TagBuilder _ children: @escaping () -> [Tag]) {
         self.children = children
+    }
+    
+    /// for declaring children after a series of function calls
+    @discardableResult
+    public func children(@TagBuilder _ children: @escaping () -> [Tag]) -> Self {
+        self.children = children
+        return self
     }
 }
 
