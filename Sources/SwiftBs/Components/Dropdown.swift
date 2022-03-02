@@ -12,25 +12,24 @@ public class Dropdown: Component {
     
     public typealias Title = String
     public typealias Href = String
+    public typealias Id = String
+    public typealias IsSplit = Bool
+    public typealias IsButtonGroup = Bool
     
     private let id: String
     private let isSplit: Bool
     private let isButtonGroup: Bool
-    private var button: BsButton
+    private var button: (Id, IsSplit, IsButtonGroup) -> [Tag]
     
     public init(id: String,
                 isSplit: Bool = false,
                 isButtonGroup: Bool = false,
-                button: BsButton,
+                @TagBuilder button: @escaping (Id, IsSplit, IsButtonGroup) -> [Tag],
                 @TagBuilder children: @escaping () -> [Tag]) {
         self.id = id
         self.isSplit = isSplit
         self.isButtonGroup = isButtonGroup
         self.button = button
-            .class(add: .dropdownToggle)
-            .attribute(BsAttribute.id.rawValue, id)
-            .attribute(BsAttribute.dataBsToggle.rawValue, BsClass.dropdown.rawValue)
-            .attribute(BsAttribute.ariaExpanded.rawValue, String(false))
         super.init(children)
     }
 }
@@ -40,7 +39,7 @@ extension Dropdown: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         Div {
-            button
+            button(id, isSplit, isButtonGroup)
             Ul {
                 children()
             }
@@ -49,6 +48,120 @@ extension Dropdown: TagRepresentable {
         }
         .class(isButtonGroup ? .btnGroup : .dropdown)
         .add(classes, attributes, styles)
+    }
+}
+
+public class DropdownButton: Component {
+    
+    enum `Type` {
+        case button(_ title: String?)
+        case link(_ title: String?, href: String)
+    }
+
+    private let type: `Type`
+    private let id: String
+    private let isSplit: Bool
+    private let isInButtonGroup: Bool
+    
+    public static func `default`(_ title: String?, id: String, isSplit: Bool = false, isInButtonGroup: Bool = false) -> Self {
+        self.init(type: .button(title), id: id, isSplit: isSplit, isInButtonGroup: isInButtonGroup)
+    }
+    
+    public static func link(_ title: String?, href: String, id: String, isSplit: Bool = false, isInButtonGroup: Bool = false) -> Self {
+        self.init(type: .link(title, href: href), id: id, isSplit: isSplit, isInButtonGroup: isInButtonGroup)
+    }
+    
+    internal required init(type: `Type`,
+                  id: String,
+                  isSplit: Bool = false,
+                  isInButtonGroup: Bool = false) {
+        self.type = type
+        self.id = id
+        self.isSplit = isSplit
+        self.isInButtonGroup = isInButtonGroup
+        super.init({})
+    }
+}
+
+extension DropdownButton: TagRepresentable {
+    
+    @TagBuilder
+    public func build() -> Tag {
+        switch type {
+        case .button(let title):
+            if isSplit {
+                /// split dropdowns are two buttons and all the special properties go on the later
+                Button {
+                    if let title = title {
+                        Text(title)
+                    }
+                }
+                .type(.button)
+                .add(classes, attributes, styles)
+                
+                Button {
+                    Span {
+                        Text("Toggle Dropdown")
+                    }
+                    .class(.visuallyHidden)
+                }
+                .type(.button)
+                .class(.btn, .dropdownToggle, .dropdownToggleSplit)
+                .id(id) // not required for button groups
+                .dataBsToggle(.dropdown)
+                .ariaExpanded(false)
+                .add(classes, attributes, styles)
+            } else {
+                /// non-split dropdowns have only one button with special properties
+                Button {
+                    if let title = title {
+                        Text(title)
+                    }
+                }
+                .type(.button)
+                .class(.btn, .dropdownToggle)
+                .id(id) // not required for button groups
+                .dataBsToggle(.dropdown)
+                .ariaExpanded(false)
+                .add(classes, attributes, styles)
+            }
+        case .link(let title, let href):
+            if isSplit {
+                A {
+                    if let title = title {
+                        Text(title)
+                    }
+                }
+                .href(href)
+                .role(.button)
+                .add(classes, attributes, styles)
+                
+                A {
+                    Span {
+                        Text("Toggle Dropdown")
+                    }
+                    .class(.visuallyHidden)
+                }
+                .role(.button)
+                .class(.btn, .dropdownToggle, .dropdownToggleSplit)
+                .id(id) // not required for button groups
+                .dataBsToggle(.dropdown)
+                .ariaExpanded(false)
+                .add(classes, attributes, styles)
+            } else {
+                A {
+                    if let title = title {
+                        Text(title)
+                    }
+                }
+                .role(.button)
+                .class(.btn, .dropdownToggle)
+                .id(id)
+                .dataBsToggle(.dropdown)
+                .ariaExpanded(false)
+                .add(classes, attributes, styles)
+            }
+        }
     }
 }
 
