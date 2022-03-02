@@ -61,24 +61,21 @@ public class DropdownButton: Component {
     private let type: `Type`
     private let id: String
     private let isSplit: Bool
-    private let isInButtonGroup: Bool
     
-    public static func `default`(_ title: String?, id: String, isSplit: Bool = false, isInButtonGroup: Bool = false) -> Self {
-        self.init(type: .button(title), id: id, isSplit: isSplit, isInButtonGroup: isInButtonGroup)
+    public static func `default`(_ title: String?, id: String, isSplit: Bool = false) -> Self {
+        self.init(type: .button(title), id: id, isSplit: isSplit)
     }
     
-    public static func link(_ title: String?, href: String, id: String, isSplit: Bool = false, isInButtonGroup: Bool = false) -> Self {
-        self.init(type: .link(title, href: href), id: id, isSplit: isSplit, isInButtonGroup: isInButtonGroup)
+    public static func link(_ title: String?, href: String, id: String, isSplit: Bool = false) -> Self {
+        self.init(type: .link(title, href: href), id: id, isSplit: isSplit)
     }
     
     internal required init(type: `Type`,
                   id: String,
-                  isSplit: Bool = false,
-                  isInButtonGroup: Bool = false) {
+                  isSplit: Bool = false) {
         self.type = type
         self.id = id
         self.isSplit = isSplit
-        self.isInButtonGroup = isInButtonGroup
         super.init({})
     }
 }
