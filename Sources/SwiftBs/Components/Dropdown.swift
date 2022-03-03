@@ -111,6 +111,20 @@ public class DropdownButton: Component {
     let direction: Dropdown.Direction
     let isSplit: Bool
     
+    public convenience init(_ title: String,
+                            href: String? = nil,
+                            id: String,
+                            direction: Dropdown.Direction = .down,
+                            isSplit: Bool = false) {
+        let tag: Tag
+        if let href = href {
+            tag = A(title).href(href)
+        } else {
+            tag = Button(title)
+        }
+        self.init(tag: tag, id: id, direction: direction, isSplit: isSplit)
+    }
+    
     public convenience init(_ link: A,
                             id: String,
                             direction: Dropdown.Direction = .down,
