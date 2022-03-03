@@ -122,6 +122,7 @@ public class Dropdown: Component {
         self.init(id: id,
                   direction: direction,
                   isSplit: false,
+                  menuAlign: menuAlign,
                   button: button,
                   splitButton: {_ in },
                   menu: menu)
