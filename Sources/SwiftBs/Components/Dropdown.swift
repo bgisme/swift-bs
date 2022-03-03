@@ -74,26 +74,33 @@ extension Dropdown: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        Div {
-            if isSplit {
-                if direction != .start {
-                    button(id, isSplit, direction)
-                    splitButton(id)
-                    menu(id)
-                } else {
+        if direction != .start {
+            Div {
+                if isSplit {
                     /// split buttons direction .start are ordered differently
                     splitButton(id)
                     menu(id)
                     button(id, isSplit, direction)
+                } else {
+                    button(id, isSplit, direction)
+                    menu(id)
                 }
-            } else {
-                button(id, isSplit, direction)
-                menu(id)
             }
+            .class(.btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
+            .class(add: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
+            .class(add: bsClasses)
+        } else {
+            Div {
+                Div {
+                    button(id, isSplit, direction)
+                    splitButton(id)
+                    menu(id)
+                }
+                .class(.btnGroup, .dropstart)
+                .role(.group)
+            }
+            .class(.btnGroup)
         }
-        .class(.btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
-        .class(add: direction.bsClass, if: direction != .down)
-        .class(add: bsClasses)
     }
 }
 
