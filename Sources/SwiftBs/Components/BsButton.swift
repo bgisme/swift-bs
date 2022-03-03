@@ -54,7 +54,11 @@ public class BsButton: Component {
         self.init(tag: input, isToggle: isToggle, isPressed: isPressed, isDisabled: isDisabled, isActive: isActive)
     }
     
-    internal required init(tag: Tag, isToggle: Bool, isPressed: Bool, isDisabled: Bool, isActive: Bool) {
+    internal required init(tag: Tag,
+                           isToggle: Bool = false,
+                           isPressed: Bool = false,
+                           isDisabled: Bool = false,
+                           isActive: Bool = false) {
         self.tag = tag
         self.isToggle = isToggle
         self.isPressed = isPressed
