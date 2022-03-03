@@ -182,6 +182,7 @@ extension DropdownMenu: TagRepresentable {
         }
         .class(.dropdownMenu)
         .ariaLabelledBy(id, isSplit)
+        .class(add: bsClasses)
     }
 }
 
@@ -226,5 +227,6 @@ extension DropdownDivider: TagRepresentable {
     public func build() -> Tag {
         Hr()
             .class(.dropdownDivider)
+            .class(add: bsClasses)
     }
 }
