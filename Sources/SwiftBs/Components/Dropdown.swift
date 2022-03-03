@@ -77,10 +77,9 @@ extension Dropdown: TagRepresentable {
         if !isSplit || (isSplit && direction != .start) {
             Div {
                 if isSplit {
-                    /// split buttons direction .start are ordered differently
+                    button(id, isSplit, direction)
                     splitButton(id)
                     menu(id)
-                    button(id, isSplit, direction)
                 } else {
                     button(id, isSplit, direction)
                     menu(id)
@@ -92,9 +91,10 @@ extension Dropdown: TagRepresentable {
         } else {
             Div {
                 Div {
-                    button(id, isSplit, direction)
+                    /// split buttons direction .start are ordered differently
                     splitButton(id)
                     menu(id)
+                    button(id, isSplit, direction)
                 }
                 .class(.btnGroup, .dropstart)
                 .role(.group)
