@@ -10,23 +10,46 @@ import SwiftSgml
 
 public class Dropdown: Component {
     
+    public enum Direction {
+        case down
+        case up
+        case start
+        case end
+        
+        var bsClass: BsClass {
+            switch self {
+            case .down:
+                return .dropdown
+            case .up:
+                return .dropup
+            case .start:
+                return .dropstart
+            case .end:
+                return .dropend
+            }
+        }
+    }
+    
     public typealias Title = String
     public typealias Href = String
     public typealias Id = String
     public typealias IsSplit = Bool
     
     private let id: String
+    private let direction: Direction
     private let isSplit: Bool
     private let isButtonGroup: Bool
     private var button: (Id, IsSplit) -> [Tag]
     private var menu: (Id, IsSplit) -> [Tag]
     
     public init(id: String,
+                direction: Direction = .down,
                 isSplit: Bool = false,
                 isButtonGroup: Bool = true,
                 @TagBuilder button: @escaping (Id, IsSplit) -> [Tag],
                 @TagBuilder menu: @escaping (Id, IsSplit) -> [Tag]) {
         self.id = id
+        self.direction = direction
         self.isSplit = isSplit
         self.isButtonGroup = isButtonGroup
         self.button = button
@@ -44,6 +67,7 @@ extension Dropdown: TagRepresentable {
             menu(id, isSplit)
         }
         .class(isButtonGroup || isSplit ? .btnGroup : .dropdown)    // split buttons only work as button group
+        .class(add: direction.bsClass, if: direction != .down)
         .class(add: bsClasses)
     }
 }
