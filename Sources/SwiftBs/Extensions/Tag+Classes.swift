@@ -24,31 +24,28 @@ extension Tag {
     // MARK: - Class
 
     /// Replace value of class attribute with variadic Component.Class
-    public func `class`(_ classes: BsClass..., if condition: Bool = true) -> Self {
-        self.class(classes, condition)
+    public func `class`(_ classes: BsClass?..., if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        return self.class(classes.compactMap({$0}))
     }
 
     /// Replace value of class attribute with array of Component.Class
     public func `class`(_ classes: [BsClass]?, _ condition: Bool = true) -> Self {
-        if let classes = classes {
-            return self.class(classes.map {$0.rawValue}, condition)
-        }
-        return self
+        guard let classes = classes, condition else { return self }
+        return self.class(classes.map {$0.rawValue})
     }
     
     /// Add variadics to value of class attribute
     @discardableResult
     public func `class`(add classes: BsClass?..., if condition: Bool = true) -> Self {
-        self.class(add: classes.compactMap({$0}), condition)
+        guard condition else { return self }
+        return self.class(add: classes.compactMap({$0}))
     }
     
     /// Add to value of class attribute
     @discardableResult
     public func `class`(add classes: [BsClass]?, _ condition: Bool = true) -> Self {
-        if let classes = classes {
-            return self.class(add: classes.map{$0.rawValue}, condition)
-        }
-        return self
+        guard let classes = classes, condition else { return self }
+        return self.class(add: classes.map{$0.rawValue})
     }
-    
  }

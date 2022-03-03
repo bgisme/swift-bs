@@ -341,7 +341,7 @@ extension DropdownMenu: TagRepresentable {
         }
         .class(.dropdownMenu)
         .class(add: .dropdownMenuDark, if: isDark)
-        .class(add: align?.bsClass, if: align != nil)
+        .class(add: align?.bsClass)
         .ariaLabelledBy(id)
         .class(add: bsClasses)
     }
