@@ -106,21 +106,27 @@ extension Dropdown: TagRepresentable {
 
 public class DropdownButton: Component {
     
-    public enum `Type` {
-        case button(_ title: String?)
-        case link(_ title: String?, href: String)
-    }
-    
-    let type: `Type`
+    private let tag: Tag
     let id: String
     let direction: Dropdown.Direction
     let isSplit: Bool
     
-    public init(type: `Type`,
-                id: String,
-                direction: Dropdown.Direction,
-                isSplit: Bool = false) {
-        self.type = type
+    public convenience init(_ link: A,
+                            id: String,
+                            direction: Dropdown.Direction = .down,
+                            isSplit: Bool = false) {
+        self.init(tag: link, id: id, direction: direction, isSplit: isSplit)
+    }
+    
+    public convenience init(_ button: Button,
+                            id: String,
+                            direction: Dropdown.Direction = .down,
+                            isSplit: Bool = false) {
+        self.init(tag: button, id: id, direction: direction, isSplit: isSplit)
+    }
+    
+    internal required init(tag: Tag, id: String, direction: Dropdown.Direction, isSplit: Bool) {
+        self.tag = tag
         self.id = id
         self.direction = direction
         self.isSplit = isSplit
@@ -136,53 +142,34 @@ extension DropdownButton: TagRepresentable {
         /// if isSplit will create a simple button or link without special properties
         /// DropdownArrowButton has all the special properties
         /// if NOT isSplit will create button or link with special properties
-        switch type {
-        case .button(let title):
+        if let link = tag as? A {
             if isSplit {
-                Button {
-                    if let title = title {
-                        Text(title)
-                    }
-                }
-                .type(.button)
-                .class(.btn)
-                .class(add: bsClasses)
+                link
+                    .role(.button)
+                    .class(add: bsClasses)
             } else {
-                Button {
-                    if let title = title {
-                        Text(title)
-                    }
-                }
-                .type(.button)
-                .class(.btn, .dropdownToggle)
-                .id(id) // not required for button groups
-                .dataBsToggle(.dropdown)
-                .ariaExpanded(false)
-                .class(add: bsClasses)
+                link
+                    .role(.button)
+                    .class(.btn, .dropdownToggle)
+                    .id(id)
+                    .dataBsToggle(.dropdown)
+                    .ariaExpanded(false)
+                    .class(add: bsClasses)
             }
-        case .link(let title, let href):
+        } else if let button = tag as? Button {
             if isSplit {
-                A {
-                    if let title = title {
-                        Text(title)
-                    }
-                }
-                .href(href)
-                .role(.button)
-                .class(add: bsClasses)
+                button
+                    .type(.button)
+                    .class(.btn)
+                    .class(add: bsClasses)
             } else {
-                A {
-                    if let title = title {
-                        Text(title)
-                    }
-                }
-                .href(href)
-                .role(.button)
-                .class(.btn, .dropdownToggle)
-                .id(id)
-                .dataBsToggle(.dropdown)
-                .ariaExpanded(false)
-                .class(add: bsClasses)
+                button
+                    .type(.button)
+                    .class(.btn, .dropdownToggle)
+                    .id(id) // not required for button groups
+                    .dataBsToggle(.dropdown)
+                    .ariaExpanded(false)
+                    .class(add: bsClasses)
             }
         }
     }
@@ -248,21 +235,25 @@ public class DropdownItem: Component {
     let tag: Tag
     let isActive: Bool
     let isDisabled: Bool
+    let isNonInteractive: Bool
     
-    public convenience init(_ title: String, href: String? = nil, isActive: Bool = false, isDisabled: Bool = false) {
+    /// <A> or <Button> menu item
+    public convenience init(_ title: String, href: String? = nil, isActive: Bool = false, isDisabled: Bool = false, isNonInteractive: Bool = false) {
         let tag: Tag
         if let href = href {
             tag = A(title).href(href)
         } else {
             tag = Button(title)
         }
-        self.init(tag: tag, isActive: isActive, isDisabled: isDisabled) {}
+        self.init(tag: tag, isActive: isActive, isDisabled: isDisabled, isNonInteractive: isNonInteractive) {}
     }
         
-    public convenience init(_ a: A, isActive: Bool = false, isDisabled: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
-        self.init(tag: a, isActive: isActive, isDisabled: isDisabled, children: children)
+    /// <A> menu item
+    public convenience init(_ a: A, isActive: Bool = false, isDisabled: Bool = false, isNonInteractive: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
+        self.init(tag: a, isActive: isActive, isDisabled: isDisabled, isNonInteractive: isNonInteractive, children: children)
     }
     
+    /// <Button> menu item
     public convenience init(_ button: Button,
                             isActive: Bool = false,
                             isDisabled: Bool = false,
@@ -270,10 +261,16 @@ public class DropdownItem: Component {
         self.init(tag: button, isActive: isActive, isDisabled: isDisabled, children: children)
     }
     
-    private init(tag: Tag, isActive: Bool = false, isDisabled: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
+    /// Only allow certain Tag
+    internal required init(tag: Tag,
+                           isActive: Bool = false,
+                           isDisabled: Bool = false,
+                           isNonInteractive: Bool = false,
+                           @TagBuilder children: @escaping () -> [Tag]) {
         self.tag = tag
         self.isActive = isActive
         self.isDisabled = isDisabled
+        self.isNonInteractive = isNonInteractive
         super.init(children)
     }
 }
@@ -287,6 +284,7 @@ extension DropdownItem: TagRepresentable {
                 .class(.dropdownItem)
                 .class(add: .active, if: isActive)
                 .class(add: .disabled, if: isDisabled)
+                .class(add: .dropdownItemText, if: isNonInteractive)
         }
         .class(add: bsClasses)
     }
