@@ -38,14 +38,14 @@ public class Dropdown: Component {
     private let isSplit: Bool
     private let isButtonGroup: Bool
     private var button: (Id, IsSplit, Dropdown.Direction) -> [Tag]
-    private var menu: (Id, IsSplit, Dropdown.Direction) -> [Tag]
+    private var menu: (Id, IsSplit) -> [Tag]
     
     public init(id: String,
                 direction: Direction = .down,
                 isSplit: Bool = false,
                 isButtonGroup: Bool = true,
                 @TagBuilder button: @escaping (Id, IsSplit, Dropdown.Direction) -> [Tag],
-                @TagBuilder menu: @escaping (Id, IsSplit, Dropdown.Direction) -> [Tag]) {
+                @TagBuilder menu: @escaping (Id, IsSplit) -> [Tag]) {
         self.id = id
         self.direction = direction
         self.isSplit = isSplit
@@ -62,7 +62,7 @@ extension Dropdown: TagRepresentable {
     public func build() -> Tag {
         Div {
             button(id, isSplit, direction)
-            menu(id, isSplit, direction)
+            menu(id, isSplit)
         }
         .class(isButtonGroup || isSplit ? .btnGroup : .dropdown)    // split buttons only work as button group
         .class(add: direction.bsClass, if: direction != .down)
