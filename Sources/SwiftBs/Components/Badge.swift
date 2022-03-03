@@ -38,6 +38,6 @@ extension Badge: TagRepresentable {
         .class(.badge)
         .class(add: .positionAbsolute, .top0, .start100, .translateMiddle, .roundedPill, if: isPositioned)
         .class(add: .roundedPill, if: isRounded)
-        .add(classes, attributes, styles)
+        .class(add: markups)
     }
 }

@@ -10,16 +10,11 @@ import SwiftHtml
 public class Component {
     
     public typealias Class = BsClass
-    public typealias Classes = [Class]
-    public typealias Attributes = [Attribute]
-    public typealias Style = CssKeyValue
-    public typealias Styles = [Style]
-    public typealias Condition = Bool
 
-    public private(set) var classes: Classes?
-    public private(set) var attributes: Attributes?
-    public private(set) var styles: Styles?
+    public private(set) var markups: [Class]?   //! ELIMINATE
     public private(set) var children: () -> [Tag]
+    public private(set) var classFlags = [CustomStringConvertible]()
+    public var classString: String { classFlags.map{ $0.description }.joined(separator: " ") }
     
     public convenience init() {
         self.init {}
@@ -35,6 +30,27 @@ public class Component {
         self.children = children
         return self
     }
+    
+    @discardableResult
+    public func bg(_ bg: Background, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        classFlags.append(bg)
+        return self
+    }
+    
+    @discardableResult
+    public func m(_ side: Side, _ size: Size, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        classFlags.append(Spacing.m(side, size))
+        return self
+    }
+    
+    @discardableResult
+    public func p(_ side: Side, _ size: Size, _ conddition: Bool = true) -> Self {
+        guard conddition else { return self }
+        classFlags.append(Spacing.p(side, size))
+        return self
+    }
 }
 
 /// These functions mimic Tag so they read the same when mixed together
@@ -48,9 +64,9 @@ extension Component {
     }
     
     @discardableResult
-    public func `class`(_ classes: [Class]?, _ condition: Bool = true) -> Self {
-        if condition, let classes = classes {
-            self.classes = classes
+    public func `class`(_ markups: [Class]?, _ condition: Bool = true) -> Self {
+        if condition, let markups = markups {
+            self.markups = markups
         }
         return self
     }
@@ -61,84 +77,10 @@ extension Component {
     }
 
     @discardableResult
-    public func `class`(add classes: Classes?, _ condition: Bool = true) -> Self {
-        if condition, let classes = classes {
-            self.classes = (self.classes != nil) ? self.classes! + classes : classes
+    public func `class`(add markups: [Class]?, _ condition: Bool = true) -> Self {
+        if condition, let markups = markups {
+            self.markups = (self.markups != nil) ? self.markups! + markups : markups
         }
-        return self
-    }
-    
-    // MARK: - Attributes
-    
-    /// set attributes
-    @discardableResult
-    public func setAttributes(_ attributes: [Attribute], _ condition: Bool = true) -> Self {
-        if condition {
-            self.attributes = attributes
-        }
-        return self
-    }
-    
-    /// delete an attribute by a given key
-    @discardableResult
-    public func deleteAttribute(_ key: String, _ condition: Bool = true) -> Self {
-        if condition {
-            self.attributes = self.attributes?.filter { $0.key != key }
-        }
-        return self
-    }
-    
-    /// add a new attribute with a given value if the condition is true
-    @discardableResult
-    public func attribute(_ key: String, _ value: String?, _ condition: Bool = true) -> Self {
-        if condition, let value = value, condition {
-            if var existing = attributes?.first(where: {$0.key == key} ) {
-                existing.value = value
-            } else if attributes != nil {
-                attributes?.append(Attribute(key: key, value: value))
-            } else {
-                attributes = [Attribute(key: key, value: value)]
-            }
-        }
-        return self
-    }
-    
-    // MARK: - Styles
-    
-    @discardableResult
-    public func setStyles(_ styles: Component.Styles?, _ condition: Bool = true) -> Self {
-        if condition, let styles = styles {
-            self.styles = styles
-        }
-        return self
-    }
-    
-    @discardableResult
-    public func style(add style: Component.Style?, _ condition: Bool = true) -> Self {
-        guard condition, let style = style else { return self }
-        self.styles = (self.styles != nil) ? self.styles! + [style] : [style]
-        return self
-    }
-    
-    // MARK: - Children
-    
-    @discardableResult
-    public func setChildren(@TagBuilder _ children: @escaping () -> [Tag]) -> Self {
-        self.children = children
-        return self
-    }
-}
-
-extension Tag {
-    
-    /// For quickly applying all the Bootstrap values to the class, style and other attributes
-    @discardableResult
-    public func add(_ classes: Component.Classes?,
-                    _ attributes: Component.Attributes?,
-                    _ styles: Component.Styles?) -> Self {
-        _ = self.class(add: classes)
-        _ = attributes?.map{ self.attribute($0.key, $0.value) }
-        _ = styles?.map{ self.style(add: $0) }
         return self
     }
 }

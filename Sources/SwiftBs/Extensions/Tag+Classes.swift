@@ -44,7 +44,7 @@ extension Tag {
     
     /// Add to value of class attribute
     @discardableResult
-    public func `class`(add classes: Component.Classes?, _ condition: Bool = true) -> Self {
+    public func `class`(add classes: [Component.Class]?, _ condition: Bool = true) -> Self {
         if let classes = classes {
             return self.class(add: classes.map{$0.rawValue}, condition)
         }

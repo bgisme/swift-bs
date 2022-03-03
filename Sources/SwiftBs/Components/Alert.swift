@@ -44,6 +44,6 @@ extension Alert: TagRepresentable {
         .class(.alert)
         .role(.alert)
         .class(add: .dFlex, .alignItemsCenter, if: svg != nil)
-        .add(classes, attributes, styles)
+        .class(add: markups)
     }
 }

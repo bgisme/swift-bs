@@ -19,17 +19,19 @@ public class Dropdown: Component {
     private let isSplit: Bool
     private let isButtonGroup: Bool
     private var button: (Id, IsSplit) -> [Tag]
+    private var menu: (Id, IsSplit) -> [Tag]
     
     public init(id: String,
                 isSplit: Bool = false,
                 isButtonGroup: Bool = true,
                 @TagBuilder button: @escaping (Id, IsSplit) -> [Tag],
-                @TagBuilder children: @escaping () -> [Tag]) {
+                @TagBuilder menu: @escaping (Id, IsSplit) -> [Tag]) {
         self.id = id
         self.isSplit = isSplit
         self.isButtonGroup = isButtonGroup
         self.button = button
-        super.init(children)
+        self.menu = menu
+        super.init({})
     }
 }
 
@@ -39,14 +41,10 @@ extension Dropdown: TagRepresentable {
     public func build() -> Tag {
         Div {
             button(id, isSplit)
-            Ul {
-                children()
-            }
-            .class(.dropdownMenu)
-            .ariaLabelledBy(id, isSplit)
+            menu(id, isSplit)
         }
         .class(isButtonGroup || isSplit ? .btnGroup : .dropdown)    // split buttons only work as button group
-        .add(classes, attributes, styles)
+        .class(add: markups)
     }
 }
 
@@ -94,7 +92,7 @@ extension DropdownButton: TagRepresentable {
                 }
                 .type(.button)
                 .class(.btn)
-                .add(classes, attributes, styles)
+                .class(add: markups)
                 
                 Button {
                     Span {
@@ -107,7 +105,7 @@ extension DropdownButton: TagRepresentable {
                 .id(id) // not required for button groups
                 .dataBsToggle(.dropdown)
                 .ariaExpanded(false)
-                .add(classes, attributes, styles)
+                .class(add: markups)
             } else {
                 /// non-split dropdowns have only one button with special properties
                 Button {
@@ -120,7 +118,7 @@ extension DropdownButton: TagRepresentable {
                 .id(id) // not required for button groups
                 .dataBsToggle(.dropdown)
                 .ariaExpanded(false)
-                .add(classes, attributes, styles)
+                .class(add: markups)
             }
         case .link(let title, let href):
             if isSplit {
@@ -131,7 +129,7 @@ extension DropdownButton: TagRepresentable {
                 }
                 .href(href)
                 .role(.button)
-                .add(classes, attributes, styles)
+                .class(add: markups)
                 
                 A {
                     Span {
@@ -144,7 +142,7 @@ extension DropdownButton: TagRepresentable {
                 .id(id) // not required for button groups
                 .dataBsToggle(.dropdown)
                 .ariaExpanded(false)
-                .add(classes, attributes, styles)
+                .class(add: markups)
             } else {
                 A {
                     if let title = title {
@@ -157,9 +155,33 @@ extension DropdownButton: TagRepresentable {
                 .id(id)
                 .dataBsToggle(.dropdown)
                 .ariaExpanded(false)
-                .add(classes, attributes, styles)
+                .class(add: markups)
             }
         }
+    }
+}
+
+public class DropdownMenu: Component {
+    
+    let id: String
+    let isSplit: Bool
+    
+    public init(id: String, isSplit: Bool = false, @TagBuilder _ children: @escaping () -> [Tag]) {
+        self.id = id
+        self.isSplit = isSplit
+        super.init(children)
+    }
+}
+
+extension DropdownMenu: TagRepresentable {
+    
+    @TagBuilder
+    public func build() -> Tag {
+        Ul {
+            children()
+        }
+        .class(.dropdownMenu)
+        .ariaLabelledBy(id, isSplit)
     }
 }
 
@@ -192,7 +214,7 @@ extension DropdownItem: TagRepresentable {
                 .class(add: .active, if: isActive)
                 .class(add: .disabled, if: isDisabled)
         }
-        .add(classes, attributes, styles)
+        .class(add: markups)
     }
 }
 
@@ -204,6 +226,5 @@ extension DropdownDivider: TagRepresentable {
     public func build() -> Tag {
         Hr()
             .class(.dropdownDivider)
-            .add(classes, attributes, styles)
     }
 }
