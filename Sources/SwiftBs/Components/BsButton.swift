@@ -30,7 +30,7 @@ public class BsButton: Component {
         self.init(tag: tag, isToggle: isToggle, isPressed: isPressed, isDisabled: isDisabled, isActive: isActive)
     }
     
-    public convenience init(_ button: Button,
+    public convenience init(button: Button,
                             isToggle: Bool = false,
                             isPressed: Bool = false,
                             isDisabled: Bool = false,
@@ -38,7 +38,7 @@ public class BsButton: Component {
         self.init(tag: button, isToggle: isToggle, isPressed: isPressed, isDisabled: isDisabled, isActive: isActive)
     }
     
-    public convenience init(_ link: A,
+    public convenience init(link: A,
                             isToggle: Bool = false,
                             isPressed: Bool = false,
                             isDisabled: Bool = false,
@@ -46,7 +46,7 @@ public class BsButton: Component {
         self.init(tag: link, isToggle: isToggle, isPressed: isPressed, isDisabled: isDisabled, isActive: isActive)
     }
     
-    public convenience init(_ input: Input,
+    public convenience init(input: Input,
                             isToggle: Bool = false,
                             isPressed: Bool = false,
                             isDisabled: Bool = false,
