@@ -42,9 +42,9 @@ public class Dropdown: Component {
     
     /// non-split buttons
     public convenience init(id: String,
-                direction: Direction = .down,
-                @TagBuilder button: @escaping (Id, IsSplit, Dropdown.Direction) -> [Tag],
-                @TagBuilder menu: @escaping (Id) -> [Tag]) {
+                            direction: Direction = .down,
+                            @TagBuilder button: @escaping (Id, IsSplit, Dropdown.Direction) -> [Tag],
+                            @TagBuilder menu: @escaping (Id) -> [Tag]) {
         self.init(id: id,
                   direction: direction,
                   isSplit: false,
@@ -249,22 +249,25 @@ public class DropdownItem: Component {
     let tag: Tag
     let isActive: Bool
     let isDisabled: Bool
-    let isNonInteractive: Bool
+    
+    public convenience init(nonInteractive tag: Span) {
+        self.init(tag: tag) {}
+    }
     
     /// <A> or <Button> menu item
-    public convenience init(_ title: String, href: String? = nil, isActive: Bool = false, isDisabled: Bool = false, isNonInteractive: Bool = false) {
+    public convenience init(_ title: String, href: String? = nil, isActive: Bool = false, isDisabled: Bool = false) {
         let tag: Tag
         if let href = href {
             tag = A(title).href(href)
         } else {
             tag = Button(title)
         }
-        self.init(tag: tag, isActive: isActive, isDisabled: isDisabled, isNonInteractive: isNonInteractive) {}
+        self.init(tag: tag, isActive: isActive, isDisabled: isDisabled) {}
     }
-        
+    
     /// <A> menu item
-    public convenience init(_ a: A, isActive: Bool = false, isDisabled: Bool = false, isNonInteractive: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
-        self.init(tag: a, isActive: isActive, isDisabled: isDisabled, isNonInteractive: isNonInteractive, children: children)
+    public convenience init(_ a: A, isActive: Bool = false, isDisabled: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
+        self.init(tag: a, isActive: isActive, isDisabled: isDisabled, children: children)
     }
     
     /// <Button> menu item
@@ -279,12 +282,10 @@ public class DropdownItem: Component {
     internal required init(tag: Tag,
                            isActive: Bool = false,
                            isDisabled: Bool = false,
-                           isNonInteractive: Bool = false,
                            @TagBuilder children: @escaping () -> [Tag]) {
         self.tag = tag
         self.isActive = isActive
         self.isDisabled = isDisabled
-        self.isNonInteractive = isNonInteractive
         super.init(children)
     }
 }
@@ -294,11 +295,15 @@ extension DropdownItem: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         Li {
-            tag
-                .class(.dropdownItem)
-                .class(add: .active, if: isActive)
-                .class(add: .disabled, if: isDisabled)
-                .class(add: .dropdownItemText, if: isNonInteractive)
+            if let span = tag as? Span {
+                span
+                    .class(add: .dropdownItemText)
+            } else {
+                tag
+                    .class(.dropdownItem)
+                    .class(add: .active, if: isActive)
+                    .class(add: .disabled, if: isDisabled)
+            }
         }
         .class(add: bsClasses)
     }
