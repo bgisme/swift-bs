@@ -302,6 +302,7 @@ extension DropdownItem: TagRepresentable {
                 tag
                     .class(.dropdownItem)
                     .class(add: .active, if: isActive)
+                    .ariaCurrent(isActive)
                     .class(add: .disabled, if: isDisabled)
             }
         }
