@@ -221,6 +221,11 @@ public enum BsClass: String {
     case dropdownToggle = "dropdown-toggle"
     case dropdownToggleSplit = "dropdown-toggle-split"
     
+    case dropend
+    case dropup
+    case dropstart
+    
+    
     // MARK: - F
     case figure
     case figureCaption = "figure-caption"
