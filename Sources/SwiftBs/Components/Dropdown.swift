@@ -36,21 +36,35 @@ public class Dropdown: Component {
     private let id: String
     private let direction: Direction
     private let isSplit: Bool
-    private let isButtonGroup: Bool
     private var button: (Id, IsSplit, Dropdown.Direction) -> [Tag]
-    private var menu: (Id, IsSplit) -> [Tag]
+    private var splitButton: (Id) -> [Tag]
+    private var menu: (Id) -> [Tag]
     
+    /// non-split buttons
+    public convenience init(id: String,
+                direction: Direction = .down,
+                @TagBuilder button: @escaping (Id, IsSplit, Dropdown.Direction) -> [Tag],
+                @TagBuilder menu: @escaping (Id) -> [Tag]) {
+        self.init(id: id,
+                  direction: direction,
+                  isSplit: false,
+                  button: button,
+                  splitButton: {_ in },
+                  menu: menu)
+    }
+    
+    /// split buttons
     public init(id: String,
                 direction: Direction = .down,
                 isSplit: Bool = false,
-                isButtonGroup: Bool = true,
                 @TagBuilder button: @escaping (Id, IsSplit, Dropdown.Direction) -> [Tag],
-                @TagBuilder menu: @escaping (Id, IsSplit) -> [Tag]) {
+                @TagBuilder splitButton: @escaping(Id) -> [Tag],
+                @TagBuilder menu: @escaping (Id) -> [Tag]) {
         self.id = id
         self.direction = direction
         self.isSplit = isSplit
-        self.isButtonGroup = isButtonGroup
         self.button = button
+        self.splitButton = splitButton
         self.menu = menu
         super.init({})
     }
@@ -61,10 +75,23 @@ extension Dropdown: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         Div {
-            button(id, isSplit, direction)
-            menu(id, isSplit)
+            if isSplit {
+                if direction != .start {
+                    button(id, isSplit, direction)
+                    splitButton(id)
+                    menu(id)
+                } else {
+                    /// split buttons direction .start are ordered differently
+                    splitButton(id)
+                    menu(id)
+                    button(id, isSplit, direction)
+                }
+            } else {
+                button(id, isSplit, direction)
+                menu(id)
+            }
         }
-        .class(isButtonGroup || isSplit ? .btnGroup : .dropdown)    // split buttons only work as button group
+        .class(.btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
         .class(add: direction.bsClass, if: direction != .down)
         .class(add: bsClasses)
     }
@@ -72,7 +99,7 @@ extension Dropdown: TagRepresentable {
 
 public class DropdownButton: Component {
     
-    enum `Type` {
+    public enum `Type` {
         case button(_ title: String?)
         case link(_ title: String?, href: String)
     }
@@ -82,25 +109,10 @@ public class DropdownButton: Component {
     private let direction: Dropdown.Direction
     private let isSplit: Bool
     
-    public static func `default`(_ title: String?,
-                                 id: String,
-                                 direction: Dropdown.Direction = .down,
-                                 isSplit: Bool = false) -> Self {
-        self.init(type: .button(title), id: id, direction: direction, isSplit: isSplit)
-    }
-    
-    public static func link(_ title: String?,
-                            href: String,
-                            id: String,
-                            direction: Dropdown.Direction = .down,
-                            isSplit: Bool = false) -> Self {
-        self.init(type: .link(title, href: href), id: id, direction: direction, isSplit: isSplit)
-    }
-    
-    internal required init(type: `Type`,
-                           id: String,
-                           direction: Dropdown.Direction,
-                           isSplit: Bool = false) {
+    public init(type: `Type`,
+                id: String,
+                direction: Dropdown.Direction,
+                isSplit: Bool = false) {
         self.type = type
         self.id = id
         self.direction = direction
@@ -113,58 +125,22 @@ extension DropdownButton: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
+        /// split dropdowns have two buttons, non-split just one button
+        /// if isSplit will create a simple button or link without special properties
+        /// DropdownArrowButton has all the special properties
+        /// if NOT isSplit will create button or link with special properties
         switch type {
         case .button(let title):
             if isSplit {
-                /// split dropdowns are two buttons and all the special properties go on the later
-                if direction != .start {
-                    Button {
-                        if let title = title {
-                            Text(title)
-                        }
+                Button {
+                    if let title = title {
+                        Text(title)
                     }
-                    .type(.button)
-                    .class(.btn)
-                    .class(add: bsClasses)
-                    
-                    Button {
-                        Span {
-                            Text("Toggle Dropdown")
-                        }
-                        .class(.visuallyHidden)
-                    }
-                    .type(.button)
-                    .class(.btn, .dropdownToggle, .dropdownToggleSplit)
-                    .id(id) // not required for button groups
-                    .dataBsToggle(.dropdown)
-                    .ariaExpanded(false)
-                    .class(add: bsClasses)
-                } else {
-                    /// reverse order of
-                    Button {
-                        Span {
-                            Text("Toggle Dropdown")
-                        }
-                        .class(.visuallyHidden)
-                    }
-                    .type(.button)
-                    .class(.btn, .dropdownToggle, .dropdownToggleSplit)
-                    .id(id) // not required for button groups
-                    .dataBsToggle(.dropdown)
-                    .ariaExpanded(false)
-                    .class(add: bsClasses)
-
-                    Button {
-                        if let title = title {
-                            Text(title)
-                        }
-                    }
-                    .type(.button)
-                    .class(.btn)
-                    .class(add: bsClasses)
                 }
+                .type(.button)
+                .class(.btn)
+                .class(add: bsClasses)
             } else {
-                /// non-split dropdowns have only one button with special properties
                 Button {
                     if let title = title {
                         Text(title)
@@ -179,51 +155,14 @@ extension DropdownButton: TagRepresentable {
             }
         case .link(let title, let href):
             if isSplit {
-                if direction != .start {
-                    A {
-                        if let title = title {
-                            Text(title)
-                        }
+                A {
+                    if let title = title {
+                        Text(title)
                     }
-                    .href(href)
-                    .role(.button)
-                    .class(add: bsClasses)
-                    
-                    A {
-                        Span {
-                            Text("Toggle Dropdown")
-                        }
-                        .class(.visuallyHidden)
-                    }
-                    .role(.button)
-                    .class(.btn, .dropdownToggle, .dropdownToggleSplit)
-                    .id(id) // not required for button groups
-                    .dataBsToggle(.dropdown)
-                    .ariaExpanded(false)
-                    .class(add: bsClasses)
-                } else {
-                    A {
-                        Span {
-                            Text("Toggle Dropdown")
-                        }
-                        .class(.visuallyHidden)
-                    }
-                    .role(.button)
-                    .class(.btn, .dropdownToggle, .dropdownToggleSplit)
-                    .id(id) // not required for button groups
-                    .dataBsToggle(.dropdown)
-                    .ariaExpanded(false)
-                    .class(add: bsClasses)
-
-                    A {
-                        if let title = title {
-                            Text(title)
-                        }
-                    }
-                    .href(href)
-                    .role(.button)
-                    .class(add: bsClasses)
                 }
+                .href(href)
+                .role(.button)
+                .class(add: bsClasses)
             } else {
                 A {
                     if let title = title {
@@ -242,14 +181,41 @@ extension DropdownButton: TagRepresentable {
     }
 }
 
+public class DropdownButtonArrow: Component {
+    
+    private let id: String
+    
+    public init(id: String) {
+        self.id = id
+        super.init({})
+    }
+}
+
+extension DropdownButtonArrow: TagRepresentable {
+    
+    @TagBuilder
+    public func build() -> Tag {
+        Button {
+            Span {
+                Text("Toggle Dropdown")
+            }
+            .class(.visuallyHidden)
+        }
+        .type(.button)
+        .class(.btn, .dropdownToggle, .dropdownToggleSplit)
+        .id(id) // not required for button groups
+        .dataBsToggle(.dropdown)
+        .ariaExpanded(false)
+        .class(add: bsClasses)
+    }
+}
+
 public class DropdownMenu: Component {
     
     let id: String
-    let isSplit: Bool
     
-    public init(id: String, isSplit: Bool = false, @TagBuilder _ children: @escaping () -> [Tag]) {
+    public init(id: String, @TagBuilder _ children: @escaping () -> [Tag]) {
         self.id = id
-        self.isSplit = isSplit
         super.init(children)
     }
 }
@@ -262,7 +228,7 @@ extension DropdownMenu: TagRepresentable {
             children()
         }
         .class(.dropdownMenu)
-        .ariaLabelledBy(id, isSplit)
+        .ariaLabelledBy(id)
         .class(add: bsClasses)
     }
 }
