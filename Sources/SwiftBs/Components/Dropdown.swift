@@ -179,27 +179,51 @@ extension DropdownButton: TagRepresentable {
             }
         case .link(let title, let href):
             if isSplit {
-                A {
-                    if let title = title {
-                        Text(title)
+                if direction != .start {
+                    A {
+                        if let title = title {
+                            Text(title)
+                        }
                     }
-                }
-                .href(href)
-                .role(.button)
-                .class(add: bsClasses)
-                
-                A {
-                    Span {
-                        Text("Toggle Dropdown")
+                    .href(href)
+                    .role(.button)
+                    .class(add: bsClasses)
+                    
+                    A {
+                        Span {
+                            Text("Toggle Dropdown")
+                        }
+                        .class(.visuallyHidden)
                     }
-                    .class(.visuallyHidden)
+                    .role(.button)
+                    .class(.btn, .dropdownToggle, .dropdownToggleSplit)
+                    .id(id) // not required for button groups
+                    .dataBsToggle(.dropdown)
+                    .ariaExpanded(false)
+                    .class(add: bsClasses)
+                } else {
+                    A {
+                        Span {
+                            Text("Toggle Dropdown")
+                        }
+                        .class(.visuallyHidden)
+                    }
+                    .role(.button)
+                    .class(.btn, .dropdownToggle, .dropdownToggleSplit)
+                    .id(id) // not required for button groups
+                    .dataBsToggle(.dropdown)
+                    .ariaExpanded(false)
+                    .class(add: bsClasses)
+
+                    A {
+                        if let title = title {
+                            Text(title)
+                        }
+                    }
+                    .href(href)
+                    .role(.button)
+                    .class(add: bsClasses)
                 }
-                .role(.button)
-                .class(.btn, .dropdownToggle, .dropdownToggleSplit)
-                .id(id) // not required for button groups
-                .dataBsToggle(.dropdown)
-                .ariaExpanded(false)
-                .class(add: bsClasses)
             } else {
                 A {
                     if let title = title {
