@@ -94,10 +94,10 @@ extension Dropdown: TagRepresentable {
                     /// split buttons direction .start are ordered differently
                     splitButton(id)
                     menu(id)
-                    button(id, isSplit, direction)
                 }
                 .class(.btnGroup, .dropstart)
                 .role(.group)
+                button(id, isSplit, direction)
             }
             .class(.btnGroup)
         }
