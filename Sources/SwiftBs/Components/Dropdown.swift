@@ -30,8 +30,6 @@ public class Dropdown: Component {
         }
     }
     
-    public typealias Title = String
-    public typealias Href = String
     public typealias Id = String
     public typealias IsSplit = Bool
     
@@ -39,15 +37,15 @@ public class Dropdown: Component {
     private let direction: Direction
     private let isSplit: Bool
     private let isButtonGroup: Bool
-    private var button: (Id, IsSplit) -> [Tag]
-    private var menu: (Id, IsSplit) -> [Tag]
+    private var button: (Id, IsSplit, Dropdown.Direction) -> [Tag]
+    private var menu: (Id, IsSplit, Dropdown.Direction) -> [Tag]
     
     public init(id: String,
                 direction: Direction = .down,
                 isSplit: Bool = false,
                 isButtonGroup: Bool = true,
-                @TagBuilder button: @escaping (Id, IsSplit) -> [Tag],
-                @TagBuilder menu: @escaping (Id, IsSplit) -> [Tag]) {
+                @TagBuilder button: @escaping (Id, IsSplit, Dropdown.Direction) -> [Tag],
+                @TagBuilder menu: @escaping (Id, IsSplit, Dropdown.Direction) -> [Tag]) {
         self.id = id
         self.direction = direction
         self.isSplit = isSplit
@@ -63,8 +61,8 @@ extension Dropdown: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         Div {
-            button(id, isSplit)
-            menu(id, isSplit)
+            button(id, isSplit, direction)
+            menu(id, isSplit, direction)
         }
         .class(isButtonGroup || isSplit ? .btnGroup : .dropdown)    // split buttons only work as button group
         .class(add: direction.bsClass, if: direction != .down)
@@ -78,24 +76,34 @@ public class DropdownButton: Component {
         case button(_ title: String?)
         case link(_ title: String?, href: String)
     }
-
+    
     private let type: `Type`
     private let id: String
+    private let direction: Dropdown.Direction
     private let isSplit: Bool
     
-    public static func `default`(_ title: String?, id: String, isSplit: Bool = false) -> Self {
-        self.init(type: .button(title), id: id, isSplit: isSplit)
+    public static func `default`(_ title: String?,
+                                 id: String,
+                                 direction: Dropdown.Direction = .down,
+                                 isSplit: Bool = false) -> Self {
+        self.init(type: .button(title), id: id, direction: direction, isSplit: isSplit)
     }
     
-    public static func link(_ title: String?, href: String, id: String, isSplit: Bool = false) -> Self {
-        self.init(type: .link(title, href: href), id: id, isSplit: isSplit)
+    public static func link(_ title: String?,
+                            href: String,
+                            id: String,
+                            direction: Dropdown.Direction = .down,
+                            isSplit: Bool = false) -> Self {
+        self.init(type: .link(title, href: href), id: id, direction: direction, isSplit: isSplit)
     }
     
     internal required init(type: `Type`,
-                  id: String,
-                  isSplit: Bool = false) {
+                           id: String,
+                           direction: Dropdown.Direction,
+                           isSplit: Bool = false) {
         self.type = type
         self.id = id
+        self.direction = direction
         self.isSplit = isSplit
         super.init({})
     }
@@ -109,27 +117,52 @@ extension DropdownButton: TagRepresentable {
         case .button(let title):
             if isSplit {
                 /// split dropdowns are two buttons and all the special properties go on the later
-                Button {
-                    if let title = title {
-                        Text(title)
+                if direction != .start {
+                    Button {
+                        if let title = title {
+                            Text(title)
+                        }
                     }
-                }
-                .type(.button)
-                .class(.btn)
-                .class(add: bsClasses)
-                
-                Button {
-                    Span {
-                        Text("Toggle Dropdown")
+                    .type(.button)
+                    .class(.btn)
+                    .class(add: bsClasses)
+                    
+                    Button {
+                        Span {
+                            Text("Toggle Dropdown")
+                        }
+                        .class(.visuallyHidden)
                     }
-                    .class(.visuallyHidden)
+                    .type(.button)
+                    .class(.btn, .dropdownToggle, .dropdownToggleSplit)
+                    .id(id) // not required for button groups
+                    .dataBsToggle(.dropdown)
+                    .ariaExpanded(false)
+                    .class(add: bsClasses)
+                } else {
+                    /// reverse order of
+                    Button {
+                        Span {
+                            Text("Toggle Dropdown")
+                        }
+                        .class(.visuallyHidden)
+                    }
+                    .type(.button)
+                    .class(.btn, .dropdownToggle, .dropdownToggleSplit)
+                    .id(id) // not required for button groups
+                    .dataBsToggle(.dropdown)
+                    .ariaExpanded(false)
+                    .class(add: bsClasses)
+
+                    Button {
+                        if let title = title {
+                            Text(title)
+                        }
+                    }
+                    .type(.button)
+                    .class(.btn)
+                    .class(add: bsClasses)
                 }
-                .type(.button)
-                .class(.btn, .dropdownToggle, .dropdownToggleSplit)
-                .id(id) // not required for button groups
-                .dataBsToggle(.dropdown)
-                .ariaExpanded(false)
-                .class(add: bsClasses)
             } else {
                 /// non-split dropdowns have only one button with special properties
                 Button {
