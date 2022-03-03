@@ -38,8 +38,8 @@ extension Tag {
     
     /// Add variadics to value of class attribute
     @discardableResult
-    public func `class`(add classes: BsClass..., if condition: Bool = true) -> Self {
-        self.class(add: classes, condition)
+    public func `class`(add classes: BsClass?..., if condition: Bool = true) -> Self {
+        self.class(add: classes.compactMap({$0}), condition)
     }
     
     /// Add to value of class attribute
