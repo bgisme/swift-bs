@@ -219,6 +219,19 @@ public enum BsClass: String {
     case dropdownItemText = "dropdown-item-text"
     case dropdownMenu = "dropdown-menu"
     case dropdownMenuDark = "dropdown-menu-dark"
+    
+    case dropdownMenuEnd = "dropdown-menu-end"
+    case dropdownMenuSmEnd = "dropdown-menu-sm-end"
+    case dropdownMenuMdEnd = "dropdown-menu-md-end"
+    case dropdownMenuLgEnd = "dropdown-menu-lg-end"
+    case dropdownMenuXlEnd = "dropdown-menu-xl-end"
+    case dropdownMenuXxlEnd = "dropdown-menu-xxl-end"
+    case dropdownMenuSmStart = "dropdown-menu-sm-start"
+    case dropdownMenuMdStart = "dropdown-menu-md-start"
+    case dropdownMenuLgStart = "dropdown-menu-lg-start"
+    case dropdownMenuXlStart = "dropdown-menu-xl-start"
+    case dropdownMenuXxlStart = "dropdown-menu-xxl-start"
+    
     case dropdownToggle = "dropdown-toggle"
     case dropdownToggleSplit = "dropdown-toggle-split"
     
@@ -1246,6 +1259,8 @@ public enum BsClass: String {
     case srOnly = "sr-only"
     
     case start100 = "start-100"
+    
+    case `static`
     
     // MARK: - T
     case table

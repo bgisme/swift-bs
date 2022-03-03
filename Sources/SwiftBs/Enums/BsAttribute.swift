@@ -20,6 +20,7 @@ public enum BsAttribute: String {
     case dataParent = "data-bs-parent"
     case dataTarget = "data-bs-target"
     case dataBsToggle = "data-bs-toggle"
+    case dataBsDisplay = "data-bs-display"
     case disabled = "disabled"
     case grid
     case id
