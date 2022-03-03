@@ -67,7 +67,8 @@ extension Dropdown: TagRepresentable {
             menu(id, isSplit)
         }
         .class(isButtonGroup || isSplit ? .btnGroup : .dropdown)    // split buttons only work as button group
-        .class(add: direction.bsClass, if: direction != .down)
+        .class(add: direction.bsClass)
+//        .class(add: direction.bsClass, if: direction != .down)
         .class(add: bsClasses)
     }
 }
