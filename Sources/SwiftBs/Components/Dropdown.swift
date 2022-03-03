@@ -77,6 +77,15 @@ public class Dropdown: Component {
                 }
             }
         }
+        
+        var isMenuAlignResponsive: Bool {
+            switch self {
+            case .end:
+                return false
+            case .responsive:
+                return true
+            }
+        }
     }
     
     public enum MenuAlignBreakpoint {
@@ -212,18 +221,11 @@ public class DropdownButton: Component {
     
     // Convert optional MenuAlign parameter supplied by Dropdown to required Bool value isMenuAlignResponsive
     internal convenience init(tag: Tag, id: String, direction: Dropdown.Direction, isSplit: Bool, menuAlign: Dropdown.MenuAlign?) {
-        let isMenuAlignResponsive: Bool
-        if let menuAlign = menuAlign {
-            switch menuAlign {
-            case .end:
-                isMenuAlignResponsive = false
-            case .responsive:
-                isMenuAlignResponsive = true
-            }
-        } else {
-            isMenuAlignResponsive = false
-        }
-        self.init(tag: tag, id: id, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive)
+        self.init(tag: tag,
+                  id: id,
+                  direction: direction,
+                  isSplit: isSplit,
+                  isMenuAlignResponsive: menuAlign?.isMenuAlignResponsive ?? false)
     }
     
     // Only certain tags allowed
