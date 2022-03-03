@@ -74,7 +74,7 @@ extension Dropdown: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        if direction != .start {
+        if isSplit && direction != .start {
             Div {
                 if isSplit {
                     /// split buttons direction .start are ordered differently
