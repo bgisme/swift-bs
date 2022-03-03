@@ -249,8 +249,14 @@ public class DropdownItem: Component {
     let isActive: Bool
     let isDisabled: Bool
     
-    public convenience init(_ title: String, isActive: Bool = false, isDisabled: Bool = false) {
-        self.init(Button(title), isActive: isActive, isDisabled: isDisabled) {}
+    public convenience init(_ title: String, href: String? = nil, isActive: Bool = false, isDisabled: Bool = false) {
+        let tag: Tag
+        if let href = href {
+            tag = A(title).href(href)
+        } else {
+            tag = Button(title)
+        }
+        self.init(tag: tag, isActive: isActive, isDisabled: isDisabled) {}
     }
         
     public convenience init(_ a: A, isActive: Bool = false, isDisabled: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
