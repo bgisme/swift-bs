@@ -248,6 +248,10 @@ public class DropdownItem: Component {
     let tag: Tag
     let isActive: Bool
     let isDisabled: Bool
+    
+    public convenience init(_ title: String, isActive: Bool = false, isDisabled: Bool = false) {
+        self.init(Button(title), isActive: isActive, isDisabled: isDisabled) {}
+    }
         
     public convenience init(_ a: A, isActive: Bool = false, isDisabled: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
         self.init(tag: a, isActive: isActive, isDisabled: isDisabled, children: children)
