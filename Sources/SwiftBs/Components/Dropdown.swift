@@ -213,9 +213,11 @@ extension DropdownButtonArrow: TagRepresentable {
 public class DropdownMenu: Component {
     
     let id: String
+    let isDark: Bool
     
-    public init(id: String, @TagBuilder _ children: @escaping () -> [Tag]) {
+    public init(id: String, isDark: Bool = false, @TagBuilder _ children: @escaping () -> [Tag]) {
         self.id = id
+        self.isDark = isDark
         super.init(children)
     }
 }
@@ -228,6 +230,7 @@ extension DropdownMenu: TagRepresentable {
             children()
         }
         .class(.dropdownMenu)
+        .class(add: .dropdownMenuDark, if: isDark)
         .ariaLabelledBy(id)
         .class(add: bsClasses)
     }
