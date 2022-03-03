@@ -154,10 +154,12 @@ extension Dropdown: TagRepresentable {
         if !isSplit || (isSplit && direction != .start) {
             Div {
                 if isSplit {
+                    print("split")
                     button(id, isSplit, direction, nil) // no menu align for split-dropdowns
                     splitButton(id)
                     menu(id, nil)
                 } else {
+                    print("NOT split")
                     button(id, isSplit, direction, menuAlign)   // only menus on non-split dropdowns align responsively
                     menu(id, menuAlign)
                 }
@@ -166,9 +168,10 @@ extension Dropdown: TagRepresentable {
             .class(add: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
             .class(add: bsClasses)
         } else {
+            print("split && direction == .start")
             Div {
                 Div {
-                    /// split buttons direction .start are ordered differently
+                    /// split buttons direction .start are ordered differently and inside extra button group
                     splitButton(id)
                     menu(id, nil)
                 }
