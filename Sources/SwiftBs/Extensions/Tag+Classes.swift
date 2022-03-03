@@ -24,12 +24,12 @@ extension Tag {
     // MARK: - Class
 
     /// Replace value of class attribute with variadic Component.Class
-    public func `class`(_ classes: Component.Class..., if condition: Bool = true) -> Self {
+    public func `class`(_ classes: BsClass..., if condition: Bool = true) -> Self {
         self.class(classes, condition)
     }
 
     /// Replace value of class attribute with array of Component.Class
-    public func `class`(_ classes: [Component.Class]?, _ condition: Bool = true) -> Self {
+    public func `class`(_ classes: [BsClass]?, _ condition: Bool = true) -> Self {
         if let classes = classes {
             return self.class(classes.map {$0.rawValue}, condition)
         }
@@ -38,13 +38,13 @@ extension Tag {
     
     /// Add variadics to value of class attribute
     @discardableResult
-    public func `class`(add classes: Component.Class..., if condition: Bool = true) -> Self {
+    public func `class`(add classes: BsClass..., if condition: Bool = true) -> Self {
         self.class(add: classes, condition)
     }
     
     /// Add to value of class attribute
     @discardableResult
-    public func `class`(add classes: [Component.Class]?, _ condition: Bool = true) -> Self {
+    public func `class`(add classes: [BsClass]?, _ condition: Bool = true) -> Self {
         if let classes = classes {
             return self.class(add: classes.map{$0.rawValue}, condition)
         }

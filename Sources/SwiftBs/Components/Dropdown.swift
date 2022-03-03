@@ -44,7 +44,7 @@ extension Dropdown: TagRepresentable {
             menu(id, isSplit)
         }
         .class(isButtonGroup || isSplit ? .btnGroup : .dropdown)    // split buttons only work as button group
-        .class(add: markups)
+        .class(add: bsClasses)
     }
 }
 
@@ -92,7 +92,7 @@ extension DropdownButton: TagRepresentable {
                 }
                 .type(.button)
                 .class(.btn)
-                .class(add: markups)
+                .class(add: bsClasses)
                 
                 Button {
                     Span {
@@ -105,7 +105,7 @@ extension DropdownButton: TagRepresentable {
                 .id(id) // not required for button groups
                 .dataBsToggle(.dropdown)
                 .ariaExpanded(false)
-                .class(add: markups)
+                .class(add: bsClasses)
             } else {
                 /// non-split dropdowns have only one button with special properties
                 Button {
@@ -118,7 +118,7 @@ extension DropdownButton: TagRepresentable {
                 .id(id) // not required for button groups
                 .dataBsToggle(.dropdown)
                 .ariaExpanded(false)
-                .class(add: markups)
+                .class(add: bsClasses)
             }
         case .link(let title, let href):
             if isSplit {
@@ -129,7 +129,7 @@ extension DropdownButton: TagRepresentable {
                 }
                 .href(href)
                 .role(.button)
-                .class(add: markups)
+                .class(add: bsClasses)
                 
                 A {
                     Span {
@@ -142,7 +142,7 @@ extension DropdownButton: TagRepresentable {
                 .id(id) // not required for button groups
                 .dataBsToggle(.dropdown)
                 .ariaExpanded(false)
-                .class(add: markups)
+                .class(add: bsClasses)
             } else {
                 A {
                     if let title = title {
@@ -155,7 +155,7 @@ extension DropdownButton: TagRepresentable {
                 .id(id)
                 .dataBsToggle(.dropdown)
                 .ariaExpanded(false)
-                .class(add: markups)
+                .class(add: bsClasses)
             }
         }
     }
@@ -214,7 +214,7 @@ extension DropdownItem: TagRepresentable {
                 .class(add: .active, if: isActive)
                 .class(add: .disabled, if: isDisabled)
         }
-        .class(add: markups)
+        .class(add: bsClasses)
     }
 }
 

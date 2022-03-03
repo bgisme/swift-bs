@@ -74,13 +74,13 @@ extension BsButton: TagRepresentable {
             .disabled(isDisabled)
             .ariaPressed(isPressed, isToggle && isPressed)
             .autoComplete(false, isToggle && isPressed)
-            .class(add: markups)
+            .class(add: bsClasses)
         case .input(let type, let value):
             Input()
             .class(.btn)
             .type(type)
             .value(value ?? "")
-            .class(add: markups)
+            .class(add: bsClasses)
         case .link(let href, let title):
             A {
                 if let title = title {
@@ -94,7 +94,7 @@ extension BsButton: TagRepresentable {
             .class(add: .active, if: isActive)
             .ariaPressed(true, isActive)
             .ariaDisabled(true, isDisabled)
-            .class(add: markups)
+            .class(add: bsClasses)
         }
     }
 }

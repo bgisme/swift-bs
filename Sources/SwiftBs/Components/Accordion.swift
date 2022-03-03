@@ -36,7 +36,7 @@ extension Accordion: TagRepresentable {
         .class(.accordion)
         .class(add: .accordionFlush, if: isFlush)
         .id(id)
-        .class(add: markups)
+        .class(add: bsClasses)
     }
 }
 
@@ -82,7 +82,7 @@ extension AccordionItem: TagRepresentable {
             }
         }
         .class(.accordionItem)
-        .class(add: markups)
+        .class(add: bsClasses)
     }
 }
 
@@ -107,7 +107,7 @@ extension AccordionHeader: TagRepresentable {
         H2()
             .class(.accordionHeader)
             .id(id)
-            .class(add: markups)
+            .class(add: bsClasses)
         children()
     }
 }
@@ -142,7 +142,7 @@ extension AccordionCollapse: TagRepresentable {
         .class(add: .show, if: isExpanded)
         .ariaLabelledBy(headerId)
         .dataParent(accordionId, !isAlwaysOpen)
-        .class(add: markups)
+        .class(add: bsClasses)
     }
 }
 
@@ -156,7 +156,7 @@ extension AccordionBody: TagRepresentable {
             children()
         }
         .class(.accordionBody)
-        .class(add: markups)
+        .class(add: bsClasses)
     }
 }
 
@@ -191,6 +191,6 @@ extension AccordionButton: TagRepresentable {
             .dataTarget(collapseId)
             .ariaExpanded(isExpanded)
             .ariaControls(collapseId)
-            .class(add: markups)
+            .class(add: bsClasses)
     }
 }

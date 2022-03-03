@@ -44,7 +44,7 @@ extension Breadcrumb: TagRepresentable {
             }
             .class(.breadcrumb)
         }
-        .class(add: markups)
+        .class(add: bsClasses)
         .style(add: divider, divider != nil)
     }
 }
@@ -76,6 +76,6 @@ extension BreadcrumbItem: TagRepresentable {
         }
         .class(.breadcrumbItem)
         .class(add: .active, if: isActive)
-        .class(add: markups)
+        .class(add: bsClasses)
     }
 }

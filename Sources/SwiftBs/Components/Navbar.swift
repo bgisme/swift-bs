@@ -53,7 +53,7 @@ extension Navbar: TagRepresentable {
             .class(.containerFluid)
         }
         .class(.navbar)
-        .class(add: markups)
+        .class(add: bsClasses)
     }
 }
 
@@ -104,7 +104,7 @@ extension NavbarBrand: TagRepresentable {
         .hrefOptional(href)
         .class(add: .h1, /*.mb0,*/ if: href == nil)
         .class(add: .dInlineBlock, .alignTextTop, if: src != nil && text != nil)
-        .class(add: markups)
+        .class(add: bsClasses)
     }
 }
 
@@ -136,7 +136,7 @@ extension NavDropdown: TagRepresentable {
             .ariaLabelledBy("navbarDropdown")
         }
         .class(.navItem, .dropdown)
-        .class(add: markups)
+        .class(add: bsClasses)
     }
 }
 
@@ -186,7 +186,7 @@ extension NavItem: TagRepresentable {
                 children()
             }
             .class(.navItem)
-            .class(add: markups)
+            .class(add: bsClasses)
         } else {
             a
                 .class(.navLink)
@@ -194,7 +194,7 @@ extension NavItem: TagRepresentable {
                 .class(add: .disabled, if: isDisabled)
                 .ariaCurrent(isActive)
                 .ariaCurrent(isActive)
-                .class(add: markups)
+                .class(add: bsClasses)
             children()
         }
     }

@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ButtonGroup.swift
 //  
 //
 //  Created by Brad Gourley on 2/28/22.
@@ -29,7 +29,7 @@ extension ButtonGroup: TagRepresentable {
         .class(isVertical ? .btnGroupVertical : .btnGroup)
         .role(.group)
         .ariaLabelledBy(ariaLabel)
-        .class(add: markups)
+        .class(add: bsClasses)
     }
 }
 
@@ -53,6 +53,6 @@ extension ButtonGroupToolbar: TagRepresentable {
         .class(.btnToolbar)
         .role(.toolbar)
         .ariaLabelledBy(ariaLabel)
-        .class(add: markups)
+        .class(add: bsClasses)
     }
 }
