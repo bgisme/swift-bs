@@ -14,14 +14,14 @@ public class Alert: Component {
     let div: Div
     
     public convenience init(_ text: String) {
-        self.init(svg: nil, div: Div(text))
+        self.init(svg: nil, Div(text))
     }
     
     public convenience init(_ svg: Svg, text: String) {
-        self.init(svg: svg, div: Div(text))
+        self.init(svg: svg, Div(text))
     }
     
-    public init(svg: Svg? = nil, div: Div) {
+    public init(svg: Svg? = nil, _ div: Div) {
         self.svg = svg
         self.div = div
     }
