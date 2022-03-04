@@ -13,6 +13,10 @@ public class Alert: Component {
     let div: Div
     let hasIcon: Bool
     
+    public convenience init(_ text: String, hasIcon: Bool = false) {
+        self.init(Div(text), hasIcon: hasIcon)
+    }
+    
     public init(_ div: Div, hasIcon: Bool = false) {
         self.div = div
         self.hasIcon = hasIcon
