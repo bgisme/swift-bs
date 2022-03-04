@@ -12,12 +12,11 @@ public class Badge: Component {
     let text: String?
     let isPositioned: Bool
     let isRounded: Bool
-    
-    public convenience init(isPositioned: Bool = false, isRounded: Bool = false, @TagBuilder _ children: @escaping () -> [Tag]) {
-        self.init(isPositioned: isPositioned, isRounded: isRounded, children: children)
-    }
-    
-    public init(_ text: String? = nil, isPositioned: Bool = false, isRounded: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
+        
+    public init(_ text: String? = nil,
+                isPositioned: Bool = false,
+                isRounded: Bool = false,
+                @TagBuilder children: @escaping () -> [Tag]) {
         self.text = text
         self.isPositioned = isPositioned
         self.isRounded = isRounded

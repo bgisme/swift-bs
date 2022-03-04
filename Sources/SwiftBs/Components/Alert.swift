@@ -13,11 +13,20 @@ public class Alert: Component {
     let heading: String?
     let body: String?
         
-    public convenience init(@TagBuilder svg: () -> Tag, heading: String? = nil, body: String? = nil, @TagBuilder _ children: @escaping () -> [Tag]) {
-        self.init(svg: svg(), heading: heading, body: body, children)
+    public convenience init(@TagBuilder svg: () -> Tag,
+                            heading: String? = nil,
+                            body: String? = nil,
+                            @TagBuilder children: @escaping () -> [Tag]) {
+        self.init(svg: svg(),
+                  heading: heading,
+                  body: body,
+                  children: children)
     }
     
-    public init(svg: Tag? = nil, heading: String? = nil, body: String? = nil, @TagBuilder _ children: @escaping () -> [Tag]) {
+    public init(svg: Tag? = nil,
+                heading: String? = nil,
+                body: String? = nil,
+                @TagBuilder children: @escaping () -> [Tag]) {
         self.svg = svg
         self.heading = heading
         self.body = body

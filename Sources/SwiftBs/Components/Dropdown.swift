@@ -138,8 +138,8 @@ public class Dropdown: Component {
     /// split buttons
     public init(id: String,
                 direction: Direction = .down,
-                isSplit: Bool = false,
-                menuAlign: MenuAlign? = nil,
+                isSplit: Bool,
+                menuAlign: MenuAlign?,
                 @TagBuilder button: @escaping (Id, IsSplit, Dropdown.Direction, MenuAlign?) -> [Tag],
                 @TagBuilder splitButton: @escaping(Id) -> [Tag],
                 @TagBuilder menu: @escaping (Id, MenuAlign?) -> [Tag]) {
@@ -208,7 +208,8 @@ public class DropdownButton: Component {
         } else {
             tag = Button(title)
         }
-        self.init(tag: tag, id: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign)
+        let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
+        self.init(tag: tag, id: id, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive)
     }
     
     public convenience init(_ link: A,
@@ -216,7 +217,8 @@ public class DropdownButton: Component {
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil) {
-        self.init(tag: link, id: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign)
+        let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
+        self.init(tag: link, id: id, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive)
     }
     
     public convenience init(_ button: Button,
@@ -224,19 +226,11 @@ public class DropdownButton: Component {
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil) {
-        self.init(tag: button, id: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign)
+        let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
+        self.init(tag: button, id: id, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive)
     }
     
-    // Convert optional MenuAlign parameter supplied by Dropdown to required Bool value isMenuAlignResponsive
-    internal convenience init(tag: Tag, id: String, direction: Dropdown.Direction, isSplit: Bool, menuAlign: Dropdown.MenuAlign?) {
-        self.init(tag: tag,
-                  id: id,
-                  direction: direction,
-                  isSplit: isSplit,
-                  isMenuAlignResponsive: menuAlign?.isMenuAlignResponsive ?? false)
-    }
-    
-    // Only certain tags allowed
+    // Only tags in convenience init()s allowed
     internal required init(tag: Tag,
                            id: String,
                            direction: Dropdown.Direction,
@@ -362,15 +356,18 @@ public class DropdownItem: Component {
     let isDisabled: Bool
     
     public static func divider() -> Self {
-        Self.init(tag: nil) {}
+        Self.init(tag: nil, isActive: false, isDisabled: false) {}
     }
     
     public convenience init(nonInteractive tag: Span) {
-        self.init(tag: tag) {}
+        self.init(tag: tag, isActive: false, isDisabled: false) {}
     }
     
     /// <A> or <Button> menu item
-    public convenience init(_ title: String, href: String? = nil, isActive: Bool = false, isDisabled: Bool = false) {
+    public convenience init(_ title: String,
+                            href: String? = nil,
+                            isActive: Bool = false,
+                            isDisabled: Bool = false) {
         let tag: Tag
         if let href = href {
             tag = A(title).href(href)
@@ -381,7 +378,10 @@ public class DropdownItem: Component {
     }
     
     /// <A> menu item
-    public convenience init(_ a: A, isActive: Bool = false, isDisabled: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
+    public convenience init(_ a: A,
+                            isActive: Bool = false,
+                            isDisabled: Bool = false,
+                            @TagBuilder children: @escaping () -> [Tag]) {
         self.init(tag: a, isActive: isActive, isDisabled: isDisabled, children: children)
     }
     
@@ -395,8 +395,8 @@ public class DropdownItem: Component {
     
     /// Only allow certain Tag
     internal required init(tag: Tag?,
-                           isActive: Bool = false,
-                           isDisabled: Bool = false,
+                           isActive: Bool,
+                           isDisabled: Bool,
                            @TagBuilder children: @escaping () -> [Tag]) {
         self.tag = tag
         self.isActive = isActive

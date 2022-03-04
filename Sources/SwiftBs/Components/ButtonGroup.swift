@@ -12,7 +12,9 @@ public class ButtonGroup: Component {
     let isVertical: Bool
     let ariaLabel: String
     
-    public init(isVertical: Bool = false, ariaLabel: String, @TagBuilder children: @escaping () -> [Tag]) {
+    public init(isVertical: Bool = false,
+                ariaLabel: String,
+                @TagBuilder children: @escaping () -> [Tag]) {
         self.isVertical = isVertical
         self.ariaLabel = ariaLabel
         super.init() { children() }
@@ -37,7 +39,8 @@ public class ButtonGroupToolbar: Component {
     
     let ariaLabel: String
 
-    public init(ariaLabel: String, @TagBuilder children: @escaping () -> [Tag]) {
+    public init(ariaLabel: String,
+                @TagBuilder children: @escaping () -> [Tag]) {
         self.ariaLabel = ariaLabel
         super.init() { children() }
     }

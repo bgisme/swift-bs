@@ -26,7 +26,7 @@ public class Breadcrumb: Component {
         }
     }
 
-    public init(divider: String? = nil, @TagBuilder children: @escaping () -> [Tag]) {
+    public init(divider: String?, @TagBuilder children: @escaping () -> [Tag]) {
         if let divider = divider {
             self.divider = CssKeyValue(.breadcrumbDivider, divider)
         }
@@ -55,7 +55,10 @@ public class BreadcrumbItem: Component {
     let href: String?
     let isActive: Bool
     
-    public init(_ title: String, href: String? = nil, isActive: Bool = false, @TagBuilder children: @escaping () -> [Tag]) {
+    public init(_ title: String,
+                href: String? = nil,
+                isActive: Bool = false,
+                @TagBuilder children: @escaping () -> [Tag]) {
         self.title = title
         self.href = href
         self.isActive = isActive
