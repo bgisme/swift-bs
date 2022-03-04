@@ -39,6 +39,10 @@ public class AlertHeading: Component {
     
     let h4: H4
     
+    public convenience init(_ text: String) {
+        self.init(H4(text))
+    }
+    
     public init(_ h4: H4) {
         self.h4 = h4
     }
@@ -50,5 +54,6 @@ extension AlertHeading: TagRepresentable {
     public func build() -> Tag {
         h4
             .class(.alertHeading)
+            .class(add: bsClasses)
     }
 }
