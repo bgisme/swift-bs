@@ -12,6 +12,10 @@ public class Badge: Component {
     let span: Span
     let isPositioned: Bool
     let isRounded: Bool
+    
+    public convenience init(_ text: String, isPositioned: Bool = false, isRounded: Bool = false) {
+        self.init(Span(text), isPositioned: isPositioned, isRounded: isRounded)
+    }
         
     public init(_ span: Span, isPositioned: Bool = false, isRounded: Bool = false) {
         self.span = span
