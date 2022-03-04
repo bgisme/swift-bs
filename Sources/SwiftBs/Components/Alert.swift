@@ -6,31 +6,16 @@
 //
 
 import SwiftHtml
+import SwiftSgml
 
 public class Alert: Component {
     
-    let svg: Tag?
-    let heading: String?
-    let body: String?
-        
-    public convenience init(@TagBuilder svg: () -> Tag,
-                            heading: String? = nil,
-                            body: String? = nil,
-                            @TagBuilder children: @escaping () -> [Tag]) {
-        self.init(svg: svg(),
-                  heading: heading,
-                  body: body,
-                  children: children)
-    }
+    let div: Div
+    let hasIcon: Bool
     
-    public init(svg: Tag? = nil,
-                heading: String? = nil,
-                body: String? = nil,
-                @TagBuilder children: @escaping () -> [Tag]) {
-        self.svg = svg
-        self.heading = heading
-        self.body = body
-        super.init() { children() }
+    public init(_ div: Div, hasIcon: Bool = false) {
+        self.div = div
+        self.hasIcon = hasIcon
     }
 }
 
@@ -38,21 +23,28 @@ extension Alert: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        Div {
-            if let heading = heading {
-                H4(heading).class(.alertHeading)
-            }
-            if let svg = svg {
-                svg
-            }
-            if let body = body {
-                Text(body)
-            }
-            children()
-        }
-        .class(.alert)
-        .role(.alert)
-        .class(add: .dFlex, .alignItemsCenter, if: svg != nil)
-        .class(add: bsClasses)
+        div
+            .class(.alert)
+            .role(.alert)
+            .class(add: .dFlex, .alignItemsCenter, if: hasIcon)
+            .class(add: bsClasses)
+    }
+}
+
+public class AlertHeading: Component {
+    
+    let h4: H4
+    
+    public init(_ h4: H4) {
+        self.h4 = h4
+    }
+}
+
+extension AlertHeading: TagRepresentable {
+    
+    @TagBuilder
+    public func build() -> Tag {
+        h4
+            .class(.alertHeading)
     }
 }

@@ -25,7 +25,6 @@ public class Accordion: Component {
         self.isFlush = isFlush
         self.isAlwaysOpen = isAlwaysOpen
         self.items = items
-        super.init() {}
     }
 }
 
@@ -45,24 +44,25 @@ extension Accordion: TagRepresentable {
 
 public class AccordionItem: Component {
 
-    var label: String
-    var index: Int
-    var isExpanded: Bool
-    var isAlwaysOpen: Bool
-    var accordionId: String
+    let label: String
+    let index: Int
+    let isExpanded: Bool
+    let isAlwaysOpen: Bool
+    let accordionId: String
+    let body: () -> [Tag]
     
     public init(_ label: String,
                 index: Int = 0,
                 isExpanded: Bool = false,
                 isAlwaysOpen: Bool = false,
                 accordionId: String,
-                @TagBuilder children: @escaping () -> [Tag]) {
+                @TagBuilder body: @escaping () -> [Tag]) {
         self.label = label
         self.index = index
         self.isExpanded = isExpanded
         self.isAlwaysOpen = isAlwaysOpen
         self.accordionId = accordionId
-        super.init() { children() }
+        self.body = body
     }
 }
 
@@ -85,7 +85,7 @@ extension AccordionItem: TagRepresentable {
                               isExpanded: isExpanded,
                               isAlwaysOpen: isAlwaysOpen) {
                 AccordionBody {
-                    self.children()
+                    self.body()
                 }
             }
         }
@@ -99,6 +99,7 @@ public class AccordionHeader: Component {
     let id: String
     let collapseId: String
     let isExpanded: Bool
+    let children: () -> [Tag]
     
     public init(id: String,
                 collapseId: String,
@@ -107,7 +108,7 @@ public class AccordionHeader: Component {
         self.id = id
         self.collapseId = collapseId
         self.isExpanded = isExpanded
-        super.init() { children () }
+        self.children = children
     }
 }
 
@@ -130,6 +131,7 @@ public class AccordionCollapse: Component {
     let headerId: String
     let isExpanded: Bool
     let isAlwaysOpen: Bool
+    let children: () -> [Tag]
     
     public init(id: String,
                 accordionId: String,
@@ -142,7 +144,7 @@ public class AccordionCollapse: Component {
         self.headerId = headerId
         self.isExpanded = isExpanded
         self.isAlwaysOpen = isAlwaysOpen
-        super.init() { children() }
+        self.children = children
     }
 }
 
@@ -162,7 +164,14 @@ extension AccordionCollapse: TagRepresentable {
     }
 }
 
-public class AccordionBody: Component { }
+public class AccordionBody: Component {
+    
+    let children: () -> [Tag]
+    
+    init(@TagBuilder children: @escaping () -> [Tag]) {
+        self.children = children
+    }
+}
 
 extension AccordionBody: TagRepresentable {
 
@@ -195,7 +204,6 @@ public class AccordionButton: Component {
         self.button = button
         self.isExpanded = isExpanded
         self.collapseId = collapseId
-        super.init() {}
     }
 }
 

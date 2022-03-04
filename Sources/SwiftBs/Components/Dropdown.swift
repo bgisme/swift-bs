@@ -150,7 +150,6 @@ public class Dropdown: Component {
         self.button = button
         self.splitButton = splitButton
         self.menu = menu
-        super.init({})
     }
 }
 
@@ -241,7 +240,6 @@ public class DropdownButton: Component {
         self.direction = direction
         self.isSplit = isSplit
         self.isMenuAlignResponsive = isMenuAlignResponsive
-        super.init({})
     }
 }
 
@@ -294,7 +292,6 @@ public class DropdownButtonArrow: Component {
     
     public init(id: String) {
         self.id = id
-        super.init({})
     }
 }
 
@@ -322,15 +319,16 @@ public class DropdownMenu: Component {
     let id: String
     let isDark: Bool
     let align: Dropdown.MenuAlign?
+    let items: () -> [Tag]
     
     public init(id: String,
                 isDark: Bool = false,
                 align: Dropdown.MenuAlign? = nil,
-                @TagBuilder children: @escaping () -> [Tag]) {
+                @TagBuilder items: @escaping () -> [Tag]) {
         self.id = id
         self.isDark = isDark
         self.align = align
-        super.init(children)
+        self.items = items
     }
 }
 
@@ -339,7 +337,7 @@ extension DropdownMenu: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         Ul {
-            children()
+            items()
         }
         .class(.dropdownMenu)
         .class(add: .dropdownMenuDark, if: isDark)
@@ -356,11 +354,11 @@ public class DropdownItem: Component {
     let isDisabled: Bool
     
     public static func divider() -> Self {
-        Self.init(tag: nil, isActive: false, isDisabled: false) {}
+        Self.init(tag: nil, isActive: false, isDisabled: false)
     }
     
     public convenience init(nonInteractive tag: Span) {
-        self.init(tag: tag, isActive: false, isDisabled: false) {}
+        self.init(tag: tag, isActive: false, isDisabled: false)
     }
     
     /// <A> or <Button> menu item
@@ -374,34 +372,24 @@ public class DropdownItem: Component {
         } else {
             tag = Button(title)
         }
-        self.init(tag: tag, isActive: isActive, isDisabled: isDisabled) {}
+        self.init(tag: tag, isActive: isActive, isDisabled: isDisabled)
     }
     
     /// <A> menu item
-    public convenience init(_ a: A,
-                            isActive: Bool = false,
-                            isDisabled: Bool = false,
-                            @TagBuilder children: @escaping () -> [Tag]) {
-        self.init(tag: a, isActive: isActive, isDisabled: isDisabled, children: children)
+    public convenience init(_ a: A, isActive: Bool = false, isDisabled: Bool = false) {
+        self.init(tag: a, isActive: isActive, isDisabled: isDisabled)
     }
     
     /// <Button> menu item
-    public convenience init(_ button: Button,
-                            isActive: Bool = false,
-                            isDisabled: Bool = false,
-                            @TagBuilder children: @escaping () -> [Tag]) {
-        self.init(tag: button, isActive: isActive, isDisabled: isDisabled, children: children)
+    public convenience init(_ button: Button, isActive: Bool = false, isDisabled: Bool = false) {
+        self.init(tag: button, isActive: isActive, isDisabled: isDisabled)
     }
     
     /// Only allow certain Tag
-    internal required init(tag: Tag?,
-                           isActive: Bool,
-                           isDisabled: Bool,
-                           @TagBuilder children: @escaping () -> [Tag]) {
+    internal required init(tag: Tag?, isActive: Bool, isDisabled: Bool) {
         self.tag = tag
         self.isActive = isActive
         self.isDisabled = isDisabled
-        super.init(children)
     }
 }
 

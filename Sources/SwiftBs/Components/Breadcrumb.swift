@@ -12,25 +12,24 @@ public class Breadcrumb: Component {
     public typealias Title = String
     public typealias Href = String
     
-    public var divider: CssKeyValue?
+    public let divider: CssKeyValue?
+    public let children: () -> [Tag]
         
-    public convenience init(_ items: (Title, Href?)..., divider: String? = nil) {
+    public convenience init(_ items: (Title, Href)..., divider: String? = nil) {
         self.init(items, divider: divider)
     }
     
-    public convenience init(_ items: [(Title, Href?)], divider: String? = nil) {
+    public convenience init(_ items: [(Title, Href)], divider: String? = nil) {
         self.init(divider: divider) {
             items.map {
-                BreadcrumbItem($0.0, href: $0.1) {}
+                BreadcrumbItem($0.0, href: $0.1)
             }
         }
     }
 
     public init(divider: String?, @TagBuilder children: @escaping () -> [Tag]) {
-        if let divider = divider {
-            self.divider = CssKeyValue(.breadcrumbDivider, divider)
-        }
-        super.init() { children() }
+        self.divider = divider != nil ? CssKeyValue(.breadcrumbDivider, divider!) : nil
+        self.children = children
     }
 }
 
@@ -51,18 +50,18 @@ extension Breadcrumb: TagRepresentable {
 
 public class BreadcrumbItem: Component {
     
-    let title: String
-    let href: String?
+    let a: A
     let isActive: Bool
+        
+    public convenience init(_ title: String,
+                            href: String,
+                            isActive: Bool = false) {
+        self.init(A(title).href(href), isActive: isActive)
+    }
     
-    public init(_ title: String,
-                href: String? = nil,
-                isActive: Bool = false,
-                @TagBuilder children: @escaping () -> [Tag]) {
-        self.title = title
-        self.href = href
+    public init(_ a: A, isActive: Bool = false) {
+        self.a = a
         self.isActive = isActive
-        super.init() { children() }
     }
 }
 
@@ -71,11 +70,7 @@ extension BreadcrumbItem: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         Li {
-            A {
-                Text(title)
-                children()
-            }
-            .hrefOptional(href)
+            a
         }
         .class(.breadcrumbItem)
         .class(add: .active, if: isActive)

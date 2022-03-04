@@ -6,16 +6,18 @@
 //
 
 import SwiftHtml
+import SwiftSgml
 
 public class Navbar: Component {
     
     var isListBased: Bool
     var brand: () -> [Tag]
+    let items: () -> [Tag]
 
     public init(isListBased: Bool = true, @TagBuilder brand: @escaping () -> [Tag], @TagBuilder items: @escaping () -> [Tag]) {
         self.isListBased = isListBased
         self.brand = brand
-        super.init() { items() }
+        self.items = items
     }
 }
 
@@ -40,11 +42,11 @@ extension Navbar: TagRepresentable {
                 Div {
                     if isListBased {
                         Ul() {
-                            children()
+                            items()
                         }
                         .class(.navbarNav)
                     } else {
-                        children()
+                        items()
                     }
                 }
                 .class(add: .collapse, .navbarCollapse)
@@ -57,30 +59,79 @@ extension Navbar: TagRepresentable {
     }
 }
 
+//public class NavbarBrand: Component {
+//
+//    let src: String?
+//    let alt: String?
+//    let text: String?
+//    let href: String?
+//
+//    /// Text with-without Href
+//    public convenience init(_ text: String, href: String?) {
+//        self.init(src: nil, alt: nil, text: text, href: href){}
+//    }
+//
+//    /// Img with-without Text with-without Href
+//    public convenience init(_ imgSrc: String, alt: String, text: String?, href: String?) {
+//        self.init(src: imgSrc, alt: alt, text: text, href: href){}
+//    }
+//
+//    /// Convenience inits insure correct combination of parameters supplied
+//    private init(src: String?, alt: String?, text: String?, href: String?, @TagBuilder children: @escaping () -> [Tag]) {
+//        self.src = src
+//        self.alt = alt
+//        self.text = text
+//        self.href = href
+//        super.init() { children() }
+//    }
+//}
+//
+//extension NavbarBrand: TagRepresentable {
+//
+//    @TagBuilder
+//    public func build() -> Tag {
+//        A {
+//            if let src = src {
+//                // Image and text
+//                Img(src: src, alt: alt ?? "Icon")
+//                    .width(30)
+//                    .height(24)
+//            }
+//            if let text = text {
+//                Text(text)
+//            }
+//            children()
+//        }
+//        .class(.navbarBrand)
+//        .hrefOptional(href)
+//        .class(add: .h1, /*.mb0,*/ if: href == nil)
+//        .class(add: .dInlineBlock, .alignTextTop, if: src != nil && text != nil)
+//        .class(add: bsClasses)
+//    }
+//}
+
 public class NavbarBrand: Component {
     
-    let src: String?
-    let alt: String?
+    let img: Img?
     let text: String?
     let href: String?
     
-    /// Text with-without Href
-    public convenience init(_ text: String, href: String?) {
-        self.init(src: nil, alt: nil, text: text, href: href){}
+    public convenience init(_ text: String, href: String? = nil) {
+        self.init(img: nil, text: text, href: href)
     }
     
-    /// Img with-without Text with-without Href
-    public convenience init(_ imgSrc: String, alt: String, text: String?, href: String?) {
-        self.init(src: imgSrc, alt: alt, text: text, href: href){}
+    public convenience init(_ img: Img, href: String? = nil) {
+        self.init(img: img, text: nil, href: href)
     }
     
-    /// Convenience inits insure correct combination of parameters supplied
-    private init(src: String?, alt: String?, text: String?, href: String?, @TagBuilder children: @escaping () -> [Tag]) {
-        self.src = src
-        self.alt = alt
+    public convenience init(_ img: Img, text: String, href: String? = nil) {
+        self.init(img: img, text: text, href: href)
+    }
+    
+    internal required init(img: Img?, text: String?, href: String?) {
+        self.img = img
         self.text = text
         self.href = href
-        super.init() { children() }
     }
 }
 
@@ -89,21 +140,19 @@ extension NavbarBrand: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         A {
-            if let src = src {
-                // Image and text
-                Img(src: src, alt: alt ?? "Icon")
+            if let img = img {
+                img
                     .width(30)
                     .height(24)
             }
             if let text = text {
                 Text(text)
             }
-            children()
         }
         .class(.navbarBrand)
         .hrefOptional(href)
-        .class(add: .h1, /*.mb0,*/ if: href == nil)
-        .class(add: .dInlineBlock, .alignTextTop, if: src != nil && text != nil)
+        .class(add: .h1, .mb0, if: href == nil)
+        .class(add: .dInlineBlock, .alignTextTop, if: img != nil && text != nil)    // align image and text
         .class(add: bsClasses)
     }
 }
@@ -111,10 +160,11 @@ extension NavbarBrand: TagRepresentable {
 public class NavDropdown: Component {
     
     let title: String
+    let items: () -> [Tag]
     
-    public init(_ title: String, @TagBuilder children: @escaping () -> [Tag]) {
+    public init(_ title: String, @TagBuilder items: @escaping () -> [Tag]) {
         self.title = title
-        super.init(children)
+        self.items = items
     }
 }
 
@@ -130,7 +180,7 @@ extension NavDropdown: TagRepresentable {
                 .dataBsToggle(.dropdown)
                 .ariaExpanded(false)
             Ul {
-                children()
+                items()
             }
             .class(.dropdownMenu)
             .ariaLabelledBy("navbarDropdown")
@@ -150,25 +200,21 @@ public class NavItem: Component {
     public convenience init(_ title: String,
                             href: String,
                             isActive: Bool = false,
-                            isDisabled: Bool = false,
-                            @TagBuilder children: @escaping () -> [Tag]) {
+                            isDisabled: Bool = false) {
         self.init(a: A(title).href(href),
                   isListBased: true,
                   isActive: isActive,
-                  isDisabled: isDisabled,
-                  children: children)
+                  isDisabled: isDisabled)
     }
     
     public init(a: A,
                 isListBased: Bool = true,
                 isActive: Bool = false,
-                isDisabled: Bool = false,
-                @TagBuilder children: @escaping () -> [Tag]) {
+                isDisabled: Bool = false) {
         self.a = a
         self.isListBased = isListBased
         self.isActive = isActive
         self.isDisabled = isDisabled
-        super.init(children)
     }
 }
 
@@ -183,7 +229,6 @@ extension NavItem: TagRepresentable {
                     .class(add: .active, if: isActive)
                     .class(add: .disabled, if: isDisabled)
                     .ariaCurrent(isActive)
-                children()
             }
             .class(.navItem)
             .class(add: bsClasses)
@@ -195,7 +240,6 @@ extension NavItem: TagRepresentable {
                 .ariaCurrent(isActive)
                 .ariaCurrent(isActive)
                 .class(add: bsClasses)
-            children()
         }
     }
 }

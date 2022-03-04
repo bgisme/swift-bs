@@ -64,7 +64,6 @@ public class BsButton: Component {
         self.isPressed = isPressed
         self.isDisabled = isDisabled
         self.isActive = isActive
-        super.init({})
     }
 }
 

@@ -101,7 +101,9 @@ public enum BsClass: String {
     
     // MARK: - C
     case captionTop = "caption-top"
-    
+    case card
+    case cardText = "card-text"
+    case cardTitle = "card-title"
     case clearfix
     
     case collapse
