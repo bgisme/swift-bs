@@ -6,20 +6,24 @@
 //
 
 import SwiftHtml
-import SwiftSgml
+import SwiftSvg
 
 public class Alert: Component {
     
+    let svg: Svg?
     let div: Div
-    let hasIcon: Bool
     
-    public convenience init(_ text: String, hasIcon: Bool = false) {
-        self.init(Div(text), hasIcon: hasIcon)
+    public convenience init(_ text: String) {
+        self.init(svg: nil, div: Div(text))
     }
     
-    public init(_ div: Div, hasIcon: Bool = false) {
+    public convenience init(_ svg: Svg, text: String) {
+        self.init(svg: svg, div: Div(text))
+    }
+    
+    public init(svg: Svg? = nil, div: Div) {
+        self.svg = svg
         self.div = div
-        self.hasIcon = hasIcon
     }
 }
 
@@ -27,11 +31,21 @@ extension Alert: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        div
+        if let svg = svg {
+            Div {
+                svg
+                div
+            }
             .class(.alert)
             .role(.alert)
-            .class(add: .dFlex, .alignItemsCenter, if: hasIcon)
+            .class(add: .dFlex, .alignItemsCenter)
             .class(add: bsClasses)
+        } else {
+            div
+                .class(.alert)
+                .role(.alert)
+                .class(add: bsClasses)
+        }
     }
 }
 

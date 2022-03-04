@@ -25,6 +25,7 @@ let package = Package(
             name: "SwiftBs",
             dependencies: [
                 .product(name: "SwiftHtml", package: "swift-html"),
+                .product(name: "SwiftSvg", package: "swift-html"),
             ]),
         .testTarget(
             name: "SwiftBsTests", dependencies: ["SwiftBs"]),
