@@ -140,11 +140,13 @@ public class Dropdown: Component {
         self.direction = direction
         self.isSplit = isSplit
         self.menuAlign = menuAlign
+        if let menuAlign = menuAlign {
+            print("MENU ALIGN !!!!")
+        }
         self.button = button
         self.splitButton = splitButton
         self.menu = menu
         super.init({})
-        print("\(menuAlign == nil ? "nil" : "NOT nil")")
     }
 }
 
