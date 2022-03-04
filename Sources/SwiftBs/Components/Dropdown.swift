@@ -47,34 +47,16 @@ public class Dropdown: Component {
     public enum MenuAlign {
         case end
         case responsive(_ bp: MenuAlignBreakpoint)
+        case endAndResponsive(_ bp: MenuAlignBreakpoint)
         
-        var bsClass: BsClass {
+        var bsClasses: [BsClass] {
             switch self {
             case .end:
-                return .dropdownMenuEnd
+                return [.dropdownMenuEnd]
             case .responsive(let bp):
-                switch bp {
-                case .smStart:
-                    return .dropdownMenuSmStart
-                case .mdStart:
-                    return .dropdownMenuMdStart
-                case .lgStart:
-                    return .dropdownMenuLgStart
-                case .xlStart:
-                    return .dropdownMenuXlStart
-                case .xxlStart:
-                    return .dropdownMenuXxlStart
-                case .smEnd:
-                    return .dropdownMenuSmEnd
-                case .mdEnd:
-                    return .dropdownMenuMdEnd
-                case .lgEnd:
-                    return .dropdownMenuLgEnd
-                case .xlEnd:
-                    return .dropdownMenuXlEnd
-                case .xxlEnd:
-                    return .dropdownMenuXxlEnd
-                }
+                return [bp.bsClass]
+            case .endAndResponsive(let bp):
+                return [.dropdownMenuEnd, bp.bsClass]
             }
         }
         
@@ -82,7 +64,7 @@ public class Dropdown: Component {
             switch self {
             case .end:
                 return false
-            case .responsive:
+            case .responsive, .endAndResponsive:
                 return true
             }
         }
@@ -99,6 +81,31 @@ public class Dropdown: Component {
         case lgEnd
         case xlEnd
         case xxlEnd
+        
+        var bsClass: BsClass {
+            switch self {
+            case .smStart:
+                return .dropdownMenuSmStart
+            case .mdStart:
+                return .dropdownMenuMdStart
+            case .lgStart:
+                return .dropdownMenuLgStart
+            case .xlStart:
+                return .dropdownMenuXlStart
+            case .xxlStart:
+                return .dropdownMenuXxlStart
+            case .smEnd:
+                return .dropdownMenuSmEnd
+            case .mdEnd:
+                return .dropdownMenuMdEnd
+            case .lgEnd:
+                return .dropdownMenuLgEnd
+            case .xlEnd:
+                return .dropdownMenuXlEnd
+            case .xxlEnd:
+                return .dropdownMenuXxlEnd
+            }
+        }
     }
     
     public typealias Id = String
@@ -342,7 +349,7 @@ extension DropdownMenu: TagRepresentable {
         }
         .class(.dropdownMenu)
         .class(add: .dropdownMenuDark, if: isDark)
-        .class(add: align?.bsClass)
+        .class(add: align?.bsClasses)
         .ariaLabelledBy(id)
         .class(add: bsClasses)
     }
