@@ -102,6 +102,17 @@ public enum BsClass: String {
     // MARK: - C
     case captionTop = "caption-top"
     case card
+    case cardBody = "card-body"
+    case cardFooter = "card-footer"
+    case cardHeader = "card-header"
+    case cardHeaderTabs = "card-header-tabs"
+    case cardHeaderPills = "card-header-pills"
+    case cardImg = "card-img"
+    case cardImgOverlay = "card-img-overlay"
+    case cardImgTop = "card-img-top"
+    case cardImgBottom = "card-img-bottom"
+    case cardLink = "card-link"
+    case cardSubtitle = "card-subtitle"
     case cardText = "card-text"
     case cardTitle = "card-title"
     case clearfix
@@ -454,6 +465,9 @@ public enum BsClass: String {
     // MARK: - L
     case lead
     
+    case listGroup = "list-group"
+    case listGroupFlush = "list-group-flush"
+    case listGroupItem = "list-group-item"
     case listInline = "list-inline"
     case listInlineItem = "list-inline-item"
     case listUnstyled = "list-unstyled"
