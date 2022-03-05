@@ -22,14 +22,14 @@ public class Card: Component {
     
     public convenience init(top: Img? = nil,
                             bottom: Img? = nil,
-                            @TagBuilder body: () -> [Tag]) {
-        self.init(imageTop: top, imageBottom: bottom, body: CardBody(Div { body() }))
+                            body: CardBody) {
+        self.init(imageTop: top, imageBottom: bottom, body: body)
     }
     
     public convenience init(top: Svg? = nil,
                             bottom: Svg? = nil,
-                            @TagBuilder body: () -> [Tag]) {
-        self.init(imageTop: top, imageBottom: bottom, body: CardBody(Div { body() }))
+                            body: CardBody) {
+        self.init(imageTop: top, imageBottom: bottom, body: body)
     }
     
     internal required init(imageTop: Tag? = nil,
