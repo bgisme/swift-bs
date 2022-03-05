@@ -20,11 +20,15 @@ public class Card: Component {
     let body: CardBody
     let imageBottom: Img?
     
-    public convenience init(imageTop: Img? = nil, body: Div, imageBottom: Img? = nil) {
+    public convenience init(body: Div,
+                            imageTop: Img? = nil,
+                            imageBottom: Img? = nil) {
         self.init(imageTop: imageTop, body: CardBody(body), imageBottom: imageBottom)
     }
     
-    public init(imageTop: Img? = nil, body: CardBody, imageBottom: Img? = nil) {
+    public init(body: CardBody,
+                imageTop: Img? = nil,
+                imageBottom: Img? = nil) {
         self.imageTop = imageTop
         self.body = body
         self.imageBottom = imageBottom
