@@ -23,7 +23,7 @@ public class Card: Component {
     public convenience init(body: Div,
                             imageTop: Img? = nil,
                             imageBottom: Img? = nil) {
-        self.init(imageTop: imageTop, body: CardBody(body), imageBottom: imageBottom)
+        self.init(body: CardBody(body), imageTop: imageTop, imageBottom: imageBottom)
     }
     
     public init(body: CardBody,
