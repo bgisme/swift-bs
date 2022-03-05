@@ -20,10 +20,10 @@ public class Card: Component {
     let body: CardBody
     let imageBottom: Img?
     
-    public convenience init(body: Div,
-                            imageTop: Img? = nil,
-                            imageBottom: Img? = nil) {
-        self.init(body: CardBody(body), imageTop: imageTop, imageBottom: imageBottom)
+    public convenience init(imageTop: Img? = nil,
+                            imageBottom: Img? = nil,
+                            @TagBuilder body: () -> [Tag]) {
+        self.init(body: CardBody(Div { body() }), imageTop: imageTop, imageBottom: imageBottom)
     }
     
     public init(body: CardBody,
@@ -104,6 +104,10 @@ public class CardBody: Component {
             links.map { $0.class(add: .cardLink) }
         }
         self.init(div)
+    }
+    
+    public convenience init(@TagBuilder children: () -> [Tag]) {
+        self.init(Div { children() })
     }
     
     public init(_ div: Div) {
