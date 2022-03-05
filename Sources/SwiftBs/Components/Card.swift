@@ -57,6 +57,8 @@ extension Card: TagRepresentable {
             }
         }
         .class(.card)
+        .class(add: bsClasses)
+        .style(add: styles)
     }
 }
 
