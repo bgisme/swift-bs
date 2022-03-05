@@ -6,7 +6,7 @@
 //
 
 import SwiftHtml
-import SwiftSgml
+import SwiftSvg
 
 /// Cards contain layers of elements
 /// Inside Card is one or more: ImageTop, Header, Body, Footer, ImageBottom
@@ -16,19 +16,25 @@ import SwiftSgml
 
 public class Card: Component {
     
-    let imageTop: Img?
+    let imageTop: Tag?
     let body: CardBody
-    let imageBottom: Img?
+    let imageBottom: Tag?
     
     public convenience init(imageTop: Img? = nil,
                             imageBottom: Img? = nil,
                             @TagBuilder body: () -> [Tag]) {
-        self.init(body: CardBody(Div { body() }), imageTop: imageTop, imageBottom: imageBottom)
+        self.init(imageTop: imageTop, imageBottom: imageBottom, body: CardBody(Div { body() }))
     }
     
-    public init(imageTop: Img? = nil,
-                imageBottom: Img? = nil,
-                body: CardBody) {
+    public convenience init(imageTop: Svg? = nil,
+                            imageBottom: Svg? = nil,
+                            @TagBuilder body: () -> [Tag]) {
+        self.init(imageTop: imageTop, imageBottom: imageBottom, body: CardBody(Div { body() }))
+    }
+    
+    internal required init(imageTop: Tag? = nil,
+                           imageBottom: Tag? = nil,
+                           body: CardBody) {
         self.imageTop = imageTop
         self.imageBottom = imageBottom
         self.body = body
@@ -57,11 +63,19 @@ extension Card: TagRepresentable {
 /// Inside Card
 public class CardImageOverlay: Component {
     
-    let img: Img
+    let image: Tag
     let div: Div
     
-    public init(_ img: Img, div: Div) {
-        self.img = img
+    public convenience init(_ img: Img, @TagBuilder children: () -> [Tag]) {
+        self.init(img, div: Div { children () })
+    }
+    
+    public convenience init(_ svg: Svg, @TagBuilder children: () -> [Tag]) {
+        self.init(svg, div: Div { children () })
+    }
+    
+    internal required init(_ tag: Tag, div: Div) {
+        self.image = tag
         self.div = div
     }
 }
@@ -70,7 +84,7 @@ extension CardImageOverlay: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        img.class(add: .cardImg)
+        image.class(add: .cardImg)
         div.class(add: .cardImgOverlay)
     }
 }
