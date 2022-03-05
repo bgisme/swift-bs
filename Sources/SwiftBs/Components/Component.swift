@@ -43,4 +43,14 @@ extension Component {
         }
         return self
     }
+    
+    // MARK: Styles
+    
+    @discardableResult
+    public func style(_ styles: (CssProperty, String)..., if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        if self.styles == nil { self.styles = [CssProperty : String]() }
+        _ = styles.map{ self.styles![$0.0] = $0.1 }
+        return self
+    }
 }
