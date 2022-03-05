@@ -20,16 +20,16 @@ public class Card: Component {
     let body: CardBody
     let imageBottom: Tag?
     
-    public convenience init(imageTop: Img? = nil,
-                            imageBottom: Img? = nil,
+    public convenience init(imgTop: Img? = nil,
+                            imgBottom: Img? = nil,
                             @TagBuilder body: () -> [Tag]) {
-        self.init(imageTop: imageTop, imageBottom: imageBottom, body: CardBody(Div { body() }))
+        self.init(imageTop: imgTop, imageBottom: imgBottom, body: CardBody(Div { body() }))
     }
     
-    public convenience init(imageTop: Svg? = nil,
-                            imageBottom: Svg? = nil,
+    public convenience init(svgTop: Svg? = nil,
+                            svgBottom: Svg? = nil,
                             @TagBuilder body: () -> [Tag]) {
-        self.init(imageTop: imageTop, imageBottom: imageBottom, body: CardBody(Div { body() }))
+        self.init(imageTop: svgTop, imageBottom: svgBottom, body: CardBody(Div { body() }))
     }
     
     internal required init(imageTop: Tag? = nil,
