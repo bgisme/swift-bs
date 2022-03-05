@@ -52,8 +52,8 @@ extension Component {
     }
     
     @discardableResult
-    public func style(_ styles: [(CssProperty, String)], _ condition: Bool = true) -> Self {
-        guard condition else { return self }
+    public func style(_ styles: [(CssProperty, String)]?, _ condition: Bool = true) -> Self {
+        guard condition, let styles = styles else { return self }
         if self.styles == nil { self.styles = [CssProperty : String]() }
         _ = styles.map{ self.styles![$0.0] = $0.1 }
         return self
