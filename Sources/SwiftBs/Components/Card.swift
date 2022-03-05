@@ -26,12 +26,12 @@ public class Card: Component {
         self.init(body: CardBody(Div { body() }), imageTop: imageTop, imageBottom: imageBottom)
     }
     
-    public init(body: CardBody,
-                imageTop: Img? = nil,
-                imageBottom: Img? = nil) {
+    public init(imageTop: Img? = nil,
+                imageBottom: Img? = nil,
+                body: CardBody) {
         self.imageTop = imageTop
-        self.body = body
         self.imageBottom = imageBottom
+        self.body = body
     }
 }
 
