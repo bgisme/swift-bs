@@ -88,26 +88,19 @@ extension CardImageOverlay: TagRepresentable {
 /// Inside Card
 public class CardBody: Component {
     
-    public typealias Title = String
-    public typealias Href = String
-    
     let div: Div
     
     public convenience init(title: String? = nil,
                             subtitle: String? = nil,
                             text: String? = nil,
-                            link: (Title, Href)? = nil) {
+                            link: A? = nil) {
         var cTitle: CardTitle?
         if let title = title { cTitle = CardTitle(title, h:4) }
         var cSubtitle: CardTitle?
         if let subtitle = subtitle { cSubtitle = CardTitle(subtitle, h:5, isSubtitle: true) }
         var cText: CardText?
         if let text = text { cText = CardText(text) }
-        var a: A?
-        if let link = link {
-            a = A(link.0).href(link.1)
-        }
-        self.init(title: cTitle, subtitle: cSubtitle, text: cText, link: a)
+        self.init(title: cTitle, subtitle: cSubtitle, text: cText, link: link)
     }
     
     public convenience init(title: CardTitle? = nil,
