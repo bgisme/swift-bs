@@ -95,9 +95,9 @@ public class CardBody: Component {
                             text: String? = nil,
                             link: A? = nil) {
         var cTitle: CardTitle?
-        if let title = title { cTitle = CardTitle(title, h:4) }
+        if let title = title { cTitle = CardTitle(title, h:5) }
         var cSubtitle: CardTitle?
-        if let subtitle = subtitle { cSubtitle = CardTitle(subtitle, h:5, isSubtitle: true) }
+        if let subtitle = subtitle { cSubtitle = CardTitle(subtitle, h:6, isSubtitle: true) }
         var cText: CardText?
         if let text = text { cText = CardText(text) }
         self.init(title: cTitle, subtitle: cSubtitle, text: cText, link: link)
