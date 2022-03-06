@@ -18,36 +18,19 @@ public class Card: Component {
     
     let imageTop: Tag?
     let body: CardBody
-    let links: [A]?
     let imageBottom: Tag?
     
-    public convenience init(imgTop: Img? = nil,
-                            body: CardBody,
-                            links: [A]? = nil,
-                            imgBottom: Img? = nil) {
-        self.init(imageTop: imgTop,
-                  body: body,
-                  links: links,
-                  imageBottom: imgBottom)
+    public convenience init(imgTop: Img? = nil, body: CardBody, imgBottom: Img? = nil) {
+        self.init(imageTop: imgTop, body: body, imageBottom: imgBottom)
     }
     
-    public convenience init(svgTop: Svg? = nil,
-                            body: CardBody,
-                            links: [A]? = nil,
-                            svgBottom: Svg? = nil) {
-        self.init(imageTop: svgTop,
-                  body: body,
-                  links: links,
-                  imageBottom: svgBottom)
+    public convenience init(svgTop: Svg? = nil, body: CardBody, svgBottom: Svg? = nil) {
+        self.init(imageTop: svgTop, body: body, imageBottom: svgBottom)
     }
     
-    internal required init(imageTop: Tag? = nil,
-                           body: CardBody,
-                           links: [A]? = nil,
-                           imageBottom: Tag? = nil) {
+    internal required init(imageTop: Tag? = nil, body: CardBody, imageBottom: Tag? = nil) {
         self.imageTop = imageTop
         self.body = body
-        self.links = links
         self.imageBottom = imageBottom
     }
 }
@@ -62,9 +45,6 @@ extension Card: TagRepresentable {
                     .class(add: .cardImgTop)
             }
             body
-            if let links = links {
-                links.map { $0 }
-            }
             if let imageBottom = imageBottom {
                 imageBottom
                     .class(add: .cardImgBottom)
@@ -108,23 +88,37 @@ extension CardImageOverlay: TagRepresentable {
 /// Inside Card
 public class CardBody: Component {
     
+    public typealias Title = String
+    public typealias Href = String
+    
     let div: Div
     
-    public convenience init(title: String? = nil, subtitle: String? = nil, text: String? = nil) {
+    public convenience init(title: String? = nil,
+                            subtitle: String? = nil,
+                            text: String? = nil,
+                            link: (Title, Href)? = nil) {
         var cTitle: CardTitle?
         if let title = title { cTitle = CardTitle(title, h:4) }
         var cSubtitle: CardTitle?
         if let subtitle = subtitle { cSubtitle = CardTitle(subtitle, h:5, isSubtitle: true) }
         var cText: CardText?
         if let text = text { cText = CardText(text) }
-        self.init(title: cTitle, subtitle: cSubtitle, text: cText)
+        var a: A?
+        if let link = link {
+            a = A(link.0).href(link.1)
+        }
+        self.init(title: cTitle, subtitle: cSubtitle, text: cText, link: a)
     }
     
-    public convenience init(title: CardTitle? = nil, subtitle: CardTitle? = nil, text: CardText? = nil) {
+    public convenience init(title: CardTitle? = nil,
+                            subtitle: CardTitle? = nil,
+                            text: CardText? = nil,
+                            link: A? = nil) {
         let div = Div {
             if let title = title { title.build() }
             if let subtitle = subtitle { subtitle.build() }
             if let text = text { text.build() }
+            if let link = link { link }
         }
         self.init(div)
     }
