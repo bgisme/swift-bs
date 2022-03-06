@@ -18,26 +18,37 @@ public class Card: Component {
     
     let imageTop: Tag?
     let body: CardBody
+    let links: [A]
     let imageBottom: Tag?
     
     public convenience init(imgTop: Img? = nil,
-                            imgBottom: Img? = nil,
-                            body: CardBody) {
-        self.init(imageTop: imgTop, imageBottom: imgBottom, body: body)
+                            body: CardBody,
+                            links: [A],
+                            imgBottom: Img? = nil) {
+        self.init(imageTop: imgTop,
+                  body: body,
+                  links: links,
+                  imageBottom: imgBottom)
     }
     
     public convenience init(svgTop: Svg? = nil,
-                            svgBottom: Svg? = nil,
-                            body: CardBody) {
-        self.init(imageTop: svgTop, imageBottom: svgBottom, body: body)
+                            body: CardBody,
+                            links: [A],
+                            svgBottom: Svg? = nil) {
+        self.init(imageTop: svgTop,
+                  body: body,
+                  links: links,
+                  imageBottom: svgBottom)
     }
     
     internal required init(imageTop: Tag? = nil,
-                           imageBottom: Tag? = nil,
-                           body: CardBody) {
+                           body: CardBody,
+                           links: [A],
+                           imageBottom: Tag? = nil) {
         self.imageTop = imageTop
-        self.imageBottom = imageBottom
         self.body = body
+        self.links = links
+        self.imageBottom = imageBottom
     }
 }
 
@@ -51,6 +62,7 @@ extension Card: TagRepresentable {
                     .class(add: .cardImgTop)
             }
             body
+            links.map { $0 }
             if let imageBottom = imageBottom {
                 imageBottom
                     .class(add: .cardImgBottom)
