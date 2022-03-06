@@ -16,22 +16,18 @@ import SwiftSvg
 
 public class Card: Component {
     
-    let imageTop: Tag?
+    let imgTop: Img?
     let body: CardBody
-    let imageBottom: Tag?
+    let imgBottom: Img?
     
-    public convenience init(imgTop: Img? = nil, body: CardBody, imgBottom: Img? = nil) {
-        self.init(imageTop: imgTop, body: body, imageBottom: imgBottom)
+    public convenience init(imgTop: Img? = nil, @TagBuilder body: () -> [Tag], imgBottom: Img? = nil) {
+        self.init(imgTop: imgTop, body: CardBody(Div{ body() }), imgBottom: imgBottom)
     }
-    
-    public convenience init(svgTop: Svg? = nil, body: CardBody, svgBottom: Svg? = nil) {
-        self.init(imageTop: svgTop, body: body, imageBottom: svgBottom)
-    }
-    
-    internal required init(imageTop: Tag? = nil, body: CardBody, imageBottom: Tag? = nil) {
-        self.imageTop = imageTop
+        
+    public init(imgTop: Img? = nil, body: CardBody, imgBottom: Img? = nil) {
+        self.imgTop = imgTop
         self.body = body
-        self.imageBottom = imageBottom
+        self.imgBottom = imgBottom
     }
 }
 
@@ -40,13 +36,13 @@ extension Card: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         Div {
-            if let imageTop = imageTop {
-                imageTop
+            if let imgTop = imgTop {
+                imgTop
                     .class(add: .cardImgTop)
             }
             body
-            if let imageBottom = imageBottom {
-                imageBottom
+            if let imgBottom = imgBottom {
+                imgBottom
                     .class(add: .cardImgBottom)
             }
         }
@@ -59,19 +55,15 @@ extension Card: TagRepresentable {
 /// Inside Card
 public class CardImageOverlay: Component {
     
-    let image: Tag
+    let img: Img
     let div: Div
     
     public convenience init(_ img: Img, @TagBuilder children: () -> [Tag]) {
         self.init(img, div: Div { children () })
     }
     
-    public convenience init(_ svg: Svg, @TagBuilder children: () -> [Tag]) {
-        self.init(svg, div: Div { children () })
-    }
-    
-    internal required init(_ tag: Tag, div: Div) {
-        self.image = tag
+    public init(_ img: Img, div: Div) {
+        self.img = img
         self.div = div
     }
 }
@@ -80,7 +72,7 @@ extension CardImageOverlay: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        image.class(add: .cardImg)
+        img.class(add: .cardImg)
         div.class(add: .cardImgOverlay)
     }
 }
