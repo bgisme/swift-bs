@@ -7,6 +7,7 @@
 
 import SwiftHtml
 import SwiftSvg
+import SwiftSgml
 
 /// Cards contain layers of elements
 /// Inside Card is one or more: ImageTop, Header, Body, Footer, ImageBottom
@@ -103,7 +104,7 @@ public class CardBody: Component {
             if let title = title { title.build() }
             if let subtitle = subtitle { subtitle.build() }
             if let text = text { text.build() }
-            if let links = links { links.map{$0} }
+            if let links = links { links.map{$0.class(add: .cardLink)} }
         }
         self.init(div)
     }
@@ -129,7 +130,7 @@ extension CardBody: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         div
-            .class(.cardBody)
+            .class(add: .cardBody)
     }
 }
 
@@ -183,7 +184,7 @@ extension CardTitle: TagRepresentable {
     public func build() -> Tag {
         let `class`: BsClass = isSubtitle ? .cardSubtitle : .cardTitle
         tag
-            .class(`class`)
+            .class(add: `class`)
             .class(add: bsClasses)
     }
 }
@@ -207,7 +208,31 @@ extension CardText: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         p
-            .class(.cardText)
+            .class(add: .cardText)
+            .class(add: bsClasses)
+    }
+}
+
+/// Inside CardBody
+public class CardLink: Component {
+    
+    let a: A
+    
+    public convenience init(_ title: String, _ href: String = "#") {
+        self.init(A(title).href(href))
+    }
+    
+    public init(_ a: A) {
+        self.a = a
+    }
+}
+
+extension CardLink: TagRepresentable {
+    
+    @TagBuilder
+    public func build() -> Tag {
+        a
+            .class(add: .cardLink)
             .class(add: bsClasses)
     }
 }
