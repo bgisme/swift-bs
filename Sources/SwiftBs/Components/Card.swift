@@ -21,11 +21,23 @@ public class Card: Component {
     let body: CardBody
     let imgBottom: Img?
     
-    public convenience init(imgTop: Img? = nil, @TagBuilder body: () -> [Tag], imgBottom: Img? = nil) {
-        self.init(imgTop: imgTop, body: CardBody(Div{ body() }), imgBottom: imgBottom)
+    public convenience init(header: String? = nil,
+                            imgTop: Img? = nil,
+                            @TagBuilder body: () -> [Tag],
+                            imgBottom: Img? = nil,
+                            footer: String? = nil) {
+        self.init(header: header != nil ? CardHeader(header!) : nil,
+                  imgTop: imgTop,
+                  body: CardBody(Div{ body() }),
+                  imgBottom: imgBottom,
+                  footer: footer != nil ? CardFooter(footer!) : nil)
     }
         
-    public init(imgTop: Img? = nil, body: CardBody, imgBottom: Img? = nil) {
+    public init(header: CardHeader? = nil,
+                imgTop: Img? = nil,
+                body: CardBody,
+                imgBottom: Img? = nil,
+                footer: CardFooter? = nil) {
         self.imgTop = imgTop
         self.body = body
         self.imgBottom = imgBottom
@@ -104,7 +116,7 @@ public class CardBody: Component {
             if let title = title { title.build() }
             if let subtitle = subtitle { subtitle.build() }
             if let text = text { text.build() }
-            if let links = links { links.map{$0.class(add: .cardLink)} }
+            if let links = links { links.map{ CardLink($0) } }
         }
         self.init(div)
     }
