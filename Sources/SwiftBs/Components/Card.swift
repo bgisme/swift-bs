@@ -24,37 +24,43 @@ public class Card: Component {
                             text: String? = nil,
                             imgBottom: Img? = nil,
                             footer: String? = nil) {
-        self.init(header: header != nil ? CardHeader(header!) : nil,
-                  imgTop: imgTop,
-                  body: { Div(text) },
-                  imgBottom: imgBottom,
-                  footer: footer != nil ? CardFooter(footer!) : nil)
+        self.init(Div {
+            if let header = header { CardHeader(header) }
+            if let imgTop = imgTop { imgTop }
+            if let text = text { CardText(text) }
+            if let imgBottom = imgBottom { imgBottom }
+            if let footer = footer { CardFooter(footer) }
+        })
     }
     
-    public convenience init(header: CardHeader? = nil,
-                imgTop: Img? = nil,
-                @TagBuilder body: () -> [Tag],
-                imgBottom: Img? = nil,
-                footer: CardFooter? = nil) {
-        self.init(header: header,
-                  imgTop: imgTop,
-                  body: CardBody { body() },
-                  imgBottom: imgBottom,
-                  footer: footer)
-    }
+//    public convenience init(header: CardHeader? = nil,
+//                imgTop: Img? = nil,
+//                @TagBuilder body: () -> [Tag],
+//                imgBottom: Img? = nil,
+//                footer: CardFooter? = nil) {
+//        self.init(header: header,
+//                  imgTop: imgTop,
+//                  body: CardBody { body() },
+//                  imgBottom: imgBottom,
+//                  footer: footer)
+//    }
         
-    public convenience init(header: CardHeader? = nil,
-                imgTop: Img? = nil,
-                body: CardBody,
-                imgBottom: Img? = nil,
-                footer: CardFooter? = nil) {
-        self.init(Div {
-            if let header = header { header }
-            if let imgTop = imgTop { imgTop }
-            body
-            if let imgBottom = imgBottom { imgBottom }
-            if let footer = footer { footer }
-        })
+//    public convenience init(header: CardHeader? = nil,
+//                imgTop: Img? = nil,
+//                body: CardBody,
+//                imgBottom: Img? = nil,
+//                footer: CardFooter? = nil) {
+//        self.init(Div {
+//            if let header = header { header }
+//            if let imgTop = imgTop { imgTop }
+//            body
+//            if let imgBottom = imgBottom { imgBottom }
+//            if let footer = footer { footer }
+//        })
+//    }
+    
+    public convenience init(@TagBuilder children: () -> [Tag]) {
+        self.init( Div(children()) )
     }
     
     public init(_ div: Div) {
