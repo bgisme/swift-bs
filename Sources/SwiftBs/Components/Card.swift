@@ -30,9 +30,21 @@ public class Card: Component {
                             footer: String? = nil) {
         self.init(header: header != nil ? CardHeader(header!) : nil,
                   imgTop: imgTop,
-                  body: CardBody(Div{ body() }),
+                  body: { Div{ body() } },
                   imgBottom: imgBottom,
                   footer: footer != nil ? CardFooter(footer!) : nil)
+    }
+    
+    public convenience init(header: CardHeader? = nil,
+                imgTop: Img? = nil,
+                @TagBuilder body: () -> [Tag],
+                imgBottom: Img? = nil,
+                footer: CardFooter? = nil) {
+        self.init(header: header,
+                  imgTop: imgTop,
+                  body: CardBody { body() },
+                  imgBottom: imgBottom,
+                  footer: footer)
     }
         
     public init(header: CardHeader? = nil,
