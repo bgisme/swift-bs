@@ -17,9 +17,11 @@ import SwiftSgml
 
 public class Card: Component {
     
+    let header: CardHeader?
     let imgTop: Img?
     let body: CardBody
     let imgBottom: Img?
+    let footer: CardFooter?
     
     public convenience init(header: String? = nil,
                             imgTop: Img? = nil,
@@ -38,9 +40,11 @@ public class Card: Component {
                 body: CardBody,
                 imgBottom: Img? = nil,
                 footer: CardFooter? = nil) {
+        self.header = header
         self.imgTop = imgTop
         self.body = body
         self.imgBottom = imgBottom
+        self.footer = footer
     }
 }
 
@@ -49,6 +53,10 @@ extension Card: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         Div {
+            if let header = header {
+                header
+                    .class(add: .cardHeader)
+            }
             if let imgTop = imgTop {
                 imgTop
                     .class(add: .cardImgTop)
@@ -57,6 +65,10 @@ extension Card: TagRepresentable {
             if let imgBottom = imgBottom {
                 imgBottom
                     .class(add: .cardImgBottom)
+            }
+            if let footer = footer {
+                footer
+                    .class(add: .cardFooter)
             }
         }
         .class(.card)
