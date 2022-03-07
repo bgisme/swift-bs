@@ -25,12 +25,12 @@ public class Card: Component {
     
     public convenience init(header: String? = nil,
                             imgTop: Img? = nil,
-                            @TagBuilder body: () -> [Tag],
+                            text: String? = nil,
                             imgBottom: Img? = nil,
                             footer: String? = nil) {
         self.init(header: header != nil ? CardHeader(header!) : nil,
                   imgTop: imgTop,
-                  body: { Div{ body() } },
+                  body: { Div(text) },
                   imgBottom: imgBottom,
                   footer: footer != nil ? CardFooter(footer!) : nil)
     }
