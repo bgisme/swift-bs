@@ -85,25 +85,25 @@ public class CardBody: Component {
     public convenience init(title: String? = nil,
                             subtitle: String? = nil,
                             text: String? = nil,
-                            link: A? = nil) {
+                            links: [A]? = nil) {
         var cTitle: CardTitle?
-        if let title = title { cTitle = CardTitle(title, h:5) }
+        if let title = title { cTitle = CardTitle(title) }
         var cSubtitle: CardTitle?
-        if let subtitle = subtitle { cSubtitle = CardTitle(subtitle, h:6, isSubtitle: true) }
+        if let subtitle = subtitle { cSubtitle = CardTitle(subtitle, isSubtitle: true) }
         var cText: CardText?
         if let text = text { cText = CardText(text) }
-        self.init(title: cTitle, subtitle: cSubtitle, text: cText, link: link)
+        self.init(title: cTitle, subtitle: cSubtitle, text: cText, links: links)
     }
     
     public convenience init(title: CardTitle? = nil,
                             subtitle: CardTitle? = nil,
                             text: CardText? = nil,
-                            link: A? = nil) {
+                            links: [A]? = nil) {
         let div = Div {
             if let title = title { title.build() }
             if let subtitle = subtitle { subtitle.build() }
             if let text = text { text.build() }
-            if let link = link { link }
+            if let links = links { links.map{$0} }
         }
         self.init(div)
     }
@@ -139,14 +139,11 @@ public class CardTitle: Component {
     let tag: Tag
     let isSubtitle: Bool
     
-    public convenience init(_ text: String, h: Int, isSubtitle: Bool = false) {
-        switch h {
-        case 0, 1: self.init(tag: H1(text), isSubtitle: isSubtitle)
-        case 2: self.init(tag: H2(text), isSubtitle: isSubtitle)
-        case 3: self.init(tag: H3(text), isSubtitle: isSubtitle)
-        case 4: self.init(tag: H4(text), isSubtitle: isSubtitle)
-        case 5: self.init(tag: H5(text), isSubtitle: isSubtitle)
-        default: self.init(tag: H6(text), isSubtitle: isSubtitle)
+    public convenience init(_ text: String, isSubtitle: Bool = false) {
+        if isSubtitle {
+            self.init(H6(text))
+        } else {
+            self.init(H5(text))
         }
     }
     
