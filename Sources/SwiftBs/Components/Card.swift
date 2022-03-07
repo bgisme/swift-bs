@@ -182,7 +182,9 @@ extension CardTitle: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         let `class`: BsClass = isSubtitle ? .cardSubtitle : .cardTitle
-        tag.class(`class`)
+        tag
+            .class(`class`)
+            .class(add: bsClasses)
     }
 }
 
@@ -206,6 +208,7 @@ extension CardText: TagRepresentable {
     public func build() -> Tag {
         p
             .class(.cardText)
+            .class(add: bsClasses)
     }
 }
 
@@ -235,6 +238,7 @@ extension CardListGroup: TagRepresentable {
             items.map { $0.class(add: .listGroupItem) }
         }
         .class(.listGroup, .listGroupFlush)
+        .class(add: bsClasses)
     }
 }
 
@@ -287,6 +291,7 @@ extension CardHeader: TagRepresentable {
     public func build() -> Tag {
         tag
             .class(add: .cardHeader)
+            .class(add: bsClasses)
     }
 }
 
@@ -296,7 +301,13 @@ public class CardFooter: Component {
     let div: Div
     
     public convenience init(_ text: String) {
-        self.init(Div(text))
+        self.init {
+            Text(text)
+        }
+    }
+    
+    public convenience init(@TagBuilder children: () -> [Tag]) {
+        self.init(Div(children()))
     }
     
     public init(_ div: Div) {
@@ -310,5 +321,6 @@ extension CardFooter: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .cardFooter)
+            .class(add: bsClasses)
     }
 }
