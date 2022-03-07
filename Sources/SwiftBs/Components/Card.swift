@@ -181,9 +181,8 @@ extension CardTitle: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        tag
-            .class(.cardTitle, if: !isSubtitle)
-            .class(.cardSubtitle, if: isSubtitle)
+        let `class`: BsClass = isSubtitle ? .cardSubtitle : .cardTitle
+        tag.class(`class`)
     }
 }
 
