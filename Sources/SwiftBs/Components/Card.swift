@@ -238,36 +238,6 @@ extension CardLink: TagRepresentable {
 }
 
 /// Inside Card
-public class CardListGroup: Component {
-    
-    let items: [Li]
-    
-    public convenience init(@TagBuilder items: () -> [Li]) {
-        self.init(items())
-    }
-    
-    public convenience init( _ items: [String]) {
-        self.init(items.map{ Li($0) })
-    }
-    
-    public init(_ items: [Li]) {
-        self.items = items
-    }
-}
-
-extension CardListGroup: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        Ul {
-            items.map { $0.class(add: .listGroupItem) }
-        }
-        .class(.listGroup, .listGroupFlush)
-        .class(add: bsClasses)
-    }
-}
-
-/// Inside Card
 public class CardHeader: Component {
     
     let tag: Tag
