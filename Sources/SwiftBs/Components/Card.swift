@@ -141,9 +141,9 @@ public class CardTitle: Component {
     
     public convenience init(_ text: String, isSubtitle: Bool = false) {
         if isSubtitle {
-            self.init(H6(text))
+            self.init(H6(text), isSubtitle: isSubtitle)
         } else {
-            self.init(H5(text))
+            self.init(H5(text), isSubtitle: isSubtitle)
         }
     }
     
