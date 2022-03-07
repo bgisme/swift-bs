@@ -73,7 +73,7 @@ extension Card: TagRepresentable {
         }
         .class(.card)
         .class(add: bsClasses)
-        .style(add: styleString)
+        .style(add: styles)
     }
 }
 
@@ -111,33 +111,30 @@ public class CardBody: Component {
                             subtitle: String? = nil,
                             text: String? = nil,
                             links: [A]? = nil) {
-        var cTitle: CardTitle?
-        if let title = title { cTitle = CardTitle(title) }
-        var cSubtitle: CardTitle?
-        if let subtitle = subtitle { cSubtitle = CardTitle(subtitle, isSubtitle: true) }
-        var cText: CardText?
-        if let text = text { cText = CardText(text) }
-        self.init(title: cTitle, subtitle: cSubtitle, text: cText, links: links)
+        self.init(title: title != nil ? CardTitle(title!) : nil,
+                  subtitle: subtitle != nil ? CardTitle(subtitle!, isSubtitle: true) : nil,
+                  text: text != nil ? CardText(text!) : nil,
+                  links: links)
     }
     
     public convenience init(title: CardTitle? = nil,
                             subtitle: CardTitle? = nil,
                             text: CardText? = nil,
                             links: [A]? = nil) {
-        let div = Div {
-            if let title = title { title.build() }
-            if let subtitle = subtitle { subtitle.build() }
-            if let text = text { text.build() }
-            if let links = links { links.map{ CardLink($0) } }
+        self.init {
+            if let title = title {
+                title
+            }
+            if let subtitle = subtitle {
+                subtitle
+            }
+            if let text = text {
+                text
+            }
+            if let links = links {
+                links.map { CardLink($0) }
+            }
         }
-        self.init(div)
-    }
-    
-    public convenience init(_ links: [A]) {
-        let div = Div {
-            links.map { $0.class(add: .cardLink) }
-        }
-        self.init(div)
     }
     
     public convenience init(@TagBuilder children: () -> [Tag]) {

@@ -42,6 +42,13 @@ extension Tag {
         return self.style(add: keyValueStr)
     }
     
+    @discardableResult
+    public func style(add dict: [String : String]?, _ condition: Bool = true) -> Self {
+        guard condition, let dict = dict else { return self }
+        let keyValueStr = dict.map { "\($0.0):\($0.1);"}.joined()
+        return self.style(keyValueStr)
+    }
+    
     /// Append string to value of <style> attribute
     @discardableResult
     public func style(add str: String?, _ condition: Bool = true) -> Self {

@@ -57,9 +57,5 @@ extension Component {
         if self.styles == nil { self.styles = [:] }
         _ = styles.map { self.styles?[$0.key] = $0.value }
         return self
-    }
-    
-    public var styleString: String? {
-        styles?.map { "\($0.0):\($0.1);"}.joined()
-    }
+    }    
 }
