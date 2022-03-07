@@ -1315,6 +1315,8 @@ public enum BsClass: String {
     case textLgStart = "text-lg-start"
     case textXlStart = "text-xl-start"
     
+    case textWhite = "text-white"
+    
     case top0 = "top-0"
     
     case translateMiddle = "translate-middle"
