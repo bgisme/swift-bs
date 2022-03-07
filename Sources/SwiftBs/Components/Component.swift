@@ -47,8 +47,8 @@ extension Component {
     // MARK: Styles
     
     @discardableResult
-    public func style(_ styles: CssKeyValue?..., if condition: Bool = true) -> Self {
-        self.style(styles.compactMap { $0 }, condition)
+    public func style(_ styles: CssKeyValue..., if condition: Bool = true) -> Self {
+        self.style(styles, condition)
     }
     
     @discardableResult
