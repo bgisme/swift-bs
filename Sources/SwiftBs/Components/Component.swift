@@ -48,8 +48,12 @@ extension Component {
     
     @discardableResult
     public func style(_ styles: CssKeyValue?..., if condition: Bool = true) -> Self {
-        let styles = styles.compactMap { $0 }
-        guard condition, !styles.isEmpty else { return self }
+        self.style(styles.compactMap { $0 }, condition)
+    }
+    
+    @discardableResult
+    public func style(_ styles: [CssKeyValue]?, _ condition: Bool = true) -> Self {
+        guard condition, let styles = styles, !styles.isEmpty else { return self }
         if self.styles == nil { self.styles = [:] }
         _ = styles.map { self.styles?[$0.key] = $0.value }
         return self
