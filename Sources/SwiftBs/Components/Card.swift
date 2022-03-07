@@ -17,11 +17,7 @@ import SwiftSgml
 
 public class Card: Component {
     
-    let header: CardHeader?
-    let imgTop: Img?
-    let body: CardBody
-    let imgBottom: Img?
-    let footer: CardFooter?
+    let div: Div
     
     public convenience init(header: String? = nil,
                             imgTop: Img? = nil,
@@ -47,16 +43,22 @@ public class Card: Component {
                   footer: footer)
     }
         
-    public init(header: CardHeader? = nil,
+    public convenience init(header: CardHeader? = nil,
                 imgTop: Img? = nil,
                 body: CardBody,
                 imgBottom: Img? = nil,
                 footer: CardFooter? = nil) {
-        self.header = header
-        self.imgTop = imgTop
-        self.body = body
-        self.imgBottom = imgBottom
-        self.footer = footer
+        self.init(Div {
+            if let header = header { header }
+            if let imgTop = imgTop { imgTop }
+            body
+            if let imgBottom = imgBottom { imgBottom }
+            if let footer = footer { footer }
+        })
+    }
+    
+    public init(_ div: Div) {
+        self.div = div
     }
 }
 
@@ -64,28 +66,10 @@ extension Card: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        Div {
-            if let header = header {
-                header
-                    .class(add: .cardHeader)
-            }
-            if let imgTop = imgTop {
-                imgTop
-                    .class(add: .cardImgTop)
-            }
-            body
-            if let imgBottom = imgBottom {
-                imgBottom
-                    .class(add: .cardImgBottom)
-            }
-            if let footer = footer {
-                footer
-                    .class(add: .cardFooter)
-            }
-        }
-        .class(.card)
-        .class(add: bsClasses)
-        .style(add: styles)
+        div
+            .class(.card)
+            .class(add: bsClasses)
+            .style(add: styles)
     }
 }
 
