@@ -10,7 +10,7 @@ import SwiftHtml
 public class Component {
     
     public private(set) var bsClasses: [BsClass]?
-    public private(set) var styles: [CssKeyValue]?
+    public private(set) var styles: [String : String]?
 }
 
 /// These functions mimic Tag so they read the same when mixed together
@@ -47,9 +47,15 @@ extension Component {
     // MARK: Styles
     
     @discardableResult
-    public func style(_ styles: [CssKeyValue]?, _ condition: Bool = true) -> Self {
-        guard let styles = styles, condition else { return self }
-        self.styles = self.styles != nil ? self.styles! + styles : styles
+    public func style(_ styles: CssKeyValue?..., if condition: Bool = true) -> Self {
+        let styles = styles.compactMap { $0 }
+        guard condition, !styles.isEmpty else { return self }
+        if self.styles == nil { self.styles = [:] }
+        _ = styles.map { self.styles?[$0.key] = $0.value }
         return self
+    }
+    
+    public var styleString: String? {
+        styles?.map { "\($0.0):\($0.1);"}.joined()
     }
 }

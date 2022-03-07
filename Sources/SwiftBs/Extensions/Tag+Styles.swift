@@ -39,11 +39,15 @@ extension Tag {
     public func style(add keyValues: [CssKeyValue]?, _ condition: Bool = true) -> Self {
         guard condition, let keyValues = keyValues else { return self }
         let keyValueStr = keyValues.map{ String($0) }.joined()
-        if let styleValue = styleAttributeValue() {
-            attribute("style", styleValue + keyValueStr)
-            return self
-        }
-        return attribute("style", keyValueStr)
+        return self.style(add: keyValueStr)
+    }
+    
+    /// Append string to value of <style> attribute
+    @discardableResult
+    public func style(add str: String?, _ condition: Bool = true) -> Self {
+        guard condition, let str = str else { return self }
+        let updated = self.styleAttributeValue() != nil ? self.styleAttributeValue()! + str : str
+        return self.style(updated)
     }
     
     /// Remove key:value pair from value of <style> attribute using CssProperty
