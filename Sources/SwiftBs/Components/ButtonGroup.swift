@@ -9,16 +9,19 @@ import SwiftHtml
 
 public class ButtonGroup: Component {
     
+    let div: Div
     let isVertical: Bool
-    let ariaLabel: String
-    let children: () -> [Tag]
     
-    public init(isVertical: Bool = false,
-                ariaLabel: String,
-                @TagBuilder children: @escaping () -> [Tag]) {
+    public convenience init(isVertical: Bool = false,
+                            ariaLabel: String,
+                            @TagBuilder children: () -> [Tag]) {
+        let div = Div { children() }.ariaLabelledBy(ariaLabel)
+        self.init(div, isVertical: isVertical)
+    }
+
+    public init(_ div: Div, isVertical: Bool = false) {
+        self.div = div
         self.isVertical = isVertical
-        self.ariaLabel = ariaLabel
-        self.children = children
     }
 }
 
@@ -26,24 +29,24 @@ extension ButtonGroup: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        Div {
-            children()
-        }
-        .class(isVertical ? .btnGroupVertical : .btnGroup)
-        .role(.group)
-        .ariaLabelledBy(ariaLabel)
-        .addClassesStyles(self)
+        div
+            .class(isVertical ? .btnGroupVertical : .btnGroup)
+            .role(.group)
+            .addClassesStyles(self)
     }
 }
 
 public class ButtonGroupToolbar: Component {
     
-    let ariaLabel: String
-    let children: () -> [Tag]
+    let div: Div
 
-    public init(ariaLabel: String, @TagBuilder children: @escaping () -> [Tag]) {
-        self.ariaLabel = ariaLabel
-        self.children = children
+    public convenience init(ariaLabel: String, @TagBuilder children: @escaping () -> [Tag]) {
+        let div = Div { children() }.ariaLabelledBy(ariaLabel)
+        self.init(div)
+    }
+    
+    public init(_ div: Div) {
+        self.div = div
     }
 }
 
@@ -51,12 +54,9 @@ extension ButtonGroupToolbar: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        Div {
-            children()
-        }
-        .class(.btnToolbar)
-        .role(.toolbar)
-        .ariaLabelledBy(ariaLabel)
-        .addClassesStyles(self)
+        div
+            .class(.btnToolbar)
+            .role(.toolbar)
+            .addClassesStyles(self)
     }
 }
