@@ -117,7 +117,7 @@ public class Dropdown: Component {
     let direction: Direction
     let menuAlign: MenuAlign?
     let button: Tag
-    let splitButton: Tag?
+    let arrowButton: Tag?
     let menu: Tag
     
     public convenience init(id: String,
@@ -147,11 +147,17 @@ public class Dropdown: Component {
                             isDark: Bool = false,
                             button: (Id, IsSplit, Dropdown.Direction, MenuAlign?) -> DropdownButton,
                             menu: (Id, IsDark, MenuAlign?) -> DropdownMenu) {
+        let button = button(id, isSplit, direction, menuAlign)
+        let arrowButton = isSplit ? DropdownButtonArrow(id: id) : nil
+        if let btnClasses = button.classes {
+            // so main button and arrow button match
+            arrowButton?.class(add: btnClasses)
+        }
         self.init(id: id,
                   direction: direction,
                   menuAlign: menuAlign,
-                  button: button(id, isSplit, direction, menuAlign),
-                  splitButton: isSplit ? DropdownButtonArrow(id: id) : nil,
+                  button: button,
+                  arrowButton: arrowButton,
                   menu: menu(id, isDark, menuAlign))
     }
     
@@ -159,13 +165,13 @@ public class Dropdown: Component {
                 direction: Direction = .down,
                 menuAlign: MenuAlign?,
                 button: DropdownButton,
-                splitButton: DropdownButtonArrow? = nil,
+                arrowButton: DropdownButtonArrow? = nil,
                 menu: DropdownMenu) {
         self.id = id
         self.direction = direction
         self.menuAlign = menuAlign
         self.button = button.build()
-        self.splitButton = splitButton?.build()
+        self.arrowButton = arrowButton?.build()
         self.menu = menu.build()
     }
 }
@@ -174,11 +180,12 @@ extension Dropdown: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        if let splitButton = splitButton {
+        if let arrowButton = arrowButton {
             if direction != .start {
                 Div {
                     button
-                    splitButton
+                    arrowButton
+                        .class(add: self.classes)   // arrow button needs to match main button
                     menu
                 }
                 .class(.btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
@@ -188,7 +195,7 @@ extension Dropdown: TagRepresentable {
                 Div {
                     Div {
                         /// split buttons direction .start are ordered differently and inside extra button group
-                        splitButton
+                        arrowButton
                         menu
                     }
                     .class(.btnGroup, .dropstart)
