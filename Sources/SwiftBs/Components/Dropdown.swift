@@ -108,6 +108,7 @@ public class Dropdown: Component {
         }
     }
     
+    public typealias Title = String
     public typealias Id = String
     public typealias IsSplit = Bool
     public typealias IsMenuAlignResponsive = Bool
@@ -125,7 +126,7 @@ public class Dropdown: Component {
                             direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
                             isDark: Bool = false,
-                            button title: String,
+                            button: (Title, [BsClass]?),
                             menu links: [(String, String)?]) {
         self.init(id: id,
                   isSplit: isSplit,
@@ -133,7 +134,12 @@ public class Dropdown: Component {
                   menuAlign: menuAlign,
                   isDark: isDark,
                   button: { id, isSplit, direction, menuAlign in
-            return DropdownButton(title, id: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign)
+            return DropdownButton(button.0,
+                                  id: id,
+                                  direction: direction,
+                                  isSplit: isSplit,
+                                  menuAlign: menuAlign)
+                .class(add: button.1)
         },
                   menu: { id, isDark, menuAlign in
             return DropdownMenu(id: id, isDark: isDark, align: menuAlign, links: links)
