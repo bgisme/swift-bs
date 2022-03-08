@@ -126,7 +126,7 @@ public class Dropdown: Component {
                             menuAlign: MenuAlign? = nil,
                             isDark: Bool = false,
                             button title: String,
-                            menu links: [(String, String)]) {
+                            menu links: [(String?, String?)]) {
         self.init(id: id,
                   isSplit: isSplit,
                   direction: direction,
@@ -386,11 +386,16 @@ public class DropdownMenu: Component {
     public convenience init(id: String,
                             isDark: Bool = false,
                             align: Dropdown.MenuAlign? = nil,
-                            links: [(Title, Href)]) {
-        let items = {
-            links.map { A($0.0).href($0.1) }
+                            links: [(Title?, Href?)]) {
+        self.init(id: id, isDark:isDark, align: align) {
+            for (title, href) in links {
+                if let title = title, let href = href {
+                    DropdownItem(title, href: href)
+                } else {
+                    DropdownItem.divider()
+                }
+            }
         }
-        self.init(id: id, isDark:isDark, align: align, items: items)
     }
     
     public convenience init(id: String,
