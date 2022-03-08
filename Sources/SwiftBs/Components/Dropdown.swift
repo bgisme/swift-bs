@@ -185,7 +185,6 @@ extension Dropdown: TagRepresentable {
                 Div {
                     button
                     arrowButton
-                        .class(add: self.classes)   // arrow button needs to match main button
                     menu
                 }
                 .class(.btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
