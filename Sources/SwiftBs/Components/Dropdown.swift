@@ -126,31 +126,6 @@ public class Dropdown: Component {
                             direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
                             isDark: Bool = false,
-                            button: (Title, [BsClass]?),
-                            menu links: [(String, String)?]) {
-        self.init(id: id,
-                  isSplit: isSplit,
-                  direction: direction,
-                  menuAlign: menuAlign,
-                  isDark: isDark,
-                  button: { id, isSplit, direction, menuAlign in
-            return DropdownButton(button.0,
-                                  id: id,
-                                  direction: direction,
-                                  isSplit: isSplit,
-                                  menuAlign: menuAlign)
-                .class(add: button.1)
-        },
-                  menu: { id, isDark, menuAlign in
-            return DropdownMenu(id: id, isDark: isDark, align: menuAlign, links: links)
-        })
-    }
-    
-    public convenience init(id: String,
-                            isSplit: Bool = false,
-                            direction: Direction = .down,
-                            menuAlign: MenuAlign? = nil,
-                            isDark: Bool = false,
                             button: (Id, IsSplit, Dropdown.Direction, MenuAlign?) -> DropdownButton,
                             menu: (Id, IsDark, MenuAlign?) -> DropdownMenu) {
         let button = button(id, isSplit, direction, menuAlign)
