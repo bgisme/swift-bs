@@ -111,6 +111,7 @@ public class Dropdown: Component {
     public typealias Id = String
     public typealias IsSplit = Bool
     public typealias IsMenuAlignResponsive = Bool
+    public typealias IsDark = Bool
     
     let id: String
     let direction: Direction
@@ -123,17 +124,19 @@ public class Dropdown: Component {
                             isSplit: Bool = false,
                             direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
+                            isDark: Bool = false,
                             button title: String,
                             menu links: [(String, String)]) {
         self.init(id: id,
                   isSplit: isSplit,
                   direction: direction,
                   menuAlign: menuAlign,
+                  isDark: isDark,
                   button: { id, isSplit, direction, menuAlign in
             return DropdownButton(title, id: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign)
         },
-                  menu: { id, menuAlign in
-            return DropdownMenu(id: id, align: menuAlign, links: links)
+                  menu: { id, isDark, menuAlign in
+            return DropdownMenu(id: id, isDark: isDark, align: menuAlign, links: links)
         })
     }
     
@@ -141,14 +144,15 @@ public class Dropdown: Component {
                             isSplit: Bool = false,
                             direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
+                            isDark: Bool = false,
                             @TagBuilder button: (Id, IsSplit, Dropdown.Direction, MenuAlign?) -> DropdownButton,
-                            @TagBuilder menu: (Id, MenuAlign?) -> DropdownMenu) {
+                            @TagBuilder menu: (Id, IsDark, MenuAlign?) -> DropdownMenu) {
         self.init(id: id,
                   direction: direction,
                   menuAlign: menuAlign,
                   button: button(id, isSplit, direction, menuAlign),
                   splitButton: isSplit ? DropdownButtonArrow(id: id) : nil,
-                  menu: menu(id, menuAlign))
+                  menu: menu(id, isDark, menuAlign))
     }
     
     public init(id: String,
