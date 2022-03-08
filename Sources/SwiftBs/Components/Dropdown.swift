@@ -123,6 +123,24 @@ public class Dropdown: Component {
                             isSplit: Bool = false,
                             direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
+                            button title: String,
+                            menu links: [(String, String)]) {
+        self.init(id: id,
+                  isSplit: isSplit,
+                  direction: direction,
+                  menuAlign: menuAlign,
+                  button: { id, isSplit, direction, menuAlign in
+            return DropdownButton(title, id: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign)
+        },
+                  menu: { id, menuAlign in
+            return DropdownMenu(id: id, align: menuAlign, links: links)
+        })
+    }
+    
+    public convenience init(id: String,
+                            isSplit: Bool = false,
+                            direction: Direction = .down,
+                            menuAlign: MenuAlign? = nil,
                             @TagBuilder button: (Id, IsSplit, Dropdown.Direction, MenuAlign?) -> DropdownButton,
                             @TagBuilder menu: (Id, MenuAlign?) -> DropdownMenu) {
         self.init(id: id,
@@ -352,11 +370,24 @@ extension DropdownButtonArrow: TagRepresentable {
 }
 
 public class DropdownMenu: Component {
+    
+    public typealias Title = String
+    public typealias Href = String
         
     let ul: Ul
     let id: String
     let isDark: Bool
     let align: Dropdown.MenuAlign?
+    
+    public convenience init(id: String,
+                            isDark: Bool = false,
+                            align: Dropdown.MenuAlign? = nil,
+                            links: [(Title, Href)]) {
+        let items = {
+            links.map { A($0.0).href($0.1) }
+        }
+        self.init(id: id, isDark:isDark, align: align, items: items)
+    }
     
     public convenience init(id: String,
                             isDark: Bool = false,
