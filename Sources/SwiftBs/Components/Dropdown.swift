@@ -114,38 +114,33 @@ public class Dropdown: Component {
     
     let id: String
     let direction: Direction
-    let isSplit: Bool
     let menuAlign: MenuAlign?
-    private var button: (Id, IsSplit, Dropdown.Direction, MenuAlign?) -> [Tag]
-    private var splitButton: (Id) -> [Tag]
-    private var menu: (Id, MenuAlign?) -> [Tag]
+    let button: DropdownButton
+    let splitButton: DropdownButtonArrow?
+    let menu: DropdownMenu
     
-    /// non-split buttons
     public convenience init(id: String,
+                            isSplit: Bool = false,
                             direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
-                            @TagBuilder button: @escaping (Id, IsSplit, Dropdown.Direction, MenuAlign?) -> [Tag],
-                            @TagBuilder menu: @escaping (Id, MenuAlign?) -> [Tag]) {
+                            @TagBuilder button: (Id, IsSplit, Dropdown.Direction, MenuAlign?) -> DropdownButton,
+                            @TagBuilder menu: (Id, MenuAlign?) -> DropdownMenu) {
         self.init(id: id,
                   direction: direction,
-                  isSplit: false,
                   menuAlign: menuAlign,
-                  button: button,
-                  splitButton: {_ in },
-                  menu: menu)
+                  button: button(id, isSplit, direction, menuAlign),
+                  splitButton: isSplit ? DropdownButtonArrow(id: id) : nil,
+                  menu: menu(id, menuAlign))
     }
     
-    /// split buttons
     public init(id: String,
                 direction: Direction = .down,
-                isSplit: Bool,
                 menuAlign: MenuAlign?,
-                @TagBuilder button: @escaping (Id, IsSplit, Dropdown.Direction, MenuAlign?) -> [Tag],
-                @TagBuilder splitButton: @escaping(Id) -> [Tag],
-                @TagBuilder menu: @escaping (Id, MenuAlign?) -> [Tag]) {
+                button: DropdownButton,
+                splitButton: DropdownButtonArrow? = nil,
+                menu: DropdownMenu) {
         self.id = id
         self.direction = direction
-        self.isSplit = isSplit
         self.menuAlign = menuAlign
         self.button = button
         self.splitButton = splitButton
@@ -157,36 +152,77 @@ extension Dropdown: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        if !isSplit || (isSplit && direction != .start) {
-            Div {
-                if isSplit {
-                    button(id, isSplit, direction, nil) // no menu align for split-dropdowns
-                    splitButton(id)
-                    menu(id, nil)
-                } else {
-                    button(id, isSplit, direction, menuAlign)   // only menus on non-split dropdowns align responsively
-                    menu(id, menuAlign)
+        if let splitButton = splitButton {
+            if direction != .start {
+                Div {
+                    button
+                    splitButton
+                    menu
                 }
+                .class(.btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
+                .class(add: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
+                .addClassesStyles(self)
+            } else {
+                Div {
+                    Div {
+                        /// split buttons direction .start are ordered differently and inside extra button group
+                        splitButton
+                        menu
+                    }
+                    .class(.btnGroup, .dropstart)
+                    .role(.group)
+                    button
+                }
+                .class(.btnGroup)
+                .addClassesStyles(self)
+            }
+        } else {
+            /// non-split
+            Div {
+                button
+                menu
             }
             .class(.btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
             .class(add: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
             .addClassesStyles(self)
-        } else {
-            Div {
-                Div {
-                    /// split buttons direction .start are ordered differently and inside extra button group
-                    splitButton(id)
-                    menu(id, nil)
-                }
-                .class(.btnGroup, .dropstart)
-                .role(.group)
-                button(id, isSplit, direction, nil)
-            }
-            .class(.btnGroup)
-            .addClassesStyles(self)
         }
     }
 }
+
+//extension Dropdown: TagRepresentable {
+//
+//    @TagBuilder
+//    public func build() -> Tag {
+//        if !isSplit || (isSplit && direction != .start) {
+//            Div {
+//                if isSplit {
+//                    button(id, isSplit, direction, nil) // no menu align for split-dropdowns
+//                    splitButton(id)
+//                    menu(id, nil)
+//                } else {
+//                    button(id, isSplit, direction, menuAlign)   // only menus on non-split dropdowns align responsively
+//                    menu(id, menuAlign)
+//                }
+//            }
+//            .class(.btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
+//            .class(add: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
+//            .addClassesStyles(self)
+//        } else {
+//            Div {
+//                Div {
+//                    /// split buttons direction .start are ordered differently and inside extra button group
+//                    splitButton(id)
+//                    menu(id, nil)
+//                }
+//                .class(.btnGroup, .dropstart)
+//                .role(.group)
+//                button(id, isSplit, direction, nil)
+//            }
+//            .class(.btnGroup)
+//            .addClassesStyles(self)
+//        }
+//    }
+//}
 
 public class DropdownButton: Component {
     
@@ -317,19 +353,27 @@ extension DropdownButtonArrow: TagRepresentable {
 
 public class DropdownMenu: Component {
         
+    let ul: Ul
     let id: String
     let isDark: Bool
     let align: Dropdown.MenuAlign?
-    let items: () -> [Tag]
     
-    public init(id: String,
+    public convenience init(id: String,
+                            isDark: Bool = false,
+                            align: Dropdown.MenuAlign? = nil,
+                            @TagBuilder items: () -> [Tag]) {
+        let ul = Ul { items() }
+        self.init(ul, id: id, isDark: isDark, align: align)
+    }
+    
+    public init(_ ul: Ul,
+                id: String,
                 isDark: Bool = false,
-                align: Dropdown.MenuAlign? = nil,
-                @TagBuilder items: @escaping () -> [Tag]) {
+                align: Dropdown.MenuAlign? = nil) {
+        self.ul = ul
         self.id = id
         self.isDark = isDark
         self.align = align
-        self.items = items
     }
 }
 
@@ -337,9 +381,7 @@ extension DropdownMenu: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        Ul {
-            items()
-        }
+        ul
         .class(.dropdownMenu)
         .class(add: .dropdownMenuDark, if: isDark)
         .class(add: align?.classes)
