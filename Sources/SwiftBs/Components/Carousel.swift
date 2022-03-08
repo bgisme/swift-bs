@@ -18,32 +18,32 @@ public class Carousel: Component {
     let div: Div
     
     public convenience init(id: String,
+                            controls: Bool = false,
+                            indicators: Bool = false,
                             isAutoplay: Bool = true,
                             isCrossFade: Bool = false,
                             isTouchDisabled: Bool = false,
                             isDark: Bool = false,
-                            imgs: [Img],
-                            controls: Bool = false,
-                            indicators: Bool = false) {
+                            imgs: [Img]) {
         let items = imgs.enumerated().map { CarouselItem($1, isActive: $0 == 0) }
         self.init(id: id,
+                  controls: controls,
+                  indicators: indicators,
                   isAutoplay: isAutoplay,
                   isCrossFade: isCrossFade,
                   isTouchDisabled: isTouchDisabled,
                   isDark: isDark,
-                  items: items,
-                  controls: controls,
-                  indicators: indicators)
+                  items: items)
     }
     
     public convenience init(id: String,
+                            controls: Bool = false,
+                            indicators: Bool = false,
                             isAutoplay: Bool = true,
                             isCrossFade: Bool = false,
                             isTouchDisabled: Bool = false,
                             isDark: Bool = false,
-                            items: [CarouselItem],
-                            controls: Bool = false,
-                            indicators: Bool = false) {
+                            items: [CarouselItem]) {
         let cntrls = controls ? [CarouselControl.prev(carouselId: id), CarouselControl.next(carouselId: id)] : nil
         let indctrs = indicators ? CarouselIndicator.batch(count: items.count, carouselId: id) : nil
         self.init(id: id,
