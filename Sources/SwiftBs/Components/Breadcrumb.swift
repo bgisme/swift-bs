@@ -47,7 +47,6 @@ extension Breadcrumb: TagRepresentable {
             .class(.breadcrumb)
         }
         .addClassesStyles(self)
-        .addClassesStyles(self)
     }
 }
 

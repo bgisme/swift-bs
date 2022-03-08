@@ -59,57 +59,6 @@ extension Navbar: TagRepresentable {
     }
 }
 
-//public class NavbarBrand: Component {
-//
-//    let src: String?
-//    let alt: String?
-//    let text: String?
-//    let href: String?
-//
-//    /// Text with-without Href
-//    public convenience init(_ text: String, href: String?) {
-//        self.init(src: nil, alt: nil, text: text, href: href){}
-//    }
-//
-//    /// Img with-without Text with-without Href
-//    public convenience init(_ imgSrc: String, alt: String, text: String?, href: String?) {
-//        self.init(src: imgSrc, alt: alt, text: text, href: href){}
-//    }
-//
-//    /// Convenience inits insure correct combination of parameters supplied
-//    private init(src: String?, alt: String?, text: String?, href: String?, @TagBuilder children: @escaping () -> [Tag]) {
-//        self.src = src
-//        self.alt = alt
-//        self.text = text
-//        self.href = href
-//        super.init() { children() }
-//    }
-//}
-//
-//extension NavbarBrand: TagRepresentable {
-//
-//    @TagBuilder
-//    public func build() -> Tag {
-//        A {
-//            if let src = src {
-//                // Image and text
-//                Img(src: src, alt: alt ?? "Icon")
-//                    .width(30)
-//                    .height(24)
-//            }
-//            if let text = text {
-//                Text(text)
-//            }
-//            children()
-//        }
-//        .class(.navbarBrand)
-//        .hrefOptional(href)
-//        .class(add: .h1, /*.mb0,*/ if: href == nil)
-//        .class(add: .dInlineBlock, .alignTextTop, if: src != nil && text != nil)
-//        .addClassesStyles(self)
-//    }
-//}
-
 public class NavbarBrand: Component {
     
     let img: Img?

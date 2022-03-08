@@ -183,6 +183,7 @@ extension Dropdown: TagRepresentable {
                 button(id, isSplit, direction, nil)
             }
             .class(.btnGroup)
+            .addClassesStyles(self)
         }
     }
 }
@@ -263,8 +264,8 @@ extension DropdownButton: TagRepresentable {
                     .id(id)
                     .dataBsToggle(.dropdown)
                     .ariaExpanded(false)
-                    .addClassesStyles(self)
                     .dataBsDisplay(.static, isMenuAlignResponsive)
+                    .addClassesStyles(self)
             }
         } else if let button = tag as? Button {
             if isSplit {
@@ -279,8 +280,8 @@ extension DropdownButton: TagRepresentable {
                     .id(id) // not required for button groups
                     .dataBsToggle(.dropdown)
                     .ariaExpanded(false)
-                    .addClassesStyles(self)
                     .dataBsDisplay(.static, isMenuAlignResponsive)
+                    .addClassesStyles(self)
             }
         }
     }
