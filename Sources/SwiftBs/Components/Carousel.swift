@@ -50,7 +50,7 @@ public class Carousel: Component {
                   isAutoplay: isAutoplay,
                   isCrossFade: isCrossFade,
                   isTouchDisabled: isTouchDisabled,
-                  inner: CarouselInner(items: items),
+                  inner: CarouselInner(items),
                   controls: cntrls,
                   indicators: indctrs)
     }
@@ -115,7 +115,7 @@ public class CarouselInner: Component {
     
     let div: Div
     
-    public convenience init(items: [CarouselItem]) {
+    public convenience init(_ items: [CarouselItem]) {
         self.init(Div { items.map{$0} })
     }
     
