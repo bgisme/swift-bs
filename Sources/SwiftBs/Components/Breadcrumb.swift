@@ -12,7 +12,7 @@ public class Breadcrumb: Component {
     public typealias Title = String
     public typealias Href = String
     
-    public let divider: CssKeyValue?
+//    public let divider: CssKeyValue?
     public let children: () -> [Tag]
         
     public convenience init(_ items: (Title, Href)..., divider: String? = nil) {
@@ -28,8 +28,11 @@ public class Breadcrumb: Component {
     }
 
     public init(divider: String?, @TagBuilder children: @escaping () -> [Tag]) {
-        self.divider = divider != nil ? CssKeyValue(.breadcrumbDivider, divider!) : nil
         self.children = children
+        super.init()
+        if let divider = divider {
+            self.styles = [BsCssProperty.breadcrumbDivider.rawValue : divider]
+        }
     }
 }
 
@@ -44,7 +47,7 @@ extension Breadcrumb: TagRepresentable {
             .class(.breadcrumb)
         }
         .addClassesStyles(self)
-        .style(add: divider, divider != nil)
+        .addClassesStyles(self)
     }
 }
 

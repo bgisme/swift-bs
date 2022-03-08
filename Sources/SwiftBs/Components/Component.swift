@@ -9,8 +9,8 @@ import SwiftHtml
 
 public class Component {
     
-    public private(set) var classes: [BsClass]?
-    public private(set) var styles: [String : String]?
+    public internal(set) var classes: [BsClass]?
+    public internal(set) var styles: [String : String]?
 }
 
 /// These functions mimic Tag so they read the same when mixed together

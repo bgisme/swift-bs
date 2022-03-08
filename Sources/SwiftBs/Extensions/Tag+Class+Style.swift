@@ -23,36 +23,43 @@ extension Tag {
     
     // MARK: - <class> and <style>
     
+    /// Add Component classes and styles to <class> and <style>
     public func addClassesStyles(_ component: Component) -> Self {
         self.class(add: component.classes)
-        return self.style(add: component.styles)
+        if let styles = component.styles {
+            let keyValueStr = styles.map { "\($0.0):\($0.1);"}.joined()
+            return self.style(add: keyValueStr)
+        }
+        return self
     }
     
     // MARK: - <class>
 
-    /// Replace value of class attribute with variadic Component.Class
+    /// Replace value of <class> with variadic BsClass
     public func `class`(_ classes: BsClass?..., if condition: Bool = true) -> Self {
-        guard condition else { return self }
-        return self.class(classes.compactMap({$0}))
+        let classes = classes.compactMap { $0 }
+        guard condition, !classes.isEmpty else { return self }
+        return self.class(classes)
     }
 
-    /// Replace value of class attribute with array of Component.Class
+    /// Replace value of <class> with array of BsClass
     public func `class`(_ classes: [BsClass]?, _ condition: Bool = true) -> Self {
-        guard let classes = classes, condition else { return self }
+        guard condition, let classes = classes, !classes.isEmpty else { return self }
         return self.class(classes.map {$0.rawValue})
     }
     
-    /// Add variadics to value of class attribute
+    /// Add variadics of BsClass to <class>
     @discardableResult
     public func `class`(add classes: BsClass?..., if condition: Bool = true) -> Self {
-        guard condition else { return self }
-        return self.class(add: classes.compactMap({$0}))
+        let classes = classes.compactMap { $0 }
+        guard condition, !classes.isEmpty else { return self }
+        return self.class(add: classes)
     }
     
-    /// Add to value of class attribute
+    /// Add array of BsClass to <class> value
     @discardableResult
     public func `class`(add classes: [BsClass]?, _ condition: Bool = true) -> Self {
-        guard let classes = classes, condition else { return self }
+        guard condition, let classes = classes, !classes.isEmpty else { return self }
         return self.class(add: classes.map{$0.rawValue})
     }
     
@@ -60,48 +67,39 @@ extension Tag {
     
     /// Set value of <style> attribute with variadic (cleaner code)
     @discardableResult
-    public func style(_ keyValues: CssKeyValue..., if condition: Bool = true) -> Self {
-        style(keyValues, condition)
+    public func style(_ keyValues: CssKeyValue?..., if condition: Bool = true) -> Self {
+        let keyValues = keyValues.compactMap { $0 }
+        guard condition, !keyValues.isEmpty else { return self }
+        return style(keyValues, condition)
     }
     
     /// Set vale of <style> attribute with Array
     @discardableResult
-    public func style(_ keyValues: [CssKeyValue], _ condition: Bool = true) -> Self {
+    public func style(_ keyValues: [CssKeyValue]?, _ condition: Bool = true) -> Self {
+        guard condition, let keyValues = keyValues, !keyValues.isEmpty else { return self }
         return style(keyValues.map{ String($0) }.joined(separator: ";"))
     }
     
-    /// Add optional to value of <style> attribute
+    /// Add CssKeyValue variadic to <style> attribute
     @discardableResult
-    public func style(add keyValue: CssKeyValue?, _ condition: Bool = true) -> Self {
-        guard condition, let keyValue = keyValue else { return self }
-        return style(add: [keyValue], condition)
-    }
-    
-    /// Add variadic to value of <style> attribute (cleaner code)
-    @discardableResult
-    public func style(add keyValues: CssKeyValue..., if condition: Bool = true) -> Self {
+    public func style(add keyValues: CssKeyValue?..., if condition: Bool = true) -> Self {
+        let keyValues = keyValues.compactMap { $0 }
+        guard condition, !keyValues.isEmpty else { return self }
         return style(add: keyValues, condition)
     }
     
-    /// Add array to value of <style> attribute
+    /// Add array of  CssKeyValue to <style> attribute
     @discardableResult
     public func style(add keyValues: [CssKeyValue]?, _ condition: Bool = true) -> Self {
-        guard condition, let keyValues = keyValues else { return self }
+        guard condition, let keyValues = keyValues, !keyValues.isEmpty else { return self }
         let keyValueStr = keyValues.map{ String($0) }.joined()
         return self.style(add: keyValueStr)
-    }
-    
-    @discardableResult
-    public func style(add dict: [String : String]?, _ condition: Bool = true) -> Self {
-        guard condition, let dict = dict else { return self }
-        let keyValueStr = dict.map { "\($0.0):\($0.1);"}.joined()
-        return self.style(keyValueStr)
     }
     
     /// Append string to value of <style> attribute
     @discardableResult
     public func style(add str: String?, _ condition: Bool = true) -> Self {
-        guard condition, let str = str else { return self }
+        guard condition, let str = str, !str.isEmpty else { return self }
         let updated = self.styleAttributeValue() != nil ? self.styleAttributeValue()! + str : str
         return self.style(updated)
     }
