@@ -104,7 +104,7 @@ extension Carousel: TagRepresentable {
             .class(add: .carouselFade, if: isCrossFade)
             .class(add: .carouselDark, if: isDark)
             .id(id)
-            .dataBsRide(.carousel, isAutoplay)
+            .dataBsRide(.carousel, isAutoplay && !isTouchDisabled)
             .dataBsInterval(false, !isAutoplay)
             .dataBsTouch(false, isTouchDisabled)
             .addClassesStyles(self)
