@@ -25,7 +25,8 @@ public class Carousel: Component {
                             imgs: [Img],
                             controls: Bool = false,
                             indicators: Bool = false) {
-        let items = imgs.enumerated().map { CarouselItem($1, isActive: $0 == 0) }
+        let items = imgs.enumerated().map { CarouselItem($1, isActive: false) }
+//        let items = imgs.enumerated().map { CarouselItem($1, isActive: $0 == 0) }
         self.init(id: id,
                   isAutoplay: isAutoplay,
                   isCrossFade: isCrossFade,
