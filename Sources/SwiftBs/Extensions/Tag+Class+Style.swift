@@ -1,13 +1,62 @@
 //
-//  Tag+Style.swift
+//  Tag+Class+Style.swift
 //  
 //
-//  Created by BG on 2/19/22.
+//  Created by BG on 2/17/22.
 //
+
+/*
+ 
+    Everything in this extension just makes declaring Bootstrap with SwiftHtml more expressive.
+ 
+    Use these functions with the BsClass and BsAttribute enums.
+ 
+    And writing html for Bootstrap should be more readable. See package README.md for examples.
+ 
+    Many of the 'class' functions may look redundant, taking a variadic parameter followed by an Array. The variadics make the code look cleaner, without having to use '[]' everywhere. But until Swift supports splatting, combining variadics and arrays constantly requires extra lines to combine. So that is handled by the variations.
+
+ */
 
 import SwiftHtml
 
 extension Tag {
+    
+    // MARK: - <class> and <style>
+    
+    public func addClassesStyles(_ component: Component) -> Self {
+        self.class(add: component.classes)
+        return self.style(add: component.styles)
+    }
+    
+    // MARK: - <class>
+
+    /// Replace value of class attribute with variadic Component.Class
+    public func `class`(_ classes: BsClass?..., if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        return self.class(classes.compactMap({$0}))
+    }
+
+    /// Replace value of class attribute with array of Component.Class
+    public func `class`(_ classes: [BsClass]?, _ condition: Bool = true) -> Self {
+        guard let classes = classes, condition else { return self }
+        return self.class(classes.map {$0.rawValue})
+    }
+    
+    /// Add variadics to value of class attribute
+    @discardableResult
+    public func `class`(add classes: BsClass?..., if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        return self.class(add: classes.compactMap({$0}))
+    }
+    
+    /// Add to value of class attribute
+    @discardableResult
+    public func `class`(add classes: [BsClass]?, _ condition: Bool = true) -> Self {
+        guard let classes = classes, condition else { return self }
+        return self.class(add: classes.map{$0.rawValue})
+    }
+    
+    // MARK: - <style>
     
     /// Set value of <style> attribute with variadic (cleaner code)
     @discardableResult
@@ -92,5 +141,6 @@ extension Tag {
     /// Retrieve the <style> attribute if it exists
     private func styleAttributeValue() -> String? {
         node.attributes.first(where: { $0.key == "style" })?.value
-    }        
-}
+    }
+
+ }

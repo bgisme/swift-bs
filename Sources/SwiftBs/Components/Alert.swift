@@ -39,12 +39,12 @@ extension Alert: TagRepresentable {
             .class(.alert)
             .role(.alert)
             .class(add: .dFlex, .alignItemsCenter)
-            .class(add: bsClasses)
+            .addClassesStyles(self)
         } else {
             div
                 .class(.alert)
                 .role(.alert)
-                .class(add: bsClasses)
+                .addClassesStyles(self)
         }
     }
 }
@@ -68,6 +68,6 @@ extension AlertHeading: TagRepresentable {
     public func build() -> Tag {
         h4
             .class(.alertHeading)
-            .class(add: bsClasses)
+            .addClassesStyles(self)
     }
 }

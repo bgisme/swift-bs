@@ -9,7 +9,7 @@ import SwiftHtml
 
 public class Component {
     
-    public private(set) var bsClasses: [BsClass]?
+    public private(set) var classes: [BsClass]?
     public private(set) var styles: [String : String]?
 }
 
@@ -28,7 +28,7 @@ extension Component {
     @discardableResult
     public func `class`(_ classes: [BsClass]?, _ condition: Bool = true) -> Self {
         guard condition, let classes = classes else { return self }
-        self.bsClasses = classes
+        self.classes = classes
         return self
     }
 
@@ -42,7 +42,7 @@ extension Component {
     @discardableResult
     public func `class`(add classes: [BsClass]?, _ condition: Bool = true) -> Self {
         guard condition, let classes = classes else { return self }
-        self.bsClasses = (self.bsClasses != nil) ? self.bsClasses! + classes : classes
+        self.classes = (self.classes != nil) ? self.classes! + classes : classes
         return self
     }
     

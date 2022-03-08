@@ -55,7 +55,7 @@ extension Navbar: TagRepresentable {
             .class(.containerFluid)
         }
         .class(.navbar)
-        .class(add: bsClasses)
+        .addClassesStyles(self)
     }
 }
 
@@ -106,7 +106,7 @@ extension Navbar: TagRepresentable {
 //        .hrefOptional(href)
 //        .class(add: .h1, /*.mb0,*/ if: href == nil)
 //        .class(add: .dInlineBlock, .alignTextTop, if: src != nil && text != nil)
-//        .class(add: bsClasses)
+//        .addClassesStyles(self)
 //    }
 //}
 
@@ -153,7 +153,7 @@ extension NavbarBrand: TagRepresentable {
         .hrefOptional(href)
         .class(add: .h1, .mb0, if: href == nil)
         .class(add: .dInlineBlock, .alignTextTop, if: img != nil && text != nil)    // align image and text
-        .class(add: bsClasses)
+        .addClassesStyles(self)
     }
 }
 
@@ -186,7 +186,7 @@ extension NavDropdown: TagRepresentable {
             .ariaLabelledBy("navbarDropdown")
         }
         .class(.navItem, .dropdown)
-        .class(add: bsClasses)
+        .addClassesStyles(self)
     }
 }
 
@@ -231,7 +231,7 @@ extension NavItem: TagRepresentable {
                     .ariaCurrent(isActive)
             }
             .class(.navItem)
-            .class(add: bsClasses)
+            .addClassesStyles(self)
         } else {
             a
                 .class(.navLink)
@@ -239,7 +239,7 @@ extension NavItem: TagRepresentable {
                 .class(add: .disabled, if: isDisabled)
                 .ariaCurrent(isActive)
                 .ariaCurrent(isActive)
-                .class(add: bsClasses)
+                .addClassesStyles(self)
         }
     }
 }

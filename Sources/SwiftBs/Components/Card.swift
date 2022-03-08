@@ -48,8 +48,7 @@ extension Card: TagRepresentable {
     public func build() -> Tag {
         div
             .class(.card)
-            .class(add: bsClasses)
-            .style(add: styles)
+            .addClassesStyles(self)
     }
 }
 
@@ -128,6 +127,7 @@ extension CardBody: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .cardBody)
+            .addClassesStyles(self)
     }
 }
 
@@ -182,7 +182,7 @@ extension CardTitle: TagRepresentable {
         let `class`: BsClass = isSubtitle ? .cardSubtitle : .cardTitle
         tag
             .class(add: `class`)
-            .class(add: bsClasses)
+            .addClassesStyles(self)
     }
 }
 
@@ -206,7 +206,7 @@ extension CardText: TagRepresentable {
     public func build() -> Tag {
         p
             .class(add: .cardText)
-            .class(add: bsClasses)
+            .addClassesStyles(self)
     }
 }
 
@@ -230,7 +230,7 @@ extension CardLink: TagRepresentable {
     public func build() -> Tag {
         a
             .class(add: .cardLink)
-            .class(add: bsClasses)
+            .addClassesStyles(self)
     }
 }
 
@@ -283,7 +283,7 @@ extension CardHeader: TagRepresentable {
     public func build() -> Tag {
         tag
             .class(add: .cardHeader)
-            .class(add: bsClasses)
+            .addClassesStyles(self)
     }
 }
 
@@ -313,6 +313,6 @@ extension CardFooter: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .cardFooter)
-            .class(add: bsClasses)
+            .addClassesStyles(self)
     }
 }

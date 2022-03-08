@@ -49,7 +49,7 @@ public class Dropdown: Component {
         case responsive(_ bp: MenuAlignBreakpoint)
         case endAndResponsive(_ bp: MenuAlignBreakpoint)
         
-        var bsClasses: [BsClass] {
+        var classes: [BsClass] {
             switch self {
             case .end:
                 return [.dropdownMenuEnd]
@@ -170,7 +170,7 @@ extension Dropdown: TagRepresentable {
             }
             .class(.btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
             .class(add: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
-            .class(add: bsClasses)
+            .addClassesStyles(self)
         } else {
             Div {
                 Div {
@@ -255,7 +255,7 @@ extension DropdownButton: TagRepresentable {
             if isSplit {
                 link
                     .role(.button)
-                    .class(add: bsClasses)
+                    .addClassesStyles(self)
             } else {
                 link
                     .role(.button)
@@ -263,7 +263,7 @@ extension DropdownButton: TagRepresentable {
                     .id(id)
                     .dataBsToggle(.dropdown)
                     .ariaExpanded(false)
-                    .class(add: bsClasses)
+                    .addClassesStyles(self)
                     .dataBsDisplay(.static, isMenuAlignResponsive)
             }
         } else if let button = tag as? Button {
@@ -271,7 +271,7 @@ extension DropdownButton: TagRepresentable {
                 button
                     .type(.button)
                     .class(.btn)
-                    .class(add: bsClasses)
+                    .addClassesStyles(self)
             } else {
                 button
                     .type(.button)
@@ -279,7 +279,7 @@ extension DropdownButton: TagRepresentable {
                     .id(id) // not required for button groups
                     .dataBsToggle(.dropdown)
                     .ariaExpanded(false)
-                    .class(add: bsClasses)
+                    .addClassesStyles(self)
                     .dataBsDisplay(.static, isMenuAlignResponsive)
             }
         }
@@ -310,7 +310,7 @@ extension DropdownButtonArrow: TagRepresentable {
         .id(id) // not required for button groups
         .dataBsToggle(.dropdown)
         .ariaExpanded(false)
-        .class(add: bsClasses)
+        .addClassesStyles(self)
     }
 }
 
@@ -341,9 +341,9 @@ extension DropdownMenu: TagRepresentable {
         }
         .class(.dropdownMenu)
         .class(add: .dropdownMenuDark, if: isDark)
-        .class(add: align?.bsClasses)
+        .class(add: align?.classes)
         .ariaLabelledBy(id)
-        .class(add: bsClasses)
+        .addClassesStyles(self)
     }
 }
 
@@ -410,12 +410,12 @@ extension DropdownItem: TagRepresentable {
                         .class(add: .disabled, if: isDisabled)
                 }
             }
-            .class(add: bsClasses)
+            .addClassesStyles(self)
         } else {
             // divider
             Hr()
                 .class(.dropdownDivider)
-                .class(add: bsClasses)
+                .addClassesStyles(self)
         }
     }
 }

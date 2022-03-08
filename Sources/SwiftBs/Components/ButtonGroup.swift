@@ -32,7 +32,7 @@ extension ButtonGroup: TagRepresentable {
         .class(isVertical ? .btnGroupVertical : .btnGroup)
         .role(.group)
         .ariaLabelledBy(ariaLabel)
-        .class(add: bsClasses)
+        .addClassesStyles(self)
     }
 }
 
@@ -57,6 +57,6 @@ extension ButtonGroupToolbar: TagRepresentable {
         .class(.btnToolbar)
         .role(.toolbar)
         .ariaLabelledBy(ariaLabel)
-        .class(add: bsClasses)
+        .addClassesStyles(self)
     }
 }

@@ -78,7 +78,7 @@ extension BsButton: TagRepresentable {
                 .class(add: .active, if: isActive)
                 .ariaPressed(true, isActive)
                 .ariaDisabled(true, isDisabled)
-                .class(add: bsClasses)
+                .addClassesStyles(self)
         } else if let tag = tag as? Button {
             tag
                 .class(.btn)
@@ -88,11 +88,11 @@ extension BsButton: TagRepresentable {
                 .disabled(isDisabled)
                 .ariaPressed(isPressed, isToggle && isPressed)
                 .autoComplete(false, isToggle && isPressed)
-                .class(add: bsClasses)
+                .addClassesStyles(self)
         } else if let tag = tag as? Input {
             tag
                 .class(.btn)
-                .class(add: bsClasses)
+                .addClassesStyles(self)
         }
     }
 }
