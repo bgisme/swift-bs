@@ -291,7 +291,7 @@ public class CarouselIndicator: Component {
         guard count > 0 else { return [] }
         let activeIndex = activeIndex >= count ? count - 1 : activeIndex
         var indicators = [CarouselIndicator]()
-        for i in 0...count {
+        for i in 0..<count {
             indicators.append(CarouselIndicator(index: i, isActive: i == activeIndex, carouselId: id))
         }
         return indicators
