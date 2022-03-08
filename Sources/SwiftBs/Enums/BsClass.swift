@@ -62,6 +62,17 @@ public enum BsClass: String {
     case blockquote
     case blockquoteFooter = "blockquote-footer"
     
+    case border
+    case borderPrimary = "border-primary"
+    case borderSecondary = "border-secondary"
+    case borderSuccess = "border-success"
+    case borderDanger = "border-danger"
+    case borderWarning = "border-warning"
+    case borderInfo = "border-info"
+    case borderLight = "border-light"
+    case borderDark = "border-dark"
+    case borderWhite = "border-white"
+    
     case breadcrumb
     case breadcrumbItem = "breadcrumb-item"
     
