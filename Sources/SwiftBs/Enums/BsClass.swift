@@ -126,6 +126,11 @@ public enum BsClass: String {
     case cardSubtitle = "card-subtitle"
     case cardText = "card-text"
     case cardTitle = "card-title"
+    
+    case carousel
+    case carouselInner = "carousel-inner"
+    case carouselItem = "carousel-item"
+    
     case clearfix
     
     case collapse
@@ -226,6 +231,7 @@ public enum BsClass: String {
     // MARK: - D
     case dFlex = "d-flex"
     
+    case dBlock = "d-block"
     case dInlineBlock = "d-inline-block"
     
     case disabled = "disabled"

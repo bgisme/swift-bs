@@ -117,9 +117,9 @@ public class Dropdown: Component {
     let id: String
     let direction: Direction
     let menuAlign: MenuAlign?
-    let button: Tag
-    let arrowButton: Tag?
-    let menu: Tag
+    let button: DropdownButton
+    let arrowButton: DropdownButtonArrow?
+    let menu: DropdownMenu
     
     public convenience init(id: String,
                             isSplit: Bool = false,
@@ -151,9 +151,9 @@ public class Dropdown: Component {
         self.id = id
         self.direction = direction
         self.menuAlign = menuAlign
-        self.button = button.build()
-        self.arrowButton = arrowButton?.build()
-        self.menu = menu.build()
+        self.button = button
+        self.arrowButton = arrowButton
+        self.menu = menu
     }
 }
 
