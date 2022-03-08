@@ -116,9 +116,9 @@ public class Dropdown: Component {
     let id: String
     let direction: Direction
     let menuAlign: MenuAlign?
-    let button: Tag
-    let splitButton: Tag?
-    let menu: Tag
+    let button: DropdownButton
+    let splitButton: DropdownButtonArrow?
+    let menu: DropdownMenu
     
     public convenience init(id: String,
                             isSplit: Bool = false,
@@ -164,9 +164,9 @@ public class Dropdown: Component {
         self.id = id
         self.direction = direction
         self.menuAlign = menuAlign
-        self.button = button.build()
-        self.splitButton = splitButton?.build()
-        self.menu = menu.build()
+        self.button = button
+        self.splitButton = splitButton
+        self.menu = menu
     }
 }
 
@@ -177,9 +177,9 @@ extension Dropdown: TagRepresentable {
         if let splitButton = splitButton {
             if direction != .start {
                 Div {
-                    button
-                    splitButton
-                    menu
+                    button.build()
+                    splitButton.build()
+                    menu.build()
                 }
                 .class(.btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
                 .class(add: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
@@ -188,12 +188,12 @@ extension Dropdown: TagRepresentable {
                 Div {
                     Div {
                         /// split buttons direction .start are ordered differently and inside extra button group
-                        splitButton
-                        menu
+                        splitButton.build()
+                        menu.build()
                     }
                     .class(.btnGroup, .dropstart)
                     .role(.group)
-                    button
+                    button.build()
                 }
                 .class(.btnGroup)
                 .addClassesStyles(self)
@@ -201,8 +201,8 @@ extension Dropdown: TagRepresentable {
         } else {
             /// non-split
             Div {
-                button
-                menu
+                button.build()
+                menu.build()
             }
             .class(.btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
             .class(add: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
