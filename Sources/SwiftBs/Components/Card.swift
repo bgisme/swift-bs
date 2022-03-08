@@ -33,32 +33,6 @@ public class Card: Component {
         })
     }
     
-//    public convenience init(header: CardHeader? = nil,
-//                imgTop: Img? = nil,
-//                @TagBuilder body: () -> [Tag],
-//                imgBottom: Img? = nil,
-//                footer: CardFooter? = nil) {
-//        self.init(header: header,
-//                  imgTop: imgTop,
-//                  body: CardBody { body() },
-//                  imgBottom: imgBottom,
-//                  footer: footer)
-//    }
-        
-//    public convenience init(header: CardHeader? = nil,
-//                imgTop: Img? = nil,
-//                body: CardBody,
-//                imgBottom: Img? = nil,
-//                footer: CardFooter? = nil) {
-//        self.init(Div {
-//            if let header = header { header }
-//            if let imgTop = imgTop { imgTop }
-//            body
-//            if let imgBottom = imgBottom { imgBottom }
-//            if let footer = footer { footer }
-//        })
-//    }
-    
     public convenience init(@TagBuilder children: () -> [Tag]) {
         self.init( Div(children()) )
     }

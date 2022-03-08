@@ -19,36 +19,40 @@ extension Component {
     // MARK: - Classes
     
     @discardableResult
-    public func `class`(_ classes: BsClass..., if condition: Bool = true) -> Self {
-        self.class(classes, condition)
+    public func `class`(_ classes: BsClass?..., if condition: Bool = true) -> Self {
+        let classes = classes.compactMap { $0 }
+        guard condition, !classes.isEmpty else { return self }
+        return self.class(classes, condition)
     }
     
     @discardableResult
     public func `class`(_ classes: [BsClass]?, _ condition: Bool = true) -> Self {
-        if condition, let classes = classes {
-            self.bsClasses = classes
-        }
+        guard condition, let classes = classes else { return self }
+        self.bsClasses = classes
         return self
     }
 
     @discardableResult
-    public func `class`(add classes: BsClass..., if condition: Bool = true) -> Self {
-        self.class(add: classes)
+    public func `class`(add classes: BsClass?..., if condition: Bool = true) -> Self {
+        let classes = classes.compactMap {$0}
+        guard condition, !classes.isEmpty else { return self }
+        return self.class(add: classes)
     }
 
     @discardableResult
     public func `class`(add classes: [BsClass]?, _ condition: Bool = true) -> Self {
-        if condition, let classes = classes {
-            self.bsClasses = (self.bsClasses != nil) ? self.bsClasses! + classes : classes
-        }
+        guard condition, let classes = classes else { return self }
+        self.bsClasses = (self.bsClasses != nil) ? self.bsClasses! + classes : classes
         return self
     }
     
     // MARK: Styles
     
     @discardableResult
-    public func style(_ styles: CssKeyValue..., if condition: Bool = true) -> Self {
-        self.style(styles, condition)
+    public func style(_ styles: CssKeyValue?..., if condition: Bool = true) -> Self {
+        let styles = styles.compactMap { $0 }
+        guard condition, !styles.isEmpty else { return self }
+        return self.style(styles, condition)
     }
     
     @discardableResult
