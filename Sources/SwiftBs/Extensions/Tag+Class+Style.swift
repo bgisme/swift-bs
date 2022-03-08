@@ -38,13 +38,13 @@ extension Tag {
     /// Replace value of <class> with variadic BsClass
     public func `class`(_ classes: BsClass?..., if condition: Bool = true) -> Self {
         let classes = classes.compactMap { $0 }
-        guard condition, !classes.isEmpty else { return self }
+        guard !classes.isEmpty else { return self }
         return self.class(classes)
     }
 
     /// Replace value of <class> with array of BsClass
     public func `class`(_ classes: [BsClass]?, _ condition: Bool = true) -> Self {
-        guard condition, let classes = classes, !classes.isEmpty else { return self }
+        guard let classes = classes, !classes.isEmpty else { return self }
         return self.class(classes.map {$0.rawValue})
     }
     
@@ -52,14 +52,14 @@ extension Tag {
     @discardableResult
     public func `class`(add classes: BsClass?..., if condition: Bool = true) -> Self {
         let classes = classes.compactMap { $0 }
-        guard condition, !classes.isEmpty else { return self }
+        guard !classes.isEmpty else { return self }
         return self.class(add: classes)
     }
     
     /// Add array of BsClass to <class> value
     @discardableResult
     public func `class`(add classes: [BsClass]?, _ condition: Bool = true) -> Self {
-        guard condition, let classes = classes, !classes.isEmpty else { return self }
+        guard let classes = classes, !classes.isEmpty else { return self }
         return self.class(add: classes.map{$0.rawValue})
     }
     
@@ -69,14 +69,14 @@ extension Tag {
     @discardableResult
     public func style(_ keyValues: CssKeyValue?..., if condition: Bool = true) -> Self {
         let keyValues = keyValues.compactMap { $0 }
-        guard condition, !keyValues.isEmpty else { return self }
+        guard !keyValues.isEmpty else { return self }
         return style(keyValues, condition)
     }
     
     /// Set vale of <style> attribute with Array
     @discardableResult
     public func style(_ keyValues: [CssKeyValue]?, _ condition: Bool = true) -> Self {
-        guard condition, let keyValues = keyValues, !keyValues.isEmpty else { return self }
+        guard let keyValues = keyValues, !keyValues.isEmpty else { return self }
         return style(keyValues.map{ String($0) }.joined(separator: ";"))
     }
     
@@ -84,14 +84,14 @@ extension Tag {
     @discardableResult
     public func style(add keyValues: CssKeyValue?..., if condition: Bool = true) -> Self {
         let keyValues = keyValues.compactMap { $0 }
-        guard condition, !keyValues.isEmpty else { return self }
+        guard !keyValues.isEmpty else { return self }
         return style(add: keyValues, condition)
     }
     
     /// Add array of  CssKeyValue to <style> attribute
     @discardableResult
     public func style(add keyValues: [CssKeyValue]?, _ condition: Bool = true) -> Self {
-        guard condition, let keyValues = keyValues, !keyValues.isEmpty else { return self }
+        guard let keyValues = keyValues, !keyValues.isEmpty else { return self }
         let keyValueStr = keyValues.map{ String($0) }.joined()
         return self.style(add: keyValueStr)
     }
@@ -99,7 +99,7 @@ extension Tag {
     /// Append string to value of <style> attribute
     @discardableResult
     public func style(add str: String?, _ condition: Bool = true) -> Self {
-        guard condition, let str = str, !str.isEmpty else { return self }
+        guard let str = str, !str.isEmpty else { return self }
         let updated = self.styleAttributeValue() != nil ? self.styleAttributeValue()! + str : str
         return self.style(updated)
     }

@@ -59,6 +59,11 @@ extension Tag {
     }
     
     @discardableResult
+    public func ariaLabel(_ value: String, _ condition: Bool = true) -> Self {
+        self.attribute(.ariaLabel, value, condition)
+    }
+    
+    @discardableResult
     public func ariaLabelledBy(_ value: String, _ condition: Bool = true) -> Self {
         self.attribute(.ariaLabelledBy, value, condition)
     }
@@ -84,6 +89,11 @@ extension Tag {
     }
     
     @discardableResult
+    public func ariaHidden(_ value: Bool, _ condition: Bool = true) -> Self {
+        return self.attribute(.ariaHidden, String(value), condition)
+    }
+    
+    @discardableResult
     public func autoComplete(_ value: Bool, _ condition: Bool = true) -> Self {
         return self.attribute(.autoComplete, String(value), condition)
     }
@@ -99,23 +109,56 @@ extension Tag {
     }
     
     @discardableResult
-    public func dataTarget(_ value: BsClass, _ condition: Bool = true) -> Self {
-        self.dataTarget(value.rawValue, condition)
-    }
-    
-    @discardableResult
-    public func dataTarget(_ value: String, _ condition: Bool = true) -> Self {
-        self.attribute(.dataTarget, "#" + value, condition)
-    }
-    
-    @discardableResult
     public func dataBsDisplay(_ value: BsClass, _ condition: Bool = true) -> Self {
         self.attribute(.dataBsDisplay, value.rawValue, condition)
     }
     
     @discardableResult
+    public func dataBsInterval(_ value: Int?, _ condition: Bool = true) -> Self {
+        guard let value = value else { return self }
+        return self.attribute(.dataBsInterval, String(value), condition)
+    }
+    
+    @discardableResult
+    public func dataBsInterval(_ value: Bool?, _ condition: Bool = true) -> Self {
+        guard let value = value else { return self }
+        return self.attribute(.dataBsInterval, String(value), condition)
+    }
+    
+    @discardableResult
+    public func dataBsRide(_ value: BsClass, _ condition: Bool = true) -> Self {
+        self.attribute(.dataBsRide, value.rawValue, condition)
+    }
+    
+    @discardableResult
+    public func dataBsSlide(_ value: String, _ condition: Bool = true) -> Self {
+        self.attribute(.dataBsSlide, value, condition)
+    }
+    
+    @discardableResult
+    public func dataBsSlideTo(_ value: String, _ condition: Bool = true) -> Self {
+        self.attribute(.dataBsSlideTo, value, condition)
+    }
+    
+    @discardableResult
+    public func dataBsTarget(_ value: BsClass, _ condition: Bool = true) -> Self {
+        self.dataBsTarget(value.rawValue, condition)
+    }
+    
+    @discardableResult
+    public func dataBsTarget(_ value: String, _ condition: Bool = true) -> Self {
+        self.attribute(.dataBsTarget, "#" + value, condition)
+    }
+    
+    @discardableResult
     public func dataBsToggle(_ value: BsClass, _ condition: Bool = true) -> Self {
         self.attribute(.dataBsToggle, value.rawValue, condition)
+    }
+    
+    @discardableResult
+    public func dataBsTouch(_ value: Bool?, _ condition: Bool = true) -> Self {
+        guard let value = value else { return self }
+        return self.attribute(.dataBsTouch, String(value), condition)
     }
     
     @discardableResult

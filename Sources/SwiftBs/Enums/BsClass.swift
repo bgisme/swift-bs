@@ -128,6 +128,12 @@ public enum BsClass: String {
     case cardTitle = "card-title"
     
     case carousel
+    case carouselCaption = "carousel-caption"
+    case carouselControlPrev = "carousel-control-prev"
+    case carouselControlNext = "carousel-control-next"
+    case carouselDark = "carousel-dark"
+    case carouselFade = "carousel-fade"
+    case carouselIndicators = "carousel-indicators"
     case carouselInner = "carousel-inner"
     case carouselItem = "carousel-item"
     
@@ -1286,6 +1292,8 @@ public enum BsClass: String {
     case select
     
     case show
+    
+    case slide
     
     case small
     

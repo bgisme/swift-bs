@@ -34,7 +34,7 @@ extension Navbar: TagRepresentable {
                 .class(.navbarToggler)
                 .type(.button)
                 .dataBsToggle(.collapse)
-                .dataTarget(.navbarSupportedContent)
+                .dataBsTarget(.navbarSupportedContent)
                 .ariaControls(.navbarSupportedContent)
                 .ariaExpanded(false)
                 .ariaLabelledBy("Toggle navigation")
