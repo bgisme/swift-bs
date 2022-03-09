@@ -26,6 +26,7 @@ extension CloseButton: TagRepresentable {
     public func build() -> Tag {
         button
             .class(isWhite ? .btnCloseWhite : .btnClose)
+            .role(.button)
             .ariaLabel("Close")
             .flagAttribute("disabled", nil, isDisabled)
             .addClassesStyles(self)
