@@ -55,16 +55,20 @@ final class CarouselTests: XCTestCase {
     }
     
     func testCarouselIsAutoplayDisabled() throws {
+        let interval = 10000
         let tag = Carousel(id: "id",
+                           interval: interval,
                            isAutoplayDisabled: true,
                            imgs: [
                             Img(src: "", alt: ""),
                             Img(src: "", alt: ""),
                             Img(src: "", alt: ""),
                            ]).build()
-        XCTAssert(tag.firstChildAttribute(.dataBsRide) == nil)
-        XCTAssert(tag.firstChildAttribute(.dataBsInterval) != nil)
-        let interval = 10000
+        if let dataBsInterval = tag.firstChildAttribute(.dataBsInterval) {
+            XCTAssert(dataBsInterval == "false")
+        } else {
+            XCTFail()
+        }
         let tagNotDisabled = Carousel(id: "id",
                                       interval: interval,
                                       imgs: [
