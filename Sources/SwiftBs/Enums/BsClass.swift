@@ -79,6 +79,8 @@ public enum BsClass: String {
     case btn
     case btnBlock = "btn-block"
     case btnCheck = "btn-check"
+    case btnClose = "btn-close"
+    case btnCloseWhite = "btn-close-white"
     case btnGroup = "btn-group"
     case btnGroupSm = "btn-group-sm"
     case btnGroupLg = "btn-group-lg"

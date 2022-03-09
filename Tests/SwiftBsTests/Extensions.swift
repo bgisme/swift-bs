@@ -11,7 +11,7 @@
 extension Tag {
     
     func has(_ classes: [BsClass]) -> Bool {
-        guard let value = firstChildAttribute("class") else { return false }
+        guard let value = firstChildAttributeValue("class") else { return false }
         for `class` in classes {
             if !value.containsOneInstanceOf(`class`) {
                 return false
@@ -21,7 +21,7 @@ extension Tag {
     }
     
     func has(_ styles: [CssKeyValue]) -> Bool {
-        guard let value = firstChildAttribute("style") else { return false }
+        guard let value = firstChildAttributeValue("style") else { return false }
         for style in styles {
             if !value.containsOneInstanceOf(String(style)) {
                 return false
@@ -30,12 +30,20 @@ extension Tag {
         return true
     }
     
-    func firstChildAttribute(_ attribute: BsAttribute) -> String? {
+    func firstChildAttributeValue(_ attribute: BsAttribute) -> String? {
+        firstChildAttributeValue(attribute.rawValue)
+    }
+    
+    func firstChildAttributeValue(_ name: String) -> String? {
+        firstChildAttribute(name)?.value
+    }
+    
+    func firstChildAttribute(_ attribute: BsAttribute) -> Attribute? {
         firstChildAttribute(attribute.rawValue)
     }
     
-    func firstChildAttribute(_ name: String) -> String? {
-        children.first?.node.attributes.first(where: { $0.key == name })?.value
+    func firstChildAttribute(_ name: String) -> Attribute? {
+        children.first?.node.attributes.first(where: { $0.key == name })
     }
 }
 
