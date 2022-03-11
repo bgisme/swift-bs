@@ -10,66 +10,39 @@
 
 extension Tag {
     
+    func hasAttribute(_ attribute: BsAttribute) -> Bool {
+        node.attributes.contains(where: { $0.key == attribute.rawValue })
+    }
+    
     func has(_ classes: [BsClass]) -> Bool {
-        guard let value = firstChildAttributeValue("class") else { return false }
-        for `class` in classes {
-            if !value.containsOneInstanceOf(`class`) {
-                return false
-            }
-        }
-        return true
+        guard !classes.isEmpty else { return true }
+        guard let classValue = classValue, !classValue.isEmpty else { return false }
+        return classValue.has(classes)
     }
     
     func has(_ styles: [CssKeyValue]) -> Bool {
-        guard let value = firstChildAttributeValue("style") else { return false }
-        for style in styles {
-            if !value.containsOneInstanceOf(String(style)) {
-                return false
-            }
-        }
-        return true
-    }
-    
-    func firstChildAttributeValue(_ attribute: BsAttribute) -> String? {
-        firstChildAttributeValue(attribute.rawValue)
-    }
-    
-    func firstChildAttributeValue(_ name: String) -> String? {
-        firstChildAttribute(name)?.value
-    }
-    
-    func firstChildAttribute(_ attribute: BsAttribute) -> Attribute? {
-        firstChildAttribute(attribute.rawValue)
-    }
-    
-    func firstChildAttribute(_ name: String) -> Attribute? {
-        children.first?.node.attributes.first(where: { $0.key == name })
-    }
+        guard let styleValue = styleValue else { return false }
+        return styleValue.has(styles.map { String($0) }, ";")
+    }    
 }
 
 extension String {
     
-    func containsOneInstanceOf(_ `class`: BsClass) -> Bool {
-        self.containsOneInstanceOf(`class`.rawValue)
+    func has(_ bsClass: BsClass) -> Bool {
+        return has([bsClass])
     }
     
-    func containsOneInstanceOf(_ substring: String) -> Bool {
-        self.countInstances(of: substring) == 1
+    func has(_ classes: [BsClass]) -> Bool {
+        return has(classes.map{ $0.rawValue }, " ")
     }
     
-    func countInstances(of bsClass: BsClass) -> Int {
-        countInstances(of: bsClass.rawValue)
-    }
-    
-    /// stringToFind must be at least 1 character.
-    func countInstances(of stringToFind: String) -> Int {
-        assert(!stringToFind.isEmpty)
-        var count = 0
-        var searchRange: Range<String.Index>?
-        while let foundRange = range(of: stringToFind, options: [], range: searchRange) {
-            count += 1
-            searchRange = Range(uncheckedBounds: (lower: foundRange.upperBound, upper: endIndex))
+    func has(_ values: [String], _ separatedBy: String) -> Bool {
+        let components = components(separatedBy: separatedBy)
+        for value in values {
+            if !components.contains(where: {$0 == value}) {
+                return false
+            }
         }
-        return count
+        return true
     }
 }

@@ -1001,7 +1001,7 @@ extension CssKeyValue {
 extension String {
     
     init(_ kv: CssKeyValue) {
-        self.init("\(kv.key):\(kv.value);")
+        self.init("\(kv.key):\(kv.value)")
     }
 }
 

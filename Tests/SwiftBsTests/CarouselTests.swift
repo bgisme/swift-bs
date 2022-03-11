@@ -19,18 +19,18 @@ final class CarouselTests: XCTestCase {
             .class(add: classes)
             .style(styles)
             .build()
-        if let tagId = tag.firstChildAttributeValue("id") {
+        if let tagId = tag.id {
             XCTAssert(tagId == id)
         } else {
             XCTFail()
         }
-        if let classValue = tag.firstChildAttributeValue("class") {
-            XCTAssert(classValue.containsOneInstanceOf(.carousel))
-            XCTAssert(classValue.containsOneInstanceOf(.slide))
+        if let classValue = tag.classValue {
+            XCTAssert(classValue.has(.carousel))
+            XCTAssert(classValue.has(.slide))
         } else {
             XCTFail()
         }
-        if let dataBsRide = tag.firstChildAttributeValue(.dataBsRide) {
+        if let dataBsRide = tag.attributeValue(.dataBsRide) {
             XCTAssert(dataBsRide == BsClass.carousel.rawValue)
         } else {
             XCTFail()
@@ -47,8 +47,8 @@ final class CarouselTests: XCTestCase {
                             Img(src: "", alt: ""),
                             Img(src: "", alt: ""),
                            ]).build()
-        if let classValue = tag.firstChildAttributeValue("class") {
-            XCTAssert(classValue.containsOneInstanceOf(.carouselFade))
+        if let classValue = tag.classValue {
+            XCTAssert(classValue.has(.carouselFade))
         } else {
             XCTFail()
         }
@@ -64,7 +64,7 @@ final class CarouselTests: XCTestCase {
                             Img(src: "", alt: ""),
                             Img(src: "", alt: ""),
                            ]).build()
-        if let dataBsInterval = tag.firstChildAttributeValue(.dataBsInterval) {
+        if let dataBsInterval = tag.attributeValue(.dataBsInterval) {
             XCTAssert(dataBsInterval == "false")
         } else {
             XCTFail()
@@ -76,12 +76,12 @@ final class CarouselTests: XCTestCase {
                                         Img(src: "", alt: ""),
                                         Img(src: "", alt: ""),
                                       ]).build()
-        if let dataBsRide = tagNotDisabled.firstChildAttributeValue(.dataBsRide) {
+        if let dataBsRide = tagNotDisabled.attributeValue(.dataBsRide) {
             XCTAssert(dataBsRide == BsClass.carousel.rawValue)
         } else {
             XCTFail()
         }
-        if let dataBsInterval = tagNotDisabled.firstChildAttributeValue(.dataBsInterval) {
+        if let dataBsInterval = tagNotDisabled.attributeValue(.dataBsInterval) {
             XCTAssert(dataBsInterval == String(interval))
         }
     }
@@ -94,7 +94,7 @@ final class CarouselTests: XCTestCase {
                             Img(src: "", alt: ""),
                             Img(src: "", alt: ""),
                            ]).build()
-        if let dataBsTouch = tag.firstChildAttributeValue(.dataBsTouch) {
+        if let dataBsTouch = tag.attributeValue(.dataBsTouch) {
             XCTAssert(dataBsTouch == String(false))
         } else {
             XCTFail()
@@ -109,8 +109,8 @@ final class CarouselTests: XCTestCase {
                             Img(src: "", alt: ""),
                             Img(src: "", alt: ""),
                            ]).build()
-        if let classValue = tag.firstChildAttributeValue("class") {
-            XCTAssert(classValue.containsOneInstanceOf(.carouselDark))
+        if let classValue = tag.classValue {
+            XCTAssert(classValue.has(.carouselDark))
         } else {
             XCTFail()
         }
@@ -123,8 +123,8 @@ final class CarouselTests: XCTestCase {
             .class(add: classes)
             .style(styles)
             .build()
-        if let classValue = tag.firstChildAttributeValue("class") {
-            XCTAssert(classValue.containsOneInstanceOf(.carouselInner))
+        if let classValue = tag.classValue {
+            XCTAssert(classValue.has(.carouselInner))
         } else {
             XCTFail()
         }
@@ -142,13 +142,13 @@ final class CarouselTests: XCTestCase {
             .class(add: classes)
             .style(styles)
             .build()
-        if let classValue = tag.firstChildAttributeValue("class") {
-            XCTAssert(classValue.containsOneInstanceOf(.carouselItem))
-            XCTAssert(classValue.containsOneInstanceOf(.active))
+        if let classValue = tag.classValue {
+            XCTAssert(classValue.has(.carouselItem))
+            XCTAssert(classValue.has(.active))
         } else {
             XCTFail()
         }
-        if let dataBsInterval = tag.firstChildAttributeValue(.dataBsInterval) {
+        if let dataBsInterval = tag.attributeValue(.dataBsInterval) {
             XCTAssert(dataBsInterval == "1000")
         } else {
             XCTFail()
@@ -161,42 +161,42 @@ final class CarouselTests: XCTestCase {
         let id = "id"
         let classes: [BsClass] = [.mt3, .bgPrimary]
         let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")]
-        let prevTag = CarouselControl(Button(), direction: .prev, carouselId: id)
+        let prevTag = CarouselControl(.prev, carouselId: id)
             .class(add: classes)
             .style(styles)
             .build()
-        if let classValue = prevTag.firstChildAttributeValue("class") {
-            XCTAssert(classValue.containsOneInstanceOf(.carouselControlPrev))
+        if let classValue = prevTag.classValue {
+            XCTAssert(classValue.has(.carouselControlPrev))
         } else {
             XCTFail()
         }
-        if let dataBsTarget = prevTag.firstChildAttributeValue(.dataBsTarget) {
+        if let dataBsTarget = prevTag.attributeValue(.dataBsTarget) {
             XCTAssert(dataBsTarget == "#\(id)")
         } else {
             XCTFail()
         }
-        if let dataBsSlide = prevTag.firstChildAttributeValue(.dataBsSlide) {
+        if let dataBsSlide = prevTag.attributeValue(.dataBsSlide) {
             XCTAssert(dataBsSlide == CarouselControl.Direction.prev.rawValue)
         } else {
             XCTFail()
         }
         XCTAssert(prevTag.has(classes))
         XCTAssert(prevTag.has(styles))
-        let nextTag = CarouselControl(Button(), direction: .next, carouselId: id)
+        let nextTag = CarouselControl(.next, carouselId: id)
             .class(add: classes)
             .style(styles)
             .build()
-        if let classValue = nextTag.firstChildAttributeValue("class") {
-            XCTAssert(classValue.containsOneInstanceOf(.carouselControlNext))
+        if let classValue = nextTag.classValue {
+            XCTAssert(classValue.has(.carouselControlNext))
         } else {
             XCTFail()
         }
-        if let dataBsTarget = nextTag.firstChildAttributeValue(.dataBsTarget) {
+        if let dataBsTarget = nextTag.attributeValue(.dataBsTarget) {
             XCTAssert(dataBsTarget == "#\(id)")
         } else {
             XCTFail()
         }
-        if let dataBsSlide = nextTag.firstChildAttributeValue(.dataBsSlide) {
+        if let dataBsSlide = nextTag.attributeValue(.dataBsSlide) {
             XCTAssert(dataBsSlide == CarouselControl.Direction.next.rawValue)
         } else {
             XCTFail()
@@ -212,8 +212,8 @@ final class CarouselTests: XCTestCase {
             .class(add: classes)
             .style(styles)
             .build()
-        if let classValue = tag.firstChildAttributeValue("class") {
-            XCTAssert(classValue.containsOneInstanceOf(.carouselCaption))
+        if let classValue = tag.classValue {
+            XCTAssert(classValue.has(.carouselCaption))
         } else {
             XCTFail()
         }        
@@ -233,33 +233,33 @@ final class CarouselTests: XCTestCase {
             .class(add: classes)
             .style(styles)
             .build()
-        if let type = tag.firstChildAttributeValue("type") {
+        if let type = tag.attributeValue("type") {
             XCTAssert(type == BsClass.button.rawValue)
         } else {
             XCTFail()
         }
-        if let dataBsTarget = tag.firstChildAttributeValue(.dataBsTarget) {
+        if let dataBsTarget = tag.attributeValue(.dataBsTarget) {
             XCTAssert(dataBsTarget == "#\(id)")
         } else {
             XCTFail()
         }
-        if let dataBsSlideTo = tag.firstChildAttributeValue(.dataBsSlideTo) {
+        if let dataBsSlideTo = tag.attributeValue(.dataBsSlideTo) {
             XCTAssert(dataBsSlideTo == String(index))
         } else {
             XCTFail()
         }
-        if let ariaLabel = tag.firstChildAttributeValue(.ariaLabel) {
+        if let ariaLabel = tag.attributeValue(.ariaLabel) {
             XCTAssert(ariaLabel == "Slide \(index)")
         } else {
             XCTFail()
         }
-        if let classValue = tag.firstChildAttributeValue("class") {
-            XCTAssert(classValue.containsOneInstanceOf(.active))
+        if let classValue = tag.classValue {
+            XCTAssert(classValue.has(.active))
         } else {
             XCTFail()
         }
-        if let ariaCurrent = tag.firstChildAttributeValue(.ariaCurrent) {
-            XCTAssert(ariaCurrent.containsOneInstanceOf(String(true)))
+        if let ariaCurrent = tag.attributeValue(.ariaCurrent) {
+            XCTAssert(ariaCurrent == String(true))
         }
         XCTAssert(tag.has(classes))
         XCTAssert(tag.has(styles))

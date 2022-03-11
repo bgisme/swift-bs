@@ -48,7 +48,7 @@ public class Carousel: Component {
                             isTouchDisabled: Bool = false,
                             isDark: Bool = false,
                             items: [CarouselItem]) {
-        let cntrls = controls ? [CarouselControl.prev(carouselId: id), CarouselControl.next(carouselId: id)] : nil
+        let cntrls = controls ? [CarouselControl(.prev, carouselId: id), CarouselControl(.next, carouselId: id)] : nil
         let indctrs = indicators ? CarouselIndicator.batch(count: items.count, carouselId: id) : nil
         self.init(id: id,
                   interval: milliseconds,
@@ -229,28 +229,21 @@ public class CarouselControl: Component {
     let direction: Direction
     let carouselId: String
     
-    public static func prev(carouselId id: String) -> Self {
-        let button = Self.button(direction: .prev)
-        return Self.init(tag: button, direction: .prev, carouselId: id)
-    }
-    
-    public static func next(carouselId id: String) -> Self {
-        let button = Self.button(direction: .next)
-        return Self.init(tag: button, direction: .next, carouselId: id)
-    }
-    
-    private static func button(direction: Direction) -> Button {
+    public convenience init(_ direction: Direction, carouselId id: String) {
         let text: String
         let icon: String
+        let controlDirection: BsClass
         switch direction {
         case .prev:
             text = "Previous"
             icon = "carousel-control-prev-icon"
+            controlDirection = .carouselControlPrev
         case .next:
             text = "Next"
             icon = "carousel-control-next-icon"
+            controlDirection = .carouselControlNext
         }
-        return Button {
+        let button = Button {
             Span()
                 .class(icon)
                 .ariaHidden(true)
@@ -258,6 +251,8 @@ public class CarouselControl: Component {
                 .class(add: .visuallyHidden)
         }
             .type(.button)
+            .class(controlDirection)
+        self.init(button, direction: direction, carouselId: id)
     }
     
     public convenience init(_ button: Button, direction: Direction, carouselId id: String) {
@@ -279,15 +274,10 @@ extension CarouselControl: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        switch direction {
-        case .prev:
-            tag.class(add: .carouselControlPrev)
-        case .next:
-            tag.class(add: .carouselControlNext)
-        }
-        tag.dataBsTarget(carouselId)
-        tag.dataBsSlide(direction.rawValue)
-        tag.addClassesStyles(self)
+        tag
+            .dataBsTarget(carouselId)
+            .dataBsSlide(direction.rawValue)
+            .addClassesStyles(self)
     }
 }
 

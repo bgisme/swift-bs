@@ -18,6 +18,7 @@ public enum BsAttribute: String {
     case ariaPressed = "aria-pressed"
     case autoComplete = "auto-complete"
     case checked
+    case `class`
     case dataParent = "data-bs-parent"
     case dataBsInterval = "data-bs-interval"
     case dataBsRide = "data-bs-ride"
@@ -38,5 +39,6 @@ public enum BsAttribute: String {
     case selected
     case size
     case step
+    case style
     case toolbar
 }

@@ -25,6 +25,6 @@ final class SwiftBsTests: XCTestCase {
                 .style(remove: .margin)
         }
         let html = DocumentRenderer(minify: true).render(doc)
-        XCTAssertEqual(#"<span style="\#(CssProperty.backgroundColor.rawValue):\#(bkgndColor)">a</span>"#, html)
+        XCTAssertEqual(#"<span style="\#(CssProperty.backgroundColor.rawValue):\#(bkgndColor);">a</span>"#, html)
     }
 }

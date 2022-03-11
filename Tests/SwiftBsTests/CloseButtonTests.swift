@@ -11,19 +11,18 @@ final class CloseButtonTests: XCTestCase {
             .class(add: classes)
             .style(styles)
             .build()
-        if let classValue = tag.firstChildAttributeValue("class") {
-            print("\r\rclassValue = \(classValue)\r\r")
-            XCTAssert(classValue.containsOneInstanceOf(.btnClose))
-            XCTAssert(classValue.containsOneInstanceOf(.btnCloseWhite))
+        if let classValue = tag.classValue {
+            XCTAssert(classValue.has(.btnClose))
+            XCTAssert(classValue.has(.btnCloseWhite))
         } else {
             XCTFail()
         }
-        if let ariaLabel = tag.firstChildAttributeValue(.ariaLabel) {
+        if let ariaLabel = tag.attributeValue(.ariaLabel) {
             XCTAssert(ariaLabel == "Close")
         } else {
             XCTFail()
         }
-        XCTAssert(tag.firstChildAttribute(.disabled) != nil)
+        XCTAssert(tag.hasAttribute(.disabled))
         XCTAssert(tag.has(classes))
         XCTAssert(tag.has(styles))
     }
