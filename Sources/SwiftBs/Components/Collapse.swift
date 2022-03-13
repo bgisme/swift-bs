@@ -110,10 +110,10 @@ extension CollapseContent: TagRepresentable {
         case .horizontal(let pixelWidth):
             Div {
                 div
+                    .class(.collapse, .collapseHorizontal)
+                    .style(.width("\(pixelWidth)px;"))
+                    .addClassesStyles(self)
             }
-            .class(.collapse, .collapseHorizontal)
-            .style(.width("\(pixelWidth)px;"))
-            .addClassesStyles(self)
         case .vertical:
             div
                 .class(.collapse)
