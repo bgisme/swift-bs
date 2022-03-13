@@ -77,20 +77,6 @@ public class CollapseContent: Component {
     var isSibling: Bool
     let div: Div
     
-    public convenience init(orientation: Orientation = .vertical,
-                            id: String,
-                            isSibling: Bool = false,
-                            _ text: String) {
-        self.init(orientation: orientation, id: id, isSibling: isSibling) { Text(text) }
-    }
-    
-    public convenience init(orientation: Orientation = .vertical,
-                            id: String,
-                            isSibling: Bool = false,
-                            @TagBuilder content: () -> [Tag]) {
-        self.init(orientation: orientation, id: id, isSibling: isSibling, Div{ content() })
-    }
-    
     public init(orientation: Orientation = .vertical,
                 id: String,
                 isSibling: Bool = false,

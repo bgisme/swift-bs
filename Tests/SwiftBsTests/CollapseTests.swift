@@ -45,9 +45,8 @@ final class CollapseTests: XCTestCase {
     
     func testCollapseContent() throws {
         let id = "collapseExample"
-        let tag = CollapseContent(id: id) {
-            Div("Something to look at inside collapse.")
-        }.build()
+        let div = Div("Something to look at inside collapse.")
+        let tag = CollapseContent(id: id, div).build()
         XCTAssert(tag.classValue?.has(.collapse) ?? false)
         XCTAssert(tag.attributeValue("id") == id)
     }
