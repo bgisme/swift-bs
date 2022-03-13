@@ -67,6 +67,10 @@ public class CollapseButton: Component {
     let tag: Tag
     let ids: [String]
     
+    public convenience init(_ title: String, contentId id: String) {
+        self.init(title, contentIds: [id])
+    }
+    
     public convenience init(_ title: String, contentIds ids: [String]) {
         self.init(Button(title), contentIds: ids)
     }
