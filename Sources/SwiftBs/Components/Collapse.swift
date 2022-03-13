@@ -72,16 +72,17 @@ public class CollapseButton: Component {
         _ = a
             .role(.button)
             .href(ids.count < 2 ? "#\(ids.first!)" : BsClass.multiCollapse.rawValue)
-        self.init(BsButton(a), contentIds: ids)
+        let tag = BsButton(a).build()
+        self.init(tag: tag, contentIds: ids)
     }
     
-    public convenience init(_ button: BsButton, contentIds ids: [String]) {
+    public convenience init(_ button: Button, contentIds ids: [String]) {
         let ids = !ids.isEmpty ? ids : [String()]
-        let buttonTag = button.build()
-        buttonTag
+        let tag = BsButton(button).build()
+        tag
             .type(.button)
             .dataBsTarget(ids.count < 2 ? "#\(ids.first!)" : BsClass.multiCollapse.rawValue, isHashPrefixed: false)
-        self.init(tag: buttonTag, contentIds: ids)
+        self.init(tag: tag, contentIds: ids)
     }
     
     internal init(tag: Tag, contentIds ids: [String]) {

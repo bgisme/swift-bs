@@ -16,7 +16,7 @@ final class CollapseTests: XCTestCase {
         XCTAssert(tagA.attributeValue("href") == "#\(id)")
         
         // <button> version
-        let button = BsButton("Button with data-bs-target")
+        let button = Button("Button with data-bs-target")
         let tagB = CollapseButton(button, contentIds: ids).build()
         XCTAssert(tagB.attributeValue(.dataBsTarget) == "#\(id)")
         
@@ -30,7 +30,7 @@ final class CollapseTests: XCTestCase {
             CollapseContent(id: id, isSibling: true, content),
             CollapseContent(id: "collapseExample2", isSibling: true, content)
         ]
-        let multiButton = BsButton("Multi-target")
+        let multiButton = Button("Multi-target")
         let tagC = CollapseButton(multiButton, contentIds: multiContents.map{$0.id}).build()
         XCTAssert(tagC.attributeValue(.dataBsTarget) == BsClass.multiCollapse.rawValue)
         XCTAssert(tagC.attributeValue(.ariaControls) == multiContents.map{$0.id}.joined(separator: " "))
