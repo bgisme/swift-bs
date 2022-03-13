@@ -12,6 +12,12 @@ public class Collapse: Component {
     let buttons: [Tag]
     let contents: [Tag]
     
+    public convenience init(orientation: Orientation = .vertical,
+                            _ button: CollapseButton,
+                            _ content: CollapseContent) {
+        self.init(orientation, buttons: [button], contents: [content])
+    }
+    
     public convenience init(_ orientation: Orientation = .vertical,
                 buttons: [CollapseButton],
                 contents: [CollapseContent]) {
