@@ -5,18 +5,7 @@ public class Collapse: Component {
     
     let buttons: [Tag]
     let contents: [Tag]
-    
-    public convenience init(_ button: CollapseButton,
-                            _ content: CollapseContent) {
-        self.init(buttons: [button], contents: [content])
-    }
-    
-    public convenience init(buttons: [CollapseButton],
-                            contents: [CollapseContent]) {
-        self.init(buttons: { buttons.map{$0} },
-                  contents: { contents.map{$0} })
-    }
-    
+        
     public init(@TagBuilder buttons: () -> [Tag],
                 @TagBuilder contents: () -> [Tag]) {
         self.buttons = buttons()
