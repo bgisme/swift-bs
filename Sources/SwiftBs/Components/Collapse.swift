@@ -72,7 +72,7 @@ public class CollapseContent: Component {
         case vertical
     }
     
-    let orientation: Orientation
+    let pixelWidth: Int
     let id: String
     var isSibling: Bool
     let div: Div
@@ -95,7 +95,12 @@ public class CollapseContent: Component {
                 id: String,
                 isSibling: Bool = false,
                 _ div: Div) {
-        self.orientation = orientation
+        switch orientation {
+        case .horizontal(let pixelWidth):
+            self.pixelWidth = pixelWidth
+        case .vertical:
+            self.pixelWidth = 0
+        }
         self.id = id
         self.isSibling = isSibling
         self.div = div
@@ -106,20 +111,12 @@ extension CollapseContent: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        switch orientation {
-        case .horizontal(let pixelWidth):
-            Div {
-                div
-                    .class(.collapse, .collapseHorizontal)
-                    .style(.width("\(pixelWidth)px;"))
-                    .addClassesStyles(self)
-            }
-        case .vertical:
-            div
-                .class(.collapse)
-                .class(add: .multiCollapse, if: isSibling)
-                .id(id)
-                .addClassesStyles(self)
-        }
+        div
+            .class(add: .collapse)
+            .class(add: .collapseHorizontal, if: pixelWidth > 0)
+            .class(add: .multiCollapse, if: isSibling)
+            .style(.width("\(pixelWidth)px;"), if: pixelWidth > 0)
+            .id(id)
+            .addClassesStyles(self)
     }
 }
