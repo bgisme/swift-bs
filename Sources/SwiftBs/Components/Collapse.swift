@@ -1,32 +1,31 @@
 import SwiftHtml
 
+
 public class Collapse: Component {
+    
+    public enum Orientation {
+        case horizontal(pixelWidth: Int)
+        case vertical
+    }
         
-    let tag: Tag
-    let id: String
-    let contents: Div
+    let orientation: Orientation
+    let buttons: [Tag]
+    let contents: [Tag]
     
-    public convenience init(_ a: A, id: String, @TagBuilder contents: () -> [Tag]) {
-        a
-            .href(id)
-            .role(.button)
-        self.init(tag: a, id: id, contents: contents)
+    public convenience init(_ orientation: Orientation = .vertical,
+                buttons: [CollapseButton],
+                contents: [CollapseContent]) {
+        self.init(orientation,
+                  buttons: { buttons.map{$0} },
+                  contents: { contents.map{$0} })
     }
     
-    public convenience init(_ button: Button? = nil, id: String, @TagBuilder contents: () -> [Tag]) {
-        let button = button != nil ? button! : Button()
-        button
-            .type(.button)
-            .dataBsTarget(id)
-        self.init(tag: button, id: id, contents: contents)
-    }
-    
-    internal init(tag: Tag, id: String, @TagBuilder contents: () -> [Tag]) {
-        self.tag = tag
-        self.id = id
-        self.contents = Div {
-            contents()
-        }
+    public init(_ orientation: Orientation = .vertical,
+                @TagBuilder buttons: () -> [Tag],
+                @TagBuilder contents: () -> [Tag]) {
+        self.orientation = orientation
+        self.buttons = buttons()
+        self.contents = contents()
     }
 }
 
@@ -35,15 +34,97 @@ extension Collapse: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         P {
-            tag
+            buttons
         }
-        Div {
-            contents
-                .class(.collapse)
-                .id(id)
+        switch orientation {
+        case .horizontal(let pixelWidth):
+            Div {
+                Div {
+                    contents
+                }
+                .class(.collapse, .collapseHorizontal)
+                .style(.width("\(pixelWidth)px;"))
+                .addClassesStyles(self)
+            }
+        case .vertical:
+            Div {
+                contents
+            }
+            .class(.collapse)
+            .addClassesStyles(self)
         }
-        .dataBsToggle(.collapse)
-        .ariaExpanded(false)
-        .ariaControls(id)
+    }
+}
+
+public class CollapseButton: Component {
+    
+    let tag: Tag
+    let ids: [String]
+    
+    public convenience init(_ title: String, contents: [CollapseContent]) {
+        self.init(Button(title), contents: contents)
+    }
+    
+    public convenience init(_ a: A, contents: [CollapseContent]) {
+        let ids = !contents.isEmpty ? contents.map{$0.id} : [String()]
+        _ = a
+            .role(.button)
+            .href(ids.count < 2 ? "#\(ids.first!)" : BsClass.multiCollapse.rawValue)
+        self.init(tag: a, contents: contents)
+    }
+    
+    public convenience init(_ button: Button, contents: [CollapseContent]) {
+        let ids = !contents.isEmpty ? contents.map{$0.id} : [String()]
+        button
+            .type(.button)
+            .dataBsTarget(ids.count < 2 ? "#\(ids.first!)" : BsClass.multiCollapse.rawValue, isHashPrefixed: false)
+        self.init(tag: button, contents: contents)
+    }
+
+    internal init(tag: Tag, contents: [CollapseContent]) {
+        if contents.count > 1 {
+            // add ".multi-collapse" to CollapseContent and class will be added in its func build() -> Tag
+            _ = contents.map{$0.class(add: .multiCollapse)}
+        }
+        self.tag = tag
+        self.ids = contents.map{$0.id}
+    }
+}
+
+extension CollapseButton: TagRepresentable {
+    
+    @TagBuilder
+    public func build() -> Tag {
+        tag
+            .dataBsToggle(.collapse)
+            .ariaExpanded(false)
+            .ariaControls(ids.map{$0}.joined(separator: " "))
+            .addClassesStyles(self)
+    }
+}
+
+public class CollapseContent: Component {
+    
+    let id: String
+    let div: Div
+    
+    public convenience init(id: String, @TagBuilder content: () -> [Tag]) {
+        self.init(id: id, Div{ content() })
+    }
+    
+    public init(id: String, _ div: Div) {
+        self.id = id
+        self.div = div
+    }
+}
+
+extension CollapseContent: TagRepresentable {
+    
+    @TagBuilder
+    public func build() -> Tag {
+        div
+            .class(.collapse)
+            .id(id)
+            .addClassesStyles(self)
     }
 }

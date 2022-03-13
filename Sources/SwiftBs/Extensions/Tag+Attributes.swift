@@ -268,13 +268,13 @@ extension Tag {
     }
     
     @discardableResult
-    public func dataBsTarget(_ value: BsClass, _ condition: Bool = true) -> Self {
-        self.dataBsTarget(value.rawValue, condition)
+    public func dataBsTarget(_ value: BsClass, isHashPrefixed: Bool = true, _ condition: Bool = true) -> Self {
+        self.dataBsTarget(value.rawValue, isHashPrefixed: isHashPrefixed, condition)
     }
     
     @discardableResult
-    public func dataBsTarget(_ value: String, _ condition: Bool = true) -> Self {
-        self.attribute(.dataBsTarget, "#" + value, condition)
+    public func dataBsTarget(_ value: String, isHashPrefixed: Bool = true, _ condition: Bool = true) -> Self {
+        self.attribute(.dataBsTarget, isHashPrefixed ? "#" + value : value, condition)
     }
     
     @discardableResult

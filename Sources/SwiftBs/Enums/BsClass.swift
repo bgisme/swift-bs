@@ -142,6 +142,7 @@ public enum BsClass: String {
     case clearfix
     
     case collapse
+    case collapseHorizontal = "collapse-horizontal"
     case collapsed
     
     case col
@@ -498,6 +499,8 @@ public enum BsClass: String {
     case listUnstyled = "list-unstyled"
     
     // MARK: - M
+    case multiCollapse = "multi-collapse"
+    
     case mt0 = "mt-0"
     case mt1 = "mt-1"
     case mt2 = "mt-2"
