@@ -50,7 +50,7 @@ extension Tag {
     public func addClassesStyles(_ component: Component) -> Self {
         self.class(add: component.classes)
         if let styles = component.styles {
-            let keyValueStr = styles.map { "\($0.0):\($0.1)"}.joined(separator: ";") + ";"
+            let keyValueStr = styles.map { "\($0.0):\($0.1)"}.joined(separator: ";")
             return self.style(add: keyValueStr)
         }
         return self
@@ -104,7 +104,7 @@ extension Tag {
     @discardableResult
     public func style(_ keyValues: [CssKeyValue]?, _ condition: Bool = true) -> Self {
         guard condition, let keyValues = keyValues, !keyValues.isEmpty else { return self }
-        let kvStr = keyValues.map{ String($0) }.joined(separator: ";") + ";"
+        let kvStr = keyValues.map{ String($0) }.joined(separator: ";")
         return style(kvStr)
     }
     
@@ -120,7 +120,7 @@ extension Tag {
     @discardableResult
     public func style(add keyValues: [CssKeyValue]?, _ condition: Bool = true) -> Self {
         guard let keyValues = keyValues, !keyValues.isEmpty else { return self }
-        let kvStr = keyValues.map{ String($0) }.joined(separator: ";") + ";"
+        let kvStr = keyValues.map{ String($0) }.joined(separator: ";")
         return self.style(add: kvStr, condition)
     }
     
@@ -152,7 +152,7 @@ extension Tag {
                      return $0[..<colonIndex] != key
                 }
                 return true
-            }.joined(separator: ";") + ";"
+            }.joined(separator: ";")
             if !newKeyValues.isEmpty {
                 _ = style(newKeyValues)
             } else {
