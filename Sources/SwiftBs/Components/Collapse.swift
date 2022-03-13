@@ -3,33 +3,22 @@ import SwiftHtml
 
 public class Collapse: Component {
     
-    public enum Orientation {
-        case horizontal(pixelWidth: Int)
-        case vertical
-    }
-        
-    let orientation: Orientation
     let buttons: [Tag]
     let contents: [Tag]
     
-    public convenience init(orientation: Orientation = .vertical,
-                            _ button: CollapseButton,
+    public convenience init(_ button: CollapseButton,
                             _ content: CollapseContent) {
-        self.init(orientation, buttons: [button], contents: [content])
+        self.init(buttons: [button], contents: [content])
     }
     
-    public convenience init(_ orientation: Orientation = .vertical,
-                buttons: [CollapseButton],
-                contents: [CollapseContent]) {
-        self.init(orientation,
-                  buttons: { buttons.map{$0} },
+    public convenience init(buttons: [CollapseButton],
+                            contents: [CollapseContent]) {
+        self.init(buttons: { buttons.map{$0} },
                   contents: { contents.map{$0} })
     }
     
-    public init(_ orientation: Orientation = .vertical,
-                @TagBuilder buttons: () -> [Tag],
+    public init(@TagBuilder buttons: () -> [Tag],
                 @TagBuilder contents: () -> [Tag]) {
-        self.orientation = orientation
         self.buttons = buttons()
         self.contents = contents()
     }
@@ -42,23 +31,7 @@ extension Collapse: TagRepresentable {
         P {
             buttons
         }
-        switch orientation {
-        case .horizontal(let pixelWidth):
-            Div {
-                Div {
-                    contents
-                }
-                .class(.collapse, .collapseHorizontal)
-                .style(.width("\(pixelWidth)px;"))
-                .addClassesStyles(self)
-            }
-        case .vertical:
-            Div {
-                contents
-            }
-            .class(.collapse)
-            .addClassesStyles(self)
-        }
+        contents
     }
 }
 
@@ -105,19 +78,35 @@ extension CollapseButton: TagRepresentable {
 
 public class CollapseContent: Component {
     
+    public enum Orientation {
+        case horizontal(pixelWidth: Int)
+        case vertical
+    }
+    
+    let orientation: Orientation
     let id: String
     var isSibling: Bool
     let div: Div
     
-    public convenience init(id: String, isSibling: Bool = false, _ text: String) {
-        self.init(id: id, isSibling: isSibling) { Text(text) }
+    public convenience init(orientation: Orientation = .vertical,
+                            id: String,
+                            isSibling: Bool = false,
+                            _ text: String) {
+        self.init(orientation: orientation, id: id, isSibling: isSibling) { Text(text) }
     }
     
-    public convenience init(id: String, isSibling: Bool = false, @TagBuilder content: () -> [Tag]) {
-        self.init(id: id, isSibling: isSibling, Div{ content() })
+    public convenience init(orientation: Orientation = .vertical,
+                            id: String,
+                            isSibling: Bool = false,
+                            @TagBuilder content: () -> [Tag]) {
+        self.init(orientation: orientation, id: id, isSibling: isSibling, Div{ content() })
     }
     
-    public init(id: String, isSibling: Bool = false, _ div: Div) {
+    public init(orientation: Orientation = .vertical,
+                id: String,
+                isSibling: Bool = false,
+                _ div: Div) {
+        self.orientation = orientation
         self.id = id
         self.isSibling = isSibling
         self.div = div
@@ -128,10 +117,20 @@ extension CollapseContent: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        div
-            .class(.collapse)
-            .class(add: .multiCollapse, if: isSibling)
-            .id(id)
+        switch orientation {
+        case .horizontal(let pixelWidth):
+            Div {
+                div
+            }
+            .class(.collapse, .collapseHorizontal)
+            .style(.width("\(pixelWidth)px;"))
             .addClassesStyles(self)
+        case .vertical:
+            div
+                .class(.collapse)
+                .class(add: .multiCollapse, if: isSibling)
+                .id(id)
+                .addClassesStyles(self)
+        }
     }
 }
