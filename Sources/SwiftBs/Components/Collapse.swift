@@ -72,7 +72,7 @@ public class CollapseButton: Component {
         _ = a
             .role(.button)
             .href(ids.count < 2 ? "#\(ids.first!)" : BsClass.multiCollapse.rawValue)
-        self.init(tag: a, contentIds: ids)
+        self.init(BsButton(a), contentIds: ids)
     }
     
     public convenience init(_ button: BsButton, contentIds ids: [String]) {
