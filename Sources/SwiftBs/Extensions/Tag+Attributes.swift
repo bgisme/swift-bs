@@ -104,7 +104,7 @@ extension Tag {
     @discardableResult
     public func style(_ keyValues: [CssKeyValue]?, _ condition: Bool = true) -> Self {
         guard condition, let keyValues = keyValues, !keyValues.isEmpty else { return self }
-        let kvStr = keyValues.map{ String($0.value) }.joined(separator: ";") + ";"
+        let kvStr = keyValues.map{ String($0) }.joined(separator: ";") + ";"
         return style(kvStr)
     }
     
