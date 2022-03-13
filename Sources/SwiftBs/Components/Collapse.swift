@@ -67,14 +67,6 @@ public class CollapseButton: Component {
     let tag: Tag
     let ids: [String]
     
-    public convenience init(_ title: String, contentId id: String) {
-        self.init(title, contentIds: [id])
-    }
-    
-    public convenience init(_ title: String, contentIds ids: [String]) {
-        self.init(Button(title), contentIds: ids)
-    }
-    
     public convenience init(_ a: A, contentIds ids: [String]) {
         let ids = !ids.isEmpty ? ids : [String()]
         _ = a
@@ -83,12 +75,13 @@ public class CollapseButton: Component {
         self.init(tag: a, contentIds: ids)
     }
     
-    public convenience init(_ button: Button, contentIds ids: [String]) {
+    public convenience init(_ button: BsButton, contentIds ids: [String]) {
         let ids = !ids.isEmpty ? ids : [String()]
-        button
+        let buttonTag = button.build()
+        buttonTag
             .type(.button)
             .dataBsTarget(ids.count < 2 ? "#\(ids.first!)" : BsClass.multiCollapse.rawValue, isHashPrefixed: false)
-        self.init(tag: button, contentIds: ids)
+        self.init(tag: buttonTag, contentIds: ids)
     }
     
     internal init(tag: Tag, contentIds ids: [String]) {
