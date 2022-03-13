@@ -108,6 +108,10 @@ public class CollapseContent: Component {
     let id: String
     let div: Div
     
+    public convenience init(id: String, _ text: String) {
+        self.init(id: id) { Text(text) }
+    }
+    
     public convenience init(id: String, @TagBuilder content: () -> [Tag]) {
         self.init(id: id, Div{ content() })
     }
