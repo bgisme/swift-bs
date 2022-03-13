@@ -67,33 +67,29 @@ public class CollapseButton: Component {
     let tag: Tag
     let ids: [String]
     
-    public convenience init(_ title: String, contents: [CollapseContent]) {
-        self.init(Button(title), contents: contents)
+    public convenience init(_ title: String, contentIds ids: [String]) {
+        self.init(Button(title), contentIds: ids)
     }
     
-    public convenience init(_ a: A, contents: [CollapseContent]) {
-        let ids = !contents.isEmpty ? contents.map{$0.id} : [String()]
+    public convenience init(_ a: A, contentIds ids: [String]) {
+        let ids = !ids.isEmpty ? ids : [String()]
         _ = a
             .role(.button)
             .href(ids.count < 2 ? "#\(ids.first!)" : BsClass.multiCollapse.rawValue)
-        self.init(tag: a, contents: contents)
+        self.init(tag: a, contentIds: ids)
     }
     
-    public convenience init(_ button: Button, contents: [CollapseContent]) {
-        let ids = !contents.isEmpty ? contents.map{$0.id} : [String()]
+    public convenience init(_ button: Button, contentIds ids: [String]) {
+        let ids = !ids.isEmpty ? ids : [String()]
         button
             .type(.button)
             .dataBsTarget(ids.count < 2 ? "#\(ids.first!)" : BsClass.multiCollapse.rawValue, isHashPrefixed: false)
-        self.init(tag: button, contents: contents)
+        self.init(tag: button, contentIds: ids)
     }
-
-    internal init(tag: Tag, contents: [CollapseContent]) {
-        if contents.count > 1 {
-            // add ".multi-collapse" to CollapseContent and class will be added in its func build() -> Tag
-            _ = contents.map{$0.class(add: .multiCollapse)}
-        }
+    
+    internal init(tag: Tag, contentIds ids: [String]) {
         self.tag = tag
-        self.ids = contents.map{$0.id}
+        self.ids = ids
     }
 }
 
@@ -112,18 +108,20 @@ extension CollapseButton: TagRepresentable {
 public class CollapseContent: Component {
     
     let id: String
+    var isSibling: Bool
     let div: Div
     
-    public convenience init(id: String, _ text: String) {
-        self.init(id: id) { Text(text) }
+    public convenience init(id: String, isSibling: Bool = false, _ text: String) {
+        self.init(id: id, isSibling: isSibling) { Text(text) }
     }
     
-    public convenience init(id: String, @TagBuilder content: () -> [Tag]) {
-        self.init(id: id, Div{ content() })
+    public convenience init(id: String, isSibling: Bool = false, @TagBuilder content: () -> [Tag]) {
+        self.init(id: id, isSibling: isSibling, Div{ content() })
     }
     
-    public init(id: String, _ div: Div) {
+    public init(id: String, isSibling: Bool = false, _ div: Div) {
         self.id = id
+        self.isSibling = isSibling
         self.div = div
     }
 }
@@ -134,6 +132,7 @@ extension CollapseContent: TagRepresentable {
     public func build() -> Tag {
         div
             .class(.collapse)
+            .class(add: .multiCollapse, if: isSibling)
             .id(id)
             .addClassesStyles(self)
     }
