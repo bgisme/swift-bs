@@ -73,7 +73,7 @@ extension BsButton: TagRepresentable {
     public func build() -> Tag {
         if let tag = tag as? A {
             tag
-                .class(isDisabled ? [.btn, .disabled] : [.btn])
+                .class(add: isDisabled ? [.btn, .disabled] : [.btn])
                 .role(.button)
                 .class(add: .active, if: isActive)
                 .ariaPressed(true, isActive)
@@ -81,7 +81,7 @@ extension BsButton: TagRepresentable {
                 .addClassesStyles(self)
         } else if let tag = tag as? Button {
             tag
-                .class(.btn)
+                .class(add: .btn)
                 .type(.button)
                 .class(add: .active, if: isToggle && isPressed)
                 .dataBsToggle(.button, isToggle)
@@ -91,7 +91,7 @@ extension BsButton: TagRepresentable {
                 .addClassesStyles(self)
         } else if let tag = tag as? Input {
             tag
-                .class(.btn)
+                .class(add: .btn)
                 .addClassesStyles(self)
         }
     }
