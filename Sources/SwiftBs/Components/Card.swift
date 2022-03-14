@@ -27,7 +27,7 @@ public class Card: Component {
         self.init(Div {
             if let header = header { CardHeader(header) }
             if let imgTop = imgTop { imgTop }
-            if let text = text { CardText(text) }
+            if let text = text { CardBody(text: text) }
             if let imgBottom = imgBottom { imgBottom }
             if let footer = footer { CardFooter(footer) }
         })
