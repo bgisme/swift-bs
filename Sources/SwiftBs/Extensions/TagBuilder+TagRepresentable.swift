@@ -15,7 +15,7 @@ extension TagBuilder {
 
     public static func buildExpression(_ expression: [TagRepresentable]) -> [Tag] {
         expression.map { $0.build() }
-    }        
+    }
 }
 
 public protocol TagRepresentable {

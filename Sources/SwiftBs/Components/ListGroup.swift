@@ -15,25 +15,18 @@ public class ListGroup: Component {
         self.init(tag: Ul { items() }, isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal)
     }
     
-    public convenience init(ordered items: [ListGroupItem],
-                            isFlush: Bool = false,
+    public convenience init(isFlush: Bool = false,
                             isNumbered: Bool = false,
-                            isHorizontal: Bool = false) {
-        self.init(tag: Ol { items.map{$0} }, isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal)
+                            isHorizontal: Bool = false,
+                            @TagBuilder ordered items: () -> [ListGroupItem]) {
+        self.init(tag: Ol { items() }, isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal)
     }
     
-    public convenience init(action items: ListGroupActionItem...,
-                            isFlush: Bool = false,
+    public convenience init(isFlush: Bool = false,
                             isNumbered: Bool = false,
-                            isHorizontal: Bool = false) {
-        self.init(action: items, isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal)
-    }
-    
-    public convenience init(action items: [ListGroupActionItem],
-                            isFlush: Bool = false,
-                            isNumbered: Bool = false,
-                            isHorizontal: Bool = false) {
-        self.init(tag: Div { items.map{$0} }, isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal)
+                            isHorizontal: Bool = false,
+                            @TagBuilder action items: () -> [Tag]) {
+        self.init(tag: Div { items() }, isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal)
     }
 
     internal init(tag: Tag,
@@ -81,6 +74,17 @@ public class ListGroupItem: Component {
     
     internal init(tag: Tag) {
         self.tag = tag
+    }
+}
+
+extension TagBuilder {
+    
+    public static func buildExpression(_ expression: ListGroupItem) -> [Tag] {
+        [expression.build()]
+    }
+
+    public static func buildExpression(_ expression: [ListGroupItem]) -> [Tag] {
+        expression.map { $0.build() }
     }
 }
 
