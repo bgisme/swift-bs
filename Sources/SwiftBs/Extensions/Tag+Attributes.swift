@@ -265,14 +265,24 @@ extension Tag {
         self.attribute(.dataBsSlideTo, value, condition)
     }
     
-    @discardableResult
-    public func dataBsTarget(_ value: BsClass, isHashPrefixed: Bool = true, _ condition: Bool = true) -> Self {
-        self.dataBsTarget(value.rawValue, isHashPrefixed: isHashPrefixed, condition)
-    }
+//    @discardableResult
+//    public func dataBsTarget(_ value: BsClass, isHashPrefixed: Bool = true, _ condition: Bool = true) -> Self {
+//        self.dataBsTarget(value.rawValue, isHashPrefixed: isHashPrefixed, condition)
+//    }
+    
+//    @discardableResult
+//    public func dataBsTarget(_ value: String, isHashPrefixed: Bool = true, _ condition: Bool = true) -> Self {
+//        self.attribute(.dataBsTarget, isHashPrefixed ? "#" + value : value, condition)
+//    }
     
     @discardableResult
-    public func dataBsTarget(_ value: String, isHashPrefixed: Bool = true, _ condition: Bool = true) -> Self {
-        self.attribute(.dataBsTarget, isHashPrefixed ? "#" + value : value, condition)
+    public func dataBsTarget(_ value: BsClass, prefix: String = "#", _ condition: Bool = true) -> Self {
+        self.dataBsTarget(value.rawValue, prefix: prefix, condition)
+    }
+
+    @discardableResult
+    public func dataBsTarget(_ value: String, prefix: String = "#", _ condition: Bool = true) -> Self {
+        self.attribute(.dataBsTarget, prefix + value, condition)
     }
     
     @discardableResult

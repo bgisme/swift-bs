@@ -46,7 +46,7 @@ public class CollapseButton: Component {
         case .button:
             let btn = Button(title)
                 .type(.button)
-                .dataBsTarget(ids.count < 2 ? "#\(ids.first!)" : BsClass.multiCollapse.rawValue, isHashPrefixed: false)
+                .dataBsTarget(ids.count < 2 ? "#\(ids.first!)" : BsClass.multiCollapse.rawValue, prefix: ".")
             tag = BsButton(btn).build()
         case .link:
             let a = A(title)
@@ -57,29 +57,6 @@ public class CollapseButton: Component {
         self.tag = tag
         self.ids = ids
     }
-
-//    public convenience init(_ a: A, contentIds ids: [String]) {
-//        let ids = !ids.isEmpty ? ids : [String()]
-//        _ = a
-//            .role(.button)
-//            .href(ids.count < 2 ? "#\(ids.first!)" : BsClass.multiCollapse.rawValue)
-//        let tag = BsButton(a).build()
-//        self.init(tag: tag, contentIds: ids)
-//    }
-//
-//    public convenience init(_ button: Button, contentIds ids: [String]) {
-//        let ids = !ids.isEmpty ? ids : [String()]
-//        let tag = BsButton(button).build()
-//        tag
-//            .type(.button)
-//            .dataBsTarget(ids.count < 2 ? "#\(ids.first!)" : BsClass.multiCollapse.rawValue, isHashPrefixed: false)
-//        self.init(tag: tag, contentIds: ids)
-//    }
-//
-//    internal init(tag: Tag, contentIds ids: [String]) {
-//        self.tag = tag
-//        self.ids = ids
-//    }
 }
 
 extension CollapseButton: TagRepresentable {
