@@ -29,10 +29,10 @@ extension Collapse: TagRepresentable {
     public func build() -> Tag {
         switch orientation {
         case .horizontal(let minHeight):
+            P {
+                buttons
+            }
             Div {
-                P {
-                    buttons
-                }
                 contents
             }
             .style(.minHeight(minHeight))
