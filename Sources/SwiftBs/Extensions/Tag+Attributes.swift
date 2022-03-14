@@ -49,8 +49,8 @@ extension Tag {
     /// Add Component classes and styles to class and style
     public func addClassesStyles(_ component: Component) -> Self {
         self.class(add: component.classes)
-        if let styles = component.styles {
-            let keyValueStr = styles.map { "\($0.0):\($0.1)"}.joined(separator: ";")
+        if let styles = component.styles, !styles.isEmpty {
+            let keyValueStr = styles.map {"\($0.0):\($0.1)"}.joined(separator: ";") + ";"
             return self.style(add: keyValueStr)
         }
         return self
@@ -95,16 +95,14 @@ extension Tag {
     /// Set value of style attribute with variadic (cleaner code)
     @discardableResult
     public func style(_ keyValues: CssKeyValue?..., if condition: Bool = true) -> Self {
-        let keyValues = keyValues.compactMap { $0 }
-        guard !keyValues.isEmpty else { return self }
-        return style(keyValues, condition)
+        return style(keyValues.compactMap{$0}, condition)
     }
     
     /// Set vale of style attribute with Array
     @discardableResult
     public func style(_ keyValues: [CssKeyValue]?, _ condition: Bool = true) -> Self {
         guard condition, let keyValues = keyValues, !keyValues.isEmpty else { return self }
-        let kvStr = keyValues.map{ String($0) }.joined(separator: ";")
+        let kvStr = keyValues.map{ String($0) }.joined(separator: ";") + ";"
         return style(kvStr)
     }
     
@@ -120,7 +118,7 @@ extension Tag {
     @discardableResult
     public func style(add keyValues: [CssKeyValue]?, _ condition: Bool = true) -> Self {
         guard let keyValues = keyValues, !keyValues.isEmpty else { return self }
-        let kvStr = keyValues.map{ String($0) }.joined(separator: ";")
+        let kvStr = keyValues.map{ String($0) }.joined(separator: ";") + ";"
         return self.style(add: kvStr, condition)
     }
     
@@ -152,7 +150,7 @@ extension Tag {
                      return $0[..<colonIndex] != key
                 }
                 return true
-            }.joined(separator: ";")
+            }.joined(separator: ";") + ";"
             if !newKeyValues.isEmpty {
                 _ = style(newKeyValues)
             } else {
