@@ -3,36 +3,31 @@ import SwiftSgml
 
 public class ListGroup: Component {
     
+    public enum `Type` {
+        case ol
+        case ul
+        case div
+    }
+    
     let tag: Tag
     let isFlush: Bool
     let isNumbered: Bool
     let isHorizontal: Bool
     
-    public convenience init(isFlush: Bool = false,
-                            isNumbered: Bool = false,
-                            isHorizontal: Bool = false,
-                            @TagBuilder unordered items: () -> [Tag]) {
-        self.init(tag: Ul { items() }, isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal)
-    }
-    
-    public convenience init(isFlush: Bool = false,
-                            isNumbered: Bool = false,
-                            isHorizontal: Bool = false,
-                            @TagBuilder ordered items: () -> [Tag]) {
-        self.init(tag: Ol { items() }, isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal)
-    }
-    
-    public convenience init(isFlush: Bool = false,
-                            isNumbered: Bool = false,
-                            isHorizontal: Bool = false,
-                            @TagBuilder action items: () -> [Tag]) {
-        self.init(tag: Div { items() }, isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal)
-    }
-
-    internal init(tag: Tag,
-                  isFlush: Bool,
-                  isNumbered: Bool,
-                  isHorizontal: Bool) {
+    public init(type: `Type` = .ul,
+                isFlush: Bool = false,
+                isNumbered: Bool = false,
+                isHorizontal: Bool = false,
+                @TagBuilder items: () -> [Tag]) {
+        let tag: Tag
+        switch type {
+        case .ol:
+            tag = Ol { items() }
+        case .ul:
+            tag = Ul { items() }
+        case .div:
+            tag = Div { items() }
+        }
         self.tag = tag
         self.isFlush = isFlush
         self.isNumbered = isNumbered
