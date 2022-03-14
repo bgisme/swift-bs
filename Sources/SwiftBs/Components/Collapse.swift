@@ -46,12 +46,12 @@ public class CollapseButton: Component {
         case .button:
             let btn = Button(title)
                 .type(.button)
-                .dataBsTarget(ids.count < 2 ? "#\(ids.first!)" : BsClass.multiCollapse.rawValue, prefix: ".")
+                .dataBsTarget(ids.count < 2 ? ids.first ?? "" : BsClass.multiCollapse.rawValue, prefix: ids.count < 2 ? "#" : ".")
             tag = BsButton(btn).build()
         case .link:
             let a = A(title)
                 .role(.button)
-                .href(ids.count < 2 ? "#\(ids.first!)" : BsClass.multiCollapse.rawValue)
+                .href(ids.count < 2 ? "#\(ids.first ?? "")" : BsClass.multiCollapse.rawValue)
             tag = BsButton(a).build()
         }
         self.tag = tag
