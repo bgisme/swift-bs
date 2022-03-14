@@ -493,10 +493,22 @@ public enum BsClass: String {
     
     case listGroup = "list-group"
     case listGroupFlush = "list-group-flush"
+    case listGroupHorizontal = "list-group-horizontal"
+    case listGroupNumbered = "list-group-numbered"
     case listGroupItem = "list-group-item"
+    case listGroupItemPrimary = "list-group-item-primary"
+    case listGroupItemSecondary = "list-group-item-secondary"
+    case listGroupItemSuccess = "list-group-item-success"
+    case listGroupItemDanger = "list-group-item-danger"
+    case listGroupItemWarning = "list-group-item-warning"
+    case listGroupItemInfo = "list-group-item-info"
+    case listGroupItemLight = "list-group-item-light"
+    case listGroupItemDark = "list-group-item-dark"
+    case listGroupItemAction = "list-group-item-action"
     case listInline = "list-inline"
     case listInlineItem = "list-inline-item"
     case listUnstyled = "list-unstyled"
+    
     
     // MARK: - M
     case multiCollapse = "multi-collapse"

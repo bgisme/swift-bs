@@ -2,7 +2,7 @@ import XCTest
 @testable import SwiftHtml
 @testable import SwiftBs
 
-final class ExtensionsTesting: XCTestCase {
+final class ExtensionTests: XCTestCase {
 
     func testAddClassesStyles() throws {
         let classes: [BsClass] = [.btn, .btnPrimary]

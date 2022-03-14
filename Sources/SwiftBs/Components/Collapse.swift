@@ -80,19 +80,19 @@ public class CollapseContent: Component {
     
     let width: String
     let id: String
-    var isSibling: Bool
+    var isMultiple: Bool
     let div: Div
     
     public convenience init(orientation: Orientation = .vertical,
                 id: String,
-                isSibling: Bool = false,
+                isMultiple: Bool = false,
                 @TagBuilder content: () -> [Tag]) {
-        self.init(orientation: orientation, id: id, isSibling: isSibling, Div { content() })
+        self.init(orientation: orientation, id: id, isMultiple: isMultiple, Div { content() })
     }
     
     public init(orientation: Orientation = .vertical,
                 id: String,
-                isSibling: Bool = false,
+                isMultiple: Bool = false,
                 _ div: Div) {
         switch orientation {
         case .horizontal(let width):
@@ -105,7 +105,7 @@ public class CollapseContent: Component {
             self.width = ""
         }
         self.id = id
-        self.isSibling = isSibling
+        self.isMultiple = isMultiple
         self.div = div
     }
 }
@@ -117,7 +117,7 @@ extension CollapseContent: TagRepresentable {
         div
             .class(add: .collapse)
             .class(add: .collapseHorizontal, if: !width.isEmpty)
-            .class(add: .multiCollapse, if: isSibling)
+            .class(add: .multiCollapse, if: isMultiple)
             .id(id)
             .addClassesStyles(self)
     }

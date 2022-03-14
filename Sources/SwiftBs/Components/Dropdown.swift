@@ -114,7 +114,6 @@ public class Dropdown: Component {
     public typealias IsMenuAlignResponsive = Bool
     public typealias IsDark = Bool
     
-    let id: String
     let direction: Direction
     let menuAlign: MenuAlign?
     let button: DropdownButton
@@ -134,21 +133,18 @@ public class Dropdown: Component {
             // so main button and arrow button match
             arrowButton?.class(add: btnClasses)
         }
-        self.init(id: id,
-                  direction: direction,
+        self.init(direction: direction,
                   menuAlign: menuAlign,
                   button: button,
                   arrowButton: arrowButton,
                   menu: menu(id, isDark, menuAlign))
     }
     
-    public init(id: String,
-                direction: Direction = .down,
+    public init(direction: Direction = .down,
                 menuAlign: MenuAlign?,
                 button: DropdownButton,
                 arrowButton: DropdownButtonArrow? = nil,
                 menu: DropdownMenu) {
-        self.id = id
         self.direction = direction
         self.menuAlign = menuAlign
         self.button = button
@@ -197,41 +193,6 @@ extension Dropdown: TagRepresentable {
         }
     }
 }
-
-//extension Dropdown: TagRepresentable {
-//
-//    @TagBuilder
-//    public func build() -> Tag {
-//        if !isSplit || (isSplit && direction != .start) {
-//            Div {
-//                if isSplit {
-//                    button(id, isSplit, direction, nil) // no menu align for split-dropdowns
-//                    splitButton(id)
-//                    menu(id, nil)
-//                } else {
-//                    button(id, isSplit, direction, menuAlign)   // only menus on non-split dropdowns align responsively
-//                    menu(id, menuAlign)
-//                }
-//            }
-//            .class(.btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
-//            .class(add: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
-//            .addClassesStyles(self)
-//        } else {
-//            Div {
-//                Div {
-//                    /// split buttons direction .start are ordered differently and inside extra button group
-//                    splitButton(id)
-//                    menu(id, nil)
-//                }
-//                .class(.btnGroup, .dropstart)
-//                .role(.group)
-//                button(id, isSplit, direction, nil)
-//            }
-//            .class(.btnGroup)
-//            .addClassesStyles(self)
-//        }
-//    }
-//}
 
 public class DropdownButton: Component {
     
