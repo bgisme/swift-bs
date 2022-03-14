@@ -77,16 +77,16 @@ public class ListGroupItem: Component {
     }
 }
 
-extension TagBuilder {
-    
-    public static func buildExpression(_ expression: ListGroupItem) -> [Tag] {
-        [expression.build()]
-    }
-
-    public static func buildExpression(_ expression: [ListGroupItem]) -> [Tag] {
-        expression.map { $0.build() }
-    }
-}
+//extension TagBuilder {
+//    
+//    public static func buildExpression(_ expression: ListGroupItem) -> [Tag] {
+//        [expression.build()]
+//    }
+//
+//    public static func buildExpression(_ expression: [ListGroupItem]) -> [Tag] {
+//        expression.map { $0.build() }
+//    }
+//}
 
 extension ListGroupItem: TagRepresentable {
     
