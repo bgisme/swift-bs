@@ -14,7 +14,7 @@ public class ListGroup: Component {
     let isNumbered: Bool
     let isHorizontal: Bool
     
-    public init(type: `Type` = .ul,
+    public init(_ type: `Type` = .ul,
                 isFlush: Bool = false,
                 isNumbered: Bool = false,
                 isHorizontal: Bool = false,
