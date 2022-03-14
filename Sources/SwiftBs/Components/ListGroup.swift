@@ -8,25 +8,11 @@ public class ListGroup: Component {
     let isNumbered: Bool
     let isHorizontal: Bool
     
-    public convenience init(unordered items: ListGroupItem...,
-                            isFlush: Bool = false,
+    public convenience init(isFlush: Bool = false,
                             isNumbered: Bool = false,
-                            isHorizontal: Bool = false) {
-        self.init(unordered: items, isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal)
-    }
-    
-    public convenience init(unordered items: [ListGroupItem],
-                            isFlush: Bool = false,
-                            isNumbered: Bool = false,
-                            isHorizontal: Bool = false) {
-        self.init(tag: Ul { items.map{$0} }, isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal)
-    }
-    
-    public convenience init(ordered items: ListGroupItem...,
-                            isFlush: Bool = false,
-                            isNumbered: Bool = false,
-                            isHorizontal: Bool = false) {
-        self.init(ordered: items, isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal)
+                            isHorizontal: Bool = false,
+                            unordered items: () -> [ListGroupItem]) {
+        self.init(tag: Ul { items() }, isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal)
     }
     
     public convenience init(ordered items: [ListGroupItem],
