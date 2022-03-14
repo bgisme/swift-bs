@@ -5,24 +5,11 @@ import AppKit
 
 public class Collapse: Component {
     
-    public enum Orientation {
-        case horizontal(width: String)
-        case vertical
-    }
-    
-    let width: String
     let buttons: [Tag]
     let contents: [Tag]
         
-    public init(orientation: Orientation = .vertical,
-                @TagBuilder buttons: () -> [Tag],
+    public init(@TagBuilder buttons: () -> [Tag],
                 @TagBuilder contents: () -> [Tag]) {
-        switch orientation {
-        case .horizontal(let width):
-            self.width = width
-        case .vertical:
-            self.width = String()
-        }
         self.buttons = buttons()
         self.contents = contents()
     }
@@ -35,12 +22,7 @@ extension Collapse: TagRepresentable {
         P {
             buttons
         }
-        Div {
-            contents
-        }
-        .class(add: .collapse)
-        .class(add: .collapseHorizontal, if: !width.isEmpty)
-        .style(add: .width(width), if: !width.isEmpty)
+        contents
     }
 }
 
@@ -87,13 +69,33 @@ extension CollapseButton: TagRepresentable {
 
 public class CollapseContent: Component {
     
+    public enum Orientation {
+        case horizontal(width: String)
+        case vertical
+    }
+    
+    let width: String
     let id: String
     var isSibling: Bool
     let div: Div
     
-    public init(id: String,
+    public convenience init(orientation: Orientation = .vertical,
+                id: String,
+                isSibling: Bool = false,
+                @TagBuilder content: () -> [Tag]) {
+        self.init(orientation: orientation, id: id, isSibling: isSibling, Div { content() })
+    }
+    
+    public init(orientation: Orientation = .vertical,
+                id: String,
                 isSibling: Bool = false,
                 _ div: Div) {
+        switch orientation {
+        case .horizontal(let width):
+            self.width = width
+        case .vertical:
+            self.width = String()
+        }
         self.id = id
         self.isSibling = isSibling
         self.div = div
@@ -105,7 +107,10 @@ extension CollapseContent: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         div
+            .class(add: .collapse)
+            .class(add: .collapseHorizontal, if: !width.isEmpty)
             .class(add: .multiCollapse, if: isSibling)
+            .style(.width(width), if: !width.isEmpty)
             .id(id)
             .addClassesStyles(self)
     }
