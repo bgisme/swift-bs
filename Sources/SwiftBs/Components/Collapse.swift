@@ -35,7 +35,7 @@ extension Collapse: TagRepresentable {
 //            Div {
                 contents
 //            }
-            .style(.minHeight(minHeight))
+//            .style(.minHeight(minHeight))
         case .vertical:
             P {
                 buttons
