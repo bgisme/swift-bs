@@ -66,11 +66,11 @@ public class ListGroupItem: Component {
         self.init(tag: li, isAction: false, isActive: isActive, isDisabled: isDisabled)
     }
     
-    /// <a> do not support disabled
     public convenience init(_ a: A,
                             isAction: Bool = false,
-                            isActive: Bool = false) {
-        self.init(tag: a, isAction: isAction, isActive: isActive, isDisabled: false)
+                            isActive: Bool = false,
+                            isDisabled: Bool = false) {
+        self.init(tag: a, isAction: isAction, isActive: isActive, isDisabled: isDisabled)
     }
     
     public convenience init(_ button: Button,
