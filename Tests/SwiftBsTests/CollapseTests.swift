@@ -4,6 +4,12 @@ import XCTest
 
 final class CollapseTests: XCTestCase {
     
+    func testCollapse() throws {
+        //! IMPLEMENT TEST
+//        XCTAssert(tag.classValue?.has(.collapse) ?? false)
+        XCTFail()
+    }
+    
     func testCollapseButton() throws {
         let id = "collapseExample"
         let ids = ["collapseExample"]
@@ -47,7 +53,6 @@ final class CollapseTests: XCTestCase {
         let id = "collapseExample"
         let div = Div("Something to look at inside collapse.")
         let tag = CollapseContent(id: id, div).build()
-        XCTAssert(tag.classValue?.has(.collapse) ?? false)
         XCTAssert(tag.attributeValue("id") == id)
     }    
 }
