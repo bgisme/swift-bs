@@ -1,13 +1,23 @@
 import SwiftHtml
+import SwiftSgml
+import AppKit
 
 
 public class Collapse: Component {
     
+    public enum Orientation {
+        case horizontal(minHeight: String)
+        case vertical
+    }
+    
+    let orientation: Orientation
     let buttons: [Tag]
     let contents: [Tag]
         
-    public init(@TagBuilder buttons: () -> [Tag],
+    public init(orientation: Orientation = .vertical,
+                @TagBuilder buttons: () -> [Tag],
                 @TagBuilder contents: () -> [Tag]) {
+        self.orientation = orientation
         self.buttons = buttons()
         self.contents = contents()
     }
@@ -17,10 +27,21 @@ extension Collapse: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        P {
-            buttons
+        switch orientation {
+        case .horizontal(let minHeight):
+            Div {
+                P {
+                    buttons
+                }
+                contents
+            }
+            .style(.minHeight(minHeight))
+        case .vertical:
+            P {
+                buttons
+            }
+            contents
         }
-        contents
     }
 }
 
