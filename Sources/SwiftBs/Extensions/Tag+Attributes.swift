@@ -172,10 +172,22 @@ extension Tag {
         self.attribute(.ariaControls, value, condition)
     }
     
-    /// Note: Only need ariaCurrent attribute when the value = "true"... so no need for serparate value parameter
+    /// condition == true ... aria-current="true" condition == false ... no aria-current
     @discardableResult
     public func ariaCurrent(_ condition: Bool = true) -> Self {
         self.attribute(.ariaCurrent, String(condition), condition)
+    }
+    
+    @discardableResult
+    public func ariaDescribedBy(_ value: String, _ condition: Bool = true) -> Self {
+        self.attribute(.ariaDescribedby, value, condition)
+    }
+    
+    /// condition == true ... aria-disabled="true"
+    /// condition == false ... no aria-disabled
+    @discardableResult
+    public func ariaDisabled(_ condition: Bool) -> Self {
+        return self.attribute(.ariaDisabled, String(condition), condition)
     }
     
     @discardableResult
@@ -191,16 +203,6 @@ extension Tag {
     @discardableResult
     public func ariaLabelledBy(_ value: String, _ condition: Bool = true) -> Self {
         self.attribute(.ariaLabelledBy, value, condition)
-    }
-    
-    @discardableResult
-    public func ariaDescribedBy(_ value: String, _ condition: Bool = true) -> Self {
-        self.attribute(.ariaDescribedby, value, condition)
-    }
-    
-    @discardableResult
-    public func ariaDisabled(_ value: Bool, _ condition: Bool = true) -> Self {
-        return self.attribute(.ariaDisabled, String(value), condition)
     }
     
     @discardableResult

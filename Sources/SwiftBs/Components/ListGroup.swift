@@ -50,29 +50,45 @@ extension ListGroup: TagRepresentable {
 public class ListGroupItem: Component {
     
     let tag: Tag
+    let isActive: Bool
+    let isDisabled: Bool
     
-    public convenience init(_ text: String) {
-        self.init(tag: Li(text))
+    public convenience init(_ text: String,
+                            isActive: Bool = false,
+                            isDisabled: Bool = false) {
+        self.init(tag: Li(text), isActive: isActive, isDisabled: isDisabled)
     }
     
-    public convenience init(_ li: Li) {
-        self.init(tag: li)
+    public convenience init(_ li: Li,
+                            isActive: Bool = false,
+                            isDisabled: Bool = false) {
+        self.init(tag: li, isActive: isActive, isDisabled: isDisabled)
     }
     
-    public convenience init(_ a: A) {
-        self.init(tag: a)
+    public convenience init(_ a: A,
+                            isActive: Bool = false,
+                            isDisabled: Bool = false) {
+        self.init(tag: a, isActive: isActive, isDisabled: isDisabled)
     }
     
-    public convenience init(_ button: Button) {
-        self.init(tag: button)
+    public convenience init(_ button: Button,
+                            isActive: Bool = false,
+                            isDisabled: Bool = false) {
+        self.init(tag: button, isActive: isActive, isDisabled: isDisabled)
     }
     
-    public convenience init(_ label: Label) {
-        self.init(tag: label)
+    public convenience init(_ label: Label,
+                            isActive: Bool = false,
+                            isDisabled: Bool = false) {
+        self.init(tag: label, isActive: isActive, isDisabled: isDisabled)
     }
     
-    internal init(tag: Tag) {
+    internal init(tag: Tag,
+                  isActive: Bool,
+                  isDisabled: Bool) {
         self.tag = tag
+        self.isActive = isActive
+        self.isDisabled = isDisabled
     }
 }
 
@@ -82,6 +98,10 @@ extension ListGroupItem: TagRepresentable {
     public func build() -> Tag {
         tag
             .class(add: .listGroupItem)
+            .class(add: .active, if: isActive)
+            .ariaCurrent(isActive)
+            .class(add: .disabled, if: isDisabled)
+            .ariaDisabled(isDisabled)
     }
 }
 

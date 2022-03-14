@@ -77,7 +77,7 @@ extension BsButton: TagRepresentable {
                 .role(.button)
                 .class(add: .active, if: isActive)
                 .ariaPressed(true, isActive)
-                .ariaDisabled(true, isDisabled)
+                .ariaDisabled(isDisabled)
                 .addClassesStyles(self)
         } else if let tag = tag as? Button {
             tag
