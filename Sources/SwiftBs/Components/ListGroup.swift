@@ -11,14 +11,14 @@ public class ListGroup: Component {
     public convenience init(isFlush: Bool = false,
                             isNumbered: Bool = false,
                             isHorizontal: Bool = false,
-                            @TagBuilder unordered items: () -> [ListGroupItem]) {
+                            @TagBuilder unordered items: () -> [Tag]) {
         self.init(tag: Ul { items() }, isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal)
     }
     
     public convenience init(isFlush: Bool = false,
                             isNumbered: Bool = false,
                             isHorizontal: Bool = false,
-                            @TagBuilder ordered items: () -> [ListGroupItem]) {
+                            @TagBuilder ordered items: () -> [Tag]) {
         self.init(tag: Ol { items() }, isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal)
     }
     
@@ -76,17 +76,6 @@ public class ListGroupItem: Component {
         self.tag = tag
     }
 }
-
-//extension TagBuilder {
-//    
-//    public static func buildExpression(_ expression: ListGroupItem) -> [Tag] {
-//        [expression.build()]
-//    }
-//
-//    public static func buildExpression(_ expression: [ListGroupItem]) -> [Tag] {
-//        expression.map { $0.build() }
-//    }
-//}
 
 extension ListGroupItem: TagRepresentable {
     
