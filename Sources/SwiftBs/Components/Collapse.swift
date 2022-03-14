@@ -32,9 +32,9 @@ extension Collapse: TagRepresentable {
             P {
                 buttons
             }
-            Div {
+//            Div {
                 contents
-            }
+//            }
             .style(.minHeight(minHeight))
         case .vertical:
             P {
