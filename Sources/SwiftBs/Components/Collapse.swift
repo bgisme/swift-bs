@@ -70,11 +70,11 @@ extension CollapseButton: TagRepresentable {
 public class CollapseContent: Component {
     
     public enum Orientation {
-        case horizontal
+        case horizontal(width: String)
         case vertical
     }
     
-    let orientation: Orientation
+    let width: String
     let id: String
     var isSibling: Bool
     let div: Div
@@ -90,7 +90,12 @@ public class CollapseContent: Component {
                 id: String,
                 isSibling: Bool = false,
                 _ div: Div) {
-        self.orientation = orientation
+        switch orientation {
+        case .horizontal(let width):
+            self.width = width
+        case .vertical:
+            self.width = ""
+        }
         self.id = id
         self.isSibling = isSibling
         self.div = div
@@ -103,9 +108,10 @@ extension CollapseContent: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .collapse)
-            .class(add: .collapseHorizontal, if: orientation == .horizontal)
+            .class(add: .collapseHorizontal, if: !width.isEmpty)
             .class(add: .multiCollapse, if: isSibling)
             .id(id)
             .addClassesStyles(self)
+            .children.map{$0.style(add: .width(width), if: !width.isEmpty)} // children in horizontal collapse need width to display correctly
     }
 }
