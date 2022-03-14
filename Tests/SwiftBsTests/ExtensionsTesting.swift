@@ -13,5 +13,17 @@ final class ExtensionsTesting: XCTestCase {
         let tag = Button().addClassesStyles(component)
         XCTAssert(tag.has(classes))
         XCTAssert(tag.has(styles))
+        
+        let emptyClasses: [BsClass] = []
+        let emptyStyles: [CssKeyValue] = []
+        let componentB = BsButton("Test")
+        let tagB = Button()
+            .class(emptyClasses)
+            .style(emptyStyles)
+        XCTAssert(!tagB.node.attributes.contains(where:{$0.key == "class"}))
+        XCTAssert(!tagB.node.attributes.contains(where:{$0.key == "style"}))
+        _ = tagB.addClassesStyles(componentB)
+        XCTAssert(!tagB.node.attributes.contains(where:{$0.key == "class"}))
+        XCTAssert(!tagB.node.attributes.contains(where:{$0.key == "style"}))
     }
 }
