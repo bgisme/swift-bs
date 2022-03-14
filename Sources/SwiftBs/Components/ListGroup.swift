@@ -56,6 +56,10 @@ public class ListGroupItem: Component {
     
     let tag: Tag
     
+    public convenience init(_ text: String) {
+        self.init(tag: Li(text))
+    }
+    
     public convenience init(_ li: Li) {
         self.init(tag: li)
     }
