@@ -93,6 +93,10 @@ public class CollapseContent: Component {
         switch orientation {
         case .horizontal(let width):
             self.width = width
+            // children of horizontal collapse need width to display correctly
+            for child in div.children {
+                child.style(add: .width(width))
+            }
         case .vertical:
             self.width = ""
         }
@@ -112,6 +116,5 @@ extension CollapseContent: TagRepresentable {
             .class(add: .multiCollapse, if: isSibling)
             .id(id)
             .addClassesStyles(self)
-            .children.map{$0.style(add: .width(width), if: !width.isEmpty)} // children in horizontal collapse need width to display correctly
     }
 }
