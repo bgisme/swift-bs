@@ -11,7 +11,7 @@ public class ListGroup: Component {
     public convenience init(isFlush: Bool = false,
                             isNumbered: Bool = false,
                             isHorizontal: Bool = false,
-                            unordered items: () -> [ListGroupItem]) {
+                            @TagBuilder unordered items: () -> [ListGroupItem]) {
         self.init(tag: Ul { items() }, isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal)
     }
     
