@@ -36,21 +36,25 @@ public class CollapseButton: Component {
     let tag: Tag
     let ids: [String]
     
+    public convenience init(_ title: String, type: `Type` = .button, contentIds ids: String...) {
+        self.init(title, type: type, contentIds: ids)
+    }
+    
     public init(_ title: String, type: `Type` = .button, contentIds ids: [String]) {
-        let button: BsButton
+        let tag: Tag
         switch type {
         case .button:
             let btn = Button(title)
                 .type(.button)
                 .dataBsTarget(ids.count < 2 ? "#\(ids.first!)" : BsClass.multiCollapse.rawValue, isHashPrefixed: false)
-            button = BsButton(btn)
+            tag = BsButton(btn).build()
         case .link:
             let a = A(title)
                 .role(.button)
                 .href(ids.count < 2 ? "#\(ids.first!)" : BsClass.multiCollapse.rawValue)
-            button = BsButton(a)
+            tag = BsButton(a).build()
         }
-        self.tag = button.build()
+        self.tag = tag
         self.ids = ids
     }
 
