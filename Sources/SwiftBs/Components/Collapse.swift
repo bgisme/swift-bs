@@ -110,7 +110,7 @@ extension CollapseContent: TagRepresentable {
             .class(add: .collapse)
             .class(add: .collapseHorizontal, if: !width.isEmpty)
             .class(add: .multiCollapse, if: isSibling)
-            .style(.width(width), if: !width.isEmpty)
+            .style(add: .width(width), if: !width.isEmpty)
             .id(id)
             .addClassesStyles(self)
     }
