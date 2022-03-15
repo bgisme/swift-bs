@@ -120,7 +120,6 @@ public class ModalDialog: Component {
     }
 }
 
-
 extension ModalDialog: TagRepresentable {
     
     @TagBuilder
