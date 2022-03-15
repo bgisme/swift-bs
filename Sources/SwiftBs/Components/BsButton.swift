@@ -10,28 +10,20 @@ import SwiftHtml
 public class BsButton: Component {
     
     private let tag: Tag
-    
-    public static func button(_ title: String? = nil,
-                              onClick: String? = nil,
-                              isToggle: Bool = false,
-                              isPressed: Bool = false,
-                              isDisabled: Bool = false,
-                              isActive: Bool = false) -> BsButton {
+        
+    public convenience init(_ title: String? = nil,
+                            onClick: String? = nil,
+                            isToggle: Bool = false,
+                            isPressed: Bool = false,
+                            isDisabled: Bool = false,
+                            isActive: Bool = false) {
         let button = Button(title)
         if let onClick = onClick {
             _ = button.onClick(onClick)
         }
-        return BsButton(button, isToggle: isToggle, isPressed: isPressed, isDisabled: isDisabled, isActive: isActive)
+        self.init(button, isToggle: isToggle, isPressed: isPressed, isDisabled: isDisabled, isActive: isActive)
     }
-    
-    public static func link(_ title: String,
-                            href: String,
-                            isDisabled: Bool,
-                            isActive: Bool) -> BsButton {
-        let link = A(title).href(href)
-        return BsButton(link, isDisabled: isDisabled, isActive: isActive)
-    }
-    
+
     public convenience init(_ button: Button,
                             isToggle: Bool = false,
                             isPressed: Bool = false,
