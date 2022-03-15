@@ -11,7 +11,7 @@ public class Modal: Component {
     
     let div: Div
     
-    public convenience init(@TagBuilder dialog: () -> ModalDialog) {
+    public convenience init(@TagBuilder dialog: () -> Tag) {
         self.init(Div{ dialog() })
     }
     
