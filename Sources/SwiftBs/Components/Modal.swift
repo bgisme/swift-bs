@@ -11,8 +11,15 @@ public class Modal: Component {
     
     let div: Div
     
-    public convenience init(@TagBuilder dialog: () -> Tag) {
-        self.init(Div{ dialog() })
+    public convenience init(@TagBuilder contents: () -> [ModalContentRepresentable]) {
+        let div = Div {
+            ModalDialog( Div {
+                ModalContent( Div {
+                    contents()
+                })
+            })
+        }
+        self.init(div)
     }
     
     public init(_ div: Div) {
@@ -34,10 +41,6 @@ extension Modal: TagRepresentable {
 public class ModalDialog: Component {
     
     let div: Div
-    
-    public convenience init(@TagBuilder content: () -> ModalContent) {
-        self.init(Div{ content() })
-    }
     
     public init(_ div: Div) {
         self.div = div
