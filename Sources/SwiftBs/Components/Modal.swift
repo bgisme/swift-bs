@@ -11,14 +11,14 @@ public class Modal: Component {
     
     let div: Div
     
-    public convenience init(@TagBuilder contents: () -> [Tag]) {
+    public convenience init(id: String, @TagBuilder contents: () -> [Tag]) {
         let div = Div {
             ModalDialog( Div {
                 ModalContent( Div {
                     contents()
                 })
             })
-        }
+        }.id(id)
         self.init(div)
     }
     
