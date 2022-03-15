@@ -9,10 +9,49 @@ import SwiftHtml
 
 public class Modal: Component {
     
+    public enum Size {
+        case sm
+        case lg
+        case xl
+        case fullscreen
+        case fullscreenSmDown
+        case fullscreenMdDown
+        case fullscreenLgDown
+        case fullscreenXlDown
+        case fullscreenXxlDown
+        
+        var rawValue: BsClass {
+            switch self {
+            case .sm:
+                return .modalSm
+            case .lg:
+                return .modalLg
+            case .xl:
+                return .modalXl
+            case .fullscreen:
+                return .modalFullscreen
+            case .fullscreenSmDown:
+                return .modalFullscreenSmDown
+            case .fullscreenMdDown:
+                return .modalFullscreenMdDown
+            case .fullscreenLgDown:
+                return .modalFullscreenLgDown
+            case .fullscreenXlDown:
+                return .modalFullscreenXlDown
+            case .fullscreenXxlDown:
+                return .modalFullscreenXxlDown
+            }
+        }
+    }
+    
     let div: Div
+    let size: BsClass?
+    let isAnimated: Bool
     let isBackdropStatic: Bool
     
     public convenience init(id: String,
+                            size: Size? = nil,
+                            isAnimated: Bool = true,
                             isBackdropStatic: Bool = false,
                             isScrollable: Bool = false,
                             isCentered: Bool = false,
@@ -25,12 +64,16 @@ public class Modal: Component {
         }
             .id(id)
             .ariaLabelledBy("\(id)Label")
-        self.init(div, isBackdropStatic: isBackdropStatic)
+        self.init(div, isAnimated: isAnimated, isBackdropStatic: isBackdropStatic)
     }
     
     public init(_ div: Div,
+                size: Size? = nil,
+                isAnimated: Bool = true,
                 isBackdropStatic: Bool = false) {
         self.div = div
+        self.size = size?.rawValue
+        self.isAnimated = isAnimated
         self.isBackdropStatic = isBackdropStatic
     }
 }
@@ -40,7 +83,9 @@ extension Modal: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         div
-            .class(add: .modal, .fade)
+            .class(add: .modal)
+            .class(add: size, if: size != nil)
+            .class(add: .fade, if: isAnimated)
             .tabindex(-1)
             .dataBsBackdrop(.static, isBackdropStatic)
             .dataBsKeyboard(false, isBackdropStatic)

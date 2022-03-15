@@ -526,6 +526,17 @@ public enum BsClass: String {
     case modalHeader = "modal-header"
     case modalTitle = "modal-title"
     
+    case modalFullscreen = "modal-fullscreen"
+    case modalFullscreenSmDown = "modal-fullscreen-sm-down"
+    case modalFullscreenMdDown = "modal-fullscreen-md-down"
+    case modalFullscreenLgDown = "modal-fullscreen-lg-down"
+    case modalFullscreenXlDown = "modal-fullscreen-xl-down"
+    case modalFullscreenXxlDown = "modal-fullscreen-xxl-down"
+    
+    case modalSm = "modal-sm"
+    case modalLg = "modal-lg"
+    case modalXl = "modal-xl"
+    
     case mt0 = "mt-0"
     case mt1 = "mt-1"
     case mt2 = "mt-2"
