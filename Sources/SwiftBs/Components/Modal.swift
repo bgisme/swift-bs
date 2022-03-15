@@ -11,7 +11,7 @@ public class Modal: Component {
     
     let div: Div
     
-    public convenience init(@TagBuilder contents: () -> [ModalContentRepresentable]) {
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
         let div = Div {
             ModalDialog( Div {
                 ModalContent( Div {
@@ -60,10 +60,6 @@ public class ModalContent: Component {
     
     let div: Div
     
-    public convenience init(@TagBuilder contents: () -> [ModalContentRepresentable]) {
-        self.init(Div{ contents() })
-    }
-    
     public init(_ div: Div) {
         self.div = div
     }
@@ -100,7 +96,7 @@ public class ModalHeader: Component {
     }
 }
 
-extension ModalHeader: ModalContentRepresentable {
+extension ModalHeader: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
@@ -122,7 +118,7 @@ public class ModalTitle: Component {
     }
 }
 
-extension ModalTitle: ModalContentRepresentable {
+extension ModalTitle: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
@@ -147,7 +143,7 @@ public class ModalBody: Component {
     }
 }
 
-extension ModalBody: ModalContentRepresentable {
+extension ModalBody: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
@@ -179,7 +175,7 @@ public class ModalFooter: Component {
     }
 }
 
-extension ModalFooter: ModalContentRepresentable {
+extension ModalFooter: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
@@ -187,16 +183,3 @@ extension ModalFooter: ModalContentRepresentable {
             .class(add: .modalFooter)
     }
 }
-
-public protocol ModalContentRepresentable: TagRepresentable {}
-
-//extension TagBuilder {
-//    
-//    public static func buildExpression(_ expression: ModalContentRepresentable) -> [Tag] {
-//        [expression.build()]
-//    }
-//
-//    public static func buildExpression(_ expression: [ModalContentRepresentable]) -> [Tag] {
-//        expression.map { $0.build() }
-//    }
-//}
