@@ -14,13 +14,10 @@ public class Modal: Component {
     
     public convenience init(id: String,
                             isBackdropStatic: Bool = false,
+                            isScrollable: Bool = false,
                             @TagBuilder contents: () -> [Tag]) {
         let div = Div {
-            ModalDialog( Div {
-                ModalContent( Div {
-                    contents()
-                })
-            })
+            ModalDialog(isScrollable: isScrollable) { contents() }
         }
             .id(id)
             .ariaLabelledBy("\(id)Label")
@@ -50,9 +47,17 @@ extension Modal: TagRepresentable {
 public class ModalDialog: Component {
     
     let div: Div
+    let isScrollable: Bool
     
-    public init(_ div: Div) {
+    public convenience init(isScrollable: Bool = false,
+                            @TagBuilder content: () -> [Tag]) {
+        let div = Div { content() }
+        self.init(div, isScrollable: isScrollable)
+    }
+    
+    public init(_ div: Div, isScrollable: Bool = false) {
         self.div = div
+        self.isScrollable = isScrollable
     }
 }
 
@@ -62,6 +67,7 @@ extension ModalDialog: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .modalDialog)
+            .class(add: .modalDialogScrollable)
             .addClassesStyles(self)
     }
 }
