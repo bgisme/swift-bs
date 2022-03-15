@@ -11,10 +11,12 @@ public class Modal: Component {
     
     let div: Div
     let isBackdropStatic: Bool
+    let isCentered: Bool
     
     public convenience init(id: String,
                             isBackdropStatic: Bool = false,
                             isScrollable: Bool = false,
+                            isCentered: Bool = false,
                             @TagBuilder contents: () -> [Tag]) {
         let div = Div {
             ModalDialog(isScrollable: isScrollable) { contents() }
@@ -24,9 +26,12 @@ public class Modal: Component {
         self.init(div, isBackdropStatic: isBackdropStatic)
     }
     
-    public init(_ div: Div, isBackdropStatic: Bool = false) {
+    public init(_ div: Div,
+                isBackdropStatic: Bool = false,
+                isCentered: Bool = false) {
         self.div = div
         self.isBackdropStatic = isBackdropStatic
+        self.isCentered = isCentered
     }
 }
 
@@ -39,6 +44,7 @@ extension Modal: TagRepresentable {
             .tabindex(-1)
             .dataBsBackdrop(.static, isBackdropStatic)
             .dataBsKeyboard(false, isBackdropStatic)
+            .class(add: .modalDialogCentered, if: isCentered)
             .ariaHidden(true)
             .addClassesStyles(self)
     }

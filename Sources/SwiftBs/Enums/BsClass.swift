@@ -519,6 +519,7 @@ public enum BsClass: String {
     case modal
     case modalBody = "modal-body"
     case modalDialog = "modal-dialog"
+    case modalDialogCentered = "modal-dialog-centered"
     case modalDialogScrollable = "modal-dialog-scrollable"
     case modalContent = "modal-content"
     case modalFooter = "modal-footer"
