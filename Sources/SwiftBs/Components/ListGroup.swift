@@ -67,17 +67,15 @@ public class ListGroupItem: Component {
     }
     
     public convenience init(_ a: A,
-                            isAction: Bool = false,
                             isActive: Bool = false,
                             isDisabled: Bool = false) {
-        self.init(tag: a, isAction: isAction, isActive: isActive, isDisabled: isDisabled)
+        self.init(tag: a, isAction: true, isActive: isActive, isDisabled: isDisabled)
     }
     
     public convenience init(_ button: Button,
-                            isAction: Bool = false,
                             isActive: Bool = false,
                             isDisabled: Bool = false) {
-        self.init(tag: button, isAction: isAction, isActive: isActive, isDisabled: isDisabled)
+        self.init(tag: button, isAction: true, isActive: isActive, isDisabled: isDisabled)
     }
     
     public convenience init(_ label: Label,
