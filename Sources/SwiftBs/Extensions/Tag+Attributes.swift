@@ -277,14 +277,19 @@ extension Tag {
         self.attribute(.dataBsSlideTo, value, condition)
     }
     
+    public enum Prefix: String {
+        case hash = "#"
+        case dot = "."
+    }
+    
     @discardableResult
-    public func dataBsTarget(_ value: BsClass, prefix: String = "#", _ condition: Bool = true) -> Self {
+    public func dataBsTarget(_ value: BsClass, prefix: Prefix = .hash, _ condition: Bool = true) -> Self {
         self.dataBsTarget(value.rawValue, prefix: prefix, condition)
     }
 
     @discardableResult
-    public func dataBsTarget(_ value: String, prefix: String = "#", _ condition: Bool = true) -> Self {
-        self.attribute(.dataBsTarget, prefix + value, condition)
+    public func dataBsTarget(_ value: String, prefix: Prefix = .hash, _ condition: Bool = true) -> Self {
+        self.attribute(.dataBsTarget, prefix.rawValue + value, condition)
     }
     
     @discardableResult

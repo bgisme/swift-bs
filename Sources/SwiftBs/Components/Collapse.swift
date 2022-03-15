@@ -50,7 +50,7 @@ public class CollapseButton: Component {
         case .button:
             let btn = Button(title)
                 .type(.button)
-                .dataBsTarget(ids.count < 2 ? ids.first ?? "" : BsClass.multiCollapse.rawValue, prefix: ids.count < 2 ? "#" : ".")
+                .dataBsTarget(ids.count < 2 ? ids.first ?? "" : BsClass.multiCollapse.rawValue, prefix: ids.count < 2 ? .hash : .dot)
             tag = BsButton(btn).build()
         case .link:
             let a = A(title)
