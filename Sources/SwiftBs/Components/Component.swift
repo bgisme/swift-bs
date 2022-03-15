@@ -11,6 +11,10 @@ public class Component {
     
     public internal(set) var classes: [BsClass]?
     public internal(set) var styles: [String : String]?
+//    public internal(set) var attributes: [Attribute]?
+    //! ATTRIBUTE NEEDS EXTENSIONS TO PARSE VALUE STRING FOR...
+    // class (delimiter is space)
+    // style (delimiter is semi-colon)
 }
 
 /// These functions mimic Tag so they read the same when mixed together
