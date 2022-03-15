@@ -51,7 +51,7 @@ public class ModalDialog: Component {
     
     public convenience init(isScrollable: Bool = false,
                             @TagBuilder content: () -> [Tag]) {
-        let div = Div { content() }
+        let div = Div { ModalContent { content() } }
         self.init(div, isScrollable: isScrollable)
     }
     
@@ -75,6 +75,11 @@ extension ModalDialog: TagRepresentable {
 public class ModalContent: Component {
     
     let div: Div
+    
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        let div = Div { contents() }
+        self.init(div)
+    }
     
     public init(_ div: Div) {
         self.div = div
