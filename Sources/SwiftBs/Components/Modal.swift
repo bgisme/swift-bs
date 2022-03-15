@@ -165,7 +165,7 @@ public class ModalFooter: Component {
     public convenience init(isCloseable: Bool, other: BsButton...) {
         let closeButton = BsButton("Close")
             .build()
-            .class(add: .bgSecondary)
+            .class(add: .btnSecondary)
             .dataBsDismiss(.modal)
         let div = Div {
             if isCloseable {
