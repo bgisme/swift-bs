@@ -38,7 +38,6 @@ public class BsButton: Component {
                             isDisabled: Bool = false,
                             isActive: Bool = false) {
         button
-            .class(add: .btn)
             .type(.button)
             .class(add: .active, if: isToggle && isPressed)
             .dataBsToggle(.button, isToggle)
@@ -52,7 +51,7 @@ public class BsButton: Component {
                             isDisabled: Bool = false,
                             isActive: Bool = false) {
         link
-            .class(add: isDisabled ? [.btn, .disabled] : [.btn])
+            .class(add: .disabled, if: isDisabled)
             .role(.button)
             .class(add: .active, if: isActive)
             .ariaPressed(true, isActive)
@@ -61,8 +60,6 @@ public class BsButton: Component {
     }
     
     public convenience init(_ input: Input) {
-        input
-            .class(add: .btn)
         self.init(tag: input)
     }
     
@@ -76,6 +73,7 @@ extension BsButton: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         tag
+            .class(add: .btn)
             .addClassesStyles(self)
     }
 }
