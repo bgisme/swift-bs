@@ -35,6 +35,7 @@ extension Modal: TagRepresentable {
             .class(add: .modal, .fade)
             .tabindex(-1)
             .ariaHidden(true)
+            .addClassesStyles(self)
     }
 }
 
@@ -53,6 +54,7 @@ extension ModalDialog: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .modalDialog)
+            .addClassesStyles(self)
     }
 }
 
@@ -71,6 +73,7 @@ extension ModalContent: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .modalContent)
+            .addClassesStyles(self)
     }
 }
 
@@ -102,6 +105,7 @@ extension ModalHeader: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .modalHeader)
+            .addClassesStyles(self)
     }
 }
 
@@ -124,6 +128,7 @@ extension ModalTitle: TagRepresentable {
     public func build() -> Tag {
         h5
             .class(add: .modalTitle)
+            .addClassesStyles(self)
     }
 }
 
@@ -149,6 +154,7 @@ extension ModalBody: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .modalBody)
+            .addClassesStyles(self)
     }
 }
 
@@ -181,5 +187,6 @@ extension ModalFooter: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .modalFooter)
+            .addClassesStyles(self)
     }
 }
