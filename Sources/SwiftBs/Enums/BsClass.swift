@@ -304,6 +304,8 @@ public enum BsClass: String {
     case formSwitch = "form-switch"
     case formText = "form-text"
     
+    case fwBold = "fw-bold"
+    
     // MARK: - G
     case grid
     case gCol2 = "g-col-2"
