@@ -11,7 +11,6 @@ public class Modal: Component {
     
     let div: Div
     let isBackdropStatic: Bool
-    let isCentered: Bool
     
     public convenience init(id: String,
                             isBackdropStatic: Bool = false,
@@ -19,19 +18,20 @@ public class Modal: Component {
                             isCentered: Bool = false,
                             @TagBuilder contents: () -> [Tag]) {
         let div = Div {
-            ModalDialog(isScrollable: isScrollable) { contents() }
+            ModalDialog(isScrollable: isScrollable,
+                        isCentered: isCentered) {
+                contents()
+            }
         }
             .id(id)
             .ariaLabelledBy("\(id)Label")
-        self.init(div, isBackdropStatic: isBackdropStatic, isCentered: isCentered)
+        self.init(div, isBackdropStatic: isBackdropStatic)
     }
     
     public init(_ div: Div,
-                isBackdropStatic: Bool = false,
-                isCentered: Bool = false) {
+                isBackdropStatic: Bool = false) {
         self.div = div
         self.isBackdropStatic = isBackdropStatic
-        self.isCentered = isCentered
     }
 }
 
@@ -44,7 +44,6 @@ extension Modal: TagRepresentable {
             .tabindex(-1)
             .dataBsBackdrop(.static, isBackdropStatic)
             .dataBsKeyboard(false, isBackdropStatic)
-            .class(add: .modalDialogCentered, if: isCentered)
             .ariaHidden(true)
             .addClassesStyles(self)
     }
@@ -54,16 +53,23 @@ public class ModalDialog: Component {
     
     let div: Div
     let isScrollable: Bool
+    let isCentered: Bool
     
     public convenience init(isScrollable: Bool = false,
+                            isCentered: Bool = false,
                             @TagBuilder content: () -> [Tag]) {
         let div = Div { ModalContent { content() } }
-        self.init(div, isScrollable: isScrollable)
+        self.init(div,
+                  isScrollable: isScrollable,
+                  isCentered: isCentered)
     }
     
-    public init(_ div: Div, isScrollable: Bool = false) {
+    public init(_ div: Div,
+                isScrollable: Bool = false,
+                isCentered: Bool = false) {
         self.div = div
         self.isScrollable = isScrollable
+        self.isCentered = isCentered
     }
 }
 
@@ -73,7 +79,8 @@ extension ModalDialog: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .modalDialog)
-            .class(add: .modalDialogScrollable)
+            .class(add: .modalDialogScrollable, if: isScrollable)
+            .class(add: .modalDialogCentered, if: isCentered)
             .addClassesStyles(self)
     }
 }
