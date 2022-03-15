@@ -190,13 +190,13 @@ extension ModalFooter: ModalContentRepresentable {
 
 public protocol ModalContentRepresentable: TagRepresentable {}
 
-extension TagBuilder {
-    
-    public static func buildExpression(_ expression: ModalContentRepresentable) -> [Tag] {
-        [expression.build()]
-    }
-
-    public static func buildExpression(_ expression: [ModalContentRepresentable]) -> [Tag] {
-        expression.map { $0.build() }
-    }
-}
+//extension TagBuilder {
+//    
+//    public static func buildExpression(_ expression: ModalContentRepresentable) -> [Tag] {
+//        [expression.build()]
+//    }
+//
+//    public static func buildExpression(_ expression: [ModalContentRepresentable]) -> [Tag] {
+//        expression.map { $0.build() }
+//    }
+//}
