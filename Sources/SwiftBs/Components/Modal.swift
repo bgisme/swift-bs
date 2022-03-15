@@ -21,7 +21,9 @@ extension Modal: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         div
-            .class(add: .modal)
+            .class(add: .modal, .fade)
+            .tabindex(-1)
+            .ariaHidden(true)
     }
 }
 
@@ -144,12 +146,13 @@ public class ModalFooter: Component {
     let div: Div
     
     public convenience init(isCloseable: Bool, other: BsButton...) {
-        let close = BsButton.button("Close").build()
+        let closeButton = BsButton.button("Close")
+            .build()
+            .class(add: .bgSecondary)
+            .dataBsDismiss(.modal)
         let div = Div {
             if isCloseable {
-                close
-                    .class(add: .bgSecondary)
-                    .dataBsDismiss(.modal)
+                closeButton
             }
             other.map{$0}
         }

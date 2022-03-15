@@ -280,6 +280,7 @@ public enum BsClass: String {
     
     
     // MARK: - F
+    case fade
     case figure
     case figureCaption = "figure-caption"
     case figureImg = "figure-img"
