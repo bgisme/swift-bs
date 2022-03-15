@@ -20,15 +20,17 @@ public enum BsAttribute: String {
     case checked
     case `class`
     case dataParent = "data-bs-parent"
+    case dataBsBackdrop = "data-bs-backdrop"
+    case dataBsDisplay = "data-bs-display"
+    case dataBsDismiss = "data-bs-dismiss"
     case dataBsInterval = "data-bs-interval"
+    case dataBsKeyboard = "data-bs-keyboard"
     case dataBsRide = "data-bs-ride"
     case dataBsSlide = "data-bs-slide"
     case dataBsSlideTo = "data-bs-slide-to"
     case dataBsTarget = "data-bs-target"
     case dataBsToggle = "data-bs-toggle"
     case dataBsTouch = "data-bs-touch"
-    case dataBsDisplay = "data-bs-display"
-    case dataBsDismiss = "data-bs-dismiss"
     case disabled = "disabled"
     case grid
     case id

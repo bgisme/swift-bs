@@ -231,6 +231,11 @@ extension Tag {
     }
     
     @discardableResult
+    public func dataBsBackdrop(_ value: BsClass, _ condition: Bool = true) -> Self {
+        self.attribute(.dataBsBackdrop, value.rawValue, condition)
+    }
+    
+    @discardableResult
     public func dataBsDismiss(_ value: BsClass, _ condition: Bool = true) -> Self {
         self.attribute(.dataBsDismiss, value.rawValue, condition)
     }
@@ -250,6 +255,11 @@ extension Tag {
     public func dataBsInterval(_ value: Bool?, _ condition: Bool = true) -> Self {
         guard let value = value else { return self }
         return self.attribute(.dataBsInterval, String(value), condition)
+    }
+    
+    @discardableResult
+    public func dataBsKeyboard(_ value: Bool, _ condition: Bool = true) -> Self {
+        self.attribute(.dataBsKeyboard, String(value), condition)
     }
     
     @discardableResult

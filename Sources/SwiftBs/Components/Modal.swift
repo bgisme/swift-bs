@@ -10,20 +10,26 @@ import SwiftHtml
 public class Modal: Component {
     
     let div: Div
+    let isBackdropStatic: Bool
     
-    public convenience init(id: String, @TagBuilder contents: () -> [Tag]) {
+    public convenience init(id: String,
+                            isBackdropStatic: Bool = false,
+                            @TagBuilder contents: () -> [Tag]) {
         let div = Div {
             ModalDialog( Div {
                 ModalContent( Div {
                     contents()
                 })
             })
-        }.id(id)
-        self.init(div)
+        }
+            .id(id)
+            .ariaLabelledBy("\(id)Label")
+        self.init(div, isBackdropStatic: isBackdropStatic)
     }
     
-    public init(_ div: Div) {
+    public init(_ div: Div, isBackdropStatic: Bool = false) {
         self.div = div
+        self.isBackdropStatic = isBackdropStatic
     }
 }
 
@@ -34,6 +40,8 @@ extension Modal: TagRepresentable {
         div
             .class(add: .modal, .fade)
             .tabindex(-1)
+            .dataBsBackdrop(.static, isBackdropStatic)
+            .dataBsKeyboard(false, isBackdropStatic)
             .ariaHidden(true)
             .addClassesStyles(self)
     }
