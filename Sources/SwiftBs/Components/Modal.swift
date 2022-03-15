@@ -11,6 +11,10 @@ public class Modal: Component {
     
     let div: Div
     
+    public convenience init(@TagBuilder dialog: () -> ModalDialog) {
+        self.init(Div{ dialog() })
+    }
+    
     public init(_ div: Div) {
         self.div = div
     }
@@ -31,6 +35,10 @@ public class ModalDialog: Component {
     
     let div: Div
     
+    public convenience init(@TagBuilder content: () -> ModalContent) {
+        self.init(Div{ content() })
+    }
+    
     public init(_ div: Div) {
         self.div = div
     }
@@ -48,6 +56,10 @@ extension ModalDialog: TagRepresentable {
 public class ModalContent: Component {
     
     let div: Div
+    
+    public convenience init(@TagBuilder contents: () -> [ModalContentRepresentable]) {
+        self.init(Div{ contents() })
+    }
     
     public init(_ div: Div) {
         self.div = div
@@ -85,7 +97,7 @@ public class ModalHeader: Component {
     }
 }
 
-extension ModalHeader: TagRepresentable {
+extension ModalHeader: ModalContentRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
@@ -107,7 +119,7 @@ public class ModalTitle: Component {
     }
 }
 
-extension ModalTitle: TagRepresentable {
+extension ModalTitle: ModalContentRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
@@ -132,7 +144,7 @@ public class ModalBody: Component {
     }
 }
 
-extension ModalBody: TagRepresentable {
+extension ModalBody: ModalContentRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
@@ -164,11 +176,24 @@ public class ModalFooter: Component {
     }
 }
 
-extension ModalFooter: TagRepresentable {
+extension ModalFooter: ModalContentRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
         div
             .class(add: .modalFooter)
+    }
+}
+
+public protocol ModalContentRepresentable: TagRepresentable {}
+
+extension TagBuilder {
+    
+    public static func buildExpression(_ expression: ModalContentRepresentable) -> [Tag] {
+        [expression.build()]
+    }
+
+    public static func buildExpression(_ expression: [ModalContentRepresentable]) -> [Tag] {
+        expression.map { $0.build() }
     }
 }
