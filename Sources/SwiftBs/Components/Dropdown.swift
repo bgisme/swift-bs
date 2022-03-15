@@ -6,8 +6,6 @@
 //
 
 import SwiftHtml
-import SwiftSgml
-import IOKit
 
 public class Dropdown: Component {
     

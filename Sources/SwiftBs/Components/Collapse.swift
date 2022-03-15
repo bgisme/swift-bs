@@ -1,7 +1,11 @@
-import SwiftHtml
-import SwiftSgml
-import AppKit
+//
+//  Collapse.swift
+//
+//
+//  Created by Brad Gourley on 3/9/22.
+//
 
+import SwiftHtml
 
 public class Collapse: Component {
     

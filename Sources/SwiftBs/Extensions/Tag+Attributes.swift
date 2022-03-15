@@ -231,8 +231,8 @@ extension Tag {
     }
     
     @discardableResult
-    public func dataParent(_ value: String, _ condition: Bool = true) -> Self {
-        self.attribute(.dataParent, "#" + value, condition)
+    public func dataBsDismiss(_ value: BsClass, _ condition: Bool = true) -> Self {
+        self.attribute(.dataBsDismiss, value.rawValue, condition)
     }
     
     @discardableResult
@@ -267,16 +267,6 @@ extension Tag {
         self.attribute(.dataBsSlideTo, value, condition)
     }
     
-//    @discardableResult
-//    public func dataBsTarget(_ value: BsClass, isHashPrefixed: Bool = true, _ condition: Bool = true) -> Self {
-//        self.dataBsTarget(value.rawValue, isHashPrefixed: isHashPrefixed, condition)
-//    }
-    
-//    @discardableResult
-//    public func dataBsTarget(_ value: String, isHashPrefixed: Bool = true, _ condition: Bool = true) -> Self {
-//        self.attribute(.dataBsTarget, isHashPrefixed ? "#" + value : value, condition)
-//    }
-    
     @discardableResult
     public func dataBsTarget(_ value: BsClass, prefix: String = "#", _ condition: Bool = true) -> Self {
         self.dataBsTarget(value.rawValue, prefix: prefix, condition)
@@ -296,6 +286,11 @@ extension Tag {
     public func dataBsTouch(_ value: Bool?, _ condition: Bool = true) -> Self {
         guard let value = value else { return self }
         return self.attribute(.dataBsTouch, String(value), condition)
+    }
+    
+    @discardableResult
+    public func dataParent(_ value: String, _ condition: Bool = true) -> Self {
+        self.attribute(.dataParent, "#" + value, condition)
     }
     
     @discardableResult

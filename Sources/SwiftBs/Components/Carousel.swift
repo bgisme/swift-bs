@@ -6,7 +6,6 @@
 //
 
 import SwiftHtml
-import SwiftSgml
 
 public class Carousel: Component {
     

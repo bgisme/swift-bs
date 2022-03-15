@@ -515,6 +515,14 @@ public enum BsClass: String {
     // MARK: - M
     case multiCollapse = "multi-collapse"
     
+    case modal
+    case modalBody = "modal-body"
+    case modalDialog = "modal-dialog"
+    case modalContent = "modal-content"
+    case modalFooter = "modal-footer"
+    case modalHeader = "modal-header"
+    case modalTitle = "modal-title"
+    
     case mt0 = "mt-0"
     case mt1 = "mt-1"
     case mt2 = "mt-2"

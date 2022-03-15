@@ -6,8 +6,6 @@
 //
 
 import SwiftHtml
-import SwiftSvg
-import SwiftSgml
 
 /// Cards contain layers of elements
 /// Inside Card is one or more: ImageTop, Header, Body, Footer, ImageBottom
