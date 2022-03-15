@@ -23,7 +23,7 @@ public class Modal: Component {
         }
             .id(id)
             .ariaLabelledBy("\(id)Label")
-        self.init(div, isBackdropStatic: isBackdropStatic)
+        self.init(div, isBackdropStatic: isBackdropStatic, isCentered: isCentered)
     }
     
     public init(_ div: Div,
