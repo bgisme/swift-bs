@@ -22,7 +22,7 @@ final class CloseButtonTests: XCTestCase {
         } else {
             XCTFail()
         }
-        XCTAssert(tag.hasAttribute(.disabled))
+        XCTAssert(tag.has(.disabled))
         XCTAssert(tag.has(classes))
         XCTAssert(tag.has(styles))
     }

@@ -7,8 +7,8 @@ extension Tag {
         node.attributes.first(where: { $0.key == key })?.value
     }
     
-    func hasAttribute(_ attribute: BsAttribute) -> Bool {
-        node.attributes.contains(where: { $0.key == attribute.rawValue })
+    func has(_ key: AttributeKey) -> Bool {
+        node.attributes.contains(where: { $0.key == key.rawValue })
     }
     
     func has(_ classes: [BsClass]) -> Bool {
