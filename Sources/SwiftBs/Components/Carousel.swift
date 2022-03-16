@@ -117,7 +117,7 @@ extension Carousel: TagRepresentable {
             .dataBsRide(.carousel)
             .dataBsInterval(false, isAutoplayDisabled)
             .dataBsTouch(false, isTouchDisabled)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }
 
@@ -140,7 +140,7 @@ extension CarouselInner: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .carouselInner)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }
 
@@ -182,7 +182,7 @@ extension CarouselItem: TagRepresentable {
             .class(add: .carouselItem)
             .class(add: .active, if: isActive)
             .dataBsInterval(interval)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }
 
@@ -213,7 +213,7 @@ extension CarouselCaption: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .carouselCaption)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }
 
@@ -244,13 +244,13 @@ public class CarouselControl: Component {
         }
         let button = Button {
             Span()
-                .class(icon)
+                .class(add: icon)
                 .ariaHidden(true)
             Span(text)
                 .class(add: .visuallyHidden)
         }
             .type(.button)
-            .class(controlDirection)
+            .class(add: controlDirection)
         self.init(button, direction: direction, carouselId: id)
     }
     
@@ -276,7 +276,7 @@ extension CarouselControl: TagRepresentable {
         tag
             .dataBsTarget(carouselId)
             .dataBsSlide(direction.rawValue)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }
 
@@ -321,6 +321,6 @@ extension CarouselIndicator: TagRepresentable {
             .ariaLabel("Slide \(index)")
             .class(add: .active, if: isActive)
             .ariaCurrent(isActive)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }

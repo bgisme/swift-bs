@@ -29,9 +29,9 @@ extension Badge: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         span
-            .class(.badge)
+            .class(add: .badge)
             .class(add: .positionAbsolute, .top0, .start100, .translateMiddle, .roundedPill, if: isPositioned)
             .class(add: .roundedPill, if: isRounded)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }

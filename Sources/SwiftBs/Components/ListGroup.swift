@@ -50,7 +50,7 @@ extension ListGroup: TagRepresentable {
             .class(add: .listGroupFlush, if: isFlush)
             .class(add: .listGroupNumbered, if: isNumbered)
             .class(add: .listGroupHorizontal, if: isHorizontal)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }
 
@@ -113,6 +113,6 @@ extension ListGroupItem: TagRepresentable {
             .ariaCurrent(isActive)
             .class(add: .disabled, if: isDisabled)
             .ariaDisabled(isDisabled)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }

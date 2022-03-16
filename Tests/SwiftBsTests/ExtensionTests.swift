@@ -9,8 +9,8 @@ final class ExtensionTests: XCTestCase {
         let styles: [CssKeyValue] = [.width("100px"), .height("25px")]
         let component = BsButton("Test")
         _ = component.class(add: classes)
-        _ = component.style(styles)
-        let tag = Button().addClassesStyles(component)
+        _ = component.style(add: styles)
+        let tag = Button().merge(component.attributes)
         XCTAssert(tag.has(classes))
         XCTAssert(tag.has(styles))
         
@@ -18,11 +18,11 @@ final class ExtensionTests: XCTestCase {
         let emptyStyles: [CssKeyValue] = []
         let componentB = BsButton("Test")
         let tagB = Button()
-            .class(emptyClasses)
-            .style(emptyStyles)
+            .class(add: emptyClasses)
+            .style(add: emptyStyles)
         XCTAssert(!tagB.node.attributes.contains(where:{$0.key == "class"}))
         XCTAssert(!tagB.node.attributes.contains(where:{$0.key == "style"}))
-        _ = tagB.addClassesStyles(componentB)
+        _ = tagB.merge(componentB.attributes)
         XCTAssert(!tagB.node.attributes.contains(where:{$0.key == "class"}))
         XCTAssert(!tagB.node.attributes.contains(where:{$0.key == "style"}))
     }

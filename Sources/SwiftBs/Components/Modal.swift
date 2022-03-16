@@ -52,7 +52,7 @@ extension Modal: TagRepresentable {
             .dataBsBackdrop(.static, isBackdropStatic)
             .dataBsKeyboard(false, isBackdropStatic)
             .ariaHidden(true)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }
 
@@ -129,7 +129,7 @@ extension ModalDialog: TagRepresentable {
             .class(add: size, if: size != nil)
             .class(add: .modalDialogScrollable, if: isScrollable)
             .class(add: .modalDialogCentered, if: isCentered)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }
 
@@ -153,7 +153,7 @@ extension ModalContent: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .modalContent)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }
 
@@ -185,7 +185,7 @@ extension ModalHeader: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .modalHeader)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }
 
@@ -208,7 +208,7 @@ extension ModalTitle: TagRepresentable {
     public func build() -> Tag {
         h5
             .class(add: .modalTitle)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }
 
@@ -234,7 +234,7 @@ extension ModalBody: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .modalBody)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }
 
@@ -267,6 +267,6 @@ extension ModalFooter: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .modalFooter)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }

@@ -30,9 +30,9 @@ extension ButtonGroup: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         div
-            .class(isVertical ? .btnGroupVertical : .btnGroup)
+            .class(add: isVertical ? .btnGroupVertical : .btnGroup)
             .role(.group)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }
 
@@ -55,8 +55,8 @@ extension ButtonGroupToolbar: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         div
-            .class(.btnToolbar)
+            .class(add: .btnToolbar)
             .role(.toolbar)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }

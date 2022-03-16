@@ -36,15 +36,15 @@ extension Alert: TagRepresentable {
                 svg
                 div
             }
-            .class(.alert)
+            .class(add: .alert)
             .role(.alert)
             .class(add: .dFlex, .alignItemsCenter)
-            .addClassesStyles(self)
+            .merge(self.attributes)
         } else {
             div
-                .class(.alert)
+                .class(add: .alert)
                 .role(.alert)
-                .addClassesStyles(self)
+                .merge(self.attributes)
         }
     }
 }
@@ -67,7 +67,7 @@ extension AlertHeading: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         h4
-            .class(.alertHeading)
-            .addClassesStyles(self)
+            .class(add: .alertHeading)
+            .merge(self.attributes)
     }
 }

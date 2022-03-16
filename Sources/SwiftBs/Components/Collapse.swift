@@ -71,7 +71,7 @@ extension CollapseButton: TagRepresentable {
             .dataBsToggle(.collapse)
             .ariaExpanded(false)
             .ariaControls(ids.map{$0}.joined(separator: " "))
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }
 
@@ -123,6 +123,6 @@ extension CollapseContent: TagRepresentable {
             .class(add: .collapseHorizontal, if: !width.isEmpty)
             .class(add: .multiCollapse, if: isMultiple)
             .id(id)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }

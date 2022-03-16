@@ -28,9 +28,9 @@ extension Navbar: TagRepresentable {
             Div {
                 brand()
                 Button {
-                    Span {}.class(.navbarTogglerIcon)
+                    Span {}.class(add: .navbarTogglerIcon)
                 }
-                .class(.navbarToggler)
+                .class(add: .navbarToggler)
                 .type(.button)
                 .dataBsToggle(.collapse)
                 .dataBsTarget(.navbarSupportedContent)
@@ -43,7 +43,7 @@ extension Navbar: TagRepresentable {
                         Ul() {
                             items()
                         }
-                        .class(.navbarNav)
+                        .class(add: .navbarNav)
                     } else {
                         items()
                     }
@@ -51,10 +51,10 @@ extension Navbar: TagRepresentable {
                 .class(add: .collapse, .navbarCollapse)
                 .id("navbarSupportedContent")
             }
-            .class(.containerFluid)
+            .class(add: .containerFluid)
         }
-        .class(.navbar)
-        .addClassesStyles(self)
+        .class(add: .navbar)
+        .merge(self.attributes)
     }
 }
 
@@ -97,11 +97,11 @@ extension NavbarBrand: TagRepresentable {
                 Text(text)
             }
         }
-        .class(.navbarBrand)
+        .class(add: .navbarBrand)
         .hrefOptional(href)
         .class(add: .h1, .mb0, if: href == nil)
         .class(add: .dInlineBlock, .alignTextTop, if: img != nil && text != nil)    // align image and text
-        .addClassesStyles(self)
+        .merge(self.attributes)
     }
 }
 
@@ -122,7 +122,7 @@ extension NavDropdown: TagRepresentable {
     public func build() -> Tag {
         Li {
             A(title)
-                .class(.navLink, .dropdownToggle)
+                .class(add: .navLink, .dropdownToggle)
                 .href("#")
                 .role(.button)
                 .dataBsToggle(.dropdown)
@@ -130,11 +130,11 @@ extension NavDropdown: TagRepresentable {
             Ul {
                 items()
             }
-            .class(.dropdownMenu)
+            .class(add: .dropdownMenu)
             .ariaLabelledBy("navbarDropdown")
         }
-        .class(.navItem, .dropdown)
-        .addClassesStyles(self)
+        .class(add: .navItem, .dropdown)
+        .merge(self.attributes)
     }
 }
 
@@ -173,21 +173,21 @@ extension NavItem: TagRepresentable {
         if isListBased {
             Li {
                 a
-                    .class(.navLink)
+                    .class(add: .navLink)
                     .class(add: .active, if: isActive)
                     .class(add: .disabled, if: isDisabled)
                     .ariaCurrent(isActive)
             }
-            .class(.navItem)
-            .addClassesStyles(self)
+            .class(add: .navItem)
+            .merge(self.attributes)
         } else {
             a
-                .class(.navLink)
+                .class(add: .navLink)
                 .class(add: .active, if: isActive)
                 .class(add: .disabled, if: isDisabled)
                 .ariaCurrent(isActive)
                 .ariaCurrent(isActive)
-                .addClassesStyles(self)
+                .merge(self.attributes)
         }
     }
 }

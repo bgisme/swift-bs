@@ -36,10 +36,10 @@ extension Accordion: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         div
-            .class(.accordion)
+            .class(add: .accordion)
             .id(id)
             .class(add: .accordionFlush, if: isFlush)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }
 
@@ -81,8 +81,8 @@ extension AccordionItem: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         div
-            .class(.accordionItem)
-            .addClassesStyles(self)
+            .class(add: .accordionItem)
+            .merge(self.attributes)
     }
 }
 
@@ -107,8 +107,8 @@ extension AccordionHeader: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         h2
-            .class(.accordionHeader)
-            .addClassesStyles(self)
+            .class(add: .accordionHeader)
+            .merge(self.attributes)
     }
 }
 
@@ -152,11 +152,11 @@ extension AccordionCollapse: TagRepresentable {
     public func build() -> Tag {
         div
             .id(id)
-            .class(.accordionCollapse, .collapse)
+            .class(add: .accordionCollapse, .collapse)
             .class(add: .show, if: isExpanded)
             .ariaLabelledBy(headerId)
             .dataParent(accordionId, !isAlwaysOpen)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }
 
@@ -178,8 +178,8 @@ extension AccordionBody: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         div
-            .class(.accordionBody)
-            .addClassesStyles(self)
+            .class(add: .accordionBody)
+            .merge(self.attributes)
     }
 }
 
@@ -217,6 +217,6 @@ extension AccordionButton: TagRepresentable {
             .dataBsTarget(collapseId)
             .ariaExpanded(isExpanded)
             .ariaControls(collapseId)
-            .addClassesStyles(self)
+            .merge(self.attributes)
     }
 }

@@ -127,9 +127,9 @@ public class Dropdown: Component {
                             menu: (Id, IsDark, MenuAlign?) -> DropdownMenu) {
         let button = button(id, isSplit, direction, menuAlign)
         let arrowButton = isSplit ? DropdownButtonArrow(id: id) : nil
-        if let btnClasses = button.classes {
+        if let classes = button.value(.class)?.bsClasses {
             // so main button and arrow button match
-            arrowButton?.class(add: btnClasses)
+            arrowButton?.class(add: classes)
         }
         self.init(direction: direction,
                   menuAlign: menuAlign,
@@ -162,9 +162,9 @@ extension Dropdown: TagRepresentable {
                     arrowButton
                     menu
                 }
-                .class(.btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
+                .class(add: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
                 .class(add: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
-                .addClassesStyles(self)
+                .merge(self.attributes)
             } else {
                 Div {
                     Div {
@@ -172,12 +172,12 @@ extension Dropdown: TagRepresentable {
                         arrowButton
                         menu
                     }
-                    .class(.btnGroup, .dropstart)
+                    .class(add: .btnGroup, .dropstart)
                     .role(.group)
                     button
                 }
-                .class(.btnGroup)
-                .addClassesStyles(self)
+                .class(add: .btnGroup)
+                .merge(self.attributes)
             }
         } else {
             /// non-split
@@ -185,9 +185,9 @@ extension Dropdown: TagRepresentable {
                 button
                 menu
             }
-            .class(.btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
+            .class(add: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
             .class(add: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
-            .addClassesStyles(self)
+            .merge(self.attributes)
         }
     }
 }
@@ -260,32 +260,32 @@ extension DropdownButton: TagRepresentable {
             if isSplit {
                 link
                     .role(.button)
-                    .addClassesStyles(self)
+                    .merge(self.attributes)
             } else {
                 link
                     .role(.button)
-                    .class(.btn, .dropdownToggle)
+                    .class(add: .btn, .dropdownToggle)
                     .id(id)
                     .dataBsToggle(.dropdown)
                     .ariaExpanded(false)
                     .dataBsDisplay(.static, isMenuAlignResponsive)
-                    .addClassesStyles(self)
+                    .merge(self.attributes)
             }
         } else if let button = tag as? Button {
             if isSplit {
                 button
                     .type(.button)
-                    .class(.btn)
-                    .addClassesStyles(self)
+                    .class(add: .btn)
+                    .merge(self.attributes)
             } else {
                 button
                     .type(.button)
-                    .class(.btn, .dropdownToggle)
+                    .class(add: .btn, .dropdownToggle)
                     .id(id) // not required for button groups
                     .dataBsToggle(.dropdown)
                     .ariaExpanded(false)
                     .dataBsDisplay(.static, isMenuAlignResponsive)
-                    .addClassesStyles(self)
+                    .merge(self.attributes)
             }
         }
     }
@@ -308,14 +308,14 @@ extension DropdownButtonArrow: TagRepresentable {
             Span {
                 Text("Toggle Dropdown")
             }
-            .class(.visuallyHidden)
+            .class(add: .visuallyHidden)
         }
         .type(.button)
-        .class(.btn, .dropdownToggle, .dropdownToggleSplit)
+        .class(add: .btn, .dropdownToggle, .dropdownToggleSplit)
         .id(id) // not required for button groups
         .dataBsToggle(.dropdown)
         .ariaExpanded(false)
-        .addClassesStyles(self)
+        .merge(self.attributes)
     }
 }
 
@@ -368,11 +368,11 @@ extension DropdownMenu: TagRepresentable {
     @TagBuilder
     public func build() -> Tag {
         ul
-        .class(.dropdownMenu)
-        .class(add: .dropdownMenuDark, if: isDark)
-        .class(add: align?.classes)
-        .ariaLabelledBy(id)
-        .addClassesStyles(self)
+            .class(add: .dropdownMenu)
+            .class(add: .dropdownMenuDark, if: isDark)
+            .class(add: align?.classes)
+            .ariaLabelledBy(id)
+            .merge(self.attributes)
     }
 }
 
@@ -433,18 +433,18 @@ extension DropdownItem: TagRepresentable {
                         .class(add: .dropdownItemText)
                 } else {
                     tag
-                        .class(.dropdownItem)
+                        .class(add: .dropdownItem)
                         .class(add: .active, if: isActive)
                         .ariaCurrent(isActive)
                         .class(add: .disabled, if: isDisabled)
                 }
             }
-            .addClassesStyles(self)
+            .merge(self.attributes)
         } else {
             // divider
             Hr()
-                .class(.dropdownDivider)
-                .addClassesStyles(self)
+                .class(add: .dropdownDivider)
+                .merge(self.attributes)
         }
     }
 }

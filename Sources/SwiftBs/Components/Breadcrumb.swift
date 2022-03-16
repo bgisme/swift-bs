@@ -11,6 +11,10 @@ public class Breadcrumb: Component {
     
     public typealias Title = String
     public typealias Href = String
+
+    public static let breadcrumbDividerKey = "--bs-breadcrumb-divider"
+    public static let breadcrumbArrow = "url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;)"
+    public static let breadcrumbDividerRemoved = "''"
     
     let ol: Ol
         
@@ -30,7 +34,7 @@ public class Breadcrumb: Component {
         let ol = Ol { children() }
         self.init(ol)
         if let divider = divider {
-            self.styles = [BsCssProperty.breadcrumbDivider.rawValue : divider]
+            style(add: [(Self.breadcrumbDividerKey, divider)])
         }
     }
     
@@ -45,9 +49,9 @@ extension Breadcrumb: TagRepresentable {
     public func build() -> Tag {
         Nav {
             ol
-                .class(.breadcrumb)
+                .class(add: .breadcrumb)
         }
-        .addClassesStyles(self)
+        .merge(self.attributes)
     }
 }
 
@@ -75,8 +79,8 @@ extension BreadcrumbItem: TagRepresentable {
         Li {
             a
         }
-        .class(.breadcrumbItem)
+        .class(add: .breadcrumbItem)
         .class(add: .active, if: isActive)
-        .addClassesStyles(self)
+        .merge(self.attributes)
     }
 }

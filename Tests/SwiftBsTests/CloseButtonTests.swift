@@ -9,15 +9,15 @@ final class CloseButtonTests: XCTestCase {
         let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")]
         let tag = CloseButton(isDisabled: true, isWhite: true)
             .class(add: classes)
-            .style(styles)
+            .style(add: styles)
             .build()
-        if let classValue = tag.classValue {
+        if let classValue = tag.value(.class) {
             XCTAssert(classValue.has(.btnClose))
             XCTAssert(classValue.has(.btnCloseWhite))
         } else {
             XCTFail()
         }
-        if let ariaLabel = tag.attributeValue(.ariaLabel) {
+        if let ariaLabel = tag.value(.ariaLabel) {
             XCTAssert(ariaLabel == "Close")
         } else {
             XCTFail()

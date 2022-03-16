@@ -21,6 +21,6 @@ final class DropdownTests: XCTestCase {
                 DropdownItem("Test")
             }
         }.build()
-        XCTAssert(tag.classValue?.has(.btnGroup) ?? false)
+        XCTAssert(tag.value(.class)?.has(.btnGroup) ?? false)
     }
 }
