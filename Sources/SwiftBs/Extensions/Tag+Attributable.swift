@@ -108,12 +108,9 @@ extension Tag: AttributeValuable {
         return attr(.ariaDisabled, String(condition))
     }
     
-    /// condition == true ... aria-expanded="true"
-    /// condition == false ... no aria-expanded
     @discardableResult
-    public func ariaExpanded(_ condition: Bool = true) -> Self {
-        guard condition else { return self }
-        return attr(.ariaExpanded, String(condition))
+    public func ariaExpanded(_ value: Bool?, _ condition: Bool = true) -> Self {
+        return attr(.ariaExpanded, String(value), condition)
     }
     
     /// condition == true ... aria-hidden="true"

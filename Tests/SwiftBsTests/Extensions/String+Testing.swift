@@ -8,7 +8,11 @@ extension String {
     }
     
     func has(_ classes: [BsClass]) -> Bool {
-        return has(classes.map{ $0.rawValue }, " ")
+        return has(classes.map{ String($0) }, " ")
+    }
+    
+    func has(_ styles: [CssKeyValue]) -> Bool {
+        return has(styles.map{ String($0) }, ";")
     }
     
     func has(_ values: [String], _ separatedBy: String) -> Bool {

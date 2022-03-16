@@ -35,10 +35,12 @@ extension String {
     }
     
     public var styles: [(key: String, value: String)] {
-        self
+        return self
             .split(separator: Character.styleSeparator)
-            .map{ String($0) }
-            .split(separator: String.styleKeyValueSeparator)
+            .map{ String($0)
+                .split(separator: Character.styleKeyValueSeparator)
+                .map{ String($0) }
+            }
             .filter{ $0.count == 2 }
             .map({ (key: $0[0], value: $0[1]) })
     }
@@ -71,6 +73,10 @@ extension String {
 // MARK: - AttributeValuable
 
 extension String {
+    
+    public init(_ `class`: BsClass) {
+        self.init(`class`.rawValue)
+    }
     
     public init?(_ `class`: BsClass?) {
         guard let `class` = `class` else { return nil }

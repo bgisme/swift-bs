@@ -82,7 +82,7 @@ extension Component: Attributable {
     @discardableResult
     public func delete(_ key: AttributeKey) -> Self {
         guard let attributes = self.attributes else { return self }
-        self.attributes = attributes.filter{ $0.key == key.rawValue }
+        self.attributes = attributes.filter{ $0.key != key.rawValue }
         return self
     }
 }

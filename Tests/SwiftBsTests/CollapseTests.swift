@@ -19,7 +19,11 @@ final class CollapseTests: XCTestCase {
         
         // All buttons and convenience inits
         XCTAssert(tagB.value(.dataBsToggle) == BsClass.collapse.rawValue)
-        XCTAssert(tagB.value(.ariaExpanded) == String(false))
+        if let ariaExpandedValue = tagB.value(.ariaExpanded) {
+            XCTAssert(Bool(ariaExpandedValue) == false)
+        } else {
+            XCTFail()
+        }
 
         // Multiple targets
         let multiContents = [

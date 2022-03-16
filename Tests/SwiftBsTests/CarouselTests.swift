@@ -122,14 +122,17 @@ final class CarouselTests: XCTestCase {
         let tag = CarouselInner(Div())
             .class(add: classes)
             .style(add: styles)
-            .build()
-        if let classValue = tag.value(.class) {
+        if let classValue = tag.build().value(.class) {
             XCTAssert(classValue.has(.carouselInner))
+            XCTAssert(classValue.has(classes))
         } else {
             XCTFail()
         }
-        XCTAssert(tag.has(classes))
-        XCTAssert(tag.has(styles))
+        if let styleValue = tag.build().value(.style) {
+            XCTAssert(styleValue.has(styles))
+        } else {
+            XCTFail()
+        }
     }
     
     func testCarouselItem() throws {
