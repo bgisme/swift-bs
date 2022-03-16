@@ -842,6 +842,8 @@ public enum BsClass: String {
     case navbarSupportedContent = "navbarSupportedContent"
     case navbarToggler = "navbar-toggler"
     case navbarTogglerIcon = "navbar-toggler-icon"
+
+    case nav
     case navItem = "nav-item"
     case navLink = "nav-link"
     
