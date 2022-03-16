@@ -1,5 +1,5 @@
 //
-//  NavTabs.swift
+//  NavTab.swift
 //  
 //
 //  Created by Brad Gourley on 3/16/22.
@@ -7,7 +7,7 @@
 
 import SwiftHtml
 
-public class NavTabs: Component {
+public class NavTab: Component {
     
     public enum Align {
         case right
