@@ -59,10 +59,12 @@ public enum AttributeKey: String {
     case list
     case max
     case min
+    case role
     case size
     case step
     case style
     case toolbar
+    case type
     /// Bool Attributes
     case ariaExpanded = "aria-expanded"
     case ariaHaspopup = "aria-haspopup"
@@ -77,4 +79,9 @@ public enum AttributeKey: String {
     case multiple
     case readonly
     case selected
+}
+
+public enum AttributeValuePrefix: String {
+    case hash = "#"
+    case dot = "."
 }

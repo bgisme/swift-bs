@@ -8,9 +8,7 @@
 import SwiftHtml
 
 extension Attribute {
-    
-    static let `type` = "type"
-    
+        
     public enum `Type`: String {
         case a
         case button

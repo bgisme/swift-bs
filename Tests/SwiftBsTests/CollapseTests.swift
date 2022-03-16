@@ -10,7 +10,7 @@ final class CollapseTests: XCTestCase {
         
         // <a> version
         let tagA = CollapseButton("Link with href", type: .link, contentIds: id).build()
-        XCTAssert(tagA.value(Attribute.role) == BsClass.button.rawValue)
+        XCTAssert(tagA.value(.role) == BsClass.button.rawValue)
         XCTAssert(tagA.value("href") == "#\(id)")
         
         // <button> version

@@ -8,9 +8,7 @@
 import SwiftHtml
 
 extension Attribute {
-    
-    static let role = "role"
-    
+
     public enum Role: String {
         case alert
         case alertdialog
