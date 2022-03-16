@@ -127,7 +127,7 @@ public class NavTab: Component {
     }
 }
 
-extension NavTabs: TagRepresentable {
+extension NavTab: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
