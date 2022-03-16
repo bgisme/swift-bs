@@ -14,15 +14,6 @@ public class NavTab: Component {
         case center
     }
     
-    public enum Vertical {
-        case `default`
-        case sm
-        case md
-        case lg
-        case xl
-        case xxl
-    }
-    
     public enum Style {
         case tabs
         case pills
@@ -41,42 +32,42 @@ public class NavTab: Component {
     
     public convenience init(links: [A],
                             align: Align? = nil,
-                            verticals: [Vertical]? = nil,
+                            vertical breakpoints: Set<Breakpoint>? = nil,
                             style: Style? = nil,
                             width: Width? = nil) {
         let nav = Nav {
             links.map{ NavLink($0) }
         }
-        self.init(nav, align: align, verticals: verticals, style: style, width: width)
+        self.init(nav, align: align, vertical: breakpoints, style: style, width: width)
     }
     
     public convenience init(_ nav: Nav,
                             align: Align? = nil,
-                            verticals: [Vertical]? = nil,
+                            vertical breakpoints: Set<Breakpoint>? = nil,
                             style: Style? = nil,
                             width: Width? = nil) {
-        self.init(tag: nav, align: align, verticals: verticals, style: style, width: width)
+        self.init(tag: nav, align: align, vertical: breakpoints, style: style, width: width)
     }
     
     public convenience init(_ ol: Ol,
                             align: Align? = nil,
-                            verticals: [Vertical]? = nil,
+                            vertical breakpoints: Set<Breakpoint>? = nil,
                             style: Style? = nil,
                             width: Width? = nil) {
-        self.init(tag: ol, align: align, verticals: verticals, style: style, width: width)
+        self.init(tag: ol, align: align, vertical: breakpoints, style: style, width: width)
     }
     
     public convenience init(_ ul: Ul,
                             align: Align? = nil,
-                            verticals: [Vertical]? = nil,
+                            vertical breakpoints: Set<Breakpoint>? = nil,
                             style: Style? = nil,
                             width: Width? = nil) {
-        self.init(tag: ul, align: align, verticals: verticals, style: style, width: width)
+        self.init(tag: ul, align: align, vertical: breakpoints, style: style, width: width)
     }
     
     internal init(tag: Tag,
                   align: Align?,
-                  verticals: [Vertical]? = nil,
+                  vertical breakpoints: Set<Breakpoint>?,
                   style: Style?,
                   width: Width?) {
         self.tag = tag
@@ -88,23 +79,25 @@ public class NavTab: Component {
         default:
             self.align = nil
         }
-        if let verticals = verticals {
-            self.verticals = verticals.map {
+        if let bp = breakpoints {
+            var classes: Set<BsClass> = [.flexColumn]
+            _ = bp.map {
                 switch $0 {
+                case .xs:
+                    break
                 case .sm:
-                    return .flexSmColumn
+                    classes.insert(.flexSmRow)
                 case .md:
-                    return .flexMdColumn
+                    classes.insert(.flexMdRow)
                 case .lg:
-                    return .flexLgColumn
+                    classes.insert(.flexLgRow)
                 case .xl:
-                    return .flexXlColumn
+                    classes.insert(.flexXlRow)
                 case .xxl:
-                    return .flexXxlColumn
-                default:
-                    return .flexColumn
+                    classes.insert(.flexXxlRow)
                 }
             }
+            self.verticals = Array(classes)
         } else {
             self.verticals = nil
         }
@@ -226,7 +219,7 @@ public class NavLink: Component {
                 switch location {
                 case .start:
                     switch bp {
-                    case .all:
+                    case .xs:
                         classes.insert(.textStart)
                     case .sm:
                         classes.insert(.textSmStart)
@@ -241,7 +234,7 @@ public class NavLink: Component {
                     }
                 case .end:
                     switch bp {
-                    case .all:
+                    case .xs:
                         classes.insert(.textEnd)
                     case .sm:
                         classes.insert(.textSmEnd)
@@ -256,7 +249,7 @@ public class NavLink: Component {
                     }
                 case .center:
                     switch bp {
-                    case .all:
+                    case .xs:
                         classes.insert(.textCenter)
                     case .sm:
                         classes.insert(.textSmCenter)
@@ -275,7 +268,7 @@ public class NavLink: Component {
         if let fills = fills {
             for bp in fills {
                 switch bp {
-                case .all:
+                case .xs:
                     classes.insert(.flexFill)
                 case .sm:
                     classes.insert(.flexSmFill)

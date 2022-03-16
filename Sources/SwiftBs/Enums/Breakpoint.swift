@@ -6,7 +6,7 @@
 //
 
 public enum Breakpoint {
-    case all
+    case xs
     case sm
     case md
     case lg
