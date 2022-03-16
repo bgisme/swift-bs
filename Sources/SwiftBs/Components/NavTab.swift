@@ -167,7 +167,6 @@ public class NavItem: Component {
                             isActive: Bool = false,
                             isDisabled: Bool = false) {
         let li = Li {
-            Text(title)
             NavLink(title, href: href, isActive: isActive, isDisabled: isDisabled)
         }
         self.init(li, isDropdown: false)
