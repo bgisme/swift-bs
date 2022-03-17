@@ -178,8 +178,6 @@ extension NavItem: TagRepresentable {
         li
             .class(add: .navItem)
             .class(add: .dropdown, if: isDropdown)
-            .dataBsToggle(.dropdown, isDropdown)
-            .ariaExpanded(false, isDropdown)
             .merge(self.attributes)
     }
 }
@@ -297,6 +295,8 @@ extension NavLink: TagRepresentable {
             .ariaCurrent(isActive)
             .class(add: .disabled, if: isDisabled)
             .class(add: .dropdownToggle, if: isDropdownToggle)
+            .dataBsToggle(.dropdown, isDropdownToggle)
+            .ariaExpanded(false, isDropdownToggle)
             .class(add: alignFillClasses)
             .merge(self.attributes)
     }
