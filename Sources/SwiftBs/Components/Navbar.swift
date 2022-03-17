@@ -107,7 +107,7 @@ public class NavbarBrand: Component {
     
     let tag: Tag
     
-    public convenience init(_ title: String, href: String?) {
+    public convenience init(_ title: String, href: String? = nil) {
         let tag: Tag
         if let href = href {
             tag = A(title)
