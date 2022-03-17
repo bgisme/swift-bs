@@ -329,17 +329,16 @@ public class DropdownMenu: Component {
     let isDark: Bool
     let align: Dropdown.MenuAlign?
     
-    /// items ... DropdownItem
-    public convenience init(id: String,
+    public convenience init(toggler id: String,
                             isDark: Bool = false,
                             align: Dropdown.MenuAlign? = nil,
-                            @TagBuilder items: () -> [Tag]) {
-        let ul = Ul { items() }
-        self.init(ul, id: id, isDark: isDark, align: align)
+                            @TagBuilder dropDownItems: () -> [Tag]) {
+        let ul = Ul { dropDownItems() }
+        self.init(ul, toggler: id, isDark: isDark, align: align)
     }
     
     public init(_ ul: Ul,
-                id: String,
+                toggler id: String,
                 isDark: Bool = false,
                 align: Dropdown.MenuAlign? = nil) {
         self.ul = ul
