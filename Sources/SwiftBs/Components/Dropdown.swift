@@ -329,21 +329,7 @@ public class DropdownMenu: Component {
     let isDark: Bool
     let align: Dropdown.MenuAlign?
     
-    public convenience init(id: String,
-                            isDark: Bool = false,
-                            align: Dropdown.MenuAlign? = nil,
-                            links: [(Title, Href)?]) {
-        self.init(id: id, isDark:isDark, align: align) {
-            for link in links {
-                if let (title, href) = link {
-                    DropdownItem(title, href: href)
-                } else {
-                    DropdownItem.divider()
-                }
-            }
-        }
-    }
-    
+    /// items ... DropdownItem
     public convenience init(id: String,
                             isDark: Bool = false,
                             align: Dropdown.MenuAlign? = nil,
