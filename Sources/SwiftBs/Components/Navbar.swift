@@ -19,12 +19,11 @@ public class Navbar: Component {
     let placement: BsClass?
     let expand: BsClass?
     
-    /// next use NavbarContainer
     public convenience init(placement: Placement? = nil,
                             collapseAt breakpoint: Breakpoint? = nil,
-                            @TagBuilder contents: () -> [Tag]) {
+                            @TagBuilder navBarContainer: () -> [Tag]) {
         let nav = Nav {
-            contents()
+            navBarContainer()
         }
         self.init(nav, placement: placement, collapseAt: breakpoint)
     }
