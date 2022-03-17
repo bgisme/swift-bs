@@ -152,13 +152,9 @@ public class NavItem: Component {
     let li: Li
     let isDropdown: Bool
     
-    public static func dropdown(_ a: A, dropdownMenu: () -> DropdownMenu) -> NavItem {
+    public static func dropdown(_ a: A, @TagBuilder dropdownMenu: () -> [Tag]) -> NavItem {
         let li = Li {
             dropdownMenu()
-//            NavLink(a, isDropdownToggle: true)
-//            Ul {
-//                contents()
-//            }.class(add: .dropdownMenu)
         }
         return NavItem(li, isDropdown: true)
     }
