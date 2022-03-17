@@ -150,11 +150,11 @@ public class NavbarToggler: Component {
     let isCollapseOffCanvas: Bool
     let ariaLabel: String
     
-    public static func standard(id: String,
+    public static func standard(collapseId: String,
                                 ariaLabel: String,
                                 isBordered: Bool = true) -> NavbarToggler {
         NavbarToggler("navbar-toggler-icon",
-                      collapseId: id,
+                      collapseId: collapseId,
                       ariaLabel: "site navigation")
         .style(add: .border("none"), if: !isBordered)
     }
