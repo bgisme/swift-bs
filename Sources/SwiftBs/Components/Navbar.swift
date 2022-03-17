@@ -269,7 +269,7 @@ public class NavbarNav: Component {
         self.tag = tag
         if let pixels = pixels, pixels < Int.max {
             self.isScrollable = true
-            self.scrollHeight = CssKeyValue("--bs-scroll-height", String(pixels))
+            self.scrollHeight = CssKeyValue("--bs-scroll-height", "\(pixels)px")
         } else {
             self.isScrollable = true
             self.scrollHeight = nil
