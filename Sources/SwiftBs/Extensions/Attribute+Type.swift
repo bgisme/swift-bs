@@ -20,5 +20,6 @@ extension Attribute {
         case script
         case source
         case style
+        case submit
     }
 }
