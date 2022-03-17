@@ -19,6 +19,15 @@ public class Navbar: Component {
     let placement: BsClass?
     let expand: BsClass?
     
+    public convenience init(placement: Placement? = nil,
+                            collapseAt breakpoint: Breakpoint? = nil,
+                            @TagBuilder contents: () -> [Tag]) {
+        let nav = Nav {
+            contents()
+        }
+        self.init(nav, placement: placement, collapseAt: breakpoint)
+    }
+    
     /// collapseBelow = nil ... auto-collapses behind toggler button
     public init(_ nav: Tag,
                 placement: Placement? = nil,
@@ -67,6 +76,14 @@ public class NavbarBrand: Component {
     
     let div: Div
     let isVerticalAlign: Bool
+    
+    public convenience init(isVerticalAlign: Bool = true,
+                            @TagBuilder contents: () -> [Tag]) {
+        let div = Div {
+            contents()
+        }
+        self.init(div, isVerticalAlign: isVerticalAlign)
+    }
     
     public convenience init(_ title: String, href: String?) {
         let tag: Tag
@@ -155,6 +172,14 @@ public class NavbarCollapse: Component {
     let div: Div
     let id: String
     
+    public convenience init(id: String,
+                            @TagBuilder contents: () -> [Tag]) {
+        let div = Div {
+            contents()
+        }
+        self.init(div, id: id)
+    }
+    
     public init(_ div: Div, id: String) {
         self.div = div
         self.id = id
@@ -178,12 +203,21 @@ public class NavbarNav: Component {
     let isScrollable: Bool
     let scrollHeight: CssKeyValue?
     
-    public convenience init(_ ul: Ul, scrollHeight: Int? = nil) {
-        self.init(tag: ul, scrollHeight: scrollHeight)
+    /// contents should be <a> or NavLinks ... not <li> or NavItems
+    public convenience init(scrollHeight pixels: Int? = nil,
+                            @TagBuilder contents: () -> [Tag]) {
+        let div = Div {
+            contents()
+        }
+        self.init(div, scrollHeight: pixels)
     }
     
-    public convenience init(_ div: Div, scrollHeight: Int? = nil) {
-        self.init(tag: div, scrollHeight: scrollHeight)
+    public convenience init(_ ul: Ul, scrollHeight pixels: Int? = nil) {
+        self.init(tag: ul, scrollHeight: pixels)
+    }
+    
+    public convenience init(_ div: Div, scrollHeight pixels: Int? = nil) {
+        self.init(tag: div, scrollHeight: pixels)
     }
     
     /// for default scroll height ... use Int.max
