@@ -986,6 +986,14 @@ public enum BsClass: String {
     case offsetXxl12 = "offset-xxl-12"
     
     // MARK: - P
+    case p0 = "p-0"
+    case p1 = "p-1"
+    case p2 = "p-2"
+    case p3 = "p-3"
+    case p4 = "p-4"
+    case p5 = "p-5"
+    case pAuto = "p-auto"
+    
     case pt0 = "pt-0"
     case pt1 = "pt-1"
     case pt2 = "pt-2"
