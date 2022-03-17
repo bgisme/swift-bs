@@ -228,19 +228,35 @@ extension NavbarCollapse: TagRepresentable {
 
 public class NavbarNav: Component {
     
+    public enum `Type` {
+        case ol     // contents should be <li> or NavItem
+        case ul     // contents should be <li> or NavItem
+        case div    // contents should be <a> or NavLink
+    }
+    
     let tag: Tag
     let isScrollable: Bool
     let scrollHeight: CssKeyValue?
-    
-    /// contents should be <a> or NavLinks ... not <li> or NavItems
-    public convenience init(scrollHeight pixels: Int? = nil,
+
+    public convenience init(type: `Type` = .div,
+                            scrollHeight pixels: Int? = nil,
                             @TagBuilder contents: () -> [Tag]) {
-        let div = Div {
-            contents()
+        let tag: Tag
+        switch `type` {
+        case .ol:
+            tag = Ol { contents() }
+        case .ul:
+            tag = Ul { contents() }
+        case .div:
+            tag = Div { contents() }
         }
-        self.init(div, scrollHeight: pixels)
+        self.init(tag: tag, scrollHeight: pixels)
     }
     
+    public convenience init(_ ol: Ol, scrollHeight pixels: Int? = nil) {
+        self.init(tag: ol, scrollHeight: pixels)
+    }
+
     public convenience init(_ ul: Ul, scrollHeight pixels: Int? = nil) {
         self.init(tag: ul, scrollHeight: pixels)
     }
