@@ -29,6 +29,6 @@ extension CloseButton: TagRepresentable {
             .class(add: .btnCloseWhite, if: isWhite)
             .ariaLabel("Close")
             .flagAttribute("disabled", nil, isDisabled)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }

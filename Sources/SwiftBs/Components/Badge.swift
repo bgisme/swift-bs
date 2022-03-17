@@ -32,6 +32,6 @@ extension Badge: TagRepresentable {
             .class(add: .badge)
             .class(add: .positionAbsolute, .top0, .start100, .translateMiddle, .roundedPill, if: isPositioned)
             .class(add: .roundedPill, if: isRounded)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }

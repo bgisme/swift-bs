@@ -51,7 +51,7 @@ extension Breadcrumb: TagRepresentable {
             ol
                 .class(add: .breadcrumb)
         }
-        .merge(self.attributes)
+        .merge(attributes)
     }
 }
 
@@ -81,6 +81,6 @@ extension BreadcrumbItem: TagRepresentable {
         }
         .class(add: .breadcrumbItem)
         .class(add: .active, if: isActive)
-        .merge(self.attributes)
+        .merge(attributes)
     }
 }

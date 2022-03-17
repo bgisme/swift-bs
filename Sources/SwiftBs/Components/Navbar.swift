@@ -2,21 +2,52 @@
 //  Navbar.swift
 //  
 //
-//  Created by BG on 2/12/22.
+//  Created by Brad Gourley on 3/17/22.
 //
 
 import SwiftHtml
 
 public class Navbar: Component {
     
-    var isListBased: Bool
-    var brand: () -> [Tag]
-    let items: () -> [Tag]
-
-    public init(isListBased: Bool = true, @TagBuilder brand: @escaping () -> [Tag], @TagBuilder items: @escaping () -> [Tag]) {
-        self.isListBased = isListBased
-        self.brand = brand
-        self.items = items
+    public enum Placement {
+        case fixedTop
+        case fixedBottom
+        case stickyTop  //! May not be supported by every browser
+    }
+    
+    let nav: Tag
+    let placement: BsClass?
+    let expand: BsClass?
+    
+    /// collapseBelow = nil ... auto-collapses behind toggler button
+    public init(_ nav: Tag,
+                placement: Placement? = nil,
+                collapseAt breakpoint: Breakpoint? = nil) {
+        self.nav = nav
+        switch placement {
+        case .fixedTop:
+            self.placement = .fixedTop
+        case .fixedBottom:
+            self.placement = .fixedBottom
+        case .stickyTop:
+            self.placement = .stickyTop
+        default:
+            self.placement = nil
+        }
+        switch breakpoint {
+        case .sm:
+            self.expand = .navbarExpandSm
+        case .md:
+            self.expand = .navbarExpandMd
+        case .lg:
+            self.expand = .navbarExpandLg
+        case .xl:
+            self.expand = .navbarExpandXl
+        case .xxl:
+            self.expand = .navbarExpandXxl
+        default:
+            self.expand = nil
+        }
     }
 }
 
@@ -24,62 +55,44 @@ extension Navbar: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        Nav {
-            Div {
-                brand()
-                Button {
-                    Span {}.class(add: .navbarTogglerIcon)
-                }
-                .class(add: .navbarToggler)
-                .type(.button)
-                .dataBsToggle(.collapse)
-                .dataBsTarget(.navbarSupportedContent)
-                .ariaControls(.navbarSupportedContent)
-                .ariaExpanded(false)
-                .ariaLabelledBy("Toggle navigation")
-                
-                Div {
-                    if isListBased {
-                        Ul() {
-                            items()
-                        }
-                        .class(add: .navbarNav)
-                    } else {
-                        items()
-                    }
-                }
-                .class(add: .collapse, .navbarCollapse)
-                .id("navbarSupportedContent")
-            }
-            .class(add: .containerFluid)
-        }
-        .class(add: .navbar)
-        .merge(self.attributes)
+        nav
+            .class(add: .navbar)
+            .class(add: placement)
+            .class(add: expand)
+            .merge(attributes)
     }
 }
 
 public class NavbarBrand: Component {
     
-    let img: Img?
-    let text: String?
-    let href: String?
+    let div: Div
+    let isVerticalAlign: Bool
     
-    public convenience init(_ text: String, href: String? = nil) {
-        self.init(img: nil, text: text, href: href)
+    public convenience init(_ title: String, href: String?) {
+        let tag: Tag
+        if let href = href {
+            tag = A(title)
+                .href(href)
+        } else {
+            tag = Span(title)
+                .class(add: .mb0, .h1)
+        }
+        let div = Div {
+            tag.class(add: .navbarBrand)
+        }
+        self.init(div, isVerticalAlign: true)
+    }
+
+    public convenience init(_ a: A, isImgOnly: Bool) {
+        let div = Div {
+            a.class(add: .navbarBrand)
+        }
+        self.init(div, isVerticalAlign: !isImgOnly)
     }
     
-    public convenience init(_ img: Img, href: String? = nil) {
-        self.init(img: img, text: nil, href: href)
-    }
-    
-    public convenience init(_ img: Img, text: String, href: String? = nil) {
-        self.init(img: img, text: text, href: href)
-    }
-    
-    internal required init(img: Img?, text: String?, href: String?) {
-        self.img = img
-        self.text = text
-        self.href = href
+    public init(_ div: Div, isVerticalAlign: Bool) {
+        self.div = div
+        self.isVerticalAlign = isVerticalAlign
     }
 }
 
@@ -87,53 +100,137 @@ extension NavbarBrand: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        A {
-            if let img = img {
-                img
-                    .width(30)
-                    .height(24)
-            }
-            if let text = text {
-                Text(text)
-            }
+        div
+            .class(add: isVerticalAlign ? .containerFluid : .container)
+            .merge(attributes)
+    }
+}
+
+public class NavbarToggler: Component {
+    
+    let button: Button
+    let collapseId: String
+    let isCollapseOffCanvas: Bool
+    let ariaLabel: String
+    
+    public convenience init(_ iconClass: String,
+                            collapseId: String,
+                            offCanvas: Bool = false,
+                            ariaLabel: String) {
+        let button = Button {
+            Span().class(add: iconClass)
         }
-        .class(add: .navbarBrand)
-        .hrefOptional(href)
-        .class(add: .h1, .mb0, if: href == nil)
-        .class(add: .dInlineBlock, .alignTextTop, if: img != nil && text != nil)    // align image and text
-        .merge(self.attributes)
+        self.init(button, collapseId: collapseId, offCanvas: offCanvas, ariaLabel: ariaLabel)
+    }
+    
+    public init(_ button: Button,
+                collapseId: String,
+                offCanvas: Bool = false,
+                ariaLabel: String) {
+        self.button = button
+        self.collapseId = collapseId
+        self.isCollapseOffCanvas = offCanvas
+        self.ariaLabel = ariaLabel
     }
 }
 
-public class NavDropdown: Component {
-    
-    let title: String
-    let items: () -> [Tag]
-    
-    public init(_ title: String, @TagBuilder items: @escaping () -> [Tag]) {
-        self.title = title
-        self.items = items
-    }
-}
-
-extension NavDropdown: TagRepresentable {
+extension NavbarToggler: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        Li {
-            A(title)
-                .class(add: .navLink, .dropdownToggle)
-                .href("#")
-                .role(.button)
-                .dataBsToggle(.dropdown)
-                .ariaExpanded(false)
-            Ul {
-                items()
-            }
-            .class(add: .dropdownMenu)
-            .ariaLabelledBy("navbarDropdown")
+        button
+            .class(add: .navbarToggler)
+            .type(.button)
+            .dataBsToggle(isCollapseOffCanvas ? .offcanvas : .collapse)
+            .dataBsTarget(collapseId)
+            .ariaControls(collapseId)
+            .ariaExpanded(false)
+            .ariaLabel(ariaLabel)
+            .merge(attributes)
+    }
+}
+
+public class NavbarCollapse: Component {
+    
+    let div: Div
+    let id: String
+    
+    public init(_ div: Div, id: String) {
+        self.div = div
+        self.id = id
+    }
+}
+
+extension NavbarCollapse: TagRepresentable {
+    
+    @TagBuilder
+    public func build() -> Tag {
+        div
+            .class(add: .collapse, .navbarCollapse)
+            .id(id)
+            .merge(attributes)
+    }
+}
+
+public class NavbarNav: Component {
+    
+    let tag: Tag
+    let isScrollable: Bool
+    let scrollHeight: CssKeyValue?
+    
+    public convenience init(_ ul: Ul, scrollHeight: Int? = nil) {
+        self.init(tag: ul, scrollHeight: scrollHeight)
+    }
+    
+    public convenience init(_ div: Div, scrollHeight: Int? = nil) {
+        self.init(tag: div, scrollHeight: scrollHeight)
+    }
+    
+    /// for default scroll height ... use Int.max
+    internal init(tag: Tag, scrollHeight pixels: Int?) {
+        self.tag = tag
+        if let pixels = pixels, pixels < Int.max {
+            self.isScrollable = true
+            self.scrollHeight = CssKeyValue("--bs-scroll-height", String(pixels))
+        } else {
+            self.isScrollable = true
+            self.scrollHeight = nil
         }
-        .class(add: .navItem, .dropdown)
-        .merge(self.attributes)
+    }
+}
+
+extension NavbarNav: TagRepresentable {
+    
+    @TagBuilder
+    public func build() -> Tag {
+        tag
+            .class(add: .navbarNav)
+            .class(add: .navbarNavScroll, if: isScrollable)
+            .style(add: scrollHeight)
+            .merge(attributes)
+    }
+}
+
+public class NavbarText: Component {
+    
+    let span: Span
+    
+    public convenience init(_ text: String) {
+        let span = Span(text)
+        self.init(span)
+    }
+    
+    public init(_ span: Span) {
+        self.span = span
+    }
+}
+
+extension NavbarText: TagRepresentable {
+    
+    @TagBuilder
+    public func build() -> Tag {
+        span
+            .class(add: .navbarText)
+            .merge(attributes)
     }
 }

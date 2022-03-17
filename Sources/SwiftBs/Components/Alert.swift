@@ -39,12 +39,12 @@ extension Alert: TagRepresentable {
             .class(add: .alert)
             .role(.alert)
             .class(add: .dFlex, .alignItemsCenter)
-            .merge(self.attributes)
+            .merge(attributes)
         } else {
             div
                 .class(add: .alert)
                 .role(.alert)
-                .merge(self.attributes)
+                .merge(attributes)
         }
     }
 }
@@ -68,6 +68,6 @@ extension AlertHeading: TagRepresentable {
     public func build() -> Tag {
         h4
             .class(add: .alertHeading)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }

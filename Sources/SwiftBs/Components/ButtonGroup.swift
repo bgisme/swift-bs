@@ -32,7 +32,7 @@ extension ButtonGroup: TagRepresentable {
         div
             .class(add: isVertical ? .btnGroupVertical : .btnGroup)
             .role(.group)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }
 
@@ -57,6 +57,6 @@ extension ButtonGroupToolbar: TagRepresentable {
         div
             .class(add: .btnToolbar)
             .role(.toolbar)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }

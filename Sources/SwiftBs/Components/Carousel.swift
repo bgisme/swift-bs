@@ -117,7 +117,7 @@ extension Carousel: TagRepresentable {
             .dataBsRide(.carousel)
             .dataBsInterval(false, isAutoplayDisabled)
             .dataBsTouch(false, isTouchDisabled)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }
 
@@ -140,7 +140,7 @@ extension CarouselInner: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .carouselInner)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }
 
@@ -182,7 +182,7 @@ extension CarouselItem: TagRepresentable {
             .class(add: .carouselItem)
             .class(add: .active, if: isActive)
             .dataBsInterval(interval)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }
 
@@ -213,7 +213,7 @@ extension CarouselCaption: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .carouselCaption)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }
 
@@ -276,7 +276,7 @@ extension CarouselControl: TagRepresentable {
         tag
             .dataBsTarget(carouselId)
             .dataBsSlide(direction.rawValue)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }
 
@@ -321,6 +321,6 @@ extension CarouselIndicator: TagRepresentable {
             .ariaLabel("Slide \(index)")
             .class(add: .active, if: isActive)
             .ariaCurrent(isActive)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }

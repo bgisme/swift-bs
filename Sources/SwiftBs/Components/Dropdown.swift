@@ -164,7 +164,7 @@ extension Dropdown: TagRepresentable {
                 }
                 .class(add: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
                 .class(add: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
-                .merge(self.attributes)
+                .merge(attributes)
             } else {
                 Div {
                     Div {
@@ -177,7 +177,7 @@ extension Dropdown: TagRepresentable {
                     button
                 }
                 .class(add: .btnGroup)
-                .merge(self.attributes)
+                .merge(attributes)
             }
         } else {
             /// non-split
@@ -187,7 +187,7 @@ extension Dropdown: TagRepresentable {
             }
             .class(add: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
             .class(add: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
-            .merge(self.attributes)
+            .merge(attributes)
         }
     }
 }
@@ -260,7 +260,7 @@ extension DropdownButton: TagRepresentable {
             if isSplit {
                 link
                     .role(.button)
-                    .merge(self.attributes)
+                    .merge(attributes)
             } else {
                 link
                     .role(.button)
@@ -269,14 +269,14 @@ extension DropdownButton: TagRepresentable {
                     .dataBsToggle(.dropdown)
                     .ariaExpanded(false)
                     .dataBsDisplay(.static, isMenuAlignResponsive)
-                    .merge(self.attributes)
+                    .merge(attributes)
             }
         } else if let button = tag as? Button {
             if isSplit {
                 button
                     .type(.button)
                     .class(add: .btn)
-                    .merge(self.attributes)
+                    .merge(attributes)
             } else {
                 button
                     .type(.button)
@@ -285,7 +285,7 @@ extension DropdownButton: TagRepresentable {
                     .dataBsToggle(.dropdown)
                     .ariaExpanded(false)
                     .dataBsDisplay(.static, isMenuAlignResponsive)
-                    .merge(self.attributes)
+                    .merge(attributes)
             }
         }
     }
@@ -315,7 +315,7 @@ extension DropdownButtonArrow: TagRepresentable {
         .id(id) // not required for button groups
         .dataBsToggle(.dropdown)
         .ariaExpanded(false)
-        .merge(self.attributes)
+        .merge(attributes)
     }
 }
 
@@ -372,7 +372,7 @@ extension DropdownMenu: TagRepresentable {
             .class(add: .dropdownMenuDark, if: isDark)
             .class(add: align?.classes)
             .ariaLabelledBy(id)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }
 
@@ -439,12 +439,12 @@ extension DropdownItem: TagRepresentable {
                         .class(add: .disabled, if: isDisabled)
                 }
             }
-            .merge(self.attributes)
+            .merge(attributes)
         } else {
             // divider
             Hr()
                 .class(add: .dropdownDivider)
-                .merge(self.attributes)
+                .merge(attributes)
         }
     }
 }

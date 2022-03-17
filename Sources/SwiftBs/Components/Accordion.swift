@@ -39,7 +39,7 @@ extension Accordion: TagRepresentable {
             .class(add: .accordion)
             .id(id)
             .class(add: .accordionFlush, if: isFlush)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }
 
@@ -82,7 +82,7 @@ extension AccordionItem: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .accordionItem)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }
 
@@ -108,7 +108,7 @@ extension AccordionHeader: TagRepresentable {
     public func build() -> Tag {
         h2
             .class(add: .accordionHeader)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }
 
@@ -156,7 +156,7 @@ extension AccordionCollapse: TagRepresentable {
             .class(add: .show, if: isExpanded)
             .ariaLabelledBy(headerId)
             .dataParent(accordionId, !isAlwaysOpen)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }
 
@@ -179,7 +179,7 @@ extension AccordionBody: TagRepresentable {
     public func build() -> Tag {
         div
             .class(add: .accordionBody)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }
 
@@ -217,6 +217,6 @@ extension AccordionButton: TagRepresentable {
             .dataBsTarget(collapseId)
             .ariaExpanded(isExpanded)
             .ariaControls(collapseId)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }

@@ -66,6 +66,6 @@ extension BsButton: TagRepresentable {
     public func build() -> Tag {
         tag
             .class(add: .btn)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }

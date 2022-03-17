@@ -285,6 +285,9 @@ public enum BsClass: String {
     case figureCaption = "figure-caption"
     case figureImg = "figure-img"
     
+    case fixedTop = "fixed-top"
+    case fixedBottom = "fixed-bottom"
+    
     case floatEnd = "float-end"
     case floatStart = "float-start"
     
@@ -871,7 +874,9 @@ public enum BsClass: String {
     case navbarExpandXxl = "navbar-expand-xxl"
     case navbarLight = "navbar-light"
     case navbarNav = "navbar-nav"
+    case navbarNavScroll = "navbar-nav-scroll"
     case navbarSupportedContent = "navbarSupportedContent"
+    case navbarText = "navbar-text"
     case navbarToggler = "navbar-toggler"
     case navbarTogglerIcon = "navbar-toggler-icon"
 
@@ -893,6 +898,8 @@ public enum BsClass: String {
     case order5 = "order-5"
     case orderFirst = "order-first"
     case orderLast = "order-last"
+    
+    case offcanvas
     
     case offset = "offset"
     case offset0 = "offset-0"
@@ -1381,6 +1388,8 @@ public enum BsClass: String {
     case start100 = "start-100"
     
     case `static`
+    
+    case stickyTop = "sticky-top"   //! Not fully supported in every browser
     
     // MARK: - T
     case table

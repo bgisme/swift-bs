@@ -130,7 +130,7 @@ extension NavTab: TagRepresentable {
             .class(add: verticals)
             .class(add: style)
             .class(add: width)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }
 
@@ -178,7 +178,7 @@ extension NavItem: TagRepresentable {
         li
             .class(add: .navItem)
             .class(add: .dropdown, if: isDropdown)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }
 
@@ -298,6 +298,6 @@ extension NavLink: TagRepresentable {
             .dataBsToggle(.dropdown, isDropdownToggle)
             .ariaExpanded(false, isDropdownToggle)
             .class(add: alignFillClasses)
-            .merge(self.attributes)
+            .merge(attributes)
     }
 }
