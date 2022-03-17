@@ -151,30 +151,32 @@ public class NavbarToggler: Component {
     
     public static func standard(id: String,
                                 ariaLabel: String,
+                                isOffcanvas: Bool = false,
                                 isBordered: Bool = true) -> NavbarToggler {
         NavbarToggler("navbar-toggler-icon",
                       id: id,
-                      ariaLabel: "site navigation")
+                      ariaLabel: "site navigation",
+                      isOffCanvas: isOffcanvas)
         .style(add: .border("none"), if: !isBordered)
     }
     
     public convenience init(_ iconClass: String,
                             id: String,
-                            offCanvas: Bool = false,
-                            ariaLabel: String) {
+                            ariaLabel: String,
+                            isOffCanvas: Bool = false) {
         let button = Button {
             Span().class(add: iconClass)
         }
-        self.init(button, id: id, offCanvas: offCanvas, ariaLabel: ariaLabel)
+        self.init(button, id: id, isOffCanvas: isOffCanvas, ariaLabel: ariaLabel)
     }
     
     public init(_ button: Button,
                 id: String,
-                offCanvas: Bool = false,
+                isOffCanvas: Bool = false,
                 ariaLabel: String) {
         self.button = button
         self.id = id
-        self.isCollapseOffCanvas = offCanvas
+        self.isCollapseOffCanvas = isOffCanvas
         self.ariaLabel = ariaLabel
     }
 }
