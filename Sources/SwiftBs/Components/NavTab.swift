@@ -149,12 +149,16 @@ extension NavTab: TagRepresentable {
 
 public class NavItem: Component {
     
+    public typealias Id = String
+    
     let li: Li
     let isDropdown: Bool
     
-    public static func dropdown(_ a: A, @TagBuilder dropdownMenu: () -> [Tag]) -> NavItem {
+    public static func dropdown(_ a: A, id: String, @TagBuilder dropdownMenu: (Id) -> [Tag]) -> NavItem {
+        _ = a.id(id)
         let li = Li {
-            dropdownMenu()
+            NavLink(a, isDropdownToggle: true)
+            dropdownMenu(id)
         }
         return NavItem(li, isDropdown: true)
     }
