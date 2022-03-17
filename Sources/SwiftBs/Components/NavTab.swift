@@ -9,6 +9,12 @@ import SwiftHtml
 
 public class NavTab: Component {
     
+    public enum `Type` {
+        case nav    // contains <a> or NavLink
+        case ol     // contains <li> or NavItem
+        case ul     // contains <li> or NavItem
+    }
+    
     public enum Align {
         case right
         case center
@@ -30,15 +36,22 @@ public class NavTab: Component {
     let style: BsClass?
     let width: BsClass?
     
-    public convenience init(links: [A],
+    public convenience init(type: `Type` = .nav,
                             align: Align? = nil,
                             vertical breakpoints: Set<Breakpoint>? = nil,
                             style: Style? = nil,
-                            width: Width? = nil) {
-        let nav = Nav {
-            links.map{ NavLink($0) }
+                            width: Width? = nil,
+                            @TagBuilder contents: () -> [Tag]) {
+        let tag: Tag
+        switch type {
+        case .nav:
+            tag = Nav { contents() }
+        case .ol:
+            tag = Ol { contents() }
+        case .ul:
+            tag = Ul { contents() }
         }
-        self.init(nav, align: align, vertical: breakpoints, style: style, width: width)
+        self.init(tag: tag, align: align, vertical: breakpoints, style: style, width: width)
     }
     
     public convenience init(_ nav: Nav,
