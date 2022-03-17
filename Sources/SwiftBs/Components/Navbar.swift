@@ -19,6 +19,7 @@ public class Navbar: Component {
     let placement: BsClass?
     let expand: BsClass?
     
+    /// next use NavbarContainer
     public convenience init(placement: Placement? = nil,
                             collapseAt breakpoint: Breakpoint? = nil,
                             @TagBuilder contents: () -> [Tag]) {
@@ -72,18 +73,40 @@ extension Navbar: TagRepresentable {
     }
 }
 
-public class NavbarBrand: Component {
+public class NavbarContainer: Component {
     
     let div: Div
-    let isVerticalAlign: Bool
+    let isFluid: Bool
     
-    public convenience init(isVerticalAlign: Bool = true,
+    /// next use NavbarBrand or NavbarToggler
+    public convenience init(isFluid: Bool = true,
                             @TagBuilder contents: () -> [Tag]) {
         let div = Div {
             contents()
         }
-        self.init(div, isVerticalAlign: isVerticalAlign)
+        self.init(div, isFluid: isFluid)
     }
+    
+    /// isFluid: false if NavbarBrand is just an image and no text
+    public init(_ div: Div, isFluid: Bool = true) {
+        self.div = div
+        self.isFluid = isFluid
+    }
+}
+
+extension NavbarContainer: TagRepresentable {
+    
+    @TagBuilder
+    public func build() -> Tag {
+        div
+            .class(add: isFluid ? .containerFluid : .container)
+            .merge(attributes)
+    }
+}
+
+public class NavbarBrand: Component {
+    
+    let tag: Tag
     
     public convenience init(_ title: String, href: String?) {
         let tag: Tag
@@ -94,22 +117,19 @@ public class NavbarBrand: Component {
             tag = Span(title)
                 .class(add: .mb0, .h1)
         }
-        let div = Div {
-            tag.class(add: .navbarBrand)
-        }
-        self.init(div, isVerticalAlign: true)
-    }
-
-    public convenience init(_ a: A, isImgOnly: Bool) {
-        let div = Div {
-            a.class(add: .navbarBrand)
-        }
-        self.init(div, isVerticalAlign: !isImgOnly)
+        self.init(tag: tag)
     }
     
-    public init(_ div: Div, isVerticalAlign: Bool) {
-        self.div = div
-        self.isVerticalAlign = isVerticalAlign
+    public convenience init(_ span: Span) {
+        self.init(tag: span)
+    }
+
+    public convenience init(_ a: A) {
+        self.init(tag: a)
+    }
+    
+    internal init(tag: Tag) {
+        self.tag = tag
     }
 }
 
@@ -117,8 +137,8 @@ extension NavbarBrand: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        div
-            .class(add: isVerticalAlign ? .containerFluid : .container)
+        tag
+            .class(add: .navbarBrand)
             .merge(attributes)
     }
 }
