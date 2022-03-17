@@ -150,6 +150,15 @@ public class NavbarToggler: Component {
     let isCollapseOffCanvas: Bool
     let ariaLabel: String
     
+    public static func standard(id: String,
+                                ariaLabel: String,
+                                isBordered: Bool = true) -> NavbarToggler {
+        NavbarToggler("navbar-toggler-icon",
+                      collapseId: id,
+                      ariaLabel: "site navigation")
+        .style(add: .border("none"), if: !isBordered)
+    }
+    
     public convenience init(_ iconClass: String,
                             collapseId: String,
                             offCanvas: Bool = false,
