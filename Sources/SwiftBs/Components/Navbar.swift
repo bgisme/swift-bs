@@ -146,35 +146,35 @@ extension NavbarBrand: TagRepresentable {
 public class NavbarToggler: Component {
     
     let button: Button
-    let collapseId: String
+    let id: String
     let isCollapseOffCanvas: Bool
     let ariaLabel: String
     
-    public static func standard(collapseId: String,
+    public static func standard(id: String,
                                 ariaLabel: String,
                                 isBordered: Bool = true) -> NavbarToggler {
         NavbarToggler("navbar-toggler-icon",
-                      collapseId: collapseId,
+                      id: id,
                       ariaLabel: "site navigation")
         .style(add: .border("none"), if: !isBordered)
     }
     
     public convenience init(_ iconClass: String,
-                            collapseId: String,
+                            id: String,
                             offCanvas: Bool = false,
                             ariaLabel: String) {
         let button = Button {
             Span().class(add: iconClass)
         }
-        self.init(button, collapseId: collapseId, offCanvas: offCanvas, ariaLabel: ariaLabel)
+        self.init(button, id: id, offCanvas: offCanvas, ariaLabel: ariaLabel)
     }
     
     public init(_ button: Button,
-                collapseId: String,
+                id: String,
                 offCanvas: Bool = false,
                 ariaLabel: String) {
         self.button = button
-        self.collapseId = collapseId
+        self.id = id
         self.isCollapseOffCanvas = offCanvas
         self.ariaLabel = ariaLabel
     }
@@ -188,8 +188,8 @@ extension NavbarToggler: TagRepresentable {
             .class(add: .navbarToggler)
             .type(.button)
             .dataBsToggle(isCollapseOffCanvas ? .offcanvas : .collapse)
-            .dataBsTarget(collapseId)
-            .ariaControls(collapseId)
+            .dataBsTarget(id)
+            .ariaControls(id)
             .ariaExpanded(false)
             .ariaLabel(ariaLabel)
             .merge(attributes)
@@ -201,15 +201,15 @@ public class NavbarCollapse: Component {
     let div: Div
     let id: String
     
-    public convenience init(id: String,
+    public convenience init(toggler id: String,
                             @TagBuilder contents: () -> [Tag]) {
         let div = Div {
             contents()
         }
-        self.init(div, id: id)
+        self.init(div, toggler: id)
     }
     
-    public init(_ div: Div, id: String) {
+    public init(_ div: Div, toggler id: String) {
         self.div = div
         self.id = id
     }
