@@ -241,7 +241,7 @@ public class CardHeader: Component {
     
     let tag: Tag
     
-    public convenience init(text: String) {
+    public convenience init(_ text: String) {
         self.init(tag: { Div(text) })
     }
     
