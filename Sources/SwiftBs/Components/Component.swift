@@ -10,4 +10,6 @@ import SwiftHtml
 public class Component {
     
     public internal(set) var attributes: [Attribute]?
+    
+    public init() { }
 }
