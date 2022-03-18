@@ -31,31 +31,31 @@ public class NavTab: Component {
     let width: BsClass?
         
     public convenience init(align: Align? = nil,
-                            vertical breakpoints: Breakpoint...,
+                            breakpoints: Breakpoint...,
                             style: Style? = nil,
                             width: Width? = nil,
                             nav: () -> Nav) {
-        self.init(align: align, vertical: breakpoints, style: style, width: width, tag: { nav() })
+        self.init(align: align, breakpoints: breakpoints, style: style, width: width, tag: { nav() })
     }
     
     public convenience init(align: Align? = nil,
-                            vertical breakpoints: Breakpoint...,
+                            breakpoints: Breakpoint...,
                             style: Style? = nil,
                             width: Width? = nil,
                             ol: () -> Ol) {
-        self.init(align: align, vertical: breakpoints, style: style, width: width, tag: { ol() })
+        self.init(align: align, breakpoints: breakpoints, style: style, width: width, tag: { ol() })
     }
     
     public convenience init(align: Align? = nil,
-                            vertical breakpoints: Breakpoint...,
+                            breakpoints: Breakpoint...,
                             style: Style? = nil,
                             width: Width? = nil,
                             ul: () -> Ul) {
-        self.init(align: align, vertical: breakpoints, style: style, width: width, tag: { ul() })
+        self.init(align: align, breakpoints: breakpoints, style: style, width: width, tag: { ul() })
     }
     
     internal init(align: Align?,
-                  vertical breakpoints: [Breakpoint],
+                  breakpoints: [Breakpoint],
                   style: Style?,
                   width: Width?,
                   tag: () -> Tag) {
