@@ -154,9 +154,7 @@ extension OffcanvasBody: TagRepresentable {
     }
 }
 
-public class OffcanvasCloseButton: Component {
-    
-}
+public class OffcanvasCloseButton: Component { }
 
 extension OffcanvasCloseButton: TagRepresentable {
 

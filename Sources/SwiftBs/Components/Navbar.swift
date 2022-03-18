@@ -202,15 +202,15 @@ public class NavbarCollapse: Component {
     let div: Div
     let id: String
     
-    public convenience init(toggler id: String,
+    public convenience init(togglerId id: String,
                             @TagBuilder contents: () -> [Tag]) {
         let div = Div {
             contents()
         }
-        self.init(div, toggler: id)
+        self.init(div, togglerId: id)
     }
     
-    public init(_ div: Div, toggler id: String) {
+    public init(_ div: Div, togglerId id: String) {
         self.div = div
         self.id = id
     }
