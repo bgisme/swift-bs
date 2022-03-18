@@ -241,10 +241,6 @@ public class CardHeader: Component {
     
     let tag: Tag
     
-    public convenience init(_ text: String) {
-        self.init(tag: { Div(text) })
-    }
-    
     public convenience init(h1: () -> H1) {
         self.init(tag: h1)
     }
@@ -292,10 +288,6 @@ extension CardHeader: TagRepresentable {
 public class CardFooter: Component {
     
     let div: Div
-    
-    public convenience init(_ text: String) {
-        self.init { Div(text) }
-    }
     
     public init(div: () -> Div) {
         self.div = div()
