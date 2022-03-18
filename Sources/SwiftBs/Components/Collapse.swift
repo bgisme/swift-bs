@@ -14,9 +14,9 @@ public class Collapse: Component {
     let p: P
     let div: Div
         
-    public init(id: String, p: (Id) -> P, div: (Id) -> Div) {
-        self.p = p(id)
-        self.div = div(id)
+    public init(contentIds ids: [String], p: ([Id]) -> P, div: ([Id]) -> Div) {
+        self.p = p(ids)
+        self.div = div(ids)
     }
 }
 
