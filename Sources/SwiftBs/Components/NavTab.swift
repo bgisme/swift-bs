@@ -67,24 +67,28 @@ public class NavTab: Component {
         default:
             self.align = nil
         }
-        var classes: Set<BsClass> = [.flexColumn]
-        _ = breakpoints.map {
-            switch $0 {
-            case .xs:
-                break
-            case .sm:
-                classes.insert(.flexSmRow)
-            case .md:
-                classes.insert(.flexMdRow)
-            case .lg:
-                classes.insert(.flexLgRow)
-            case .xl:
-                classes.insert(.flexXlRow)
-            case .xxl:
-                classes.insert(.flexXxlRow)
+        if !breakpoints.isEmpty {
+            var classes: Set<BsClass> = [.flexColumn]
+            _ = breakpoints.map {
+                switch $0 {
+                case .xs:
+                    break
+                case .sm:
+                    classes.insert(.flexSmRow)
+                case .md:
+                    classes.insert(.flexMdRow)
+                case .lg:
+                    classes.insert(.flexLgRow)
+                case .xl:
+                    classes.insert(.flexXlRow)
+                case .xxl:
+                    classes.insert(.flexXxlRow)
+                }
             }
+            self.verticals = Array(classes)
+        } else {
+            self.verticals = nil
         }
-        self.verticals = !classes.isEmpty ? Array(classes) : nil
         switch style {
         case .tabs:
             self.style = .navTabs
