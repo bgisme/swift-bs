@@ -19,14 +19,10 @@ public class Pagination: Component {
     
     public convenience init(size: Size? = nil,
                             @TagBuilder pageItems: () -> [Tag]) {
-        let ul = Ul {
-            pageItems()
-        }
-        self.init(ul, size: size)
+        self.init(size: size, Ul { pageItems() })
     }
     
-    public init(_ ul: Ul, size: Size? = nil) {
-        self.ul = ul
+    public init(size: Size? = nil, _ ul: Ul) {
         switch size {
         case .sm:
             self.size = .paginationSm
@@ -35,6 +31,7 @@ public class Pagination: Component {
         default:
             self.size = nil
         }
+        self.ul = ul
     }
 }
 
@@ -59,27 +56,23 @@ public class PageItem: Component {
                             ariaLabel: String,
                             isActive: Bool = false,
                             isDisabled: Bool = false) {
-        let li = Li {
+        self.init(isActive: isActive, isDisabled: isDisabled, Li {
             PageLink(title, href: href, ariaLabel: ariaLabel)
-        }
-        self.init(li, isActive: isActive, isDisabled: isDisabled)
+        })
     }
     
     public convenience init(isActive: Bool = false,
                             isDisabled: Bool = false,
-                            @TagBuilder pageLink: () -> [Tag]) {
-        let li = Li {
-            pageLink()
-        }
-        self.init(li, isActive: isActive, isDisabled: isDisabled)
+                            _ pageLink: PageLink) {
+        self.init(isActive: isActive, isDisabled: isDisabled, Li { pageLink })
     }
     
-    public init(_ li: Li,
-                isActive: Bool = false,
-                isDisabled: Bool = false) {
-        self.li = li
+    public init(isActive: Bool = false,
+                isDisabled: Bool = false,
+                _ li: Li) {
         self.isActive = isActive
         self.isDisabled = isDisabled
+        self.li = li
     }
 }
 
@@ -103,17 +96,10 @@ public class PageLink: Component {
     public convenience init(_ title: String,
                             href: String,
                             ariaLabel: String) {
-        let a = A(title)
-            .href(href)
-        self.init(a, ariaLabel: ariaLabel)
+        self.init(ariaLabel: ariaLabel, A(title).href(href))
     }
     
-    public init(_ a: A, ariaLabel: String) {
-        self.a = a
-        self.ariaLabel = ariaLabel
-    }
-    
-    public init(ariaLabel: String, a: A) {
+    public init(ariaLabel: String, _ a: A) {
         self.ariaLabel = ariaLabel
         self.a = a
     }
