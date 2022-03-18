@@ -18,11 +18,30 @@ public class Offcanvas: Component {
     
     let div: Div
     let id: String
-    public private(set) var placement: BsClass?
-    public private(set) var isBackgroundScrollable: Bool
-    public private(set) var isBackdropHidden: Bool
+    let placement: BsClass?
+    let isBackgroundScrollable: Bool
+    let isBackdropVisible: Bool
     
-    public init(_ div: Div, id: String, placement: Placement = .start) {
+    public convenience init(id: String,
+                placement: Placement = .start,
+                isBackgroundScrollable: Bool = false,
+                isBackdropVisible: Bool = true,
+                @TagBuilder contents: () -> [Tag]) {
+        let div = Div {
+            contents()
+        }
+        self.init(div,
+                  id: id,
+                  placement: placement,
+                  isBackgroundScrollable: isBackgroundScrollable,
+                  isBackdropVisible: isBackdropVisible)
+    }
+    
+    public init(_ div: Div,
+                id: String,
+                placement: Placement = .start,
+                isBackgroundScrollable: Bool = false,   // background not scrollable by default
+                isBackdropVisible: Bool = true) {       // backdrop visible by default
         self.div = div
         self.id = id
         switch placement {
@@ -35,20 +54,8 @@ public class Offcanvas: Component {
         case .bottom:
             self.placement = .offcanvasBottom
         }
-        self.isBackgroundScrollable = false // background not scrollable by default
-        self.isBackdropHidden = false   // backdrop visible by default
-    }
-    
-    @discardableResult
-    public func isBackgroundScrollable(_ value: Bool, _ condition: Bool = true) -> Self {
-        self.isBackgroundScrollable = value
-        return self
-    }
-    
-    @discardableResult
-    public func isBackdropHidden(_ value: Bool, _ condition: Bool = true) -> Self {
-        self.isBackdropHidden = value
-        return self
+        self.isBackgroundScrollable = isBackgroundScrollable
+        self.isBackdropVisible = isBackdropVisible
     }
 }
 
@@ -62,8 +69,8 @@ extension Offcanvas: TagRepresentable {
             .tabindex(-1)
             .id(id)
             .ariaLabelledBy("\(id)Label")
-            .dataBsScroll(true, isBackgroundScrollable)  // enable scrolling
-            .dataBsBackdrop(false, isBackdropHidden)     // hide backdrop
+            .dataBsScroll(isBackgroundScrollable, isBackgroundScrollable)
+            .dataBsBackdrop(!isBackdropVisible, !isBackdropVisible)
             .merge(attributes)
     }
 }
