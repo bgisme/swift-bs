@@ -9,12 +9,16 @@ final class CollapseTests: XCTestCase {
         let content = Div("Some content")
         
         // <a> version
-        let tagA = CollapseButton("Link with href", type: .link, contentIds: id).build()
+        let tagA = CollapseButton(contentIds: [id]) {
+            A("Link with href").href("#")
+        }.build()
         XCTAssert(tagA.value(.role) == BsClass.button.rawValue)
         XCTAssert(tagA.value("href") == "#\(id)")
         
         // <button> version
-        let tagB = CollapseButton("Button with data-bs-target", contentIds: id).build()
+        let tagB = CollapseButton(contentIds: [id]) {
+            A("Button with data-bs-target").href("#")
+        }.build()
         XCTAssert(tagB.value(.dataBsTarget) == "#\(id)")
         
         // All buttons and convenience inits
@@ -27,10 +31,12 @@ final class CollapseTests: XCTestCase {
 
         // Multiple targets
         let multiContents = [
-            CollapseContent(id: id, isMultiple: true, content),
-            CollapseContent(id: "collapseExample2", isMultiple: true, content)
+            CollapseContent(id: id, isMultiple: true) { content },
+            CollapseContent(id: "collapseExample2", isMultiple: true) { content }
         ]
-        let tagC = CollapseButton("Multi-target", contentIds: multiContents.map{$0.id}).build()
+        let tagC = CollapseButton(contentIds: multiContents.map{$0.id}) {
+            Button("Multi-target")
+        }.build()
         XCTAssert(tagC.value(.dataBsTarget) == "." + BsClass.multiCollapse.rawValue)
         XCTAssert(tagC.value(.ariaControls) == multiContents.map{$0.id}.joined(separator: " "))
         let multiTags = multiContents.map{$0.build()}
@@ -44,8 +50,9 @@ final class CollapseTests: XCTestCase {
     
     func testCollapseContent() throws {
         let id = "collapseExample"
-        let div = Div("Something to look at inside collapse.")
-        let tag = CollapseContent(id: id, div).build()
+        let tag = CollapseContent(id: id) {
+            Div("Something to look at inside collapse.")
+        }.build()
         XCTAssert(tag.value("id") == id)
     }    
 }

@@ -9,13 +9,12 @@ import SwiftHtml
 
 public class Collapse: Component {
     
-    let buttons: [Tag]
-    let contents: [Tag]
+    let p: P
+    let div: Div
         
-    public init(@TagBuilder buttons: () -> [Tag],
-                @TagBuilder contents: () -> [Tag]) {
-        self.buttons = buttons()
-        self.contents = contents()
+    public init(p: () -> P, div: () -> Div) {
+        self.p = p()
+        self.div = div()
     }
 }
 
@@ -23,43 +22,35 @@ extension Collapse: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        P {
-            buttons
-        }
-        contents
+        p
+        div
     }
 }
 
 public class CollapseButton: Component {
     
-    public enum `Type` {
-        case button
-        case link
-    }
-    
     let tag: Tag
     let ids: [String]
     
-    public convenience init(_ title: String, type: `Type` = .button, contentIds ids: String...) {
-        self.init(title, type: type, contentIds: ids)
-    }
-    
-    public init(_ title: String, type: `Type` = .button, contentIds ids: [String]) {
-        let tag: Tag
-        switch type {
-        case .button:
-            let btn = Button(title)
-                .type(.button)
-                .dataBsTarget(ids.count < 2 ? ids.first ?? "" : BsClass.multiCollapse.rawValue, prefix: ids.count < 2 ? .hash : .dot)
-            tag = BsButton(btn).build()
-        case .link:
-            let a = A(title)
+    public convenience init(contentIds ids: [String], a: () -> A) {
+        self.init(contentIds: ids, tag: {
+            a()
                 .role(.button)
                 .href(ids.count < 2 ? "#\(ids.first ?? "")" : BsClass.multiCollapse.rawValue)
-            tag = BsButton(a).build()
-        }
-        self.tag = tag
+        })
+    }
+    
+    public convenience init(contentIds ids: [String], button: () -> Button) {
+        self.init(contentIds: ids, tag: {
+            button()
+                .type(.button)
+                .dataBsTarget(ids.count < 2 ? ids.first ?? "" : BsClass.multiCollapse.rawValue, prefix: ids.count < 2 ? .hash : .dot)
+        })
+    }
+    
+    internal init(contentIds ids: [String], tag: () -> Tag) {
         self.ids = ids
+        self.tag = tag()
     }
 }
 
@@ -87,17 +78,11 @@ public class CollapseContent: Component {
     var isMultiple: Bool
     let div: Div
     
-    public convenience init(orientation: Orientation = .vertical,
-                id: String,
-                isMultiple: Bool = false,
-                @TagBuilder content: () -> [Tag]) {
-        self.init(orientation: orientation, id: id, isMultiple: isMultiple, Div { content() })
-    }
-    
     public init(orientation: Orientation = .vertical,
                 id: String,
                 isMultiple: Bool = false,
-                _ div: Div) {
+                div: () -> Div) {
+        let div = div()
         switch orientation {
         case .horizontal(let width):
             self.width = width

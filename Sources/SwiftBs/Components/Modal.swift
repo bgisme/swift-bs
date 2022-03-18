@@ -244,16 +244,19 @@ public class ModalFooter: Component {
     
     let div: Div
     
-    public convenience init(isCloseable: Bool, other: BsButton...) {
+    public convenience init(isCloseable: Bool, others: BsButton...) {
         self.init {
             Div {
                 if isCloseable {
-                    BsButton("Close")
-                        .build()
-                        .class(add: .btnSecondary)
-                        .dataBsDismiss(.modal)
+                    BsButton {
+                        Button("Close")
+                            .class(add: .btnSecondary)
+                            .dataBsDismiss(.modal)
+                    }
                 }
-                other.map{$0}
+                for other in others {
+                    other
+                }
             }
         }
     }
