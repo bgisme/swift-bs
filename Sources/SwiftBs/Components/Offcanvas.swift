@@ -106,12 +106,12 @@ public class OffcanvasTitle: Component {
     let h5: H5
     let id: String
     
-    public convenience init(_ text: String, offcanvas id: String) {
+    public convenience init(_ text: String, offcanvasId id: String) {
         let h5 = H5(text)
-        self.init(h5, offcanvas: id)
+        self.init(h5, offcanvasId: id)
     }
     
-    public init(_ h5: H5, offcanvas id: String) {
+    public init(_ h5: H5, offcanvasId id: String) {
         self.h5 = h5
         self.id = id + "Label"
     }
@@ -174,14 +174,14 @@ public class OffcanvasButton: Component {
     let tag: Tag
     let ariaControls: String
     
-    public convenience init(_ a: A, offcanvas id: String, ariaControls: String) {
+    public convenience init(_ a: A, offcanvasId id: String, ariaControls: String) {
         _ = a
             .href("#\(id)")
             .role(.button)
         self.init(tag: a, ariaControls: ariaControls)
     }
     
-    public convenience init(_ button: Button, offcanvas id: String, ariaControls: String) {
+    public convenience init(_ button: Button, offcanvasId id: String, ariaControls: String) {
         _ = button
             .type(.button)
             .dataBsTarget(id)
