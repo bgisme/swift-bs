@@ -17,12 +17,7 @@ public class Pagination: Component {
     let ul: Ul
     let size: BsClass?
     
-    public convenience init(size: Size? = nil,
-                            @TagBuilder pageItems: () -> [Tag]) {
-        self.init(size: size, Ul { pageItems() })
-    }
-    
-    public init(size: Size? = nil, _ ul: Ul) {
+    public init(size: Size? = nil, ul: () -> Ul) {
         switch size {
         case .sm:
             self.size = .paginationSm
@@ -31,7 +26,7 @@ public class Pagination: Component {
         default:
             self.size = nil
         }
-        self.ul = ul
+        self.ul = ul()
     }
 }
 
@@ -56,23 +51,23 @@ public class PageItem: Component {
                             ariaLabel: String,
                             isActive: Bool = false,
                             isDisabled: Bool = false) {
-        self.init(isActive: isActive, isDisabled: isDisabled, Li {
-            PageLink(title, href: href, ariaLabel: ariaLabel)
-        })
+        self.init(isActive: isActive, isDisabled: isDisabled) {
+            Li { PageLink(title, href: href, ariaLabel: ariaLabel) }
+        }
     }
     
     public convenience init(isActive: Bool = false,
                             isDisabled: Bool = false,
-                            _ pageLink: PageLink) {
-        self.init(isActive: isActive, isDisabled: isDisabled, Li { pageLink })
+                            pageLink: () -> PageLink) {
+        self.init(isActive: isActive, isDisabled: isDisabled) { Li { pageLink() } }
     }
     
     public init(isActive: Bool = false,
                 isDisabled: Bool = false,
-                _ li: Li) {
+                li: () -> Li) {
         self.isActive = isActive
         self.isDisabled = isDisabled
-        self.li = li
+        self.li = li()
     }
 }
 
@@ -99,7 +94,7 @@ public class PageLink: Component {
         self.init(ariaLabel: ariaLabel) { A(title).href(href) }
     }
     
-    public init(ariaLabel: String, _ a: () -> A) {
+    public init(ariaLabel: String, a: () -> A) {
         self.ariaLabel = ariaLabel
         self.a = a()
     }
