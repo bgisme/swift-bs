@@ -79,6 +79,13 @@ public class OffcanvasHeader: Component {
     
     let div: Div
     
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        let div = Div {
+            contents()
+        }
+        self.init(div)
+    }
+    
     public init(_ div: Div) {
         self.div = div
     }
@@ -98,6 +105,11 @@ public class OffcanvasTitle: Component {
     
     let h5: H5
     let id: String
+    
+    public convenience init(_ text: String, offcanvas id: String) {
+        let h5 = H5(text)
+        self.init(h5, offcanvas: id)
+    }
     
     public init(_ h5: H5, offcanvas id: String) {
         self.h5 = h5
@@ -119,6 +131,13 @@ extension OffcanvasTitle: TagRepresentable {
 public class OffcanvasBody: Component {
     
     let div: Div
+    
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        let div = Div {
+            contents()
+        }
+        self.init(div)
+    }
     
     public init(_ div: Div) {
         self.div = div
