@@ -994,6 +994,12 @@ public enum BsClass: String {
     case offsetXxl12 = "offset-xxl-12"
     
     // MARK: - P
+    case pagination
+    case pageItem = "page-item"
+    case pageLink = "page-link"
+    case paginationLg = "pagination-lg"
+    case paginationSm = "pagination-sm"
+    
     case p0 = "p-0"
     case p1 = "p-1"
     case p2 = "p-2"
