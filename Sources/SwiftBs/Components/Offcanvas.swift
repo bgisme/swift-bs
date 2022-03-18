@@ -79,15 +79,8 @@ public class OffcanvasHeader: Component {
     
     let div: Div
     
-    public convenience init(@TagBuilder contents: () -> [Tag]) {
-        let div = Div {
-            contents()
-        }
-        self.init(div)
-    }
-    
-    public init(_ div: Div) {
-        self.div = div
+    public init(div: () -> Div) {
+        self.div = div()
     }
 }
 
@@ -107,13 +100,12 @@ public class OffcanvasTitle: Component {
     let id: String
     
     public convenience init(_ text: String, offcanvasId id: String) {
-        let h5 = H5(text)
-        self.init(h5, offcanvasId: id)
+        self.init(offcanvasId: id) { H5(text) }
     }
     
-    public init(_ h5: H5, offcanvasId id: String) {
-        self.h5 = h5
+    public init(offcanvasId id: String, h5: () -> H5) {
         self.id = id + "Label"
+        self.h5 = h5()
     }
 }
 
@@ -132,15 +124,8 @@ public class OffcanvasBody: Component {
     
     let div: Div
     
-    public convenience init(@TagBuilder contents: () -> [Tag]) {
-        let div = Div {
-            contents()
-        }
-        self.init(div)
-    }
-    
-    public init(_ div: Div) {
-        self.div = div
+    public init(div: () -> Div) {
+        self.div = div()
     }
 }
 
@@ -174,23 +159,25 @@ public class OffcanvasButton: Component {
     let tag: Tag
     let ariaControls: String
     
-    public convenience init(_ a: A, offcanvasId id: String, ariaControls: String) {
-        _ = a
-            .href("#\(id)")
-            .role(.button)
-        self.init(tag: a, ariaControls: ariaControls)
+    public convenience init(offcanvasId id: String, ariaControls: String, a: () -> A) {
+        self.init(ariaControls: ariaControls) {
+            a()
+                .href("#\(id)")
+                .role(.button)
+        }
     }
     
-    public convenience init(_ button: Button, offcanvasId id: String, ariaControls: String) {
-        _ = button
-            .type(.button)
-            .dataBsTarget(id)
-        self.init(tag: button, ariaControls: ariaControls)
+    public convenience init(offcanvasId id: String, ariaControls: String, button: () -> Button) {
+        self.init(ariaControls: ariaControls) {
+            button()
+                .type(.button)
+                .dataBsTarget(id)
+        }
     }
     
-    internal init(tag: Tag, ariaControls: String) {
-        self.tag = tag
+    internal init(ariaControls: String, tag: () -> Tag) {
         self.ariaControls = ariaControls
+        self.tag = tag()
     }
 }
 
