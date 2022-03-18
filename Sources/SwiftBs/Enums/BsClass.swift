@@ -900,6 +900,14 @@ public enum BsClass: String {
     case orderLast = "order-last"
     
     case offcanvas
+    case offcanvasBody = "offcanvas-body"
+    case offcanvasHeader = "offcanvas-header"
+    case offcanvasBottom = "offcanvas-bottom"
+    case offcanvasEnd = "offcanvas-end"
+    case offcanvasStart = "offcanvas-start"
+    case offcanvasTop = "offcanvas-top"
+    case offcanvasTitle = "offcanvas-title"
+    
     
     case offset = "offset"
     case offset0 = "offset-0"
@@ -1427,6 +1435,8 @@ public enum BsClass: String {
     case textMuted = "text-muted"
     case textNowrap = "text-nowrap"
     case textTruncate = "text-truncate"
+    
+    case textReset = "text-reset"
     
     case textStart = "text-start"
     case textSmStart = "text-sm-start"

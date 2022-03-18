@@ -10,7 +10,7 @@ import SwiftHtml
 public class BsButton: Component {
     
     private let tag: Tag
-        
+    
     public convenience init(_ title: String? = nil,
                             onClick: String? = nil,
                             isToggle: Bool = false,

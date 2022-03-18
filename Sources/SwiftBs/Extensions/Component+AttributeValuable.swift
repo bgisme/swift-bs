@@ -138,6 +138,11 @@ extension Component: AttributeValuable {
     }
     
     @discardableResult
+    public func dataBsBackdrop(_ value: Bool?, _ condition: Bool = true) -> Self {
+        attr(.dataBsBackdrop, String(value), condition)
+    }
+
+    @discardableResult
     public func dataBsDismiss(_ value: BsClass?, _ condition: Bool = true) -> Self {
         attr(.dataBsDismiss, String(value), condition)
     }
@@ -165,6 +170,11 @@ extension Component: AttributeValuable {
     @discardableResult
     public func dataBsRide(_ value: BsClass?, _ condition: Bool = true) -> Self {
         attr(.dataBsRide, String(value), condition)
+    }
+    
+    @discardableResult
+    public func dataBsScroll(_ value: Bool?, _ condition: Bool = true) -> Self {
+        attr(.dataBsScroll, String(value), condition)
     }
 
     @discardableResult
