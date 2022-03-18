@@ -15,24 +15,14 @@ public class Navbar: Component {
         case stickyTop  //! May not be supported by every browser
     }
     
-    let nav: Tag
+    let nav: Nav
     let placement: BsClass?
     let expand: BsClass?
     
-    public convenience init(placement: Placement? = nil,
-                            collapseAt breakpoint: Breakpoint? = nil,
-                            @TagBuilder navBarContainer: () -> [Tag]) {
-        let nav = Nav {
-            navBarContainer()
-        }
-        self.init(nav, placement: placement, collapseAt: breakpoint)
-    }
-    
     /// collapseBelow = nil ... auto-collapses behind toggler button
-    public init(_ nav: Tag,
-                placement: Placement? = nil,
-                collapseAt breakpoint: Breakpoint? = nil) {
-        self.nav = nav
+    public init(placement: Placement? = nil,
+                collapseAt breakpoint: Breakpoint? = nil,
+                nav: () -> Nav) {
         switch placement {
         case .fixedTop:
             self.placement = .fixedTop
@@ -57,6 +47,7 @@ public class Navbar: Component {
         default:
             self.expand = nil
         }
+        self.nav = nav()
     }
 }
 
@@ -77,19 +68,10 @@ public class NavbarContainer: Component {
     let div: Div
     let isFluid: Bool
     
-    /// next use NavbarBrand or NavbarToggler
-    public convenience init(isFluid: Bool = true,
-                            @TagBuilder contents: () -> [Tag]) {
-        let div = Div {
-            contents()
-        }
-        self.init(div, isFluid: isFluid)
-    }
-    
     /// isFluid: false if NavbarBrand is just an image and no text
-    public init(_ div: Div, isFluid: Bool = true) {
-        self.div = div
+    public init(isFluid: Bool = true, div: () -> Div) {
         self.isFluid = isFluid
+        self.div = div()
     }
 }
 
@@ -108,27 +90,25 @@ public class NavbarBrand: Component {
     let tag: Tag
     
     public convenience init(_ title: String, href: String? = nil) {
-        let tag: Tag
-        if let href = href {
-            tag = A(title)
-                .href(href)
-        } else {
-            tag = Span(title)
-                .class(add: .mb0, .h1)
-        }
-        self.init(tag: tag)
+        self.init(tag: {
+            if let href = href {
+                return A(title).href(href)
+            } else {
+                return Span(title).class(add: .mb0, .h1)
+            }
+        })
     }
     
-    public convenience init(_ span: Span) {
+    public convenience init(span: () -> Span) {
         self.init(tag: span)
     }
 
-    public convenience init(_ a: A) {
+    public convenience init(a: () -> A) {
         self.init(tag: a)
     }
     
-    internal init(tag: Tag) {
-        self.tag = tag
+    internal init(tag: () -> Tag) {
+        self.tag = tag()
     }
 }
 
@@ -164,20 +144,21 @@ public class NavbarToggler: Component {
                             id: String,
                             ariaLabel: String,
                             isOffCanvas: Bool = false) {
-        let button = Button {
-            Span().class(add: iconClass)
+        self.init(id: id, isOffCanvas: isOffCanvas, ariaLabel: ariaLabel) {
+            Button {
+                Span().class(add: iconClass)
+            }
         }
-        self.init(button, id: id, isOffCanvas: isOffCanvas, ariaLabel: ariaLabel)
     }
     
-    public init(_ button: Button,
-                id: String,
+    public init(id: String,
                 isOffCanvas: Bool = false,
-                ariaLabel: String) {
-        self.button = button
+                ariaLabel: String,
+                button: () -> Button) {
         self.id = id
         self.isCollapseOffCanvas = isOffCanvas
         self.ariaLabel = ariaLabel
+        self.button = button()
     }
 }
 
@@ -202,17 +183,9 @@ public class NavbarCollapse: Component {
     let div: Div
     let id: String
     
-    public convenience init(togglerId id: String,
-                            @TagBuilder contents: () -> [Tag]) {
-        let div = Div {
-            contents()
-        }
-        self.init(div, togglerId: id)
-    }
-    
-    public init(_ div: Div, togglerId id: String) {
-        self.div = div
+    public init(togglerId id: String, div: () -> Div) {
         self.id = id
+        self.div = div()
     }
 }
 
@@ -229,46 +202,24 @@ extension NavbarCollapse: TagRepresentable {
 
 public class NavbarNav: Component {
     
-    public enum `Type` {
-        case ol     // contents should be <li> or NavItem
-        case ul     // contents should be <li> or NavItem
-        case div    // contents should be <a> or NavLink
-    }
-    
     let tag: Tag
     let isScrollable: Bool
     let scrollHeight: CssKeyValue?
 
-    public convenience init(type: `Type` = .div,
-                            scrollHeight pixels: Int? = nil,
-                            @TagBuilder contents: () -> [Tag]) {
-        let tag: Tag
-        switch `type` {
-        case .ol:
-            tag = Ol { contents() }
-        case .ul:
-            tag = Ul { contents() }
-        case .div:
-            tag = Div { contents() }
-        }
-        self.init(tag: tag, scrollHeight: pixels)
-    }
-    
-    public convenience init(_ ol: Ol, scrollHeight pixels: Int? = nil) {
-        self.init(tag: ol, scrollHeight: pixels)
+    public convenience init(scrollHeight pixels: Int? = nil, ol: () -> Ol) {
+        self.init(scrollHeight: pixels, tag: ol)
     }
 
-    public convenience init(_ ul: Ul, scrollHeight pixels: Int? = nil) {
-        self.init(tag: ul, scrollHeight: pixels)
+    public convenience init(scrollHeight pixels: Int? = nil, ul: () -> Ul) {
+        self.init(scrollHeight: pixels, tag: ul)
     }
     
-    public convenience init(_ div: Div, scrollHeight pixels: Int? = nil) {
-        self.init(tag: div, scrollHeight: pixels)
+    public convenience init(scrollHeight pixels: Int? = nil, div: () -> Div) {
+        self.init(scrollHeight: pixels, tag: div)
     }
     
     /// for default scroll height ... use Int.max
-    internal init(tag: Tag, scrollHeight pixels: Int?) {
-        self.tag = tag
+    internal init(scrollHeight pixels: Int?, tag: () -> Tag) {
         if let pixels = pixels, pixels < Int.max {
             self.isScrollable = true
             self.scrollHeight = CssKeyValue("--bs-scroll-height", "\(pixels)px")
@@ -276,6 +227,7 @@ public class NavbarNav: Component {
             self.isScrollable = true
             self.scrollHeight = nil
         }
+        self.tag = tag()
     }
 }
 
@@ -296,12 +248,11 @@ public class NavbarText: Component {
     let span: Span
     
     public convenience init(_ text: String) {
-        let span = Span(text)
-        self.init(span)
+        self.init { Span(text) }
     }
     
-    public init(_ span: Span) {
-        self.span = span
+    public init(_ span: () -> Span) {
+        self.span = span()
     }
 }
 
