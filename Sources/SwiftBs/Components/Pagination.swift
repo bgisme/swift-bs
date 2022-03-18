@@ -65,6 +65,15 @@ public class PageItem: Component {
         self.init(li, isActive: isActive, isDisabled: isDisabled)
     }
     
+    public convenience init(isActive: Bool = false,
+                isDisabled: Bool = false,
+                @TagBuilder pageLink: () -> [Tag]) {
+        let li = Li {
+            pageLink()
+        }
+        self.init(li, isActive: isActive, isDisabled: isDisabled)
+    }
+    
     public init(_ li: Li,
                 isActive: Bool = false,
                 isDisabled: Bool = false) {
