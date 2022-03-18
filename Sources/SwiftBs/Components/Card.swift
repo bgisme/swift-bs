@@ -293,7 +293,11 @@ public class CardFooter: Component {
     
     let div: Div
     
-    public init(_ div: () -> Div) {
+    public convenience init(_ text: String) {
+        self.init { Div(text) }
+    }
+    
+    public init(div: () -> Div) {
         self.div = div()
     }
 }
