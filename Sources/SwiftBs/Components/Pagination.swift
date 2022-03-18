@@ -96,12 +96,12 @@ public class PageLink: Component {
     public convenience init(_ title: String,
                             href: String,
                             ariaLabel: String) {
-        self.init(ariaLabel: ariaLabel, A(title).href(href))
+        self.init(ariaLabel: ariaLabel) { A(title).href(href) }
     }
     
-    public init(ariaLabel: String, _ a: A) {
+    public init(ariaLabel: String, _ a: () -> A) {
         self.ariaLabel = ariaLabel
-        self.a = a
+        self.a = a()
     }
 }
 
