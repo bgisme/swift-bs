@@ -18,9 +18,9 @@ public class Pagination: Component {
     let size: BsClass?
     
     public convenience init(size: Size? = nil,
-                            @TagBuilder contents: () -> [Tag]) {
+                            @TagBuilder pageItems: () -> [Tag]) {
         let ul = Ul {
-            contents()
+            pageItems()
         }
         self.init(ul, size: size)
     }
@@ -53,6 +53,16 @@ public class PageItem: Component {
     let li: Li
     let isActive: Bool
     let isDisabled: Bool
+    
+    public convenience init(_ title: String,
+                            href: String,
+                            isActive: Bool = false,
+                            isDisabled: Bool = false) {
+        let li = Li {
+            A(title).href(href)
+        }
+        self.init(li, isActive: isActive, isDisabled: isDisabled)
+    }
     
     public init(_ li: Li,
                 isActive: Bool = false,
