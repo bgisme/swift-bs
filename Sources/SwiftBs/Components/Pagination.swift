@@ -112,6 +112,11 @@ public class PageLink: Component {
         self.a = a
         self.ariaLabel = ariaLabel
     }
+    
+    public init(ariaLabel: String, a: A) {
+        self.ariaLabel = ariaLabel
+        self.a = a
+    }
 }
 
 extension PageLink: TagRepresentable {
