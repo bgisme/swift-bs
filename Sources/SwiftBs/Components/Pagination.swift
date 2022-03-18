@@ -59,7 +59,7 @@ public class PageItem: Component {
                             isActive: Bool = false,
                             isDisabled: Bool = false) {
         let li = Li {
-            A(title).href(href)
+            PageItem(title, href: href)
         }
         self.init(li, isActive: isActive, isDisabled: isDisabled)
     }
@@ -89,6 +89,14 @@ public class PageLink: Component {
     
     let a: A
     let ariaLabel: String
+    
+    public convenience init(_ title: String,
+                            href: String,
+                            ariaLabel: String) {
+        let a = A(title)
+            .href(href)
+        self.init(a, ariaLabel: ariaLabel)
+    }
     
     public init(_ a: A, ariaLabel: String) {
         self.a = a
