@@ -9,12 +9,14 @@ import SwiftHtml
 
 public class Collapse: Component {
     
+    public typealias Id = String
+    
     let p: P
     let div: Div
         
-    public init(p: () -> P, div: () -> Div) {
-        self.p = p()
-        self.div = div()
+    public init(id: String, p: (Id) -> P, div: (Id) -> Div) {
+        self.p = p(id)
+        self.div = div(id)
     }
 }
 
