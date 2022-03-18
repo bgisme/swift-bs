@@ -9,12 +9,6 @@ import SwiftHtml
 
 public class NavTab: Component {
     
-    public enum `Type` {
-        case nav    // contains <a> or NavLink
-        case ol     // contains <li> or NavItem
-        case ul     // contains <li> or NavItem
-    }
-    
     public enum Align {
         case right
         case center
@@ -35,55 +29,36 @@ public class NavTab: Component {
     let verticals: [BsClass]?
     let style: BsClass?
     let width: BsClass?
-    
-    public convenience init(type: `Type` = .nav,
-                            align: Align? = nil,
+        
+    public convenience init(align: Align? = nil,
                             vertical breakpoints: Set<Breakpoint>? = nil,
                             style: Style? = nil,
                             width: Width? = nil,
-                            @TagBuilder contents: () -> [Tag]) {
-        let tag: Tag
-        switch type {
-        case .nav:
-            tag = Nav { contents() }
-        case .ol:
-            tag = Ol { contents() }
-        case .ul:
-            tag = Ul { contents() }
-        }
-        self.init(tag: tag, align: align, vertical: breakpoints, style: style, width: width)
+                            nav: () -> Nav) {
+        self.init(align: align, vertical: breakpoints, style: style, width: width, tag: { nav() })
     }
     
-    public convenience init(_ nav: Nav,
-                            align: Align? = nil,
+    public convenience init(align: Align? = nil,
                             vertical breakpoints: Set<Breakpoint>? = nil,
                             style: Style? = nil,
-                            width: Width? = nil) {
-        self.init(tag: nav, align: align, vertical: breakpoints, style: style, width: width)
+                            width: Width? = nil,
+                            ol: () -> Ol) {
+        self.init(align: align, vertical: breakpoints, style: style, width: width, tag: { ol() })
     }
     
-    public convenience init(_ ol: Ol,
-                            align: Align? = nil,
+    public convenience init(align: Align? = nil,
                             vertical breakpoints: Set<Breakpoint>? = nil,
                             style: Style? = nil,
-                            width: Width? = nil) {
-        self.init(tag: ol, align: align, vertical: breakpoints, style: style, width: width)
+                            width: Width? = nil,
+                            ul: () -> Ul) {
+        self.init(align: align, vertical: breakpoints, style: style, width: width, tag: { ul() })
     }
     
-    public convenience init(_ ul: Ul,
-                            align: Align? = nil,
-                            vertical breakpoints: Set<Breakpoint>? = nil,
-                            style: Style? = nil,
-                            width: Width? = nil) {
-        self.init(tag: ul, align: align, vertical: breakpoints, style: style, width: width)
-    }
-    
-    internal init(tag: Tag,
-                  align: Align?,
+    internal init(align: Align?,
                   vertical breakpoints: Set<Breakpoint>?,
                   style: Style?,
-                  width: Width?) {
-        self.tag = tag
+                  width: Width?,
+                  tag: () -> Tag) {
         switch align {
         case .right:
             self.align = .justifyContentEnd
@@ -130,6 +105,7 @@ public class NavTab: Component {
         default:
             self.width = nil
         }
+        self.tag = tag()
     }
 }
 
@@ -154,28 +130,29 @@ public class NavItem: Component {
     let li: Li
     let isDropdown: Bool
     
-    public static func dropdown(_ a: A, id: String, @TagBuilder dropdownMenu: (Id) -> [Tag]) -> NavItem {
-        _ = a.id(id)
-        let li = Li {
-            NavLink(a, isDropdownToggle: true)
-            dropdownMenu(id)
+    public static func dropdown(id: String, a: (Id) -> A, menu: (Id) -> DropdownMenu) -> NavItem {
+        NavItem(isDropdown: true) {
+            Li {
+                NavLink(isDropdownToggle: true) { a(id) }
+                menu(id)
+            }
         }
-        return NavItem(li, isDropdown: true)
     }
     
     public convenience init(_ title: String,
                             href: String,
                             isActive: Bool = false,
                             isDisabled: Bool = false) {
-        let li = Li {
-            NavLink(title, href: href, isActive: isActive, isDisabled: isDisabled)
+        self.init(isDropdown: false) {
+            Li {
+                NavLink(title, href: href, isActive: isActive, isDisabled: isDisabled)
+            }
         }
-        self.init(li, isDropdown: false)
     }
     
-    public init(_ li: Li, isDropdown: Bool = false) {
-        self.li = li
+    public init(isDropdown: Bool = false, li: () -> Li) {
         self.isDropdown = isDropdown
+        self.li = li()
     }
 }
 
@@ -205,17 +182,17 @@ public class NavLink: Component {
                             isDropdownToggle: Bool = false,
                             aligns: [(Location, Breakpoint)]? = nil,
                             fills: Set<Breakpoint>? = nil) {
-        let a = A(title).href(href)
-        self.init(a, isActive: isActive, isDisabled: isDisabled)
+        self.init(isActive: isActive, isDisabled: isDisabled) {
+            A(title).href(href)
+        }
     }
     
-    public init(_ a: A,
-                isActive: Bool = false,
+    public init(isActive: Bool = false,
                 isDisabled: Bool = false,
                 isDropdownToggle: Bool = false,
                 aligns: [(Location, Breakpoint)]? = nil,
-                fills: [Breakpoint]? = nil) {
-        self.a = a
+                fills: [Breakpoint]? = nil,
+                a: () -> A) {
         self.isActive = isActive
         self.isDisabled = isDisabled
         self.isDropdownToggle = isDropdownToggle
@@ -290,6 +267,7 @@ public class NavLink: Component {
             }
         }
         self.alignFillClasses = Array(classes)
+        self.a = a()
     }
 }
 

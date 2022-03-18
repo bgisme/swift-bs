@@ -8,7 +8,7 @@ final class NavTabTests: XCTestCase {
         //! IMPLEMENT
         XCTFail()
         
-        let tag = NavTab(Ol{}).build()
+        let tag = NavTab { Ol{} }.build()
         XCTAssert(tag.value(.class) == BsClass.nav.rawValue)
     }
 }
