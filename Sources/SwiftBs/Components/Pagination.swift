@@ -66,8 +66,8 @@ public class PageItem: Component {
     }
     
     public convenience init(isActive: Bool = false,
-                isDisabled: Bool = false,
-                @TagBuilder pageLink: () -> [Tag]) {
+                            isDisabled: Bool = false,
+                            @TagBuilder pageLink: () -> [Tag]) {
         let li = Li {
             pageLink()
         }
@@ -105,6 +105,13 @@ public class PageLink: Component {
                             ariaLabel: String) {
         let a = A(title)
             .href(href)
+        self.init(a, ariaLabel: ariaLabel)
+    }
+    
+    public convenience init(ariaLabel: String, @TagBuilder contents: () -> [Tag]) {
+        let a = A {
+            contents()
+        }
         self.init(a, ariaLabel: ariaLabel)
     }
     
