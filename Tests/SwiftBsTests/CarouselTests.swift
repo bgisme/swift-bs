@@ -119,7 +119,7 @@ final class CarouselTests: XCTestCase {
     func testCarouselInner() throws {
         let classes: [BsClass] = [.mt3, .bgPrimary]
         let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")]
-        let tag = CarouselInner(Div())
+        let tag = CarouselInner { Div{} }
             .class(add: classes)
             .style(add: styles)
         if let classValue = tag.build().value(.class) {
@@ -229,10 +229,9 @@ final class CarouselTests: XCTestCase {
         let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")]
         let id = "id"
         let index = 9
-        let tag = CarouselIndicator(button: Button(),
-                                    index: 9,
+        let tag = CarouselIndicator(index: 9,
                                     isActive: true,
-                                    carouselId: id)
+                                    carouselId: id) { Button() }
             .class(add: classes)
             .style(add: styles)
             .build()

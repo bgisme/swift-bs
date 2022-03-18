@@ -69,22 +69,22 @@ public class Carousel: Component {
                             inner: CarouselInner,
                             controls: [CarouselControl]? = nil,
                             indicators: [CarouselIndicator]? = nil) {
-        let div = Div {
-            if let indicators = indicators {
-                Div { indicators.map { $0 } }.class(add: .carouselIndicators)
-            }
-            inner
-            if let controls = controls {
-                controls.map { $0 }
-            }
-        }
         self.init(id: id,
                   interval: milliseconds,
                   isCrossFade: isCrossFade,
                   isAutoplayDisabled: isAutoplayDisabled,
                   isTouchDisabled: isTouchDisabled,
-                  isDark: isDark,
-                  div: div)
+                  isDark: isDark) {
+            Div {
+                if let indicators = indicators {
+                    Div { indicators.map { $0 } }.class(add: .carouselIndicators)
+                }
+                inner
+                if let controls = controls {
+                    controls.map { $0 }
+                }
+            }
+        }
     }
     
     internal init(id: String,
@@ -93,14 +93,14 @@ public class Carousel: Component {
                   isAutoplayDisabled: Bool,
                   isTouchDisabled: Bool,
                   isDark: Bool,
-                  div: Div) {
+                  div: () -> Div) {
         self.id = id
         self.interval = !isAutoplayDisabled ? milliseconds : nil
         self.isCrossFade = isCrossFade
         self.isAutoplayDisabled = isAutoplayDisabled
         self.isTouchDisabled = isTouchDisabled
         self.isDark = isDark
-        self.div = div
+        self.div = div()
     }
 }
 
@@ -126,11 +126,13 @@ public class CarouselInner: Component {
     let div: Div
     
     public convenience init(_ items: [CarouselItem]) {
-        self.init(Div { items.map{$0} })
+        self.init(div: {
+            Div { items.map{$0} }
+        })
     }
     
-    public init(_ div: Div) {
-        self.div = div
+    public init(div: () -> Div) {
+        self.div = div()
     }
 }
 
@@ -154,23 +156,24 @@ public class CarouselItem: Component {
                             caption: CarouselCaption? = nil,
                             isActive: Bool = false,
                             interval seconds: Int? = nil) {
-        let div = Div {
-            img
-            if let caption = caption {
-                caption
+        self.init(isActive: isActive, interval: seconds) {
+            Div {
+                img
+                if let caption = caption {
+                    caption
+                }
             }
         }
-        self.init(div, isActive: isActive, interval: seconds)
     }
     
-    public init(_ div: Div, isActive: Bool = false, interval seconds: Int? = nil) {
-        self.div = div
+    public init(isActive: Bool = false, interval seconds: Int? = nil, div: () -> Div) {
         self.isActive = isActive
         if let seconds = seconds {
             self.interval = seconds < Int.max / 1000 ? seconds * 1000 : Int.max
         } else {
             self.interval = nil
         }
+        self.div = div()
     }
 }
 
@@ -192,18 +195,15 @@ public class CarouselCaption: Component {
     
     public convenience init(_ title: String, _ text: String) {
         self.init {
-            H5(title)
-            P(text)
+            Div {
+                H5(title)
+                P(text)
+            }
         }
     }
     
-    public convenience init(@TagBuilder children: () -> [Tag]) {
-        let div = Div { children() }
-        self.init(div)
-    }
-    
-    public init(_ div: Div) {
-        self.div = div
+    public init(_ div: () -> Div) {
+        self.div = div()
     }
 }
 
@@ -242,30 +242,31 @@ public class CarouselControl: Component {
             icon = "carousel-control-next-icon"
             controlDirection = .carouselControlNext
         }
-        let button = Button {
-            Span()
-                .class(add: icon)
-                .ariaHidden(true)
-            Span(text)
-                .class(add: .visuallyHidden)
-        }
+        self.init(direction: direction, carouselId: id) {
+            Button {
+                Span()
+                    .class(add: icon)
+                    .ariaHidden(true)
+                Span(text)
+                    .class(add: .visuallyHidden)
+            }
             .type(.button)
             .class(add: controlDirection)
-        self.init(button, direction: direction, carouselId: id)
+        }
     }
     
-    public convenience init(_ button: Button, direction: Direction, carouselId id: String) {
-        self.init(tag: button, direction: direction, carouselId: id)
+    public convenience init(direction: Direction, carouselId id: String, button: () -> Button) {
+        self.init(direction: direction, carouselId: id, tag: button)
     }
     
-    public convenience init(_ a: A, direction: Direction, carouselId id: String) {
-        self.init(tag: a, direction: direction, carouselId: id)
+    public convenience init(direction: Direction, carouselId id: String, a: () -> A) {
+        self.init(direction: direction, carouselId: id, tag: a)
     }
     
-    internal required init(tag: Tag, direction: Direction, carouselId id: String) {
-        self.tag = tag
+    internal required init(direction: Direction, carouselId id: String, tag: () -> Tag) {
         self.direction = direction
         self.carouselId = id
+        self.tag = tag()
     }
 }
 
@@ -294,19 +295,19 @@ public class CarouselIndicator: Component {
         let activeIndex = activeIndex >= count ? count - 1 : activeIndex
         var indicators = [CarouselIndicator]()
         for i in 0..<count {
-            indicators.append(CarouselIndicator(index: i, isActive: i == activeIndex, carouselId: id))
+            indicators.append(CarouselIndicator(index: i, isActive: i == activeIndex, carouselId: id) { Button() })
         }
         return indicators
     }
 
-    public init(button: Button? = nil,
-                index: Int,
+    public init(index: Int,
                 isActive: Bool = false,
-                carouselId: String) {
-        self.button = button ?? Button()
+                carouselId: String,
+                button: () -> Button) {
         self.index = index
         self.isActive = isActive
         self.carouselId = carouselId
+        self.button = button()
     }
 }
 
