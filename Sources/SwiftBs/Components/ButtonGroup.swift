@@ -10,18 +10,13 @@ import SwiftHtml
 public class ButtonGroup: Component {
     
     let div: Div
+    let ariaLabel: String
     let isVertical: Bool
     
-    public convenience init(isVertical: Bool = false,
-                            ariaLabel: String,
-                            @TagBuilder children: () -> [Tag]) {
-        let div = Div { children() }.ariaLabelledBy(ariaLabel)
-        self.init(div, isVertical: isVertical)
-    }
-
-    public init(_ div: Div, isVertical: Bool = false) {
-        self.div = div
+    public init(ariaLabel: String, isVertical: Bool = false, div: () -> Div) {
+        self.ariaLabel = ariaLabel
         self.isVertical = isVertical
+        self.div = div()
     }
 }
 
@@ -32,6 +27,7 @@ extension ButtonGroup: TagRepresentable {
         div
             .class(add: isVertical ? .btnGroupVertical : .btnGroup)
             .role(.group)
+            .ariaLabelledBy(ariaLabel)
             .merge(attributes)
     }
 }
@@ -39,14 +35,11 @@ extension ButtonGroup: TagRepresentable {
 public class ButtonGroupToolbar: Component {
     
     let div: Div
+    let ariaLabel: String
 
-    public convenience init(ariaLabel: String, @TagBuilder children: @escaping () -> [Tag]) {
-        let div = Div { children() }.ariaLabelledBy(ariaLabel)
-        self.init(div)
-    }
-    
-    public init(_ div: Div) {
-        self.div = div
+    public init(ariaLabel: String, div: () -> Div) {
+        self.ariaLabel = ariaLabel
+        self.div = div()
     }
 }
 
@@ -57,6 +50,7 @@ extension ButtonGroupToolbar: TagRepresentable {
         div
             .class(add: .btnToolbar)
             .role(.toolbar)
+            .ariaLabelledBy(ariaLabel)
             .merge(attributes)
     }
 }
