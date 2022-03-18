@@ -125,33 +125,20 @@ extension NavTab: TagRepresentable {
 
 public class NavItem: Component {
     
-    public typealias Id = String
-    
     let li: Li
-    let isDropdown: Bool
-    
-    public static func dropdown(id: String, a: () -> A, menu: (Id) -> DropdownMenu) -> NavItem {
-        NavItem(isDropdown: true) {
-            Li {
-                NavLink(isDropdownToggle: true) { a().id(id) }
-                menu(id)
-            }
-        }
-    }
     
     public convenience init(_ title: String,
                             href: String,
                             isActive: Bool = false,
                             isDisabled: Bool = false) {
-        self.init(isDropdown: false) {
+        self.init {
             Li {
                 NavLink(title, href: href, isActive: isActive, isDisabled: isDisabled)
             }
         }
     }
     
-    public init(isDropdown: Bool = false, li: () -> Li) {
-        self.isDropdown = isDropdown
+    public init(li: () -> Li) {
         self.li = li()
     }
 }
@@ -162,7 +149,31 @@ extension NavItem: TagRepresentable {
     public func build() -> Tag {
         li
             .class(add: .navItem)
-            .class(add: .dropdown, if: isDropdown)
+            .merge(attributes)
+    }
+}
+
+public class NavItemDropdown: Component {
+    
+    public typealias Id = String
+    
+    let li: Li
+    
+    public init(id: String, a: () -> A, menu: (Id) -> DropdownMenu) {
+        let li = Li {
+            NavLink(isDropdownToggle: true) { a().id(id) }
+            menu(id)
+        }
+        self.li = li
+    }
+}
+
+extension NavItemDropdown: TagRepresentable {
+    
+    @TagBuilder
+    public func build() -> Tag {
+        li
+            .class(add: .navItem, .dropdown)
             .merge(attributes)
     }
 }
