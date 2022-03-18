@@ -14,6 +14,27 @@ public class ListGroup: Component {
     let isNumbered: Bool
     let isHorizontal: Bool
     
+    public convenience init(isFlush: Bool = false,
+                            isNumbered: Bool = false,
+                            isHorizontal: Bool = false,
+                            ol: () -> Ol) {
+        self.init(isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal, tag: { ol() })
+    }
+    
+    public convenience init(isFlush: Bool = false,
+                            isNumbered: Bool = false,
+                            isHorizontal: Bool = false,
+                            ul: () -> Ul) {
+        self.init(isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal, tag: { ul() })
+    }
+    
+    public convenience init(isFlush: Bool = false,
+                            isNumbered: Bool = false,
+                            isHorizontal: Bool = false,
+                            div: () -> Div) {
+        self.init(isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal, tag: { div() })
+    }
+    
     internal init(isFlush: Bool = false,
                   isNumbered: Bool = false,
                   isHorizontal: Bool = false,
