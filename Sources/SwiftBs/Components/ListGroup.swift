@@ -9,35 +9,19 @@ import SwiftHtml
 
 public class ListGroup: Component {
     
-    public enum `Type` {
-        case ol
-        case ul
-        case div
-    }
-    
     let tag: Tag
     let isFlush: Bool
     let isNumbered: Bool
     let isHorizontal: Bool
     
-    public init(_ type: `Type` = .ul,
-                isFlush: Bool = false,
-                isNumbered: Bool = false,
-                isHorizontal: Bool = false,
-                @TagBuilder items: () -> [Tag]) {
-        let tag: Tag
-        switch type {
-        case .ol:
-            tag = Ol { items() }
-        case .ul:
-            tag = Ul { items() }
-        case .div:
-            tag = Div { items() }
-        }
-        self.tag = tag
+    internal init(isFlush: Bool = false,
+                  isNumbered: Bool = false,
+                  isHorizontal: Bool = false,
+                  tag: () -> Tag) {
         self.isFlush = isFlush
         self.isNumbered = isNumbered
         self.isHorizontal = isHorizontal
+        self.tag = tag()
     }
 }
 
@@ -64,41 +48,43 @@ public class ListGroupItem: Component {
     public convenience init(_ text: String,
                             isActive: Bool = false,
                             isDisabled: Bool = false) {
-        self.init(tag: Li(text), isAction: false, isActive: isActive, isDisabled: isDisabled)
+        self.init(isAction: false, isActive: isActive, isDisabled: isDisabled) {
+            Li(text)
+        }
     }
     
-    public convenience init(_ li: Li,
-                            isActive: Bool = false,
-                            isDisabled: Bool = false) {
-        self.init(tag: li, isAction: false, isActive: isActive, isDisabled: isDisabled)
+    public convenience init(isActive: Bool = false,
+                            isDisabled: Bool = false,
+                            li: () -> Li) {
+        self.init(isAction: false, isActive: isActive, isDisabled: isDisabled) { li() }
     }
     
-    public convenience init(_ a: A,
-                            isActive: Bool = false,
-                            isDisabled: Bool = false) {
-        self.init(tag: a, isAction: true, isActive: isActive, isDisabled: isDisabled)
+    public convenience init(isActive: Bool = false,
+                            isDisabled: Bool = false,
+                            a: () -> A) {
+        self.init(isAction: true, isActive: isActive, isDisabled: isDisabled) { a() }
     }
     
-    public convenience init(_ button: Button,
-                            isActive: Bool = false,
-                            isDisabled: Bool = false) {
-        self.init(tag: button, isAction: true, isActive: isActive, isDisabled: isDisabled)
+    public convenience init(isActive: Bool = false,
+                            isDisabled: Bool = false,
+                            button: () -> Button) {
+        self.init(isAction: true, isActive: isActive, isDisabled: isDisabled) { button() }
     }
     
-    public convenience init(_ label: Label,
-                            isActive: Bool = false,
-                            isDisabled: Bool = false) {
-        self.init(tag: label, isAction: false, isActive: isActive, isDisabled: isDisabled)
+    public convenience init(isActive: Bool = false,
+                            isDisabled: Bool = false,
+                            label: () -> Label) {
+        self.init(isAction: false, isActive: isActive, isDisabled: isDisabled) { label() }
     }
     
-    internal init(tag: Tag,
-                  isAction: Bool,
+    internal init(isAction: Bool,
                   isActive: Bool,
-                  isDisabled: Bool) {
-        self.tag = tag
+                  isDisabled: Bool,
+                  tag: () -> Tag) {
         self.isAction = isAction
         self.isActive = isActive
         self.isDisabled = isDisabled
+        self.tag = tag()
     }
 }
 
