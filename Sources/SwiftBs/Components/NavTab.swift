@@ -31,7 +31,7 @@ public class NavTab: Component {
     let width: BsClass?
         
     public convenience init(align: Align? = nil,
-                            vertical breakpoints: Set<Breakpoint>? = nil,
+                            vertical breakpoints: Breakpoint...,
                             style: Style? = nil,
                             width: Width? = nil,
                             nav: () -> Nav) {
@@ -39,7 +39,7 @@ public class NavTab: Component {
     }
     
     public convenience init(align: Align? = nil,
-                            vertical breakpoints: Set<Breakpoint>? = nil,
+                            vertical breakpoints: Breakpoint...,
                             style: Style? = nil,
                             width: Width? = nil,
                             ol: () -> Ol) {
@@ -47,7 +47,7 @@ public class NavTab: Component {
     }
     
     public convenience init(align: Align? = nil,
-                            vertical breakpoints: Set<Breakpoint>? = nil,
+                            vertical breakpoints: Breakpoint...,
                             style: Style? = nil,
                             width: Width? = nil,
                             ul: () -> Ul) {
@@ -55,7 +55,7 @@ public class NavTab: Component {
     }
     
     internal init(align: Align?,
-                  vertical breakpoints: Set<Breakpoint>?,
+                  vertical breakpoints: [Breakpoint],
                   style: Style?,
                   width: Width?,
                   tag: () -> Tag) {
@@ -67,28 +67,24 @@ public class NavTab: Component {
         default:
             self.align = nil
         }
-        if let bp = breakpoints {
-            var classes: Set<BsClass> = [.flexColumn]
-            _ = bp.map {
-                switch $0 {
-                case .xs:
-                    break
-                case .sm:
-                    classes.insert(.flexSmRow)
-                case .md:
-                    classes.insert(.flexMdRow)
-                case .lg:
-                    classes.insert(.flexLgRow)
-                case .xl:
-                    classes.insert(.flexXlRow)
-                case .xxl:
-                    classes.insert(.flexXxlRow)
-                }
+        var classes: Set<BsClass> = [.flexColumn]
+        _ = breakpoints.map {
+            switch $0 {
+            case .xs:
+                break
+            case .sm:
+                classes.insert(.flexSmRow)
+            case .md:
+                classes.insert(.flexMdRow)
+            case .lg:
+                classes.insert(.flexLgRow)
+            case .xl:
+                classes.insert(.flexXlRow)
+            case .xxl:
+                classes.insert(.flexXxlRow)
             }
-            self.verticals = Array(classes)
-        } else {
-            self.verticals = nil
         }
+        self.verticals = !classes.isEmpty ? Array(classes) : nil
         switch style {
         case .tabs:
             self.style = .navTabs
