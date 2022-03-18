@@ -59,7 +59,7 @@ public class PageItem: Component {
                             isActive: Bool = false,
                             isDisabled: Bool = false) {
         let li = Li {
-            PageItem(title, href: href)
+            PageItem(title, href: href).build()
         }
         self.init(li, isActive: isActive, isDisabled: isDisabled)
     }
