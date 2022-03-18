@@ -56,10 +56,11 @@ public class PageItem: Component {
     
     public convenience init(_ title: String,
                             href: String,
+                            ariaLabel: String,
                             isActive: Bool = false,
                             isDisabled: Bool = false) {
         let li = Li {
-            PageItem(title, href: href).build()
+            PageLink(title, href: href, ariaLabel: ariaLabel)
         }
         self.init(li, isActive: isActive, isDisabled: isDisabled)
     }
