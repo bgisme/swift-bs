@@ -36,6 +36,7 @@ extension Pagination: TagRepresentable {
     public func build() -> Tag {
         ul
             .class(add: .pagination)
+            .class(add: size)
             .merge(attributes)
     }
 }
