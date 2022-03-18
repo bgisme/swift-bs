@@ -20,24 +20,25 @@ public class Modal: Component {
                             isScrollable: Bool = false,
                             isCentered: Bool = false,
                             @TagBuilder contents: () -> [Tag]) {
-        let div = Div {
-            ModalDialog(size: size,
-                        isScrollable: isScrollable,
-                        isCentered: isCentered) {
-                contents()
+        self.init(isAnimated: isAnimated, isBackdropStatic: isBackdropStatic) {
+            Div {
+                ModalDialog(size: size,
+                            isScrollable: isScrollable,
+                            isCentered: isCentered) {
+                    contents()
+                }
             }
-        }
             .id(id)
             .ariaLabelledBy("\(id)Label")
-        self.init(div, isAnimated: isAnimated, isBackdropStatic: isBackdropStatic)
+        }
     }
     
-    public init(_ div: Div,
-                isAnimated: Bool = true,
-                isBackdropStatic: Bool = false) {
-        self.div = div
+    public init(isAnimated: Bool = true,
+                isBackdropStatic: Bool = false,
+                div: () -> Div) {
         self.isAnimated = isAnimated
         self.isBackdropStatic = isBackdropStatic
+        self.div = div()
     }
 }
 
@@ -102,21 +103,25 @@ public class ModalDialog: Component {
                             isScrollable: Bool = false,
                             isCentered: Bool = false,
                             @TagBuilder content: () -> [Tag]) {
-        let div = Div { ModalContent { content() } }
-        self.init(div,
-                  size: size,
-                  isScrollable: isScrollable,
-                  isCentered: isCentered)
+        self.init(size: size, isScrollable: isScrollable, isCentered: isCentered, div: {
+            Div {
+                ModalContent {
+                    Div {
+                        content()
+                    }
+                }
+            }
+        })
     }
     
-    public init(_ div: Div,
-                size: Size? = nil,
+    public init(size: Size? = nil,
                 isScrollable: Bool = false,
-                isCentered: Bool = false) {
-        self.div = div
+                isCentered: Bool = false,
+                div: () -> Div) {
         self.size = size?.rawValue
         self.isScrollable = isScrollable
         self.isCentered = isCentered
+        self.div = div()
     }
 }
 
@@ -137,13 +142,8 @@ public class ModalContent: Component {
     
     let div: Div
     
-    public convenience init(@TagBuilder contents: () -> [Tag]) {
-        let div = Div { contents() }
-        self.init(div)
-    }
-    
-    public init(_ div: Div) {
-        self.div = div
+    public init(_ div: () -> Div) {
+        self.div = div()
     }
 }
 
@@ -162,20 +162,19 @@ public class ModalHeader: Component {
     let div: Div
     
     public convenience init(_ text: String, isCloseable: Bool = true) {
-        let title = ModalTitle(text)
-        let closeButton = CloseButton().build()
-        let div = Div {
-            title
-            if isCloseable {
-                closeButton
-                    .dataBsDismiss(.modal)
+        self.init {
+            Div {
+                ModalTitle(text)
+                if isCloseable {
+                    CloseButton()
+                        .dataBsDismiss(.modal)
+                }
             }
         }
-        self.init(div)
     }
     
-    public init(_ div: Div) {
-        self.div = div
+    public init(_ div: () -> Div) {
+        self.div = div()
     }
 }
 
@@ -194,11 +193,13 @@ public class ModalTitle: Component {
     let h5: H5
     
     public convenience init(_ text: String) {
-        self.init(H5(text))
+        self.init {
+            H5(text)
+        }
     }
     
-    public init(_ h5: H5) {
-        self.h5 = h5
+    public init(_ h5: () -> H5) {
+        self.h5 = h5()
     }
 }
 
@@ -217,14 +218,15 @@ public class ModalBody: Component {
     let div: Div
     
     public convenience init(_ text: String) {
-        let div = Div {
-            P(text)
+        self.init {
+            Div {
+                P(text)
+            }
         }
-        self.init(div)
     }
     
-    public init(_ div: Div) {
-        self.div = div
+    public init(_ div: () -> Div) {
+        self.div = div()
     }
 }
 
@@ -243,21 +245,21 @@ public class ModalFooter: Component {
     let div: Div
     
     public convenience init(isCloseable: Bool, other: BsButton...) {
-        let closeButton = BsButton("Close")
-            .build()
-            .class(add: .btnSecondary)
-            .dataBsDismiss(.modal)
-        let div = Div {
-            if isCloseable {
-                closeButton
+        self.init {
+            Div {
+                if isCloseable {
+                    BsButton("Close")
+                        .build()
+                        .class(add: .btnSecondary)
+                        .dataBsDismiss(.modal)
+                }
+                other.map{$0}
             }
-            other.map{$0}
         }
-        self.init(div)
     }
     
-    public init(_ div: Div) {
-        self.div = div
+    public init(_ div: () -> Div) {
+        self.div = div()
     }
 }
 

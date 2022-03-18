@@ -133,31 +133,20 @@ public class NavbarToggler: Component {
                                 ariaLabel: String,
                                 isOffcanvas: Bool = false,
                                 isBordered: Bool = true) -> NavbarToggler {
-        NavbarToggler("navbar-toggler-icon",
-                      id: id,
-                      ariaLabel: "site navigation",
-                      isOffCanvas: isOffcanvas)
-        .style(add: .border("none"), if: !isBordered)
-    }
-    
-    public convenience init(_ iconClass: String,
-                            id: String,
-                            ariaLabel: String,
-                            isOffCanvas: Bool = false) {
-        self.init(id: id, isOffCanvas: isOffCanvas, ariaLabel: ariaLabel) {
+        NavbarToggler(id: id, ariaLabel: ariaLabel, isOffcanvas: isOffcanvas) {
             Button {
-                Span().class(add: iconClass)
-            }
+                Span().class(add: "navbar-toggler-icon")
+            }.style(add: .border("none"), if: !isBordered)
         }
     }
     
     public init(id: String,
-                isOffCanvas: Bool = false,
                 ariaLabel: String,
+                isOffcanvas: Bool = false,
                 button: () -> Button) {
         self.id = id
-        self.isCollapseOffCanvas = isOffCanvas
         self.ariaLabel = ariaLabel
+        self.isCollapseOffCanvas = isOffcanvas
         self.button = button()
     }
 }
