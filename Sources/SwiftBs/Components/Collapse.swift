@@ -34,12 +34,20 @@ public class CollapseButton: Component {
     let tag: Tag
     let ids: [String]
     
+    public convenience init(contentIds ids: String..., a: () -> A) {
+        self.init(contentIds: ids, a: a)
+    }
+    
     public convenience init(contentIds ids: [String], a: () -> A) {
         self.init(contentIds: ids, tag: {
             a()
                 .role(.button)
                 .href(ids.count < 2 ? "#\(ids.first ?? "")" : BsClass.multiCollapse.rawValue)
         })
+    }
+    
+    public convenience init(contentIds ids: String..., button: () -> Button) {
+        self.init(contentIds: ids, button: button)
     }
     
     public convenience init(contentIds ids: [String], button: () -> Button) {
