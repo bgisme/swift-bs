@@ -22,21 +22,27 @@ public class Card: Component {
                             text: String? = nil,
                             imgBottom: Img? = nil,
                             footer: String? = nil) {
-        self.init(Div {
-            if let header = header { CardHeader(header) }
-            if let imgTop = imgTop { imgTop }
-            if let text = text { CardBody(text: text) }
-            if let imgBottom = imgBottom { imgBottom }
-            if let footer = footer { CardFooter(footer) }
-        })
+        self.init {
+            Div {
+                if let header = header {
+                    CardHeader { Div(header) }
+                }
+                if let imgTop = imgTop { imgTop }
+                if let text = text {
+                    CardBody {
+                        Div(text)
+                    }
+                }
+                if let imgBottom = imgBottom { imgBottom }
+                if let footer = footer {
+                    CardFooter { Div(footer) }
+                }
+            }
+        }
     }
     
-    public convenience init(@TagBuilder children: () -> [Tag]) {
-        self.init( Div(children()) )
-    }
-    
-    public init(_ div: Div) {
-        self.div = div
+    public init(div: () -> Div) {
+        self.div = div()
     }
 }
 
@@ -56,13 +62,9 @@ public class CardImageOverlay: Component {
     let img: Img
     let div: Div
     
-    public convenience init(_ img: Img, @TagBuilder children: () -> [Tag]) {
-        self.init(img, div: Div { children () })
-    }
-    
-    public init(_ img: Img, div: Div) {
-        self.img = img
-        self.div = div
+    public init(img: () -> Img, div: () -> Div) {
+        self.img = img()
+        self.div = div()
     }
 }
 
@@ -95,27 +97,27 @@ public class CardBody: Component {
                             text: CardText? = nil,
                             links: [A]? = nil) {
         self.init {
-            if let title = title {
-                title
-            }
-            if let subtitle = subtitle {
-                subtitle
-            }
-            if let text = text {
-                text
-            }
-            if let links = links {
-                links.map { CardLink($0) }
+            Div {
+                if let title = title {
+                    title
+                }
+                if let subtitle = subtitle {
+                    subtitle
+                }
+                if let text = text {
+                    text
+                }
+                if let links = links {
+                    for link in links {
+                        CardLink { link }
+                    }
+                }
             }
         }
     }
     
-    public convenience init(@TagBuilder children: () -> [Tag]) {
-        self.init(Div { children() })
-    }
-    
-    public init(_ div: Div) {
-        self.div = div
+    public init(_ div: () -> Div) {
+        self.div = div()
     }
 }
 
@@ -137,39 +139,39 @@ public class CardTitle: Component {
     
     public convenience init(_ text: String, isSubtitle: Bool = false) {
         if isSubtitle {
-            self.init(H6(text), isSubtitle: isSubtitle)
+            self.init(isSubtitle: isSubtitle) { H6(text) }
         } else {
-            self.init(H5(text), isSubtitle: isSubtitle)
+            self.init(isSubtitle: isSubtitle) { H5(text) }
         }
     }
     
-    public convenience init(_ h1: H1, isSubtitle: Bool = false) {
-        self.init(tag: h1, isSubtitle: isSubtitle)
-    }
-    
-    public convenience init(_ h2: H2, isSubtitle: Bool = false) {
-        self.init(tag: h2, isSubtitle: isSubtitle)
-    }
-    
-    public convenience init(_ h3: H3, isSubtitle: Bool = false) {
-        self.init(tag: h3, isSubtitle: isSubtitle)
-    }
-    
-    public convenience init(_ h4: H4, isSubtitle: Bool = false) {
-        self.init(tag: h4, isSubtitle: isSubtitle)
-    }
-    
-    public convenience init(_ h5: H5, isSubtitle: Bool = false) {
-        self.init(tag: h5, isSubtitle: isSubtitle)
-    }
-    
-    public convenience init(_ h6: H6, isSubtitle: Bool = false) {
-        self.init(tag: h6, isSubtitle: isSubtitle)
+    public convenience init(isSubtitle: Bool = false, h1: () -> H1) {
+        self.init(isSubtitle: isSubtitle, tag: h1)
     }
 
-    internal required init(tag: Tag, isSubtitle: Bool) {
-        self.tag = tag
+    public convenience init(isSubtitle: Bool = false, h2: () -> H2) {
+        self.init(isSubtitle: isSubtitle, tag: h2)
+    }
+
+    public convenience init(isSubtitle: Bool = false, h3: () -> H3) {
+        self.init(isSubtitle: isSubtitle, tag: h3)
+    }
+
+    public convenience init(isSubtitle: Bool = false, h4: () -> H4) {
+        self.init(isSubtitle: isSubtitle, tag: h4)
+    }
+
+    public convenience init(isSubtitle: Bool = false, h5: () -> H5) {
+        self.init(isSubtitle: isSubtitle, tag: h5)
+    }
+    
+    public convenience init(isSubtitle: Bool = false, h6: () -> H6) {
+        self.init(isSubtitle: isSubtitle, tag: h6)
+    }
+
+    internal required init(isSubtitle: Bool, tag: () -> Tag) {
         self.isSubtitle = isSubtitle
+        self.tag = tag()
     }
 }
 
@@ -190,11 +192,11 @@ public class CardText: Component {
     let p: P
     
     public convenience init(_ text: String) {
-        self.init(P(text))
+        self.init { P(text) }
     }
     
-    public init(_ p: P) {
-        self.p = p
+    public init(_ p: () -> P) {
+        self.p = p()
     }
 }
 
@@ -214,11 +216,13 @@ public class CardLink: Component {
     let a: A
     
     public convenience init(_ title: String, _ href: String = "#") {
-        self.init(A(title).href(href))
+        self.init {
+            A(title).href(href)
+        }
     }
     
-    public init(_ a: A) {
-        self.a = a
+    public init(_ a: () -> A) {
+        self.a = a()
     }
 }
 
@@ -237,41 +241,40 @@ public class CardHeader: Component {
     
     let tag: Tag
     
-    public convenience init(_ text: String) {
-        self.init(tag: Div(text))
+    public convenience init(text: String) {
+        self.init(tag: { Div(text) })
     }
     
-    public convenience init(_ h1: H1) {
+    public convenience init(h1: () -> H1) {
         self.init(tag: h1)
     }
     
-    public convenience init(_ h2: H2) {
+    public convenience init(h2: () -> H2) {
         self.init(tag: h2)
     }
 
-    public convenience init(_ h3: H3) {
+    public convenience init(h3: () -> H3) {
         self.init(tag: h3)
     }
 
-    public convenience init(_ h4: H4) {
+    public convenience init(h4: () -> H4) {
         self.init(tag: h4)
     }
 
-    public convenience init(_ h5: H5) {
+    public convenience init(h5: () -> H5) {
         self.init(tag: h5)
     }
     
-    public convenience init(_ h6: H6) {
+    public convenience init(h6: () -> H6) {
         self.init(tag: h6)
     }
-
-    public convenience init(@TagBuilder children: @escaping () -> [Tag]) {
-        let div = Div { children() }
+    
+    public convenience init(div: () -> Div) {
         self.init(tag: div)
     }
-    
-    internal required init(tag: Tag) {
-        self.tag = tag
+
+    internal required init(tag: () -> Tag) {
+        self.tag = tag()
     }
 }
 
@@ -290,18 +293,8 @@ public class CardFooter: Component {
     
     let div: Div
     
-    public convenience init(_ text: String) {
-        self.init {
-            Text(text)
-        }
-    }
-    
-    public convenience init(@TagBuilder children: () -> [Tag]) {
-        self.init(Div(children()))
-    }
-    
-    public init(_ div: Div) {
-        self.div = div
+    public init(_ div: () -> Div) {
+        self.div = div()
     }
 }
 
