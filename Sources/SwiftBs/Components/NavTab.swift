@@ -130,10 +130,10 @@ public class NavItem: Component {
     let li: Li
     let isDropdown: Bool
     
-    public static func dropdown(id: String, a: (Id) -> A, menu: (Id) -> DropdownMenu) -> NavItem {
+    public static func dropdown(id: String, a: () -> A, menu: (Id) -> DropdownMenu) -> NavItem {
         NavItem(isDropdown: true) {
             Li {
-                NavLink(isDropdownToggle: true) { a(id) }
+                NavLink(isDropdownToggle: true) { a().id(id) }
                 menu(id)
             }
         }
