@@ -22,27 +22,11 @@ public class Offcanvas: Component {
     let isBackgroundScrollable: Bool
     let isBackdropVisible: Bool
     
-    public convenience init(id: String,
-                placement: Placement = .start,
-                isBackgroundScrollable: Bool = false,
-                isBackdropVisible: Bool = true,
-                @TagBuilder contents: () -> [Tag]) {
-        let div = Div {
-            contents()
-        }
-        self.init(div,
-                  id: id,
-                  placement: placement,
-                  isBackgroundScrollable: isBackgroundScrollable,
-                  isBackdropVisible: isBackdropVisible)
-    }
-    
-    public init(_ div: Div,
-                id: String,
+    public init(id: String,
                 placement: Placement = .start,
                 isBackgroundScrollable: Bool = false,   // background not scrollable by default
-                isBackdropVisible: Bool = true) {       // backdrop visible by default
-        self.div = div
+                isBackdropVisible: Bool = true,         // backdrop visible by default
+                div: () -> Div) {
         self.id = id
         switch placement {
         case .start:
@@ -56,6 +40,7 @@ public class Offcanvas: Component {
         }
         self.isBackgroundScrollable = isBackgroundScrollable
         self.isBackdropVisible = isBackdropVisible
+        self.div = div()
     }
 }
 
