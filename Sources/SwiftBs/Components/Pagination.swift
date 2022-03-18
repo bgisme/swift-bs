@@ -108,10 +108,6 @@ public class PageLink: Component {
         self.init(a, ariaLabel: ariaLabel)
     }
     
-    public convenience init(ariaLabel: String, @TagBuilder a: () -> A) {
-        self.init(a(), ariaLabel: ariaLabel)
-    }
-    
     public init(_ a: A, ariaLabel: String) {
         self.a = a
         self.ariaLabel = ariaLabel
