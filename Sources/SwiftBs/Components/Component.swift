@@ -24,23 +24,23 @@ public class Component: TagRepresentable {
 extension Component: Bootstrapable {
     
     @discardableResult
-    public func `class`(insert classes: BsClass..., if condition: Bool = true) -> Self {
-        self.class(insert: classes, condition)
+    public func `class`(insert classes: BsClass?..., if condition: Bool = true) -> Self {
+        self.class(insert: classes.compactMap{ $0 }, condition)
     }
     
     @discardableResult
-    public func `class`(insert classes: [BsClass], _ condition: Bool = true) -> Self {
+    public func `class`(insert classes: [BsClass]?, _ condition: Bool = true) -> Self {
         tag.class(insert: classes, condition)
         return self
     }
     
     @discardableResult
-    public func style(set styles: CssKeyValue..., if condition: Bool = true) -> Self {
-        self.style(set: styles, condition)
+    public func style(set styles: CssKeyValue?..., if condition: Bool = true) -> Self {
+        self.style(set: styles.compactMap{ $0 }, condition)
     }
     
     @discardableResult
-    public func style(set styles: [CssKeyValue], _ condition: Bool = true) -> Self {
+    public func style(set styles: [CssKeyValue]?, _ condition: Bool = true) -> Self {
         tag.style(set: styles, condition)
         return self
     }

@@ -7,11 +7,11 @@
 
 public protocol Bootstrapable {
     
-    func `class`(insert classes: BsClass..., if condition: Bool) -> Self
+    func `class`(insert classes: BsClass?..., if condition: Bool) -> Self
     
-    func `class`(insert classes: [BsClass], _ condition: Bool) -> Self
+    func `class`(insert classes: [BsClass]?, _ condition: Bool) -> Self
     
-    func style(set styles: CssKeyValue..., if condition: Bool) -> Self
+    func style(set styles: CssKeyValue?..., if condition: Bool) -> Self
     
-    func style(set styles: [CssKeyValue], _ condition: Bool) -> Self
+    func style(set styles: [CssKeyValue]?, _ condition: Bool) -> Self
 }
