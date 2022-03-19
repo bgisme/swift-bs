@@ -35,13 +35,11 @@ public class Card: Component {
                             bottomImage: Img? = nil,
                             footer: CardFooter? = nil) {
         self.init {
-            Div {
-                if let header = header { header }
-                if let topImage = topImage { topImage }
-                if let body = body { body }
-                if let bottomImage = bottomImage { bottomImage }
-                if let footer = footer { footer }
-            }
+            if let header = header { header }
+            if let topImage = topImage { topImage }
+            if let body = body { body }
+            if let bottomImage = bottomImage { bottomImage }
+            if let footer = footer { footer }
         }
     }
         
