@@ -121,11 +121,17 @@ public class CardHeader: Component {
 
 public class CardBody: Component {
     
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        self.init(div: {
+            Div { contents() }
+        })
+    }
+    
     public convenience init(_ title: String,
                             subtitle: String? = nil,
                             text: String? = nil,
                             @TagBuilder links: () -> [Tag]) {
-        self.init {
+        self.init(div: {
             Div {
                 CardTitle(title)
                 if let subtitle = subtitle {
@@ -136,14 +142,14 @@ public class CardBody: Component {
                 }
                 links()
             }
-        }
+        })
     }
         
     /// children ...
     /// CardTitle
     /// CardText
     /// A  A  A
-    public init(_ div: () -> Div) {
+    public init(div: () -> Div) {
         super.init {
             div()
                 .class(insert: .cardBody)
