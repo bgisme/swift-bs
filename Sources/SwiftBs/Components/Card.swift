@@ -28,6 +28,12 @@ import SwiftHtml
  */
 
 public class Card: Component {
+    
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        self.init(div: {
+            Div { contents() }
+        })
+    }
         
     /// children ...
     /// CardHeader
