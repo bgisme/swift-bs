@@ -73,18 +73,18 @@ public class NavbarBrand: Component {
         
     public convenience init(_ title: String, href: String? = nil) {
         if let href = href {
-            self.init(tag: A(title).href(href))
+            self.init { A(title).href(href) }
         } else {
-            self.init(tag: Span(title).class(insert: .mb0, .h1))
+            self.init { Span(title).class(insert: .mb0, .h1) }
         }
     }
     
-    public convenience init(span: Span) {
-        self.init(tag: span)
+    public convenience init(span: () -> Span) {
+        self.init(tag: span())
     }
 
-    public convenience init(a: A) {
-        self.init(tag: a)
+    public convenience init(a: () -> A) {
+        self.init(tag: a())
     }
     
     internal init(tag: Tag) {
@@ -101,22 +101,22 @@ public class NavbarToggler: Component {
                                 ariaLabel: String,
                                 isCollapseOffcanvas: Bool = false,
                                 isBordered: Bool = true) -> NavbarToggler {
-        let button = Button {
-            Span().class(insert: .navbarTogglerIcon)
-        }
-        .style(set: .border("none"), if: !isBordered)
         return NavbarToggler(id: id,
                              ariaLabel: ariaLabel,
-                             isCollapseOffcanvas: isCollapseOffcanvas,
-                             button: button)
+                             isCollapseOffcanvas: isCollapseOffcanvas) {
+            Button {
+                Span().class(insert: .navbarTogglerIcon)
+            }
+            .style(set: .border("none"), if: !isBordered)
+        }
     }
     
     public init(id: String,
                 ariaLabel: String,
                 isCollapseOffcanvas: Bool = false,
-                button: Button) {
+                button: () -> Button) {
         super.init {
-            button
+            button()
                 .class(insert: .navbarToggler)
                 .type(.button)
                 .dataBsToggle(isCollapseOffcanvas ? .offcanvas : .collapse)
@@ -178,12 +178,12 @@ public class NavbarNav: Component {
 public class NavbarText: Component {
     
     public convenience init(_ text: String) {
-        self.init(Span(text))
+        self.init { Span(text) }
     }
     
-    public init(_ span: Span) {
+    public init(span: () -> Span) {
         super.init {
-            span
+            span()
                 .class(insert: .navbarText)
         }
     }
