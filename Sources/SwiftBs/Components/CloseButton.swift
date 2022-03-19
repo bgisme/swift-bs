@@ -9,26 +9,19 @@ import SwiftHtml
 
 public class CloseButton: Component {
     
-    let button: Button
     let isDisabled: Bool
     let isWhite: Bool
     
-    public init(isDisabled: Bool = false, isWhite: Bool = false) {
-        self.button = Button()
+    public init(dismiss: BsClass, isDisabled: Bool = false, isWhite: Bool = false) {
         self.isDisabled = isDisabled
         self.isWhite = isWhite
-    }
-}
-
-extension CloseButton: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        button
-            .class(add: .btnClose)
-            .class(add: .btnCloseWhite, if: isWhite)
-            .ariaLabel("Close")
-            .flagAttribute("disabled", nil, isDisabled)
-            .merge(attributes)
+        super.init {
+            Button()
+                .dataBsDismiss(dismiss)
+                .class(insert: .btnClose)
+                .class(insert: .btnCloseWhite, if: isWhite)
+                .ariaLabel("Close")
+                .flagAttribute("disabled", nil, isDisabled)
+        }
     }
 }

@@ -9,7 +9,18 @@ import SwiftHtml
 
 public class BsButton: Component {
     
-    private let tag: Tag
+    public convenience init(_ title: String,
+                            isToggle: Bool = false,
+                            isPressed: Bool = false,
+                            isDisabled: Bool = false,
+                            isActive: Bool = false) {
+        self.init(isToggle: isToggle,
+                  isPressed: isPressed,
+                  isDisabled: isDisabled,
+                  isActive: isActive) {
+            Button(title)
+        }
+    }
     
     public convenience init(isToggle: Bool = false,
                             isPressed: Bool = false,
@@ -19,7 +30,7 @@ public class BsButton: Component {
         self.init {
             button()
                 .type(.button)
-                .class(add: .active, if: isToggle && isPressed)
+                .class(insert: .active, if: isToggle && isPressed)
                 .dataBsToggle(.button, isToggle)
                 .disabled(isDisabled)
                 .ariaPressed(isPressed, isToggle && isPressed)
@@ -29,12 +40,12 @@ public class BsButton: Component {
     
     public convenience init(isDisabled: Bool = false,
                             isActive: Bool = false,
-                            link: () -> A) {
+                            a: () -> A) {
         self.init {
-            link()
-                .class(add: .disabled, if: isDisabled)
+            a()
+                .class(insert: .disabled, if: isDisabled)
                 .role(.button)
-                .class(add: .active, if: isActive)
+                .class(insert: .active, if: isActive)
                 .ariaPressed(true, isActive)
                 .ariaDisabled(isDisabled)
         }
@@ -44,17 +55,10 @@ public class BsButton: Component {
         self.init(tag: input)
     }
     
-    internal required init(tag: () -> Tag) {
-        self.tag = tag()
-    }
-}
-
-extension BsButton: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        tag
-            .class(add: .btn)
-            .merge(attributes)
+    internal init(tag: () -> Tag) {
+        super.init {
+            tag()
+                .class(insert: .btn)
+        }
     }
 }

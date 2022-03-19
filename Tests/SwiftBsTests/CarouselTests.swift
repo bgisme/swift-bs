@@ -16,8 +16,8 @@ final class CarouselTests: XCTestCase {
             Img(src: "", alt: ""),
             Img(src: "", alt: ""),
         ])
-            .class(add: classes)
-            .style(add: styles)
+            .class(insert: classes)
+            .style(set: styles)
             .build()
         if let tagId = tag.id {
             XCTAssert(tagId == id)
@@ -120,8 +120,8 @@ final class CarouselTests: XCTestCase {
         let classes: [BsClass] = [.mt3, .bgPrimary]
         let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")]
         let tag = CarouselInner { Div{} }
-            .class(add: classes)
-            .style(add: styles)
+            .class(insert: classes)
+            .style(set: styles)
         if let classValue = tag.build().value(.class) {
             XCTAssert(classValue.has(.carouselInner))
             XCTAssert(classValue.has(classes))
@@ -142,8 +142,8 @@ final class CarouselTests: XCTestCase {
                                caption: CarouselCaption("caption title", "caption text"),
                                isActive: true,
                                interval: 1)
-            .class(add: classes)
-            .style(add: styles)
+            .class(insert: classes)
+            .style(set: styles)
             .build()
         if let classValue = tag.value(.class) {
             XCTAssert(classValue.has(.carouselItem))
@@ -165,8 +165,8 @@ final class CarouselTests: XCTestCase {
         let classes: [BsClass] = [.mt3, .bgPrimary]
         let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")]
         let prevTag = CarouselControl(.prev, carouselId: id)
-            .class(add: classes)
-            .style(add: styles)
+            .class(insert: classes)
+            .style(set: styles)
             .build()
         if let classValue = prevTag.value(.class) {
             XCTAssert(classValue.has(.carouselControlPrev))
@@ -186,8 +186,8 @@ final class CarouselTests: XCTestCase {
         XCTAssert(prevTag.has(classes))
         XCTAssert(prevTag.has(styles))
         let nextTag = CarouselControl(.next, carouselId: id)
-            .class(add: classes)
-            .style(add: styles)
+            .class(insert: classes)
+            .style(set: styles)
             .build()
         if let classValue = nextTag.value(.class) {
             XCTAssert(classValue.has(.carouselControlNext))
@@ -212,8 +212,8 @@ final class CarouselTests: XCTestCase {
         let classes: [BsClass] = [.mt3, .bgPrimary]
         let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")]
         let tag = CarouselCaption("title", "text")
-            .class(add: classes)
-            .style(add: styles)
+            .class(insert: classes)
+            .style(set: styles)
             .build()
         if let classValue = tag.value(.class) {
             XCTAssert(classValue.has(.carouselCaption))
@@ -232,8 +232,8 @@ final class CarouselTests: XCTestCase {
         let tag = CarouselIndicator(index: 9,
                                     isActive: true,
                                     carouselId: id) { Button() }
-            .class(add: classes)
-            .style(add: styles)
+            .class(insert: classes)
+            .style(set: styles)
             .build()
         if let type = tag.value("type") {
             XCTAssert(type == BsClass.button.rawValue)

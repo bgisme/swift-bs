@@ -15,86 +15,64 @@ public class Navbar: Component {
         case stickyTop  //! May not be supported by every browser
     }
     
-    let nav: Nav
-    let placement: BsClass?
-    let expand: BsClass?
-    
     /// collapseBelow = nil ... auto-collapses behind toggler button
-    public init(placement: Placement? = nil,
+    public init(placement place: Placement? = nil,
                 collapseAt breakpoint: Breakpoint? = nil,
                 nav: () -> Nav) {
-        switch placement {
+        let placement: BsClass?
+        switch place {
         case .fixedTop:
-            self.placement = .fixedTop
+            placement = .fixedTop
         case .fixedBottom:
-            self.placement = .fixedBottom
+            placement = .fixedBottom
         case .stickyTop:
-            self.placement = .stickyTop
+            placement = .stickyTop
         default:
-            self.placement = nil
+            placement = nil
         }
+        let expand: BsClass?
         switch breakpoint {
         case .sm:
-            self.expand = .navbarExpandSm
+            expand = .navbarExpandSm
         case .md:
-            self.expand = .navbarExpandMd
+            expand = .navbarExpandMd
         case .lg:
-            self.expand = .navbarExpandLg
+            expand = .navbarExpandLg
         case .xl:
-            self.expand = .navbarExpandXl
+            expand = .navbarExpandXl
         case .xxl:
-            self.expand = .navbarExpandXxl
+            expand = .navbarExpandXxl
         default:
-            self.expand = nil
+            expand = nil
         }
-        self.nav = nav()
-    }
-}
-
-extension Navbar: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        nav
-            .class(add: .navbar)
-            .class(add: placement)
-            .class(add: expand)
-            .merge(attributes)
+        super.init {
+            nav()
+                .class(insert: .navbar)
+                .class(insert: placement)
+                .class(insert: expand)
+        }
     }
 }
 
 public class NavbarContainer: Component {
     
-    let div: Div
-    let isFluid: Bool
-    
     /// isFluid: false if NavbarBrand is just an image and no text
     public init(isFluid: Bool = true, div: () -> Div) {
-        self.isFluid = isFluid
-        self.div = div()
-    }
-}
-
-extension NavbarContainer: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: isFluid ? .containerFluid : .container)
-            .merge(attributes)
+        super.init {
+            div()
+                .class(insert: isFluid ? .containerFluid : .container)
+        }
     }
 }
 
 public class NavbarBrand: Component {
-    
-    let tag: Tag
-    
+        
     public convenience init(_ title: String, href: String? = nil) {
         self.init(tag: {
             if let href = href {
                 return A(title).href(href)
             } else {
-                return Span(title).class(add: .mb0, .h1)
+                return Span(title).class(insert: .mb0, .h1)
             }
         })
     }
@@ -108,93 +86,57 @@ public class NavbarBrand: Component {
     }
     
     internal init(tag: () -> Tag) {
-        self.tag = tag()
-    }
-}
-
-extension NavbarBrand: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        tag
-            .class(add: .navbarBrand)
-            .merge(attributes)
+        super.init {
+            tag()
+                .class(insert: .navbarBrand)
+        }
     }
 }
 
 public class NavbarToggler: Component {
     
-    let button: Button
-    let id: String
-    let isCollapseOffCanvas: Bool
-    let ariaLabel: String
-    
     public static func standard(id: String,
                                 ariaLabel: String,
-                                isOffcanvas: Bool = false,
+                                isCollapseOffcanvas: Bool = false,
                                 isBordered: Bool = true) -> NavbarToggler {
-        NavbarToggler(id: id, ariaLabel: ariaLabel, isOffcanvas: isOffcanvas) {
+        NavbarToggler(id: id, ariaLabel: ariaLabel, isCollapseOffcanvas: isCollapseOffcanvas) {
             Button {
-                Span().class(add: "navbar-toggler-icon")
-            }.style(add: .border("none"), if: !isBordered)
+                Span().class(insert: .navbarTogglerIcon)
+            }
+            .style(set: .border("none"), if: !isBordered)
         }
     }
     
     public init(id: String,
                 ariaLabel: String,
-                isOffcanvas: Bool = false,
+                isCollapseOffcanvas: Bool = false,
                 button: () -> Button) {
-        self.id = id
-        self.ariaLabel = ariaLabel
-        self.isCollapseOffCanvas = isOffcanvas
-        self.button = button()
-    }
-}
-
-extension NavbarToggler: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        button
-            .class(add: .navbarToggler)
-            .type(.button)
-            .dataBsToggle(isCollapseOffCanvas ? .offcanvas : .collapse)
-            .dataBsTarget(id)
-            .ariaControls(id)
-            .ariaExpanded(false)
-            .ariaLabel(ariaLabel)
-            .merge(attributes)
+        super.init {
+            button()
+                .class(insert: .navbarToggler)
+                .type(.button)
+                .dataBsToggle(isCollapseOffcanvas ? .offcanvas : .collapse)
+                .dataBsTarget(id)
+                .ariaControls(id)
+                .ariaExpanded(false)
+                .ariaLabel(ariaLabel)
+        }
     }
 }
 
 public class NavbarCollapse: Component {
     
-    let div: Div
-    let id: String
-    
     public init(togglerId id: String, div: () -> Div) {
-        self.id = id
-        self.div = div()
-    }
-}
-
-extension NavbarCollapse: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: .collapse, .navbarCollapse)
-            .id(id)
-            .merge(attributes)
+        super.init {
+            div()
+                .class(insert: .collapse, .navbarCollapse)
+                .id(id)
+        }
     }
 }
 
 public class NavbarNav: Component {
     
-    let tag: Tag
-    let isScrollable: Bool
-    let scrollHeight: CssKeyValue?
-
     public convenience init(scrollHeight pixels: Int? = nil, ol: () -> Ol) {
         self.init(scrollHeight: pixels, tag: ol)
     }
@@ -209,48 +151,34 @@ public class NavbarNav: Component {
     
     /// for default scroll height ... use Int.max
     internal init(scrollHeight pixels: Int?, tag: () -> Tag) {
+        let isScrollable: Bool
+        let scrollHeight: CssKeyValue?
         if let pixels = pixels, pixels < Int.max {
-            self.isScrollable = true
-            self.scrollHeight = CssKeyValue("--bs-scroll-height", "\(pixels)px")
+            isScrollable = true
+            scrollHeight = CssKeyValue("--bs-scroll-height", "\(pixels)px")
         } else {
-            self.isScrollable = true
-            self.scrollHeight = nil
+            isScrollable = true
+            scrollHeight = nil
         }
-        self.tag = tag()
-    }
-}
-
-extension NavbarNav: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        tag
-            .class(add: .navbarNav)
-            .class(add: .navbarNavScroll, if: isScrollable)
-            .style(add: scrollHeight)
-            .merge(attributes)
+        super.init {
+            tag()
+                .class(insert: .navbarNav)
+                .class(insert: .navbarNavScroll, if: isScrollable)
+                .style(set: scrollHeight)
+        }
     }
 }
 
 public class NavbarText: Component {
-    
-    let span: Span
     
     public convenience init(_ text: String) {
         self.init { Span(text) }
     }
     
     public init(_ span: () -> Span) {
-        self.span = span()
-    }
-}
-
-extension NavbarText: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        span
-            .class(add: .navbarText)
-            .merge(attributes)
+        super.init {
+            span()
+                .class(insert: .navbarText)
+        }
     }
 }

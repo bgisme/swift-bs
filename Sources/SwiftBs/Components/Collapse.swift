@@ -7,31 +7,31 @@
 
 import SwiftHtml
 
-public class Collapse: Component {
+public class Collapse {
     
     public typealias Id = String
     
-    let p: P
-    let div: Div
-        
+    let contents: [Tag]
+            
     public init(contentIds ids: [String], p: ([Id]) -> P, div: ([Id]) -> Div) {
-        self.p = p(ids)
-        self.div = div(ids)
+        self.contents = [
+            p(ids),
+            div(ids),
+        ]
     }
+    
 }
 
 extension Collapse: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
-        p
-        div
+        contents
     }
 }
 
 public class CollapseButton: Component {
     
-    let tag: Tag
     let ids: [String]
     
     public convenience init(contentIds ids: String..., a: () -> A) {
@@ -60,19 +60,12 @@ public class CollapseButton: Component {
     
     internal init(contentIds ids: [String], tag: () -> Tag) {
         self.ids = ids
-        self.tag = tag()
-    }
-}
-
-extension CollapseButton: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        tag
-            .dataBsToggle(.collapse)
-            .ariaExpanded(false)
-            .ariaControls(ids.map{$0}.joined(separator: " "))
-            .merge(attributes)
+        super.init {
+            tag()
+                .dataBsToggle(.collapse)
+                .ariaExpanded(false)
+                .ariaControls(ids.map{$0}.joined(separator: " "))
+        }
     }
 }
 
@@ -83,41 +76,28 @@ public class CollapseContent: Component {
         case vertical
     }
     
-    let width: String
-    let id: String
-    var isMultiple: Bool
-    let div: Div
-    
     public init(orientation: Orientation = .vertical,
                 id: String,
                 isMultiple: Bool = false,
                 div: () -> Div) {
         let div = div()
+        let isHorizontalCollapse: Bool
         switch orientation {
         case .horizontal(let width):
-            self.width = width
+            isHorizontalCollapse = true
             // children of horizontal collapse need width to display correctly
             for child in div.children {
-                child.style(add: .width(width))
+                child.style(set: .width(width))
             }
         case .vertical:
-            self.width = ""
+            isHorizontalCollapse = false
         }
-        self.id = id
-        self.isMultiple = isMultiple
-        self.div = div
-    }
-}
-
-extension CollapseContent: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: .collapse)
-            .class(add: .collapseHorizontal, if: !width.isEmpty)
-            .class(add: .multiCollapse, if: isMultiple)
-            .id(id)
-            .merge(attributes)
+        super.init {
+            div
+                .class(insert: .collapse)
+                .class(insert: .collapseHorizontal, if: isHorizontalCollapse)
+                .class(insert: .multiCollapse, if: isMultiple)
+                .id(id)
+        }
     }
 }

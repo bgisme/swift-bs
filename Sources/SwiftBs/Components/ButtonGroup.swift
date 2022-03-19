@@ -5,52 +5,41 @@
 //  Created by Brad Gourley on 2/28/22.
 //
 
+/*
+ 
+    ButtonGroupToolbar
+        ButtonGroup
+            BsButton
+            BsButton
+        ButtonGroup
+            BsButton
+            BsButton
+ */
+
 import SwiftHtml
-
-public class ButtonGroup: Component {
-    
-    let div: Div
-    let ariaLabel: String
-    let isVertical: Bool
-    
-    public init(ariaLabel: String, isVertical: Bool = false, div: () -> Div) {
-        self.ariaLabel = ariaLabel
-        self.isVertical = isVertical
-        self.div = div()
-    }
-}
-
-extension ButtonGroup: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: isVertical ? .btnGroupVertical : .btnGroup)
-            .role(.group)
-            .ariaLabelledBy(ariaLabel)
-            .merge(attributes)
-    }
-}
 
 public class ButtonGroupToolbar: Component {
     
-    let div: Div
-    let ariaLabel: String
-
+    /// children ... ButtonGroup
     public init(ariaLabel: String, div: () -> Div) {
-        self.ariaLabel = ariaLabel
-        self.div = div()
+        super.init {
+            div()
+                .class(insert: .btnToolbar)
+                .role(.toolbar)
+                .ariaLabelledBy(ariaLabel)
+        }
     }
 }
 
-extension ButtonGroupToolbar: TagRepresentable {
+public class ButtonGroup: Component {
     
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: .btnToolbar)
-            .role(.toolbar)
-            .ariaLabelledBy(ariaLabel)
-            .merge(attributes)
+    /// children ... BsButton
+    public init(ariaLabel: String, isVertical: Bool = false, div: () -> Div) {
+        super.init {
+            div()
+                .class(insert: isVertical ? .btnGroupVertical : .btnGroup)
+                .role(.group)
+                .ariaLabelledBy(ariaLabel)
+        }
     }
 }

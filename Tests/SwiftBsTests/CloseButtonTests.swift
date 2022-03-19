@@ -7,9 +7,9 @@ final class CloseButtonTests: XCTestCase {
     func testCloseButton() throws {
         let classes: [BsClass] = [.mt3, .bgPrimary]
         let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")]
-        let tag = CloseButton(isDisabled: true, isWhite: true)
-            .class(add: classes)
-            .style(add: styles)
+        let tag = CloseButton(dismiss: .modal, isDisabled: true, isWhite: true)
+            .class(insert: classes)
+            .style(set: styles)
             .build()
         if let classValue = tag.value(.class) {
             XCTAssert(classValue.has(.btnClose))

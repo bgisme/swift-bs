@@ -5,6 +5,20 @@
 //  Created by BG on 2/9/22.
 //
 
+/*
+    Accordion                       id(unique)
+        AccordionItem
+            AccordionHeader         id(unique)
+                AccordionButton     dataBsTarget(collapseId)    ariaControls(collapseId)
+            AccordionCollapse       id(unique)  dataBsParent(accordionId)   ariaLabelledBy(headerId)
+                AccordionBody
+        AccordionItem
+            AccordionHeader
+                AccordionButton
+            AccordionCollapse
+                AccordionBody
+ */
+
 import SwiftHtml
 
 public class Accordion: Component {
@@ -12,211 +26,88 @@ public class Accordion: Component {
     public typealias AccordionId = String
     public typealias IsAlwaysOpen = Bool
 
-    let div: Div
-    let id: String
-    let isFlush: Bool
-    
-    public convenience init(id: String,
-                            isFlush: Bool = false,
-                            isAlwaysOpen: Bool = false,
-                            @TagBuilder items: (AccordionId, IsAlwaysOpen) -> [Tag]) {
-        let div = Div { items(id, isAlwaysOpen) }
-        self.init(div, id: id, isFlush: isFlush)
-    }
-    
-    public init(_ div: Div, id: String, isFlush: Bool = false) {
-        self.div = div
-        self.id = id
-        self.isFlush = isFlush
-    }
-}
-
-extension Accordion: TagRepresentable {
-
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: .accordion)
-            .id(id)
-            .class(add: .accordionFlush, if: isFlush)
-            .merge(attributes)
+    /// children ... AccordionItem
+    public init(id: String,
+                isFlush: Bool = false,
+                isAlwaysOpen: Bool = false,
+                div: (AccordionId, IsAlwaysOpen) -> Div) {
+        super.init {
+            div(id, isAlwaysOpen)
+                .class(insert: .accordion)
+                .id(id)
+                .class(insert: .accordionFlush, if: isFlush)
+        }
     }
 }
 
 public class AccordionItem: Component {
 
-    let div: Div
-
-    public convenience init(_ label: String,
-                            index: Int = 0,
-                            isExpanded: Bool = false,
-                            isAlwaysOpen: Bool = false,
-                            accordionId: String,
-                            @TagBuilder body: @escaping () -> [Tag]) {
-        let headerId = String("\(accordionId)header\(index)")
-        let collapseId = String("\(accordionId)collapse\(index)")
-        
-        let div = Div {
-            AccordionHeader(id: headerId) {
-                AccordionButton(label, collapseId: collapseId)
-            }
-            AccordionCollapse(id: collapseId,
-                              accordionId: accordionId,
-                              headerId: headerId,
-                              isExpanded: isExpanded,
-                              isAlwaysOpen: isAlwaysOpen) {
-                AccordionBody { body() }
-            }
+    /// children ... AccordionHeader, AccordionCollapse
+    public init(_ div: () -> Div) {
+        super.init {
+            div()
+                .class(insert: .accordionItem)
         }
-        self.init(div)
-    }
-    
-    public init(_ div: Div) {
-        self.div = div
     }
 }
 
-extension AccordionItem: TagRepresentable {
-
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: .accordionItem)
-            .merge(attributes)
-    }
-}
-
+/// children ... AccordionButton
 public class AccordionHeader: Component {
     
-    let h2: H2
-
-    public convenience init(id: String, @TagBuilder children: () -> [Tag]) {
-        let h2 = H2 {
-            children()
-        }.id(id)
-        self.init(h2)
-    }
-    
-    public init(_ h2: H2) {
-        self.h2 = h2
-    }
-}
-
-extension AccordionHeader: TagRepresentable {
-
-    @TagBuilder
-    public func build() -> Tag {
-        h2
-            .class(add: .accordionHeader)
-            .merge(attributes)
-    }
-}
-
-public class AccordionCollapse: Component {
-
-    let div: Div
-    let id: String
-    let accordionId: String
-    let headerId: String
-    let isExpanded: Bool
-    let isAlwaysOpen: Bool
-    
-    public convenience init(id: String,
-                accordionId: String,
-                headerId: String,
-                isExpanded: Bool = false,
-                isAlwaysOpen: Bool = false,
-                @TagBuilder children: () -> [Tag]) {
-        let div = Div { children() }
-        self.init(div, id: id, accordionId: accordionId, headerId: headerId, isExpanded: isExpanded, isAlwaysOpen: isAlwaysOpen)
-    }
-
-    public init(_ div: Div,
-                id: String,
-                accordionId: String,
-                headerId: String,
-                isExpanded: Bool = false,
-                isAlwaysOpen: Bool = false) {
-        self.div = div
-        self.id = id
-        self.accordionId = accordionId
-        self.headerId = headerId
-        self.isExpanded = isExpanded
-        self.isAlwaysOpen = isAlwaysOpen
-    }
-}
-
-extension AccordionCollapse: TagRepresentable {
-
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .id(id)
-            .class(add: .accordionCollapse, .collapse)
-            .class(add: .show, if: isExpanded)
-            .ariaLabelledBy(headerId)
-            .dataParent(accordionId, !isAlwaysOpen)
-            .merge(attributes)
-    }
-}
-
-public class AccordionBody: Component {
-    
-    let div: Div
-    
-    public convenience init(@TagBuilder children: () -> [Tag]) {
-        self.init(Div{ children() })
-    }
-    
-    public init(_ div: Div) {
-        self.div = div
-    }
-}
-
-extension AccordionBody: TagRepresentable {
-
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: .accordionBody)
-            .merge(attributes)
+    public init(id: String, h2: () -> H2) {
+        super.init {
+            h2()
+                .class(insert: .accordionHeader)
+                .id(id)
+        }
     }
 }
 
 public class AccordionButton: Component {
 
-    let button: Button
-    let isExpanded: Bool
-    let collapseId: String
-
-    public convenience init(_ title: String,
-                            isExpanded: Bool = false,
-                            collapseId: String) {
-        let button = Button(title)
-        self.init(button, isExpanded: isExpanded, collapseId: collapseId)
-    }
-
-    public init(_ button: Button,
-                isExpanded: Bool = false,
-                collapseId: String) {
-        self.button = button
-        self.isExpanded = isExpanded
-        self.collapseId = collapseId
+    public init(isExpanded: Bool = false,
+                collapseId: String,
+                button: () -> Button) {
+        super.init {
+            button()
+                .class(insert: .accordionButton)
+                .class(insert: .collapsed, if: !isExpanded)
+                .type(.button)
+                .dataBsToggle(.collapse)
+                .dataBsTarget(collapseId)
+                .ariaExpanded(isExpanded)
+                .ariaControls(collapseId)
+        }
     }
 }
 
-extension AccordionButton: TagRepresentable {
+public class AccordionCollapse: Component {
 
-    @TagBuilder
-    public func build() -> Tag {
-        button
-            .class(add: .accordionButton)
-            .class(add: .collapsed, if: !isExpanded)
-            .type(.button)
-            .dataBsToggle(.collapse)
-            .dataBsTarget(collapseId)
-            .ariaExpanded(isExpanded)
-            .ariaControls(collapseId)
-            .merge(attributes)
+    /// children ... AccordionBody
+    public init(id: String,
+                accordionId: String,
+                headerId: String,
+                isExpanded: Bool = false,
+                isAlwaysOpen: Bool = false,
+                div: () -> Div) {
+        super.init {
+            div()
+                .id(id)
+                .class(insert: .accordionCollapse, .collapse)
+                .class(insert: .show, if: isExpanded)
+                .ariaLabelledBy(headerId)
+                .dataParent(accordionId, !isAlwaysOpen)
+        }
+    }
+}
+
+/// children ... Any
+public class AccordionBody: Component {
+        
+    public init(div: () -> Div) {
+        super.init {
+            div()
+                .class(insert: .accordionBody)
+        }
     }
 }

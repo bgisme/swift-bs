@@ -9,10 +9,6 @@ import SwiftHtml
 
 public class Modal: Component {
     
-    let div: Div
-    let isAnimated: Bool
-    let isBackdropStatic: Bool
-    
     public convenience init(id: String,
                             size: ModalDialog.Size? = nil,
                             isAnimated: Bool = true,
@@ -36,24 +32,15 @@ public class Modal: Component {
     public init(isAnimated: Bool = true,
                 isBackdropStatic: Bool = false,
                 div: () -> Div) {
-        self.isAnimated = isAnimated
-        self.isBackdropStatic = isBackdropStatic
-        self.div = div()
-    }
-}
-
-extension Modal: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: .modal)
-            .class(add: .fade, if: isAnimated)
-            .tabindex(-1)
-            .dataBsBackdrop(.static, isBackdropStatic)
-            .dataBsKeyboard(false, isBackdropStatic)
-            .ariaHidden(true)
-            .merge(attributes)
+        super.init {
+            div()
+                .class(insert: .modal)
+                .class(insert: .fade, if: isAnimated)
+                .tabindex(-1)
+                .dataBsBackdrop(.static, isBackdropStatic)
+                .dataBsKeyboard(false, isBackdropStatic)
+                .ariaHidden(true)
+        }
     }
 }
 
@@ -93,12 +80,7 @@ public class ModalDialog: Component {
             }
         }
     }
-    
-    let div: Div
-    let size: BsClass?
-    let isScrollable: Bool
-    let isCentered: Bool
-    
+        
     public convenience init(size: Size? = nil,
                             isScrollable: Bool = false,
                             isCentered: Bool = false,
@@ -118,80 +100,49 @@ public class ModalDialog: Component {
                 isScrollable: Bool = false,
                 isCentered: Bool = false,
                 div: () -> Div) {
-        self.size = size?.rawValue
-        self.isScrollable = isScrollable
-        self.isCentered = isCentered
-        self.div = div()
-    }
-}
-
-extension ModalDialog: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: .modalDialog)
-            .class(add: size, if: size != nil)
-            .class(add: .modalDialogScrollable, if: isScrollable)
-            .class(add: .modalDialogCentered, if: isCentered)
-            .merge(attributes)
+        super.init {
+            div()
+                .class(insert: .modalDialog)
+                .class(insert: size?.rawValue, if: size != nil)
+                .class(insert: .modalDialogScrollable, if: isScrollable)
+                .class(insert: .modalDialogCentered, if: isCentered)
+        }
     }
 }
 
 public class ModalContent: Component {
-    
-    let div: Div
-    
+        
     public init(_ div: () -> Div) {
-        self.div = div()
-    }
-}
-
-extension ModalContent: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: .modalContent)
-            .merge(attributes)
+        super.init {
+            div()
+                .class(insert: .modalContent)
+        }
     }
 }
 
 public class ModalHeader: Component {
-    
-    let div: Div
-    
+        
     public convenience init(_ text: String, isCloseable: Bool = true) {
         self.init {
             Div {
                 ModalTitle(text)
                 if isCloseable {
-                    CloseButton()
-                        .dataBsDismiss(.modal)
+                    CloseButton(dismiss: .modal)
                 }
             }
         }
     }
     
     public init(_ div: () -> Div) {
-        self.div = div()
-    }
-}
-
-extension ModalHeader: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: .modalHeader)
-            .merge(attributes)
+        super.init {
+            div()
+                .class(insert: .modalHeader)
+        }
     }
 }
 
 public class ModalTitle: Component {
-    
-    let h5: H5
-    
+        
     public convenience init(_ text: String) {
         self.init {
             H5(text)
@@ -199,24 +150,15 @@ public class ModalTitle: Component {
     }
     
     public init(_ h5: () -> H5) {
-        self.h5 = h5()
-    }
-}
-
-extension ModalTitle: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        h5
-            .class(add: .modalTitle)
-            .merge(attributes)
+        super.init {
+            h5()
+                .class(insert: .modalTitle)
+        }
     }
 }
 
 public class ModalBody: Component {
-    
-    let div: Div
-    
+        
     public convenience init(_ text: String) {
         self.init {
             Div {
@@ -226,33 +168,20 @@ public class ModalBody: Component {
     }
     
     public init(_ div: () -> Div) {
-        self.div = div()
-    }
-}
-
-extension ModalBody: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: .modalBody)
-            .merge(attributes)
+        super.init {
+            div()
+                .class(insert: .modalBody)
+        }
     }
 }
 
 public class ModalFooter: Component {
-    
-    let div: Div
-    
+        
     public convenience init(isCloseable: Bool, others: BsButton...) {
         self.init {
             Div {
                 if isCloseable {
-                    BsButton {
-                        Button("Close")
-                            .class(add: .btnSecondary)
-                            .dataBsDismiss(.modal)
-                    }
+                    CloseButton(dismiss: .modal)
                 }
                 for other in others {
                     other
@@ -262,16 +191,9 @@ public class ModalFooter: Component {
     }
     
     public init(_ div: () -> Div) {
-        self.div = div()
-    }
-}
-
-extension ModalFooter: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: .modalFooter)
-            .merge(attributes)
+        super.init {
+            div()
+                .class(insert: .modalFooter)
+        }
     }
 }

@@ -112,12 +112,6 @@ public class Dropdown: Component {
     public typealias IsMenuAlignResponsive = Bool
     public typealias IsDark = Bool
     
-    let direction: Direction
-    let menuAlign: MenuAlign?
-    let button: DropdownButton
-    let arrowButton: DropdownButtonArrow?
-    let menu: DropdownMenu
-    
     public convenience init(id: String,
                             isSplit: Bool = false,
                             direction: Direction = .down,
@@ -127,9 +121,9 @@ public class Dropdown: Component {
                             menu: (Id, IsDark, MenuAlign?) -> DropdownMenu) {
         let button = button(id, isSplit, direction, menuAlign)
         let arrowButton = isSplit ? DropdownButtonArrow(id: id) : nil
-        if let classes = button.value(.class)?.bsClasses {
+        if let classes = button.tag.value(.class)?.bsClasses {
             // so main button and arrow button match
-            arrowButton?.class(add: classes)
+            arrowButton?.class(insert: classes)
         }
         self.init(direction: direction,
                   menuAlign: menuAlign,
@@ -143,58 +137,44 @@ public class Dropdown: Component {
                 button: DropdownButton,
                 arrowButton: DropdownButtonArrow? = nil,
                 menu: DropdownMenu) {
-        self.direction = direction
-        self.menuAlign = menuAlign
-        self.button = button
-        self.arrowButton = arrowButton
-        self.menu = menu
-    }
-}
-
-extension Dropdown: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        if let arrowButton = arrowButton {
-            if direction != .start {
-                Div {
-                    button
-                    arrowButton
-                    menu
-                }
-                .class(add: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
-                .class(add: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
-                .merge(attributes)
-            } else {
-                Div {
+        super.init {
+            if let arrowButton = arrowButton {
+                if direction != .start {
                     Div {
-                        /// split buttons direction .start are ordered differently and inside extra button group
+                        button
                         arrowButton
                         menu
                     }
-                    .class(add: .btnGroup, .dropstart)
-                    .role(.group)
-                    button
+                    .class(insert: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
+                    .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
+                } else {
+                    Div {
+                        Div {
+                            /// split buttons direction .start are ordered differently and inside extra button group
+                            arrowButton
+                            menu
+                        }
+                        .class(insert: .btnGroup, .dropstart)
+                        .role(.group)
+                        button
+                    }
+                    .class(insert: .btnGroup)
                 }
-                .class(add: .btnGroup)
-                .merge(attributes)
+            } else {
+                /// non-split
+                Div {
+                    button
+                    menu
+                }
+                .class(insert: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
+                .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
             }
-        } else {
-            /// non-split
-            Div {
-                button
-                menu
-            }
-            .class(add: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
-            .class(add: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
-            .merge(attributes)
         }
     }
 }
 
 public class DropdownButton: Component {
     
-    private let tag: Tag
     let id: String
     let direction: Dropdown.Direction
     let isSplit: Bool
@@ -213,7 +193,7 @@ public class DropdownButton: Component {
             tag = Button(title)
         }
         let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
-        self.init(tag: tag, id: id, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive)
+        self.init(id: id, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive) { tag }
     }
     
     public convenience init(_ link: A,
@@ -222,7 +202,7 @@ public class DropdownButton: Component {
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil) {
         let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
-        self.init(tag: link, id: id, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive)
+        self.init(id: id, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive) { link }
     }
     
     public convenience init(_ button: Button,
@@ -231,91 +211,75 @@ public class DropdownButton: Component {
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil) {
         let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
-        self.init(tag: button, id: id, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive)
+        self.init(id: id, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive) { button }
     }
     
     // Only tags in convenience init()s allowed
-    internal required init(tag: Tag,
-                           id: String,
+    internal required init(id: String,
                            direction: Dropdown.Direction,
                            isSplit: Bool,
-                           isMenuAlignResponsive: Bool) {
-        self.tag = tag
+                           isMenuAlignResponsive: Bool,
+                           tag: () -> Tag) {
         self.id = id
         self.direction = direction
         self.isSplit = isSplit
         self.isMenuAlignResponsive = isMenuAlignResponsive
-    }
-}
-
-extension DropdownButton: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        /// split dropdowns have two buttons, non-split just one button
-        /// if isSplit will create a simple button or link without special properties
-        /// DropdownArrowButton has all the special properties
-        /// if NOT isSplit will create button or link with special properties
-        if let link = tag as? A {
-            if isSplit {
-                link
-                    .role(.button)
-                    .merge(attributes)
-            } else {
-                link
-                    .role(.button)
-                    .class(add: .btn, .dropdownToggle)
-                    .id(id)
-                    .dataBsToggle(.dropdown)
-                    .ariaExpanded(false)
-                    .dataBsDisplay(.static, isMenuAlignResponsive)
-                    .merge(attributes)
-            }
-        } else if let button = tag as? Button {
-            if isSplit {
-                button
-                    .type(.button)
-                    .class(add: .btn)
-                    .merge(attributes)
-            } else {
-                button
-                    .type(.button)
-                    .class(add: .btn, .dropdownToggle)
-                    .id(id) // not required for button groups
-                    .dataBsToggle(.dropdown)
-                    .ariaExpanded(false)
-                    .dataBsDisplay(.static, isMenuAlignResponsive)
-                    .merge(attributes)
+        let tag = tag()
+        super.init {
+            /// split dropdowns have two buttons, non-split just one button
+            /// if isSplit will create a simple button or link without special properties
+            /// DropdownArrowButton has all the special properties
+            /// if NOT isSplit will create button or link with special properties
+            if let link = tag as? A {
+                if isSplit {
+                    link
+                        .role(.button)
+        
+                } else {
+                    link
+                        .role(.button)
+                        .class(insert: .btn, .dropdownToggle)
+                        .id(id)
+                        .dataBsToggle(.dropdown)
+                        .ariaExpanded(false)
+                        .dataBsDisplay(.static, isMenuAlignResponsive)
+        
+                }
+            } else if let button = tag as? Button {
+                if isSplit {
+                    button
+                        .type(.button)
+                        .class(insert: .btn)
+                } else {
+                    button
+                        .type(.button)
+                        .class(insert: .btn, .dropdownToggle)
+                        .id(id) // not required for button groups
+                        .dataBsToggle(.dropdown)
+                        .ariaExpanded(false)
+                        .dataBsDisplay(.static, isMenuAlignResponsive)
+                }
             }
         }
     }
 }
 
 public class DropdownButtonArrow: Component {
-    
-    let id: String
-    
+        
     public init(id: String) {
-        self.id = id
-    }
-}
-
-extension DropdownButtonArrow: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        Button {
-            Span {
-                Text("Toggle Dropdown")
+        super.init {
+            Button {
+                Span {
+                    Text("Toggle Dropdown")
+                }
+                .class(insert: .visuallyHidden)
             }
-            .class(add: .visuallyHidden)
+            .type(.button)
+            .class(insert: .btn, .dropdownToggle, .dropdownToggleSplit)
+            .id(id) // not required for button groups
+            .dataBsToggle(.dropdown)
+            .ariaExpanded(false)
         }
-        .type(.button)
-        .class(add: .btn, .dropdownToggle, .dropdownToggleSplit)
-        .id(id) // not required for button groups
-        .dataBsToggle(.dropdown)
-        .ariaExpanded(false)
-        .merge(attributes)
     }
 }
 
@@ -324,55 +288,24 @@ public class DropdownMenu: Component {
     public typealias Title = String
     public typealias Href = String
         
-    let ul: Ul
-    let id: String
-    let isDark: Bool
-    let align: Dropdown.MenuAlign?
-    
-    public convenience init(toggler id: String,
-                            isDark: Bool = false,
-                            align: Dropdown.MenuAlign? = nil,
-                            @TagBuilder dropDownItems: () -> [Tag]) {
-        let ul = Ul { dropDownItems() }
-        self.init(ul, toggler: id, isDark: isDark, align: align)
-    }
-    
-    public init(_ ul: Ul,
-                toggler id: String,
+    public init(toggler id: String,
                 isDark: Bool = false,
-                align: Dropdown.MenuAlign? = nil) {
-        self.ul = ul
-        self.id = id
-        self.isDark = isDark
-        self.align = align
+                align: Dropdown.MenuAlign? = nil,
+                ul: () -> Ul) {
+        super.init {
+            ul()
+                .class(insert: .dropdownMenu)
+                .class(insert: .dropdownMenuDark, if: isDark)
+                .class(insert: align?.classes)
+                .ariaLabelledBy(id)
+        }
     }
 }
 
-extension DropdownMenu: TagRepresentable {
+public class DropdownMenuItem: Component {
     
-    @TagBuilder
-    public func build() -> Tag {
-        ul
-            .class(add: .dropdownMenu)
-            .class(add: .dropdownMenuDark, if: isDark)
-            .class(add: align?.classes)
-            .ariaLabelledBy(id)
-            .merge(attributes)
-    }
-}
-
-public class DropdownItem: Component {
-    
-    let tag: Tag?
-    let isActive: Bool
-    let isDisabled: Bool
-    
-    public static func divider() -> Self {
-        Self.init(tag: nil, isActive: false, isDisabled: false)
-    }
-    
-    public convenience init(nonInteractive tag: Span) {
-        self.init(tag: tag, isActive: false, isDisabled: false)
+    public convenience init(nonInteractive span: () -> Span) {
+        self.init(isActive: false, isDisabled: false, tag: span)
     }
     
     /// <A> or <Button> menu item
@@ -380,56 +313,48 @@ public class DropdownItem: Component {
                             href: String? = nil,
                             isActive: Bool = false,
                             isDisabled: Bool = false) {
-        let tag: Tag
-        if let href = href {
-            tag = A(title).href(href)
-        } else {
-            tag = Button(title)
-        }
-        self.init(tag: tag, isActive: isActive, isDisabled: isDisabled)
+        self.init(isActive: isActive, isDisabled: isDisabled, tag: {
+            if let href = href {
+                return A(title).href(href)
+            } else {
+                return Button(title)
+            }
+        })
     }
     
     /// <A> menu item
-    public convenience init(_ a: A, isActive: Bool = false, isDisabled: Bool = false) {
-        self.init(tag: a, isActive: isActive, isDisabled: isDisabled)
+    public convenience init(isActive: Bool = false, isDisabled: Bool = false, a: () -> A) {
+        self.init(isActive: isActive, isDisabled: isDisabled, tag: a)
     }
     
     /// <Button> menu item
-    public convenience init(_ button: Button, isActive: Bool = false, isDisabled: Bool = false) {
-        self.init(tag: button, isActive: isActive, isDisabled: isDisabled)
+    public convenience init(isActive: Bool = false, isDisabled: Bool = false, button: () -> Button) {
+        self.init(isActive: isActive, isDisabled: isDisabled, tag: button)
     }
     
     /// Only allow certain Tag
-    internal required init(tag: Tag?, isActive: Bool, isDisabled: Bool) {
-        self.tag = tag
-        self.isActive = isActive
-        self.isDisabled = isDisabled
-    }
-}
-
-extension DropdownItem: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        if let tag = tag {
+    internal required init(isActive: Bool, isDisabled: Bool, tag: () -> Tag) {
+        let tag = tag()
+        super.init {
             Li {
                 if let span = tag as? Span {
                     span
-                        .class(add: .dropdownItemText)
+                        .class(insert: .dropdownItemText)
                 } else {
                     tag
-                        .class(add: .dropdownItem)
-                        .class(add: .active, if: isActive)
+                        .class(insert: .dropdownItem)
+                        .class(insert: .active, if: isActive)
                         .ariaCurrent(isActive)
-                        .class(add: .disabled, if: isDisabled)
+                        .class(insert: .disabled, if: isDisabled)
                 }
             }
-            .merge(attributes)
-        } else {
-            // divider
-            Hr()
-                .class(add: .dropdownDivider)
-                .merge(attributes)
         }
+    }
+}
+
+public class DropdownMenuDivider: Component {
+    
+    public init() {
+        super.init { Hr().class(insert: .dropdownDivider) }
     }
 }

@@ -13,17 +13,22 @@ public enum AttributeKey: String {
     case ariaDisabled = "aria-disabled"
     case ariaLabel = "aria-label"
     case ariaLabelledBy = "aria-labelledby"
+    case ariaValuenow = "aria-valuenow"
+    case ariaValuemin = "aria-valuemin"
+    case ariaValuemax = "aria-valuemax"
     case `class`
     case dataParent = "data-bs-parent"
     case dataBsBackdrop = "data-bs-backdrop"
     case dataBsDisplay = "data-bs-display"
     case dataBsDismiss = "data-bs-dismiss"
+    case dataBsOffset = "data-bs-offset"
     case dataBsRide = "data-bs-ride"
     case dataBsScroll = "data-bs-scroll"
     case dataBsSlide = "data-bs-slide"
     case dataBsSlideTo = "data-bs-slide-to"
     case dataBsTarget = "data-bs-target"
     case dataBsToggle = "data-bs-toggle"
+    case dataBsSpy = "data-bs-spy"
     case disabled = "disabled"
     case grid
     case id

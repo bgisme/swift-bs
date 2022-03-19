@@ -34,11 +34,11 @@ final class CollapseTests: XCTestCase {
             CollapseContent(id: id, isMultiple: true) { content },
             CollapseContent(id: "collapseExample2", isMultiple: true) { content }
         ]
-        let tagC = CollapseButton(contentIds: multiContents.map{$0.id}) {
+        let tagC = CollapseButton(contentIds: multiContents.compactMap{$0.tag.value(.id)}) {
             Button("Multi-target")
         }.build()
         XCTAssert(tagC.value(.dataBsTarget) == "." + BsClass.multiCollapse.rawValue)
-        XCTAssert(tagC.value(.ariaControls) == multiContents.map{$0.id}.joined(separator: " "))
+        XCTAssert(tagC.value(.ariaControls) == multiContents.compactMap{$0.tag.value(.id)}.joined(separator: " "))
         let multiTags = multiContents.map{$0.build()}
         var isAllMultiCollapse = true
         for c in multiTags {

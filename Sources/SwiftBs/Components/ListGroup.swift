@@ -8,12 +8,7 @@
 import SwiftHtml
 
 public class ListGroup: Component {
-    
-    let tag: Tag
-    let isFlush: Bool
-    let isNumbered: Bool
-    let isHorizontal: Bool
-    
+        
     public convenience init(isFlush: Bool = false,
                             isNumbered: Bool = false,
                             isHorizontal: Bool = false,
@@ -39,32 +34,17 @@ public class ListGroup: Component {
                   isNumbered: Bool = false,
                   isHorizontal: Bool = false,
                   tag: () -> Tag) {
-        self.isFlush = isFlush
-        self.isNumbered = isNumbered
-        self.isHorizontal = isHorizontal
-        self.tag = tag()
-    }
-}
-
-extension ListGroup: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        tag
-            .class(add: .listGroup)
-            .class(add: .listGroupFlush, if: isFlush)
-            .class(add: .listGroupNumbered, if: isNumbered)
-            .class(add: .listGroupHorizontal, if: isHorizontal)
-            .merge(attributes)
+        super.init {
+            tag()
+                .class(insert: .listGroup)
+                .class(insert: .listGroupFlush, if: isFlush)
+                .class(insert: .listGroupNumbered, if: isNumbered)
+                .class(insert: .listGroupHorizontal, if: isHorizontal)
+        }
     }
 }
 
 public class ListGroupItem: Component {
-    
-    let tag: Tag
-    let isAction: Bool
-    let isActive: Bool
-    let isDisabled: Bool
     
     public convenience init(_ text: String,
                             isActive: Bool = false,
@@ -102,24 +82,14 @@ public class ListGroupItem: Component {
                   isActive: Bool,
                   isDisabled: Bool,
                   tag: () -> Tag) {
-        self.isAction = isAction
-        self.isActive = isActive
-        self.isDisabled = isDisabled
-        self.tag = tag()
-    }
-}
-
-extension ListGroupItem: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        tag
-            .class(add: .listGroupItem)
-            .class(add: .listGroupItemAction, if: isAction)
-            .class(add: .active, if: isActive)
-            .ariaCurrent(isActive)
-            .class(add: .disabled, if: isDisabled)
-            .ariaDisabled(isDisabled)
-            .merge(attributes)
+        super.init {
+            tag()
+                .class(insert: .listGroupItem)
+                .class(insert: .listGroupItemAction, if: isAction)
+                .class(insert: .active, if: isActive)
+                .ariaCurrent(isActive)
+                .class(insert: .disabled, if: isDisabled)
+                .ariaDisabled(isDisabled)
+        }
     }
 }

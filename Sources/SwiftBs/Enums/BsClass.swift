@@ -138,6 +138,8 @@ public enum BsClass: String {
     case carouselIndicators = "carousel-indicators"
     case carouselInner = "carousel-inner"
     case carouselItem = "carousel-item"
+    case carouselControlPrevIcon = "carousel-control-prev-icon"
+    case carouselControlNextIcon = "carousel-control-next-icon"
     
     case clearfix
     
@@ -1000,6 +1002,18 @@ public enum BsClass: String {
     case paginationLg = "pagination-lg"
     case paginationSm = "pagination-sm"
     
+    case placeholder
+    case placeholderGlow = "placeholder-glow"
+    case placeholderWave = "placeholder-wave"
+    case placeholderXs = "placeholder-xs"
+    case placeholderSm = "placeholder-sm"
+    case placeholderLg = "placeholder-lg"
+    
+    case progress
+    case progressbar
+    case progressBarStriped = "progress-bar-striped"
+    case progressBarAnimated = "progress-bar-animated"
+    
     case p0 = "p-0"
     case p1 = "p-1"
     case p2 = "p-2"
@@ -1398,6 +1412,7 @@ public enum BsClass: String {
     
     // MARK: - S
     case select
+    case scroll
     
     case show
     

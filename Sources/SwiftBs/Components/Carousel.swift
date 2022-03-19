@@ -9,14 +9,6 @@ import SwiftHtml
 
 public class Carousel: Component {
     
-    let id: String
-    let interval: Int?   // milliseconds... seconds * 1000
-    let isCrossFade: Bool
-    let isAutoplayDisabled: Bool
-    let isTouchDisabled: Bool
-    let isDark: Bool
-    let div: Div
-    
     public convenience init(id: String,
                             interval milliseconds: Int? = nil,
                             controls: Bool = false,
@@ -77,7 +69,7 @@ public class Carousel: Component {
                   isDark: isDark) {
             Div {
                 if let indicators = indicators {
-                    Div { indicators.map { $0 } }.class(add: .carouselIndicators)
+                    Div { indicators.map { $0 } }.class(insert: .carouselIndicators)
                 }
                 inner
                 if let controls = controls {
@@ -94,37 +86,22 @@ public class Carousel: Component {
                   isTouchDisabled: Bool,
                   isDark: Bool,
                   div: () -> Div) {
-        self.id = id
-        self.interval = !isAutoplayDisabled ? milliseconds : nil
-        self.isCrossFade = isCrossFade
-        self.isAutoplayDisabled = isAutoplayDisabled
-        self.isTouchDisabled = isTouchDisabled
-        self.isDark = isDark
-        self.div = div()
-    }
-}
-
-extension Carousel: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .id(id)
-            .class(add: .carousel, .slide)
-            .dataBsInterval(interval)
-            .class(add: .carouselFade, if: isCrossFade)
-            .class(add: .carouselDark, if: isDark)
-            .dataBsRide(.carousel)
-            .dataBsInterval(false, isAutoplayDisabled)
-            .dataBsTouch(false, isTouchDisabled)
-            .merge(attributes)
+        super.init {
+            div()
+                .id(id)
+                .class(insert: .carousel, .slide)
+                .dataBsInterval(milliseconds)
+                .class(insert: .carouselFade, if: isCrossFade)
+                .class(insert: .carouselDark, if: isDark)
+                .dataBsRide(.carousel)
+                .dataBsInterval(false, isAutoplayDisabled)
+                .dataBsTouch(false, isTouchDisabled)
+        }
     }
 }
 
 public class CarouselInner: Component {
-    
-    let div: Div
-    
+        
     public convenience init(_ items: [CarouselItem]) {
         self.init(div: {
             Div { items.map{$0} }
@@ -132,25 +109,14 @@ public class CarouselInner: Component {
     }
     
     public init(div: () -> Div) {
-        self.div = div()
-    }
-}
-
-extension CarouselInner: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: .carouselInner)
-            .merge(attributes)
+        super.init {
+            div()
+                .class(insert: .carouselInner)
+        }
     }
 }
 
 public class CarouselItem: Component {
-    
-    let div: Div
-    let isActive: Bool
-    let interval: Int?
     
     public convenience init(_ img: Img,
                             caption: CarouselCaption? = nil,
@@ -166,33 +132,18 @@ public class CarouselItem: Component {
         }
     }
     
-    public init(isActive: Bool = false, interval seconds: Int? = nil, div: () -> Div) {
-        self.isActive = isActive
-        if let seconds = seconds {
-            self.interval = seconds < Int.max / 1000 ? seconds * 1000 : Int.max
-        } else {
-            self.interval = nil
+    public init(isActive: Bool = false, interval milliseconds: Int? = nil, div: () -> Div) {
+        super.init {
+            div()
+                .class(insert: .carouselItem)
+                .class(insert: .active, if: isActive)
+                .dataBsInterval(milliseconds)
         }
-        self.div = div()
-    }
-}
-
-extension CarouselItem: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: .carouselItem)
-            .class(add: .active, if: isActive)
-            .dataBsInterval(interval)
-            .merge(attributes)
     }
 }
 
 public class CarouselCaption: Component {
-    
-    let div: Div
-    
+        
     public convenience init(_ title: String, _ text: String) {
         self.init {
             Div {
@@ -203,17 +154,10 @@ public class CarouselCaption: Component {
     }
     
     public init(_ div: () -> Div) {
-        self.div = div()
-    }
-}
-
-extension CarouselCaption: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: .carouselCaption)
-            .merge(attributes)
+        super.init {
+            div()
+                .class(insert: .carouselCaption)
+        }
     }
 }
 
@@ -224,35 +168,31 @@ public class CarouselControl: Component {
         case next
     }
     
-    let tag: Tag
-    let direction: Direction
-    let carouselId: String
-    
     public convenience init(_ direction: Direction, carouselId id: String) {
         let text: String
-        let icon: String
+        let icon: BsClass
         let controlDirection: BsClass
         switch direction {
         case .prev:
             text = "Previous"
-            icon = "carousel-control-prev-icon"
+            icon = .carouselControlPrevIcon
             controlDirection = .carouselControlPrev
         case .next:
             text = "Next"
-            icon = "carousel-control-next-icon"
+            icon = .carouselControlNextIcon
             controlDirection = .carouselControlNext
         }
-        self.init(direction: direction, carouselId: id) {
+        self.init(direction: direction, carouselId: id, tag: {
             Button {
                 Span()
-                    .class(add: icon)
+                    .class(insert: icon)
                     .ariaHidden(true)
                 Span(text)
-                    .class(add: .visuallyHidden)
+                    .class(insert: .visuallyHidden)
             }
             .type(.button)
-            .class(add: controlDirection)
-        }
+            .class(insert: controlDirection)
+        })
     }
     
     public convenience init(direction: Direction, carouselId id: String, button: () -> Button) {
@@ -264,29 +204,15 @@ public class CarouselControl: Component {
     }
     
     internal required init(direction: Direction, carouselId id: String, tag: () -> Tag) {
-        self.direction = direction
-        self.carouselId = id
-        self.tag = tag()
-    }
-}
-
-extension CarouselControl: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        tag
-            .dataBsTarget(carouselId)
-            .dataBsSlide(direction.rawValue)
-            .merge(attributes)
+        super.init {
+            tag()
+                .dataBsTarget(id)
+                .dataBsSlide(direction.rawValue)
+        }
     }
 }
 
 public class CarouselIndicator: Component {
-    
-    let button: Button
-    let index: Int
-    let isActive: Bool
-    let carouselId: String
     
     public static func batch(count: Int,
                              activeIndex: Int = 0,
@@ -302,26 +228,16 @@ public class CarouselIndicator: Component {
 
     public init(index: Int,
                 isActive: Bool = false,
-                carouselId: String,
+                carouselId id: String,
                 button: () -> Button) {
-        self.index = index
-        self.isActive = isActive
-        self.carouselId = carouselId
-        self.button = button()
-    }
-}
-
-extension CarouselIndicator: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        button
-            .type(.button)
-            .dataBsTarget(carouselId)
-            .dataBsSlideTo(String(index))
-            .ariaLabel("Slide \(index)")
-            .class(add: .active, if: isActive)
-            .ariaCurrent(isActive)
-            .merge(attributes)
+        super.init {
+            button()
+                .type(.button)
+                .dataBsTarget(id)
+                .dataBsSlideTo(String(index))
+                .ariaLabel("Slide \(index)")
+                .class(insert: .active, if: isActive)
+                .ariaCurrent(isActive)
+        }
     }
 }

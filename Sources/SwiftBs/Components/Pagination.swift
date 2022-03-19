@@ -14,38 +14,25 @@ public class Pagination: Component {
         case lg
     }
     
-    let ul: Ul
-    let size: BsClass?
-    
-    public init(size: Size? = nil, ul: () -> Ul) {
-        switch size {
+    public init(size s: Size? = nil, ul: () -> Ul) {
+        let size: BsClass?
+        switch s {
         case .sm:
-            self.size = .paginationSm
+            size = .paginationSm
         case .lg:
-            self.size = .paginationLg
+            size = .paginationLg
         default:
-            self.size = nil
+            size = nil
         }
-        self.ul = ul()
-    }
-}
-
-extension Pagination: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        ul
-            .class(add: .pagination)
-            .class(add: size)
-            .merge(attributes)
+        super.init {
+            ul()
+                .class(insert: .pagination)
+                .class(insert: size)
+        }
     }
 }
 
 public class PageItem: Component {
-    
-    let li: Li
-    let isActive: Bool
-    let isDisabled: Bool
     
     public convenience init(_ title: String,
                             href: String,
@@ -66,28 +53,16 @@ public class PageItem: Component {
     public init(isActive: Bool = false,
                 isDisabled: Bool = false,
                 li: () -> Li) {
-        self.isActive = isActive
-        self.isDisabled = isDisabled
-        self.li = li()
-    }
-}
-
-extension PageItem: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        li
-            .class(add: .pageItem)
-            .class(add: .active, if: isActive)
-            .class(add: .disabled, if: isDisabled)
-            .merge(attributes)
+        super.init {
+            li()
+                .class(insert: .pageItem)
+                .class(insert: .active, if: isActive)
+                .class(insert: .disabled, if: isDisabled)
+        }
     }
 }
 
 public class PageLink: Component {
-    
-    let a: A
-    let ariaLabel: String
     
     public convenience init(_ title: String,
                             href: String,
@@ -96,17 +71,10 @@ public class PageLink: Component {
     }
     
     public init(ariaLabel: String, a: () -> A) {
-        self.ariaLabel = ariaLabel
-        self.a = a()
-    }
-}
-
-extension PageLink: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        a
-            .class(add: .pageLink)
-            .merge(attributes)
+        super.init {
+            a()
+                .class(insert: .pageLink)
+                .ariaLabel(ariaLabel)
+        }
     }
 }

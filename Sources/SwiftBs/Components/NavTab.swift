@@ -23,13 +23,7 @@ public class NavTab: Component {
         case proportional
         case equal
     }
-    
-    let tag: Tag
-    let align: BsClass?
-    let verticals: [BsClass]?
-    let style: BsClass?
-    let width: BsClass?
-        
+            
     public convenience init(align: Align? = nil,
                             breakpoints: Breakpoint...,
                             style: Style? = nil,
@@ -59,14 +53,16 @@ public class NavTab: Component {
                   style: Style?,
                   width: Width?,
                   tag: () -> Tag) {
+        let alignment: BsClass?
         switch align {
         case .right:
-            self.align = .justifyContentEnd
+            alignment = .justifyContentEnd
         case .center:
-            self.align = .justifyContentCenter
+            alignment = .justifyContentCenter
         default:
-            self.align = nil
+            alignment = nil
         }
+        let verticals: [BsClass]?
         if !breakpoints.isEmpty {
             var classes: Set<BsClass> = [.flexColumn]
             _ = breakpoints.map {
@@ -85,48 +81,41 @@ public class NavTab: Component {
                     classes.insert(.flexXxlRow)
                 }
             }
-            self.verticals = Array(classes)
+            verticals = Array(classes)
         } else {
-            self.verticals = nil
+            verticals = nil
         }
+        let navStyle: BsClass?
         switch style {
         case .tabs:
-            self.style = .navTabs
+            navStyle = .navTabs
         case .pills:
-            self.style = .navPills
+            navStyle = .navPills
         default:
-            self.style = nil
+            navStyle = nil
         }
+        let spacing: BsClass?
         switch width {
         case .proportional:
-            self.width = .navFill
+            spacing = .navFill
         case .equal:
-            self.width = .navJustified
+            spacing = .navJustified
         default:
-            self.width = nil
+            spacing = nil
         }
-        self.tag = tag()
-    }
-}
-
-extension NavTab: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        tag
-            .class(add: .nav)
-            .class(add: align)
-            .class(add: verticals)
-            .class(add: style)
-            .class(add: width)
-            .merge(attributes)
+        super.init {
+            tag()
+                .class(insert: .nav)
+                .class(insert: alignment)
+                .class(insert: verticals)
+                .class(insert: navStyle)
+                .class(insert: spacing)
+        }
     }
 }
 
 public class NavItem: Component {
-    
-    let li: Li
-    
+        
     public convenience init(_ title: String,
                             href: String,
                             isActive: Bool = false,
@@ -139,52 +128,29 @@ public class NavItem: Component {
     }
     
     public init(li: () -> Li) {
-        self.li = li()
-    }
-}
-
-extension NavItem: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        li
-            .class(add: .navItem)
-            .merge(attributes)
+        super.init {
+            li()
+                .class(insert: .navItem)
+        }
     }
 }
 
 public class NavItemDropdown: Component {
     
     public typealias Id = String
-    
-    let li: Li
-    
+        
     public init(id: String, a: () -> A, menu: (Id) -> DropdownMenu) {
-        let li = Li {
-            NavLink(isDropdownToggle: true) { a().id(id) }
-            menu(id)
+        super.init {
+            Li {
+                NavLink(isDropdownToggle: true) { a().id(id) }
+                menu(id)
+            }
+            .class(insert: .navItem, .dropdown)
         }
-        self.li = li
-    }
-}
-
-extension NavItemDropdown: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        li
-            .class(add: .navItem, .dropdown)
-            .merge(attributes)
     }
 }
 
 public class NavLink: Component {
-    
-    let a: A
-    let isActive: Bool
-    let isDisabled: Bool
-    let isDropdownToggle: Bool
-    let alignFillClasses: [BsClass]?
     
     public convenience init(_ title: String,
                             href: String,
@@ -204,9 +170,6 @@ public class NavLink: Component {
                 aligns: [(Location, Breakpoint)]? = nil,
                 fills: [Breakpoint]? = nil,
                 a: () -> A) {
-        self.isActive = isActive
-        self.isDisabled = isDisabled
-        self.isDropdownToggle = isDropdownToggle
         var classes = Set<BsClass>()
         if let aligns = aligns {
             for (location, bp) in aligns {
@@ -277,24 +240,16 @@ public class NavLink: Component {
                 }
             }
         }
-        self.alignFillClasses = Array(classes)
-        self.a = a()
-    }
-}
-
-extension NavLink: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        a
-            .class(add: .navLink)
-            .class(add: .active, if: isActive)
-            .ariaCurrent(isActive)
-            .class(add: .disabled, if: isDisabled)
-            .class(add: .dropdownToggle, if: isDropdownToggle)
-            .dataBsToggle(.dropdown, isDropdownToggle)
-            .ariaExpanded(false, isDropdownToggle)
-            .class(add: alignFillClasses)
-            .merge(attributes)
+        super.init {
+            a()
+                .class(insert: .navLink)
+                .class(insert: .active, if: isActive)
+                .ariaCurrent(isActive)
+                .class(insert: .disabled, if: isDisabled)
+                .class(insert: .dropdownToggle, if: isDropdownToggle)
+                .dataBsToggle(.dropdown, isDropdownToggle)
+                .ariaExpanded(false, isDropdownToggle)
+                .class(insert: Array(classes))
+        }
     }
 }

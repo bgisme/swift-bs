@@ -16,133 +16,85 @@ public class Offcanvas: Component {
         case bottom
     }
     
-    let div: Div
-    let id: String
-    let placement: BsClass?
-    let isBackgroundScrollable: Bool
-    let isBackdropVisible: Bool
-    
     public init(id: String,
                 placement: Placement = .start,
                 isBackgroundScrollable: Bool = false,   // background not scrollable by default
                 isBackdropVisible: Bool = true,         // backdrop visible by default
                 div: () -> Div) {
-        self.id = id
+        let place: BsClass
         switch placement {
         case .start:
-            self.placement = .offcanvasTop
+            place = .offcanvasTop
         case .end:
-            self.placement = .offcanvasEnd
+            place = .offcanvasEnd
         case .top:
-            self.placement = .offcanvasTop
+            place = .offcanvasTop
         case .bottom:
-            self.placement = .offcanvasBottom
+            place = .offcanvasBottom
         }
-        self.isBackgroundScrollable = isBackgroundScrollable
-        self.isBackdropVisible = isBackdropVisible
-        self.div = div()
-    }
-}
-
-extension Offcanvas: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: .offcanvas)
-            .class(add: placement)
-            .tabindex(-1)
-            .id(id)
-            .ariaLabelledBy("\(id)Label")
-            .dataBsScroll(isBackgroundScrollable, isBackgroundScrollable)
-            .dataBsBackdrop(!isBackdropVisible, !isBackdropVisible)
-            .merge(attributes)
+        super.init {
+            div()
+                .class(insert: .offcanvas)
+                .class(insert: place)
+                .tabindex(-1)
+                .id(id)
+                .ariaLabelledBy("\(id)Label")
+                .dataBsScroll(isBackgroundScrollable, isBackgroundScrollable)
+                .dataBsBackdrop(!isBackdropVisible, !isBackdropVisible)
+        }
     }
 }
 
 public class OffcanvasHeader: Component {
-    
-    let div: Div
-    
+        
     public init(div: () -> Div) {
-        self.div = div()
-    }
-}
-
-extension OffcanvasHeader: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: .offcanvasHeader)
-            .merge(attributes)
+        super.init {
+            div()
+                .class(insert: .offcanvasHeader)
+        }
     }
 }
 
 public class OffcanvasTitle: Component {
-    
-    let h5: H5
-    let id: String
     
     public convenience init(_ text: String, offcanvasId id: String) {
         self.init(offcanvasId: id) { H5(text) }
     }
     
     public init(offcanvasId id: String, h5: () -> H5) {
-        self.id = id + "Label"
-        self.h5 = h5()
-    }
-}
-
-extension OffcanvasTitle: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        h5
-            .class(add: .offcanvasTitle)
-            .id(id)
-            .merge(attributes)
+        super.init {
+            h5()
+                .class(insert: .offcanvasTitle)
+                .id(id + "Label")
+        }
     }
 }
 
 public class OffcanvasBody: Component {
     
-    let div: Div
-    
     public init(div: () -> Div) {
-        self.div = div()
+        super.init {
+            div()
+                .class(insert: .offcanvasBody)
+        }
     }
 }
 
-extension OffcanvasBody: TagRepresentable {
+public class OffcanvasCloseButton: Component {
     
-    @TagBuilder
-    public func build() -> Tag {
-        div
-            .class(add: .offcanvasBody)
-            .merge(attributes)
+    public init() {
+        super.init {
+            Button()
+                .type(.button)
+                .class(insert: .btnClose, .textReset)
+                .dataBsDismiss(.offcanvas)
+                .ariaLabel("Close")
+        }
     }
-}
-
-public class OffcanvasCloseButton: Component { }
-
-extension OffcanvasCloseButton: TagRepresentable {
-
-    @TagBuilder
-    public func build() -> Tag {
-        Button()
-            .type(.button)
-            .class(add: .btnClose, .textReset)
-            .dataBsDismiss(.offcanvas)
-            .ariaLabel("Close")
-            .merge(attributes)
-    }
+    
 }
 
 public class OffcanvasButton: Component {
-    
-    let tag: Tag
-    let ariaControls: String
     
     public convenience init(offcanvasId id: String, ariaControls: String, a: () -> A) {
         self.init(ariaControls: ariaControls) {
@@ -161,19 +113,11 @@ public class OffcanvasButton: Component {
     }
     
     internal init(ariaControls: String, tag: () -> Tag) {
-        self.ariaControls = ariaControls
-        self.tag = tag()
-    }
-}
-
-extension OffcanvasButton: TagRepresentable {
-    
-    @TagBuilder
-    public func build() -> Tag {
-        tag
-            .class(add: .btn)
-            .dataBsToggle(.offcanvas)
-            .ariaControls(ariaControls)
-            .merge(attributes)
+        super.init {
+            tag()
+                .class(insert: .btn)
+                .dataBsToggle(.offcanvas)
+                .ariaControls(ariaControls)
+        }
     }
 }

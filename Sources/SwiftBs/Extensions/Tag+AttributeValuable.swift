@@ -22,12 +22,12 @@ extension Tag: AttributeValuable {
     }
 
     @discardableResult
-    public func `class`(add classes: BsClass?..., if condition: Bool = true) -> Self {
-        self.class(add: classes.compactMap{ $0 }, condition)
+    public func `class`(insert classes: BsClass?..., if condition: Bool = true) -> Self {
+        self.class(insert: classes.compactMap{ $0 }, condition)
     }
 
     @discardableResult
-    public func `class`(add classes: [BsClass]?, _ condition: Bool = true) -> Self {
+    public func `class`(insert classes: [BsClass]?, _ condition: Bool = true) -> Self {
         guard condition, let classes = classes, !classes.isEmpty else { return self }
         let value: String
         if let existing = self.value(.class) {
@@ -39,17 +39,17 @@ extension Tag: AttributeValuable {
     }
 
     @discardableResult
-    public func style(add styles: CssKeyValue?..., if condition: Bool = true) -> Self {
-        self.style(add: styles.compactMap{ $0 }, condition)
+    public func style(set styles: CssKeyValue?..., if condition: Bool = true) -> Self {
+        self.style(set: styles.compactMap{ $0 }, condition)
     }
 
     @discardableResult
-    public func style(add styles: [CssKeyValue]?, _ condition: Bool = true) -> Self {
-        style(add: styles?.map{ ($0.key, $0.value) }, condition)
+    public func style(set styles: [CssKeyValue]?, _ condition: Bool = true) -> Self {
+        style(set: styles?.map{ ($0.key, $0.value) }, condition)
     }
     
     @discardableResult
-    public func style(add styles: [(Key, Value)]?, _ condition: Bool = true) -> Self {
+    public func style(set styles: [(Key, Value)]?, _ condition: Bool = true) -> Self {
         guard condition, let styles = styles, !styles.isEmpty else { return self }
         let new: String
         if let value = value(.style) {
@@ -59,6 +59,9 @@ extension Tag: AttributeValuable {
         }
         return attribute(.style, new)
     }
+}
+
+extension Tag {
     
     @discardableResult
     public func ariaControls(_ value: BsClass?, _ condition: Bool = true) -> Self {
@@ -122,6 +125,21 @@ extension Tag: AttributeValuable {
     }
     
     @discardableResult
+    public func ariaValuenow(_ value: String?, _ condition: Bool = true) -> Self {
+        attr(.ariaValuenow, value, condition)
+    }
+    
+    @discardableResult
+    public func ariaValuemin(_ value: String?, _ condition: Bool = true) -> Self {
+        attr(.ariaValuemin, value, condition)
+    }
+
+    @discardableResult
+    public func ariaValuemax(_ value: String?, _ condition: Bool = true) -> Self {
+        attr(.ariaValuemax, value, condition)
+    }
+    
+    @discardableResult
     public func autoComplete(_ value: Bool?, _ condition: Bool = true) -> Self {
         attr(.autoComplete, String(value), condition)
     }
@@ -168,6 +186,11 @@ extension Tag: AttributeValuable {
     }
     
     @discardableResult
+    public func dataBsOffset(_ value: Int?, _ condition: Bool = true) -> Self {
+        attr(.dataBsOffset, String(value), condition)
+    }
+    
+    @discardableResult
     public func dataBsRide(_ value: BsClass?, _ condition: Bool = true) -> Self {
         attr(.dataBsRide, String(value), condition)
     }
@@ -187,6 +210,10 @@ extension Tag: AttributeValuable {
         attr(.dataBsSlideTo, value, condition)
     }
 
+    @discardableResult
+    public func dataBsSpy(_ value: BsClass?, _ condition: Bool = true) -> Self {
+        attr(.dataBsSpy, String(value), condition)
+    }
     
     @discardableResult
     public func dataBsTarget(_ value: BsClass?, prefix: AttributeValuePrefix = .hash, _ condition: Bool = true) -> Self {

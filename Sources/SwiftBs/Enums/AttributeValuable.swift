@@ -14,13 +14,13 @@ public protocol AttributeValuable {
         
     func attrFlag(_ key: AttributeKey, _ condition: Bool) -> Self
     
-    func `class`(add classes: BsClass?..., if condition: Bool) -> Self
+    func `class`(insert classes: BsClass?..., if condition: Bool) -> Self
     
-    func `class`(add classes: [BsClass]?, _ condition: Bool) -> Self
+    func `class`(insert classes: [BsClass]?, _ condition: Bool) -> Self
     
-    func style(add styles: CssKeyValue?..., if condition: Bool) -> Self
+    func style(set styles: CssKeyValue?..., if condition: Bool) -> Self
     
-    func style(add styles: [CssKeyValue]?, _ condition: Bool) -> Self
+    func style(set styles: [CssKeyValue]?, _ condition: Bool) -> Self
     
-    func style(add styles: [(Key, Value)]?, _ condition: Bool) -> Self
+    func style(set styles: [(Key, Value)]?, _ condition: Bool) -> Self
 }

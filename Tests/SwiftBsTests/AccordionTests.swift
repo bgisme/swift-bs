@@ -7,7 +7,7 @@ final class AlertTests: XCTestCase {
 //    func testAlertColor() throws {
 //        let doc = Document {
 //            Alert("This is a primary alert—check it out!")
-//            .class(add: .alertPrimary)
+//            .class(insert: .alertPrimary)
 //        }
 //        XCTAssertEqual(DocumentRenderer().render(doc), """
 //                            <div class="alert alert-primary" role="alert">
