@@ -92,6 +92,24 @@ public class CardHeader: Component {
 }
 
 public class CardBody: Component {
+    
+    public convenience init(_ title: String,
+                            subtitle: String? = nil,
+                            text: String? = nil,
+                            @TagBuilder links: () -> [Tag]) {
+        self.init {
+            Div {
+                CardTitle(title)
+                if let subtitle = subtitle {
+                    CardTitle(subtitle, isSubtitle: true)
+                }
+                if let text = text {
+                    CardText(text)
+                }
+                links()
+            }
+        }
+    }
         
     /// children ...
     /// CardTitle
@@ -107,6 +125,14 @@ public class CardBody: Component {
 
 /// Inside CardBody (can be either Title or Subtitle)
 public class CardTitle: Component {
+    
+    public convenience init(_ text: String, isSubtitle: Bool = false) {
+        if isSubtitle {
+            self.init(isSubtitle: isSubtitle, h6: { H6(text) })
+        } else {
+            self.init(isSubtitle: isSubtitle, h5: { H5(text) })
+        }
+    }
         
     public convenience init(isSubtitle: Bool = false, h1: () -> H1) {
         self.init(isSubtitle: isSubtitle, tag: h1)
@@ -141,6 +167,12 @@ public class CardTitle: Component {
 }
 
 public class CardText: Component {
+    
+    public convenience init(_ text: String) {
+        self.init {
+            P(text)
+        }
+    }
         
     public init(_ p: () -> P) {
         super.init {
