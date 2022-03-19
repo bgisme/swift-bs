@@ -77,10 +77,10 @@ public class CollapseContent: Component {
     }
     
     public init(orientation: Orientation = .vertical,
-                id: String,
-                isMultiple: Bool = false,
-                div: () -> Div) {
-        let div = div()
+                            id: String,
+                            isMultiple: Bool = false,
+                            @TagBuilder contents: () -> [Tag]) {
+        let div = Div { contents() }
         let isHorizontalCollapse: Bool
         switch orientation {
         case .horizontal(let width):
@@ -99,5 +99,5 @@ public class CollapseContent: Component {
                 .class(insert: .multiCollapse, if: isMultiple)
                 .id(id)
         }
-    }
+    }    
 }

@@ -34,7 +34,7 @@ public class Card: Component {
                             body: CardBody? = nil,
                             bottomImage: Img? = nil,
                             footer: CardFooter? = nil) {
-        self.init(div: {
+        self.init {
             Div {
                 if let header = header { header }
                 if let topImage = topImage { topImage }
@@ -42,13 +42,15 @@ public class Card: Component {
                 if let bottomImage = bottomImage { bottomImage }
                 if let footer = footer { footer }
             }
-        })
+        }
     }
         
-    public convenience init(@TagBuilder contents: () -> [Tag]) {
-        self.init(div: {
-            Div { contents() }
-        })
+    public init(@TagBuilder contents: () -> [Tag]) {
+        super.init {
+            Div {
+                contents()
+            }.class(insert: .card)
+        }
     }
     
     /// children ...
@@ -57,12 +59,12 @@ public class Card: Component {
     /// CardBody
     /// Img bottom
     /// CardFooter
-    public init(div: () -> Div) {
-        super.init {
-            div()
-                .class(insert: .card)
-        }
-    }
+//    public init(div: () -> Div) {
+//        super.init {
+//            div()
+//                .class(insert: .card)
+//        }
+//    }
 }
 
 public class CardImageOverlay: Component {
