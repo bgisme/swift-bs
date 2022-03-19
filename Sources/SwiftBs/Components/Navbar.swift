@@ -143,19 +143,16 @@ public class NavbarCollapse: Component {
 
 public class NavbarNav: Component {
     
-    public convenience init(scrollHeight pixels: Int? = nil, @TagBuilder olContents: () -> [Tag]) {
-        let ol = Ol { olContents() }
-        self.init(scrollHeight: pixels, tag: ol)
+    public convenience init(scrollHeight pixels: Int? = nil, ol: () -> Ol) {
+        self.init(scrollHeight: pixels, tag: ol())
     }
 
-    public convenience init(scrollHeight pixels: Int? = nil, @TagBuilder ulContents: () -> [Tag]) {
-        let ul = Ul { ulContents() }
-        self.init(scrollHeight: pixels, tag: ul)
+    public convenience init(scrollHeight pixels: Int? = nil, ul: () -> Ul) {
+        self.init(scrollHeight: pixels, tag: ul())
     }
     
-    public convenience init(scrollHeight pixels: Int? = nil, @TagBuilder divContents: () -> [Tag]) {
-        let div = Div { divContents() }
-        self.init(scrollHeight: pixels, tag: div)
+    public convenience init(scrollHeight pixels: Int? = nil, div: () -> Div) {
+        self.init(scrollHeight: pixels, tag: div())
     }
     
     /// for default scroll height ... use Int.max
