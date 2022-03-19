@@ -122,13 +122,7 @@ public class CardHeader: Component {
 
 public class CardBody: Component {
     
-    public convenience init(_ title: String? = nil,
-                            subtitle: String? = nil,
-                            text: String? = nil) {
-        self.init(title, subtitle: subtitle, text: text, links: {})
-    }
-    
-    public convenience init(_ title: String? = nil,
+    public convenience init(title: String? = nil,
                             subtitle: String? = nil,
                             text: String? = nil,
                             @TagBuilder links: () -> [Tag]) {
@@ -147,7 +141,7 @@ public class CardBody: Component {
             }
         })
     }
-        
+    
     public convenience init(@TagBuilder contents: () -> [Tag]) {
         self.init(div: {
             Div { contents() }
