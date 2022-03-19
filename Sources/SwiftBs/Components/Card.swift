@@ -122,19 +122,21 @@ public class CardHeader: Component {
 
 public class CardBody: Component {
     
-    public convenience init(_ title: String,
+    public convenience init(_ title: String? = nil,
                             subtitle: String? = nil,
                             text: String? = nil) {
         self.init(title, subtitle: subtitle, text: text, links: {})
     }
     
-    public convenience init(_ title: String,
+    public convenience init(_ title: String? = nil,
                             subtitle: String? = nil,
                             text: String? = nil,
                             @TagBuilder links: () -> [Tag]) {
         self.init(div: {
             Div {
-                CardTitle(title)
+                if let title = title {
+                    CardTitle(title)
+                }
                 if let subtitle = subtitle {
                     CardTitle(subtitle, isSubtitle: true)
                 }
