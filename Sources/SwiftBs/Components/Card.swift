@@ -54,6 +54,10 @@ public class CardImageOverlay: Component {
 }
 
 public class CardHeader: Component {
+    
+    public convenience init(_ text: String) {
+        self.init(tag: { Div(text) })
+    }
         
     public convenience init(h1: () -> H1) {
         self.init(tag: h1)
