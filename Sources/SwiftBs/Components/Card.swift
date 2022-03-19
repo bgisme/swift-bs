@@ -67,11 +67,11 @@ public class Card: Component {
 
 public class CardImageOverlay: Component {
     
-    public init(img: () -> Img, @TagBuilder contents: () -> [Tag]) {
+    public init(img: () -> Img, @TagBuilder card: () -> [Tag]) {
         super.init {
             img().class(insert: .cardImg)
             Div {
-                contents()
+                card()
             }
             .class(insert: .cardImgOverlay)
         }
