@@ -29,10 +29,20 @@ import SwiftHtml
 
 public class Card: Component {
     
-    public convenience init(@TagBuilder contents: () -> [Tag]) {
-        self.init(div: {
-            Div { contents() }
-        })
+    public convenience init(header: CardHeader? = nil,
+                            topImage: Img? = nil,
+                            body: CardBody? = nil,
+                            bottomImage: Img? = nil,
+                            footer: CardFooter? = nil) {
+        self.init {
+            Div {
+                if let header = header { header }
+                if let topImage = topImage { topImage }
+                if let body = body { body }
+                if let bottomImage = bottomImage { bottomImage }
+                if let footer = footer { footer }
+            }
+        }
     }
         
     /// children ...
@@ -193,6 +203,12 @@ public class CardText: Component {
 }
 
 public class CardLink: Component {
+    
+    public convenience init(_ title: String, href: String) {
+        self.init {
+            A(title).href(href)
+        }
+    }
         
     public init(_ a: () -> A) {
         super.init {
@@ -203,6 +219,12 @@ public class CardLink: Component {
 }
 
 public class CardFooter: Component {
+    
+    public convenience init(_ text: String) {
+        self.init {
+            Div(text)
+        }
+    }
         
     public init(div: () -> Div) {
         super.init {
