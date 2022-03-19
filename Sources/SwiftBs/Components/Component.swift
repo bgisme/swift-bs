@@ -15,6 +15,7 @@ public class Component: TagRepresentable {
         self.tag = tag()
     }
 
+    @discardableResult
     @TagBuilder
     public func build() -> Tag {
         tag
