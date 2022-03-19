@@ -32,7 +32,6 @@ public class Card: Component {
     public convenience init(_ header: CardHeader? = nil,
                             _ topImage: Img? = nil,
                             _ body: CardBody? = nil,
-                            @TagBuilder _ links: () -> [Tag],
                             _ bottomImage: Img? = nil,
                             _ footer: CardFooter? = nil) {
         self.init(div: {
@@ -40,7 +39,6 @@ public class Card: Component {
                 if let header = header { header }
                 if let topImage = topImage { topImage }
                 if let body = body { body }
-                links()
                 if let bottomImage = bottomImage { bottomImage }
                 if let footer = footer { footer }
             }
@@ -120,6 +118,12 @@ public class CardHeader: Component {
 }
 
 public class CardBody: Component {
+    
+    public convenience init(_ title: String,
+                            subtitle: String? = nil,
+                            text: String? = nil) {
+        self.init(title, subtitle: subtitle, text: text, links: {})
+    }
     
     public convenience init(_ title: String,
                             subtitle: String? = nil,
