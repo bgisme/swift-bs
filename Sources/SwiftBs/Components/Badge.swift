@@ -9,6 +9,14 @@ import SwiftHtml
 
 public class Badge: Component {
     
+    public convenience init(_ text: String,
+                            isPositioned: Bool = false,
+                            isRounded: Bool = false) {
+        self.init(isPositioned: isPositioned, isRounded: isRounded) {
+            Span(text)
+        }
+    }
+    
     public init(isPositioned: Bool = false, isRounded: Bool = false, span: () -> Span) {
         super.init {
             span()
