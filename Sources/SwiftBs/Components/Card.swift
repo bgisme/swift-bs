@@ -29,11 +29,11 @@ import SwiftHtml
 
 public class Card: Component {
     
-    public convenience init(_ header: CardHeader? = nil,
-                            _ topImage: Img? = nil,
-                            _ body: CardBody? = nil,
-                            _ bottomImage: Img? = nil,
-                            _ footer: CardFooter? = nil) {
+    public convenience init(header: CardHeader? = nil,
+                            topImage: Img? = nil,
+                            body: CardBody? = nil,
+                            bottomImage: Img? = nil,
+                            footer: CardFooter? = nil) {
         self.init(div: {
             Div {
                 if let header = header { header }
