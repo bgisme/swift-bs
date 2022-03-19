@@ -29,12 +29,12 @@ import SwiftHtml
 
 public class Card: Component {
     
-    public convenience init(header: CardHeader? = nil,
-                            topImage: Img? = nil,
-                            body: CardBody? = nil,
-                            @TagBuilder links: () -> [Tag],
-                            bottomImage: Img? = nil,
-                            footer: CardFooter? = nil) {
+    public convenience init(_ header: CardHeader? = nil,
+                            _ topImage: Img? = nil,
+                            _ body: CardBody? = nil,
+                            @TagBuilder _ links: () -> [Tag],
+                            _ bottomImage: Img? = nil,
+                            _ footer: CardFooter? = nil) {
         self.init(div: {
             Div {
                 if let header = header { header }
