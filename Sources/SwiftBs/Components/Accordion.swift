@@ -22,10 +22,10 @@
 import SwiftHtml
 
 public class Accordion: Component {
-
+    
     public typealias AccordionId = String
     public typealias IsAlwaysOpen = Bool
-
+    
     /// contents ... AccordionItems
     public init(id: String,
                 isFlush: Bool = false,
@@ -45,7 +45,7 @@ public class Accordion: Component {
 public class AccordionItem: Component {
     
     public init(header: () -> AccordionHeader,
-                            collapse: () -> AccordionCollapse) {
+                collapse: () -> AccordionCollapse) {
         super.init {
             Div {
                 header()
@@ -102,7 +102,7 @@ public class AccordionCollapse: Component {
 }
 
 public class AccordionBody: Component {
-        
+    
     public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
             Div {
