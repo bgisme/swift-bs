@@ -38,30 +38,10 @@ public class Carousel: Component {
                             isAutoplayDisabled: Bool = false,
                             isTouchDisabled: Bool = false,
                             isDark: Bool = false,
-                            @TagBuilder carouselItems items: () -> [Tag]) {
-        let cntrls = controls ? [CarouselControl(.prev, carouselId: id), CarouselControl(.next, carouselId: id)] : nil
-        let items = items()
-        let indctrs = indicators ? CarouselIndicator.batch(count: items.count, carouselId: id) : nil
-        self.init(id: id,
-                  interval: milliseconds,
-                  isCrossFade: isCrossFade,
-                  isAutoplayDisabled: isAutoplayDisabled,
-                  isTouchDisabled: isTouchDisabled,
-                  isDark: isDark,
-                  inner: { CarouselInner{ items }},
-                  controls: cntrls,
-                  indicators: indctrs)
-    }
-    
-    public convenience init(id: String,
-                            interval milliseconds: Int? = nil,
-                            isCrossFade: Bool = false,
-                            isAutoplayDisabled: Bool = false,
-                            isTouchDisabled: Bool = false,
-                            isDark: Bool = false,
-                            inner: () -> CarouselInner,
-                            controls: [CarouselControl]? = nil,
-                            indicators: [CarouselIndicator]? = nil) {
+                            @TagBuilder carouselItems: () -> [Tag]) {
+        let carouselItems = carouselItems()
+        let indicators = indicators ? CarouselIndicator.batch(count: carouselItems.count, carouselId: id) : nil
+        let controls = controls ? [CarouselControl(.prev, carouselId: id), CarouselControl(.next, carouselId: id)] : nil
         self.init(id: id,
                   interval: milliseconds,
                   isCrossFade: isCrossFade,
@@ -72,7 +52,7 @@ public class Carousel: Component {
             if let indicators = indicators {
                 Div { indicators.map { $0 } }.class(insert: .carouselIndicators)
             }
-            inner()
+            carouselItems
             if let controls = controls {
                 controls.map { $0 }
             }
