@@ -26,7 +26,7 @@ public class Accordion: Component {
     public typealias AccordionId = String
     public typealias IsAlwaysOpen = Bool
 
-    /// children ... AccordionItem
+    /// contents ... AccordionItems
     public init(id: String,
                 isFlush: Bool = false,
                 isAlwaysOpen: Bool = false,
@@ -44,73 +44,53 @@ public class Accordion: Component {
 
 public class AccordionItem: Component {
     
-    public convenience init(header: () -> AccordionHeader,
+    public init(header: () -> AccordionHeader,
                             collapse: () -> AccordionCollapse) {
-        self.init {
-            header()
-            collapse()
-        }
-    }
-
-    /// children ... AccordionHeader, AccordionCollapse
-    public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
             Div {
-                contents()
+                header()
+                collapse()
             }
             .class(insert: .accordionItem)
         }
     }
 }
 
-/// children ... AccordionButton
 public class AccordionHeader: Component {
     
-    public convenience init(_ text: String, id: String) {
-        self.init(id: text) {
-            H2(text)
-        }
-    }
-    
-    public init(id: String, h2: () -> H2) {
-        super.init {
-            h2()
-                .class(insert: .accordionHeader)
-                .id(id)
-        }
-    }
-}
-
-public class AccordionButton: Component {
-
-    public init(isExpanded: Bool = false,
+    public init(_ text: String,
+                id: String,
                 collapseId: String,
-                button: () -> Button) {
+                index: Int,
+                isExpanded: Bool = false) {
         super.init {
-            button()
-                .class(insert: .accordionButton)
-                .class(insert: .collapsed, if: !isExpanded)
-                .type(.button)
-                .dataBsToggle(.collapse)
-                .dataBsTarget(collapseId)
-                .ariaExpanded(isExpanded)
-                .ariaControls(collapseId)
+            H2 {
+                Button(text)
+                    .class(insert: .accordionButton)
+                    .class(insert: .collapsed, if: !isExpanded)
+                    .type(.button)
+                    .dataBsToggle(.collapse)
+                    .dataBsTarget(collapseId)
+                    .ariaExpanded(isExpanded)
+                    .ariaControls(collapseId)
+            }
+            .class(insert: .accordionHeader)
+            .id(id)
         }
     }
 }
 
 public class AccordionCollapse: Component {
-
-    /// children ... AccordionBody
+    
     public init(id: String,
                 accordionId: String,
                 headerId: String,
                 isExpanded: Bool = false,
                 isAlwaysOpen: Bool = false,
-                @TagBuilder contents: () -> [Tag]) {
+                accordionBody: () -> AccordionBody) {
         super.init {
             Div {
-                contents()
+                accordionBody()
             }
             .id(id)
             .class(insert: .accordionCollapse, .collapse)
@@ -121,7 +101,6 @@ public class AccordionCollapse: Component {
     }
 }
 
-/// children ... Any
 public class AccordionBody: Component {
         
     public init(@TagBuilder contents: () -> [Tag]) {
