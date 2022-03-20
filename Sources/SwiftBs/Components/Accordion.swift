@@ -30,12 +30,14 @@ public class Accordion: Component {
     public init(id: String,
                 isFlush: Bool = false,
                 isAlwaysOpen: Bool = false,
-                div: (AccordionId, IsAlwaysOpen) -> Div) {
+                @TagBuilder contents: (AccordionId, IsAlwaysOpen) -> [Tag]) {
         super.init {
-            div(id, isAlwaysOpen)
-                .class(insert: .accordion)
-                .id(id)
-                .class(insert: .accordionFlush, if: isFlush)
+            Div {
+                contents(id, isAlwaysOpen)
+            }
+            .class(insert: .accordion)
+            .id(id)
+            .class(insert: .accordionFlush, if: isFlush)
         }
     }
 }
@@ -43,16 +45,24 @@ public class Accordion: Component {
 public class AccordionItem: Component {
 
     /// children ... AccordionHeader, AccordionCollapse
-    public init(_ div: () -> Div) {
+    public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
-            div()
-                .class(insert: .accordionItem)
+            Div {
+                contents()
+            }
+            .class(insert: .accordionItem)
         }
     }
 }
 
 /// children ... AccordionButton
 public class AccordionHeader: Component {
+    
+    public convenience init(_ text: String, id: String) {
+        self.init(id: text) {
+            H2(text)
+        }
+    }
     
     public init(id: String, h2: () -> H2) {
         super.init {
@@ -89,14 +99,16 @@ public class AccordionCollapse: Component {
                 headerId: String,
                 isExpanded: Bool = false,
                 isAlwaysOpen: Bool = false,
-                div: () -> Div) {
+                @TagBuilder contents: () -> [Tag]) {
         super.init {
-            div()
-                .id(id)
-                .class(insert: .accordionCollapse, .collapse)
-                .class(insert: .show, if: isExpanded)
-                .ariaLabelledBy(headerId)
-                .dataParent(accordionId, !isAlwaysOpen)
+            Div {
+                contents()
+            }
+            .id(id)
+            .class(insert: .accordionCollapse, .collapse)
+            .class(insert: .show, if: isExpanded)
+            .ariaLabelledBy(headerId)
+            .dataParent(accordionId, !isAlwaysOpen)
         }
     }
 }
@@ -104,10 +116,12 @@ public class AccordionCollapse: Component {
 /// children ... Any
 public class AccordionBody: Component {
         
-    public init(div: () -> Div) {
+    public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
-            div()
-                .class(insert: .accordionBody)
+            Div {
+                contents()
+            }
+            .class(insert: .accordionBody)
         }
     }
 }

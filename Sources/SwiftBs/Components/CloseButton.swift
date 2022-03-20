@@ -12,7 +12,7 @@ public class CloseButton: Component {
     let isDisabled: Bool
     let isWhite: Bool
     
-    public init(dismiss: BsClass, isDisabled: Bool = false, isWhite: Bool = false) {
+    public init(dismiss: BsClass? = nil, isDisabled: Bool = false, isWhite: Bool = false) {
         self.isDisabled = isDisabled
         self.isWhite = isWhite
         super.init {

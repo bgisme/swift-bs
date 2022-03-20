@@ -9,19 +9,6 @@ import SwiftHtml
 
 public class BsButton: Component {
     
-    public convenience init(_ title: String,
-                            isToggle: Bool = false,
-                            isPressed: Bool = false,
-                            isDisabled: Bool = false,
-                            isActive: Bool = false) {
-        self.init(isToggle: isToggle,
-                  isPressed: isPressed,
-                  isDisabled: isDisabled,
-                  isActive: isActive) {
-            Button(title)
-        }
-    }
-    
     public convenience init(isToggle: Bool = false,
                             isPressed: Bool = false,
                             isDisabled: Bool = false,

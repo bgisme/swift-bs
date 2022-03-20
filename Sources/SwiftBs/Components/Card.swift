@@ -43,6 +43,12 @@ public class Card: Component {
         }
     }
         
+    /// children ...
+    /// CardHeader
+    /// Img top
+    /// CardBody
+    /// Img bottom
+    /// CardFooter
     public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
             Div {
@@ -50,19 +56,6 @@ public class Card: Component {
             }.class(insert: .card)
         }
     }
-    
-    /// children ...
-    /// CardHeader
-    /// Img top
-    /// CardBody
-    /// Img bottom
-    /// CardFooter
-//    public init(div: () -> Div) {
-//        super.init {
-//            div()
-//                .class(insert: .card)
-//        }
-//    }
 }
 
 public class CardImageOverlay: Component {
@@ -126,7 +119,7 @@ public class CardBody: Component {
                             subtitle: String? = nil,
                             text: String? = nil,
                             @TagBuilder links: () -> [Tag]) {
-        self.init(div: {
+        self.init {
             Div {
                 if let title = title {
                     CardTitle(title)
@@ -139,23 +132,19 @@ public class CardBody: Component {
                 }
                 links()
             }
-        })
+        }
     }
-    
-    public convenience init(@TagBuilder contents: () -> [Tag]) {
-        self.init(div: {
-            Div { contents() }
-        })
-    }
-    
+        
     /// children ...
     /// CardTitle
     /// CardText
     /// A  A  A
-    public init(div: () -> Div) {
+    public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
-            div()
-                .class(insert: .cardBody)
+            Div {
+                contents()
+            }
+            .class(insert: .cardBody)
         }
     }
 }
