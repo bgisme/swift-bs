@@ -10,9 +10,10 @@ import SwiftSvg
 
 public class Alert: Component {
         
-    /// children ... Img, AlertHeading, Any
-    /// use isAlignCenter to align Img and other children
-    public init(isAlignedCenter: Bool = false, @TagBuilder contents: () -> [Tag]) {
+    /// contents ... Img, AlertHeading, Any
+    /// isAlignCenter aligns Img and other contents
+    public init(isAlignedCenter: Bool = false,
+                @TagBuilder contents: () -> [Tag]) {
         super.init {
             Div {
                 contents()

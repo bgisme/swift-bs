@@ -10,7 +10,7 @@
     Breadcrumb
         BreadcrumbList
             BreadcrumbItem
- 
+            BreadcrumbItem
  */
 
 import SwiftHtml
@@ -21,14 +21,17 @@ public class Breadcrumb: Component {
     public static let breadcrumbArrow = "url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;)"
     public static let breadcrumbDividerRemoved = "''"
         
-    /// children ... BreadcrumbList
-    public init(divider: String?, @TagBuilder contents: () -> [Tag]) {
+    public init(divider: String?, breadcrumbList: () -> BreadcrumbList) {
         super.init {
             if let divider = divider {
-                Nav { contents() }
-                    .style(set: CssKeyValue(Self.breadcrumbDividerKey, divider))
+                Nav {
+                    breadcrumbList()
+                }
+                .style(set: CssKeyValue(Self.breadcrumbDividerKey, divider))
             } else {
-                Nav { contents() }
+                Nav {
+                    breadcrumbList()
+                }
             }
         }
     }
@@ -36,11 +39,11 @@ public class Breadcrumb: Component {
 
 public class BreadcrumbList: Component {
         
-    /// children ... BreadcrumbListItem
-    public init(@TagBuilder contents: () -> [Tag]) {
+    /// contents ... BreadcrumbListItems
+    public init(@TagBuilder breadcrumbListItems: () -> [Tag]) {
         super.init {
             Ol {
-                contents()
+                breadcrumbListItems()
             }
             .class(insert: .breadcrumb)
         }
@@ -49,7 +52,9 @@ public class BreadcrumbList: Component {
 
 public class BreadcrumbListItem: Component {
             
-    public init(isActive: Bool = false, @TagBuilder contents: () -> [Tag]) {
+    /// contents ... anything
+    public init(isActive: Bool = false,
+                @TagBuilder contents: () -> [Tag]) {
         super.init {
             Li {
                 contents()

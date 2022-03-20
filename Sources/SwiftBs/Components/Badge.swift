@@ -17,7 +17,9 @@ public class Badge: Component {
         }
     }
     
-    public init(isPositioned: Bool = false, isRounded: Bool = false, span: () -> Span) {
+    public init(isPositioned: Bool = false,
+                isRounded: Bool = false,
+                span: () -> Span) {
         super.init {
             span()
                 .class(insert: .badge)

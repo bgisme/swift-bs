@@ -20,11 +20,11 @@ import SwiftHtml
 
 public class ButtonGroupToolbar: Component {
     
-    /// children ... ButtonGroup
-    public init(ariaLabel: String, @TagBuilder contents: () -> [Tag]) {
+    /// contents ... ButtonGroups
+    public init(ariaLabel: String, @TagBuilder buttonGroups: () -> [Tag]) {
         super.init {
             Div {
-                contents()
+                buttonGroups()
             }
             .class(insert: .btnToolbar)
             .role(.toolbar)
@@ -35,11 +35,11 @@ public class ButtonGroupToolbar: Component {
 
 public class ButtonGroup: Component {
     
-    /// children ... BsButton
-    public init(ariaLabel: String, isVertical: Bool = false, @TagBuilder contents: () -> [Tag]) {
+    /// contents ... Buttons
+    public init(ariaLabel: String, isVertical: Bool = false, @TagBuilder buttons: () -> [Tag]) {
         super.init {
             Div {
-                contents()
+                buttons()
             }
             .class(insert: isVertical ? .btnGroupVertical : .btnGroup)
             .role(.group)

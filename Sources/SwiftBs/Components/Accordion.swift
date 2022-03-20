@@ -26,14 +26,13 @@ public class Accordion: Component {
     public typealias AccordionId = String
     public typealias IsAlwaysOpen = Bool
     
-    /// contents ... AccordionItems
     public init(id: String,
                 isFlush: Bool = false,
                 isAlwaysOpen: Bool = false,
-                @TagBuilder contents: (AccordionId, IsAlwaysOpen) -> [Tag]) {
+                @TagBuilder accordionItems: (AccordionId, IsAlwaysOpen) -> [Tag]) {
         super.init {
             Div {
-                contents(id, isAlwaysOpen)
+                accordionItems(id, isAlwaysOpen)
             }
             .class(insert: .accordion)
             .id(id)
@@ -103,6 +102,7 @@ public class AccordionCollapse: Component {
 
 public class AccordionBody: Component {
     
+    /// contents ... anything
     public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
             Div {
