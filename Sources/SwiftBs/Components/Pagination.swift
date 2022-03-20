@@ -14,7 +14,9 @@ public class Pagination: Component {
         case lg
     }
     
-    public init(size s: Size? = nil, ul: () -> Ul) {
+    public init(ariaLabel: String,
+                size s: Size? = nil,
+                @TagBuilder pageItems: () -> [Tag]) {
         let size: BsClass?
         switch s {
         case .sm:
@@ -25,9 +27,14 @@ public class Pagination: Component {
             size = nil
         }
         super.init {
-            ul()
+            Nav {
+                Ul {
+                    
+                }
                 .class(insert: .pagination)
                 .class(insert: size)
+            }
+            .ariaLabel(ariaLabel)
         }
     }
 }
@@ -39,25 +46,17 @@ public class PageItem: Component {
                             ariaLabel: String,
                             isActive: Bool = false,
                             isDisabled: Bool = false) {
-        self.init(isActive: isActive, isDisabled: isDisabled, contents: {
+        self.init(isActive: isActive, isDisabled: isDisabled) {
             PageLink(title, href: href, ariaLabel: ariaLabel)
-        })
-    }
-    
-    public convenience init(isActive: Bool = false,
-                            isDisabled: Bool = false,
-                            pageLink: () -> PageLink) {
-        self.init(isActive: isActive, isDisabled: isDisabled, contents: {
-            pageLink()
-        })
+        }
     }
     
     public init(isActive: Bool = false,
                 isDisabled: Bool = false,
-                @TagBuilder contents: () -> [Tag]) {
+                pageLink: () -> PageLink) {
         super.init {
             Li {
-                contents()
+                pageLink()
             }
             .class(insert: .pageItem)
             .class(insert: .active, if: isActive)
