@@ -22,13 +22,13 @@ public class Breadcrumb: Component {
     public static let breadcrumbDividerRemoved = "''"
         
     /// children ... BreadcrumbList
-    public init(divider: String?, nav: () -> Nav) {
+    public init(divider: String?, @TagBuilder contents: () -> [Tag]) {
         super.init {
             if let divider = divider {
-                nav()
+                Nav { contents() }
                     .style(set: CssKeyValue(Self.breadcrumbDividerKey, divider))
             } else {
-                nav()
+                Nav { contents() }
             }
         }
     }
@@ -37,21 +37,25 @@ public class Breadcrumb: Component {
 public class BreadcrumbList: Component {
         
     /// children ... BreadcrumbListItem
-    public init(ol: () -> Ol) {
+    public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
-            ol()
-                .class(insert: .breadcrumb)
+            Ol {
+                contents()
+            }
+            .class(insert: .breadcrumb)
         }
     }
 }
 
 public class BreadcrumbListItem: Component {
             
-    public init(isActive: Bool = false, li: () -> Li) {
+    public init(isActive: Bool = false, @TagBuilder contents: () -> [Tag]) {
         super.init {
-            li()
-                .class(insert: .breadcrumbItem)
-                .class(insert: .active, if: isActive)
+            Li {
+                contents()
+            }
+            .class(insert: .breadcrumbItem)
+            .class(insert: .active, if: isActive)
         }
     }
 }
