@@ -39,25 +39,29 @@ public class PageItem: Component {
                             ariaLabel: String,
                             isActive: Bool = false,
                             isDisabled: Bool = false) {
-        self.init(isActive: isActive, isDisabled: isDisabled) {
-            Li { PageLink(title, href: href, ariaLabel: ariaLabel) }
-        }
+        self.init(isActive: isActive, isDisabled: isDisabled, contents: {
+            PageLink(title, href: href, ariaLabel: ariaLabel)
+        })
     }
     
     public convenience init(isActive: Bool = false,
                             isDisabled: Bool = false,
                             pageLink: () -> PageLink) {
-        self.init(isActive: isActive, isDisabled: isDisabled) { Li { pageLink() } }
+        self.init(isActive: isActive, isDisabled: isDisabled, contents: {
+            pageLink()
+        })
     }
     
     public init(isActive: Bool = false,
                 isDisabled: Bool = false,
-                li: () -> Li) {
+                @TagBuilder contents: () -> [Tag]) {
         super.init {
-            li()
-                .class(insert: .pageItem)
-                .class(insert: .active, if: isActive)
-                .class(insert: .disabled, if: isDisabled)
+            Li {
+                contents()
+            }
+            .class(insert: .pageItem)
+            .class(insert: .active, if: isActive)
+            .class(insert: .disabled, if: isDisabled)
         }
     }
 }

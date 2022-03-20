@@ -23,36 +23,19 @@ public class NavTab: Component {
         case proportional
         case equal
     }
-            
-    public convenience init(align: Align? = nil,
-                            breakpoints: Breakpoint...,
-                            style: Style? = nil,
-                            width: Width? = nil,
-                            nav: () -> Nav) {
-        self.init(align: align, breakpoints: breakpoints, style: style, width: width, tag: { nav() })
+    
+    public enum TagType {
+        case nav
+        case ol
+        case ul
     }
     
-    public convenience init(align: Align? = nil,
-                            breakpoints: Breakpoint...,
-                            style: Style? = nil,
-                            width: Width? = nil,
-                            ol: () -> Ol) {
-        self.init(align: align, breakpoints: breakpoints, style: style, width: width, tag: { ol() })
-    }
-    
-    public convenience init(align: Align? = nil,
-                            breakpoints: Breakpoint...,
-                            style: Style? = nil,
-                            width: Width? = nil,
-                            ul: () -> Ul) {
-        self.init(align: align, breakpoints: breakpoints, style: style, width: width, tag: { ul() })
-    }
-    
-    internal init(align: Align?,
-                  breakpoints: [Breakpoint],
-                  style: Style?,
-                  width: Width?,
-                  tag: () -> Tag) {
+    public init(align: Align? = nil,
+                breakpoints: Breakpoint...,
+                style: Style? = nil,
+                width: Width? = nil,
+                type: TagType,
+                @TagBuilder contents: () -> [Tag]) {
         let alignment: BsClass?
         switch align {
         case .right:
@@ -103,8 +86,17 @@ public class NavTab: Component {
         default:
             spacing = nil
         }
+        let tag: Tag
+        switch type {
+        case .nav:
+            tag = Nav { contents() }
+        case .ol:
+            tag = Ol { contents() }
+        case .ul:
+            tag = Ul { contents() }
+        }
         super.init {
-            tag()
+            tag
                 .class(insert: .nav)
                 .class(insert: alignment)
                 .class(insert: verticals)
@@ -121,16 +113,17 @@ public class NavItem: Component {
                             isActive: Bool = false,
                             isDisabled: Bool = false) {
         self.init {
-            Li {
-                NavLink(title, href: href, isActive: isActive, isDisabled: isDisabled)
-            }
+            NavLink(title, href: href, isActive: isActive, isDisabled: isDisabled)
         }
     }
     
-    public init(li: () -> Li) {
+    /// contents ... anything (usually <a>)
+    public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
-            li()
-                .class(insert: .navItem)
+            Li {
+                contents()
+            }
+            .class(insert: .navItem)
         }
     }
 }
@@ -139,7 +132,8 @@ public class NavItemDropdown: Component {
     
     public typealias Id = String
         
-    public init(id: String, a: () -> A, menu: (Id) -> DropdownMenu) {
+    public init(id: String, a: () -> A,
+                menu: (Id) -> DropdownMenu) {
         super.init {
             Li {
                 NavLink(isDropdownToggle: true) { a().id(id) }
@@ -159,7 +153,11 @@ public class NavLink: Component {
                             isDropdownToggle: Bool = false,
                             aligns: [(Location, Breakpoint)]? = nil,
                             fills: Set<Breakpoint>? = nil) {
-        self.init(isActive: isActive, isDisabled: isDisabled) {
+        self.init(isActive: isActive,
+                  isDisabled: isDisabled,
+                  isDropdownToggle: isDropdownToggle,
+                  aligns: aligns,
+                  fills: fills) {
             A(title).href(href)
         }
     }
@@ -168,7 +166,7 @@ public class NavLink: Component {
                 isDisabled: Bool = false,
                 isDropdownToggle: Bool = false,
                 aligns: [(Location, Breakpoint)]? = nil,
-                fills: [Breakpoint]? = nil,
+                fills: Set<Breakpoint>? = nil,
                 a: () -> A) {
         var classes = Set<BsClass>()
         if let aligns = aligns {

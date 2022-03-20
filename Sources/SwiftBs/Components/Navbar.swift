@@ -12,10 +12,11 @@ public class Navbar: Component {
     public enum Placement {
         case fixedTop
         case fixedBottom
-        case stickyTop  //! May not be supported by every browser
+        case stickyTop  // May not be supported by every browser
     }
     
     /// collapseBelow = nil ... auto-collapses behind toggler button
+    /// contents ... NavbarContainer
     public init(placement place: Placement? = nil,
                 collapseAt breakpoint: Breakpoint? = nil,
                 @TagBuilder contents: () -> [Tag]) {
@@ -59,6 +60,9 @@ public class Navbar: Component {
 public class NavbarContainer: Component {
     
     /// isFluid: false if NavbarBrand is just an image and no text
+    /// contents ...
+    /// NavbarBrand
+    /// NavbarToggler
     public init(isFluid: Bool = true, @TagBuilder contents: () -> [Tag]) {
         super.init {
             Div {
@@ -71,12 +75,12 @@ public class NavbarContainer: Component {
 
 public class NavbarBrand: Component {
         
-    public convenience init(_ title: String, href: String? = nil) {
-        if let href = href {
-            self.init { A(title).href(href) }
-        } else {
-            self.init { Span(title).class(insert: .mb0, .h1) }
-        }
+    public convenience init(_ title: String, href: String) {
+        self.init { A(title).href(href) }
+    }
+    
+    public convenience init(_ title: String) {
+        self.init { Span(title) }
     }
     
     public convenience init(span: () -> Span) {
@@ -130,7 +134,11 @@ public class NavbarToggler: Component {
 
 public class NavbarCollapse: Component {
     
-    public init(togglerId id: String, @TagBuilder contents: () -> [Tag]) {
+    /// contents ...
+    /// NavbarNav
+    /// anything
+    public init(togglerId id: String,
+                @TagBuilder contents: () -> [Tag]) {
         super.init {
             Div {
                 contents()
@@ -143,20 +151,24 @@ public class NavbarCollapse: Component {
 
 public class NavbarNav: Component {
     
-    public convenience init(scrollHeight pixels: Int? = nil, ol: () -> Ol) {
-        self.init(scrollHeight: pixels, tag: ol())
-    }
-
-    public convenience init(scrollHeight pixels: Int? = nil, ul: () -> Ul) {
-        self.init(scrollHeight: pixels, tag: ul())
+    public enum TagType {
+        case ol
+        case ul
+        case div
     }
     
-    public convenience init(scrollHeight pixels: Int? = nil, div: () -> Div) {
-        self.init(scrollHeight: pixels, tag: div())
-    }
-    
-    /// for default scroll height ... use Int.max
-    internal init(scrollHeight pixels: Int?, tag: Tag) {
+    public init(scrollHeight pixels: Int? = nil,
+                type: TagType,
+                @TagBuilder navbarTexts: () -> [Tag]) {
+        let tag: Tag
+        switch type {
+        case .ol:
+            tag = Ol { navbarTexts() }
+        case .ul:
+            tag = Ul { navbarTexts() }
+        case .div:
+            tag = Div { navbarTexts() }
+        }
         let isScrollable: Bool
         let scrollHeight: CssKeyValue?
         if let pixels = pixels, pixels < Int.max {

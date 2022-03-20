@@ -9,10 +9,29 @@ import SwiftHtml
 
 public class Progress: Component {
     
-    public init(div: () -> Div) {
+    public convenience init(percent: Int,
+                            label: String? = nil,
+                            height pixels: Int? = nil,
+                            color: BgColor? = nil,
+                            isStriped: Bool = false,
+                            isAnimated: Bool = false) {
+        self.init {
+            Progressbar(percent: percent,
+                        label: label,
+                        height: pixels,
+                        color: color,
+                        isStriped: isStriped,
+                        isAnimated: isAnimated) {}
+        }
+    }
+    
+    /// contents ... Progressbar
+    public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
-            div()
-                .class(insert: .progress)
+            Div {
+                contents()
+            }
+            .class(insert: .progress)
         }
     }
 }
@@ -26,33 +45,38 @@ public class Progressbar: Component {
                             isStriped: Bool = false,
                             isAnimated: Bool = false) {
         self.init(percent: percent,
+                  label: label,
                   height: pixels,
                   color: color,
                   isStriped: isStriped,
-                  isAnimated: isAnimated) {
-            Div(label ?? "")
-        }
+                  isAnimated: isAnimated,
+                  contents: {})
     }
     
     /// percent > 100 becomes 100
-    /// Div with text value appears as label
+    /// contents ... anything (usually nothing)
     public init(percent: Int,
+                label: String? = nil,
                 height pixels: Int? = nil,
                 color: BgColor? = nil,
                 isStriped: Bool = false,
                 isAnimated: Bool = false,
-                div: () -> Div) {
+                @TagBuilder contents: () -> [Tag]) {
         let percent = percent <= 100 ? percent : 100
         super.init {
-            div()
-                .class(insert: .progressbar)
-                .role(.progressbar)
-                .style(set: .width("\(percent)%"))
-                .ariaValuenow("\(percent)")
-                .ariaValuemin("0")
-                .ariaValuemax("100")
-                .class(insert: color?.class)
-                .style(set: .height("\(pixels ?? 0)"), if: pixels != nil)
+            Div {
+                if let label = label {
+                    Text(label)
+                }
+                contents()
+            }            .class(insert: .progressbar)
+            .role(.progressbar)
+            .style(set: .width("\(percent)%"))
+            .ariaValuenow("\(percent)")
+            .ariaValuemin("0")
+            .ariaValuemax("100")
+            .class(insert: color?.class)
+            .style(set: .height("\(pixels ?? 0)"), if: pixels != nil)
         }
     }
 }

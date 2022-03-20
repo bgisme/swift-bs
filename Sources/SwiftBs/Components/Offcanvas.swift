@@ -16,6 +16,10 @@ public class Offcanvas: Component {
         case bottom
     }
     
+    /// contents ...
+    /// OffcanvasHeader
+    /// OffcanvasTitle
+    /// OffcanvasBody
     public init(id: String,
                 placement: Placement = .start,
                 isBackgroundScrollable: Bool = false,   // background not scrollable by default
@@ -47,23 +51,28 @@ public class Offcanvas: Component {
     }
 }
 
+/// contents ... anything (usually OffcanvasTitle + OffcanvasCloseButton)
 public class OffcanvasHeader: Component {
         
     public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
-            Div { contents() }
-                .class(insert: .offcanvasHeader)
+            Div {
+                contents()
+            }
+            .class(insert: .offcanvasHeader)
         }
     }
 }
 
 public class OffcanvasTitle: Component {
     
-    public convenience init(_ text: String, offcanvasId id: String) {
+    public convenience init(_ text: String,
+                            offcanvasId id: String) {
         self.init(offcanvasId: id) { H5(text) }
     }
     
-    public init(offcanvasId id: String, h5: () -> H5) {
+    public init(offcanvasId id: String,
+                h5: () -> H5) {
         super.init {
             h5()
                 .class(insert: .offcanvasTitle)
@@ -74,6 +83,7 @@ public class OffcanvasTitle: Component {
 
 public class OffcanvasBody: Component {
     
+    /// contents ... anything
     public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
             Div {
@@ -95,12 +105,13 @@ public class OffcanvasCloseButton: Component {
                 .ariaLabel("Close")
         }
     }
-    
 }
 
 public class OffcanvasButton: Component {
     
-    public convenience init(offcanvasId id: String, ariaControls: String, a: () -> A) {
+    public convenience init(offcanvasId id: String,
+                            ariaControls: String,
+                            a: () -> A) {
         self.init(ariaControls: ariaControls) {
             a()
                 .href("#\(id)")
@@ -108,7 +119,9 @@ public class OffcanvasButton: Component {
         }
     }
     
-    public convenience init(offcanvasId id: String, ariaControls: String, button: () -> Button) {
+    public convenience init(offcanvasId id: String,
+                            ariaControls: String,
+                            button: () -> Button) {
         self.init(ariaControls: ariaControls) {
             button()
                 .type(.button)
@@ -116,7 +129,8 @@ public class OffcanvasButton: Component {
         }
     }
     
-    internal init(ariaControls: String, tag: () -> Tag) {
+    internal init(ariaControls: String,
+                  tag: () -> Tag) {
         super.init {
             tag()
                 .class(insert: .btn)

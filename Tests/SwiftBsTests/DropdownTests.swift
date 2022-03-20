@@ -18,9 +18,7 @@ final class DropdownTests: XCTestCase {
                            menuAlign: menuAlign)
         } menu: { id, isDark, align in
             DropdownMenu(toggler: id, isDark: isDark, align: align) {
-                Ul {
-                    DropdownMenuItem("Test")
-                }
+                DropdownMenuItem { Button("Test") }
             }
         }.build()
         XCTAssert(tag.value(.class)?.has(.btnGroup) ?? false)

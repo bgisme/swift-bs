@@ -9,14 +9,15 @@ import SwiftHtml
 
 public class Modal: Component {
     
-    public convenience init(id: String,
-                            size: ModalDialog.Size? = nil,
-                            isAnimated: Bool = true,
-                            isBackdropStatic: Bool = false,
-                            isScrollable: Bool = false,
-                            isCentered: Bool = false,
-                            @TagBuilder contents: () -> [Tag]) {
-        self.init(isAnimated: isAnimated, isBackdropStatic: isBackdropStatic) {
+    /// contents ... see ModalDialog
+    public init(id: String,
+                size: ModalDialog.Size? = nil,
+                isAnimated: Bool = true,
+                isBackdropStatic: Bool = false,
+                isScrollable: Bool = false,
+                isCentered: Bool = false,
+                @TagBuilder contents: () -> [Tag]) {
+        super.init {
             Div {
                 ModalDialog(size: size,
                             isScrollable: isScrollable,
@@ -26,20 +27,12 @@ public class Modal: Component {
             }
             .id(id)
             .ariaLabelledBy("\(id)Label")
-        }
-    }
-    
-    public init(isAnimated: Bool = true,
-                isBackdropStatic: Bool = false,
-                div: () -> Div) {
-        super.init {
-            div()
-                .class(insert: .modal)
-                .class(insert: .fade, if: isAnimated)
-                .tabindex(-1)
-                .dataBsBackdrop(.static, isBackdropStatic)
-                .dataBsKeyboard(false, isBackdropStatic)
-                .ariaHidden(true)
+            .class(insert: .modal)
+            .class(insert: .fade, if: isAnimated)
+            .tabindex(-1)
+            .dataBsBackdrop(.static, isBackdropStatic)
+            .dataBsKeyboard(false, isBackdropStatic)
+            .ariaHidden(true)
         }
     }
 }
@@ -81,41 +74,38 @@ public class ModalDialog: Component {
         }
     }
         
-    public convenience init(size: Size? = nil,
-                            isScrollable: Bool = false,
-                            isCentered: Bool = false,
-                            @TagBuilder content: () -> [Tag]) {
-        self.init(size: size, isScrollable: isScrollable, isCentered: isCentered, div: {
-            Div {
-                ModalContent {
-                    Div {
-                        content()
-                    }
-                }
-            }
-        })
-    }
-    
+    /// contents ... see ModalContent
     public init(size: Size? = nil,
                 isScrollable: Bool = false,
                 isCentered: Bool = false,
-                div: () -> Div) {
+                @TagBuilder contents: () -> [Tag]) {
         super.init {
-            div()
-                .class(insert: .modalDialog)
-                .class(insert: size?.rawValue, if: size != nil)
-                .class(insert: .modalDialogScrollable, if: isScrollable)
-                .class(insert: .modalDialogCentered, if: isCentered)
+            Div {
+                ModalContent {
+                    contents()
+                }
+            }
+            .class(insert: .modalDialog)
+            .class(insert: size?.rawValue, if: size != nil)
+            .class(insert: .modalDialogScrollable, if: isScrollable)
+            .class(insert: .modalDialogCentered, if: isCentered)
         }
     }
 }
 
 public class ModalContent: Component {
         
-    public init(_ div: () -> Div) {
+    /// contents ...
+    /// ModalHeader
+    /// ModalTitle
+    /// ModalBody
+    /// ModalFooter
+    public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
-            div()
-                .class(insert: .modalContent)
+            Div {
+                contents()
+            }
+            .class(insert: .modalContent)
         }
     }
 }
@@ -124,19 +114,19 @@ public class ModalHeader: Component {
         
     public convenience init(_ text: String, isCloseable: Bool = true) {
         self.init {
-            Div {
-                ModalTitle(text)
-                if isCloseable {
-                    CloseButton(dismiss: .modal)
-                }
+            ModalTitle(text)
+            if isCloseable {
+                CloseButton(dismiss: .modal)
             }
         }
     }
     
-    public init(_ div: () -> Div) {
+    public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
-            div()
-                .class(insert: .modalHeader)
+            Div {
+                contents()
+            }
+            .class(insert: .modalHeader)
         }
     }
 }
@@ -161,16 +151,17 @@ public class ModalBody: Component {
         
     public convenience init(_ text: String) {
         self.init {
-            Div {
-                P(text)
-            }
+            P(text)
         }
     }
     
-    public init(_ div: () -> Div) {
+    /// contents ... anything
+    public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
-            div()
-                .class(insert: .modalBody)
+            Div {
+                contents()
+            }
+            .class(insert: .modalBody)
         }
     }
 }
@@ -179,21 +170,22 @@ public class ModalFooter: Component {
         
     public convenience init(isCloseable: Bool, others: BsButton...) {
         self.init {
-            Div {
                 if isCloseable {
                     CloseButton(dismiss: .modal)
                 }
                 for other in others {
                     other
                 }
-            }
         }
     }
     
-    public init(_ div: () -> Div) {
+    /// contents ... anything
+    public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
-            div()
-                .class(insert: .modalFooter)
+            Div {
+                contents()
+            }
+            .class(insert: .modalFooter)
         }
     }
 }

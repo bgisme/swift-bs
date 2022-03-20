@@ -315,17 +315,19 @@ public class DropdownMenu: Component {
     
     public typealias Title = String
     public typealias Href = String
-        
+    
     public init(toggler id: String,
                 isDark: Bool = false,
                 align: Dropdown.MenuAlign? = nil,
-                ul: () -> Ul) {
+                @TagBuilder dropdownMenuItems: () -> [Tag]) {
         super.init {
-            ul()
-                .class(insert: .dropdownMenu)
-                .class(insert: .dropdownMenuDark, if: isDark)
-                .class(insert: align?.classes)
-                .ariaLabelledBy(id)
+            Ul {
+                dropdownMenuItems()
+            }
+            .class(insert: .dropdownMenu)
+            .class(insert: .dropdownMenuDark, if: isDark)
+            .class(insert: align?.classes)
+            .ariaLabelledBy(id)
         }
     }
 }
@@ -336,17 +338,13 @@ public class DropdownMenuItem: Component {
         self.init(isActive: false, isDisabled: false, tag: span)
     }
     
-    /// <A> or <Button> menu item
+    /// <A> menu item
     public convenience init(_ title: String,
-                            href: String? = nil,
+                            href: String,
                             isActive: Bool = false,
                             isDisabled: Bool = false) {
-        self.init(isActive: isActive, isDisabled: isDisabled, tag: {
-            if let href = href {
-                return A(title).href(href)
-            } else {
-                return Button(title)
-            }
+        self.init(isActive: isActive, isDisabled: isDisabled, a: {
+            A(title).href(href)
         })
     }
     

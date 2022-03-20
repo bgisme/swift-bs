@@ -8,34 +8,30 @@
 import SwiftHtml
 
 public class ListGroup: Component {
+    
+    public enum TagType {
+        case ol
+        case ul
+        case div
+    }
         
-    public convenience init(isFlush: Bool = false,
+    /// contents ... ListGroupItems
+    public init(isFlush: Bool = false,
                             isNumbered: Bool = false,
                             isHorizontal: Bool = false,
-                            ol: () -> Ol) {
-        self.init(isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal, tag: { ol() })
-    }
-    
-    public convenience init(isFlush: Bool = false,
-                            isNumbered: Bool = false,
-                            isHorizontal: Bool = false,
-                            ul: () -> Ul) {
-        self.init(isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal, tag: { ul() })
-    }
-    
-    public convenience init(isFlush: Bool = false,
-                            isNumbered: Bool = false,
-                            isHorizontal: Bool = false,
-                            div: () -> Div) {
-        self.init(isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal, tag: { div() })
-    }
-    
-    internal init(isFlush: Bool = false,
-                  isNumbered: Bool = false,
-                  isHorizontal: Bool = false,
-                  tag: () -> Tag) {
+                            type: TagType,
+                            @TagBuilder listGroupItems: () -> [Tag]) {
+        let tag: Tag
+        switch type {
+        case .ol:
+            tag = Ol { listGroupItems() }
+        case .ul:
+            tag = Ul { listGroupItems() }
+        case .div:
+            tag = Div { listGroupItems() }
+        }
         super.init {
-            tag()
+            tag
                 .class(insert: .listGroup)
                 .class(insert: .listGroupFlush, if: isFlush)
                 .class(insert: .listGroupNumbered, if: isNumbered)
