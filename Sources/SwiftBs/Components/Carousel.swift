@@ -27,7 +27,7 @@ public class Carousel: Component {
                   isAutoplayDisabled: isAutoplayDisabled,
                   isTouchDisabled: isTouchDisabled,
                   isDark: isDark,
-                  items: items)
+                  carouselItems: { items })
     }
     
     public convenience init(id: String,
@@ -38,8 +38,9 @@ public class Carousel: Component {
                             isAutoplayDisabled: Bool = false,
                             isTouchDisabled: Bool = false,
                             isDark: Bool = false,
-                            items: [CarouselItem]) {
+                            @TagBuilder carouselItems items: () -> [Tag]) {
         let cntrls = controls ? [CarouselControl(.prev, carouselId: id), CarouselControl(.next, carouselId: id)] : nil
+        let items = items()
         let indctrs = indicators ? CarouselIndicator.batch(count: items.count, carouselId: id) : nil
         self.init(id: id,
                   interval: milliseconds,
@@ -47,7 +48,7 @@ public class Carousel: Component {
                   isAutoplayDisabled: isAutoplayDisabled,
                   isTouchDisabled: isTouchDisabled,
                   isDark: isDark,
-                  inner: CarouselInner(items),
+                  inner: { CarouselInner{ items }},
                   controls: cntrls,
                   indicators: indctrs)
     }
@@ -58,7 +59,7 @@ public class Carousel: Component {
                             isAutoplayDisabled: Bool = false,
                             isTouchDisabled: Bool = false,
                             isDark: Bool = false,
-                            inner: CarouselInner,
+                            inner: () -> CarouselInner,
                             controls: [CarouselControl]? = nil,
                             indicators: [CarouselIndicator]? = nil) {
         self.init(id: id,
@@ -66,17 +67,16 @@ public class Carousel: Component {
                   isCrossFade: isCrossFade,
                   isAutoplayDisabled: isAutoplayDisabled,
                   isTouchDisabled: isTouchDisabled,
-                  isDark: isDark) {
-            Div {
-                if let indicators = indicators {
-                    Div { indicators.map { $0 } }.class(insert: .carouselIndicators)
-                }
-                inner
-                if let controls = controls {
-                    controls.map { $0 }
-                }
+                  isDark: isDark,
+                  contents: {
+            if let indicators = indicators {
+                Div { indicators.map { $0 } }.class(insert: .carouselIndicators)
             }
-        }
+            inner()
+            if let controls = controls {
+                controls.map { $0 }
+            }
+        })
     }
     
     internal init(id: String,
@@ -85,33 +85,32 @@ public class Carousel: Component {
                   isAutoplayDisabled: Bool,
                   isTouchDisabled: Bool,
                   isDark: Bool,
-                  div: () -> Div) {
+                  @TagBuilder contents: () -> [Tag]) {
         super.init {
-            div()
-                .id(id)
-                .class(insert: .carousel, .slide)
-                .dataBsInterval(milliseconds)
-                .class(insert: .carouselFade, if: isCrossFade)
-                .class(insert: .carouselDark, if: isDark)
-                .dataBsRide(.carousel)
-                .dataBsInterval(false, isAutoplayDisabled)
-                .dataBsTouch(false, isTouchDisabled)
+            Div {
+                contents()
+            }
+            .id(id)
+            .class(insert: .carousel, .slide)
+            .dataBsInterval(milliseconds)
+            .class(insert: .carouselFade, if: isCrossFade)
+            .class(insert: .carouselDark, if: isDark)
+            .dataBsRide(.carousel)
+            .dataBsInterval(false, isAutoplayDisabled)
+            .dataBsTouch(false, isTouchDisabled)
         }
     }
 }
 
 public class CarouselInner: Component {
         
-    public convenience init(_ items: [CarouselItem]) {
-        self.init(div: {
-            Div { items.map{$0} }
-        })
-    }
-    
-    public init(div: () -> Div) {
+    /// contents ... CarouselItems
+    public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
-            div()
-                .class(insert: .carouselInner)
+            Div {
+                contents()
+            }
+            .class(insert: .carouselInner)
         }
     }
 }
@@ -123,21 +122,24 @@ public class CarouselItem: Component {
                             isActive: Bool = false,
                             interval seconds: Int? = nil) {
         self.init(isActive: isActive, interval: seconds) {
-            Div {
-                img
-                if let caption = caption {
-                    caption
-                }
+            img
+            if let caption = caption {
+                caption
             }
         }
     }
     
-    public init(isActive: Bool = false, interval milliseconds: Int? = nil, div: () -> Div) {
+    /// contents ... anything
+    public init(isActive: Bool = false,
+                interval milliseconds: Int? = nil,
+                @TagBuilder contents: () -> [Tag]) {
         super.init {
-            div()
-                .class(insert: .carouselItem)
-                .class(insert: .active, if: isActive)
-                .dataBsInterval(milliseconds)
+            Div {
+                contents()
+            }
+            .class(insert: .carouselItem)
+            .class(insert: .active, if: isActive)
+            .dataBsInterval(milliseconds)
         }
     }
 }
