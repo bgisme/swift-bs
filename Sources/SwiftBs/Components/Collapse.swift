@@ -12,14 +12,15 @@ public class Collapse {
     public typealias Id = String
     
     let contents: [Tag]
-            
-    public init(contentIds ids: [String], p: ([Id]) -> P, div: ([Id]) -> Div) {
+
+    public init(contentIds ids: [String],
+                p: ([Id]) -> P,
+                div: ([Id]) -> Div) {
         self.contents = [
             p(ids),
             div(ids),
         ]
     }
-    
 }
 
 extension Collapse: TagRepresentable {
@@ -76,6 +77,7 @@ public class CollapseContent: Component {
         case vertical
     }
     
+    /// contents ... anything
     public init(orientation: Orientation = .vertical,
                             id: String,
                             isMultiple: Bool = false,
