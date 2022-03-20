@@ -20,7 +20,7 @@ public class Offcanvas: Component {
                 placement: Placement = .start,
                 isBackgroundScrollable: Bool = false,   // background not scrollable by default
                 isBackdropVisible: Bool = true,         // backdrop visible by default
-                div: () -> Div) {
+                @TagBuilder contents: () -> [Tag]) {
         let place: BsClass
         switch placement {
         case .start:
@@ -33,23 +33,25 @@ public class Offcanvas: Component {
             place = .offcanvasBottom
         }
         super.init {
-            div()
-                .class(insert: .offcanvas)
-                .class(insert: place)
-                .tabindex(-1)
-                .id(id)
-                .ariaLabelledBy("\(id)Label")
-                .dataBsScroll(isBackgroundScrollable, isBackgroundScrollable)
-                .dataBsBackdrop(!isBackdropVisible, !isBackdropVisible)
+            Div {
+                contents()
+            }
+            .class(insert: .offcanvas)
+            .class(insert: place)
+            .tabindex(-1)
+            .id(id)
+            .ariaLabelledBy("\(id)Label")
+            .dataBsScroll(isBackgroundScrollable, isBackgroundScrollable)
+            .dataBsBackdrop(!isBackdropVisible, !isBackdropVisible)
         }
     }
 }
 
 public class OffcanvasHeader: Component {
         
-    public init(div: () -> Div) {
+    public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
-            div()
+            Div { contents() }
                 .class(insert: .offcanvasHeader)
         }
     }
@@ -72,10 +74,12 @@ public class OffcanvasTitle: Component {
 
 public class OffcanvasBody: Component {
     
-    public init(div: () -> Div) {
+    public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
-            div()
-                .class(insert: .offcanvasBody)
+            Div {
+                contents()
+            }
+            .class(insert: .offcanvasBody)
         }
     }
 }
