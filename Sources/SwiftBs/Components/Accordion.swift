@@ -43,6 +43,14 @@ public class Accordion: Component {
 }
 
 public class AccordionItem: Component {
+    
+    public convenience init(header: () -> AccordionHeader,
+                            collapse: () -> AccordionCollapse) {
+        self.init {
+            header()
+            collapse()
+        }
+    }
 
     /// children ... AccordionHeader, AccordionCollapse
     public init(@TagBuilder contents: () -> [Tag]) {
