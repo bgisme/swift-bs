@@ -51,6 +51,14 @@ public class BreadcrumbList: Component {
 }
 
 public class BreadcrumbListItem: Component {
+    
+    public convenience init(_ title: String,
+                            href: String,
+                            isActive: Bool = false) {
+        self.init(isActive: isActive) {
+            A(title).href(href)
+        }
+    }
             
     /// contents ... anything
     public init(isActive: Bool = false,
