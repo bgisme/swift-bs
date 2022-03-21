@@ -10,12 +10,13 @@ import SwiftHtml
 public class BsButton: Component {
     
     public convenience init(color: Color? = nil,
+                            isOutlined: Bool = false,
                             isToggle: Bool = false,
                             isPressed: Bool = false,
                             isDisabled: Bool = false,
                             isActive: Bool = false,
                             button: () -> Button) {
-        self.init(color: color) {
+        self.init(color: color, isOutlined: isOutlined) {
             button()
                 .type(.button)
                 .class(insert: .active, if: isToggle && isPressed)
@@ -27,10 +28,11 @@ public class BsButton: Component {
     }
     
     public convenience init(color: Color? = nil,
+                            isOutlined: Bool = false,
                             isDisabled: Bool = false,
                             isActive: Bool = false,
                             a: () -> A) {
-        self.init(color: color) {
+        self.init(color: color, isOutlined: isOutlined) {
             a()
                 .class(insert: .disabled, if: isDisabled)
                 .role(.button)
@@ -40,30 +42,34 @@ public class BsButton: Component {
         }
     }
     
-    public convenience init(color: Color? = nil, input: () -> Input) {
-        self.init(color: color, tag: input)
+    public convenience init(color: Color? = nil,
+                            isOutlined: Bool = false,
+                            input: () -> Input) {
+        self.init(color: color, isOutlined: isOutlined, tag: input)
     }
     
-    internal init(color: Color?, tag: () -> Tag) {
+    internal init(color: Color?,
+                  isOutlined: Bool,
+                  tag: () -> Tag) {
         let colorClass: BsClass?
         if let color = color {
             switch color {
             case .primary:
-                colorClass = .btnPrimary
+                colorClass = isOutlined ? .btnOutlinePrimary : .btnPrimary
             case .secondary:
-                colorClass = .btnSecondary
+                colorClass = isOutlined ? .btnOutlineSecondary : .btnSecondary
             case .success:
-                colorClass = .btnSuccess
+                colorClass = isOutlined ? .btnOutlineSuccess : .btnSuccess
             case .danger:
-                colorClass = .btnDanger
+                colorClass = isOutlined ? .btnOutlineDanger : .btnDanger
             case .warning:
-                colorClass = .btnWarning
+                colorClass = isOutlined ? .btnOutlineWarning : .btnWarning
             case .info:
-                colorClass = .btnInfo
+                colorClass = isOutlined ? .btnOutlineInfo : .btnInfo
             case .light:
-                colorClass = .btnLight
+                colorClass = isOutlined ? .btnOutlineLight : .btnLight
             case .dark:
-                colorClass = .btnDark
+                colorClass = isOutlined ? .btnOutlineDark : .btnDark
             }
         } else {
             colorClass = nil
