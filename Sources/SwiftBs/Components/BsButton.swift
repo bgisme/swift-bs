@@ -66,24 +66,7 @@ public class BsButton: Component {
                   tag: () -> Tag) {
         let colorClass: BsClass?
         if let color = color {
-            switch color {
-            case .primary:
-                colorClass = isOutlined ? .btnOutlinePrimary : .btnPrimary
-            case .secondary:
-                colorClass = isOutlined ? .btnOutlineSecondary : .btnSecondary
-            case .success:
-                colorClass = isOutlined ? .btnOutlineSuccess : .btnSuccess
-            case .danger:
-                colorClass = isOutlined ? .btnOutlineDanger : .btnDanger
-            case .warning:
-                colorClass = isOutlined ? .btnOutlineWarning : .btnWarning
-            case .info:
-                colorClass = isOutlined ? .btnOutlineInfo : .btnInfo
-            case .light:
-                colorClass = isOutlined ? .btnOutlineLight : .btnLight
-            case .dark:
-                colorClass = isOutlined ? .btnOutlineDark : .btnDark
-            }
+            colorClass = isOutlined ? color.buttonOutlineClass : color.buttonClass
         } else {
             colorClass = nil
         }

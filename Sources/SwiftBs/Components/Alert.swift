@@ -10,27 +10,6 @@ import SwiftSvg
 
 public class Alert: Component {
 
-    private static func colorClass(_ color: Color) -> BsClass {
-        switch color {
-        case .primary:
-            return .alertPrimary
-        case .secondary:
-            return .alertSecondary
-        case .success:
-            return .alertSuccess
-        case .danger:
-            return .alertDanger
-        case .warning:
-            return .alertWarning
-        case .info:
-            return .alertInfo
-        case .light:
-            return .alertLight
-        case .dark:
-            return .alertDark
-        }
-    }
-    
     /**
      Initialize Alert with text
      
@@ -94,12 +73,7 @@ public class Alert: Component {
     public init(color: Color? = nil,
                 isAlignedCenter: Bool = false,
                 @TagBuilder contents: () -> [Tag]) {
-        let colorClass: BsClass?
-        if let color = color {
-            colorClass = Self.colorClass(color)
-        } else {
-            colorClass = nil
-        }
+        let colorClass = color != nil ? color!.backgroundClass : nil
         super.init {
             Div {
                 contents()
