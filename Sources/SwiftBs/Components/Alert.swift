@@ -10,18 +10,64 @@ import SwiftSvg
 
 public class Alert: Component {
     
+    /**
+     Initialize Alert with text
+     
+     - parameters:
+        - text: String to appear in Alert
+     
+     */
     public convenience init(_ text: String) {
         self.init {
-            Text(text)
+            Div(text)
         }
     }
         
     /**
-     Initialize an Alert
-     
+     Initialize an Alert with any combination of Tag classes.
+          
      - parameters:
-        - isAlignedCenter: items aligned on center (useful for Img and text contents)
+        - isAlignedCenter: Contents aligned on center. Useful when combining elements of different heights.
         - contents: Any <element>
+     
+     ## Examples
+     ````swift
+     Alert {
+        Text("A line of text in the middle of the Alert.")
+     }
+     ````
+     
+     Will make the HTML ...
+     
+     ````html
+     <div class="alert" role="alert">
+        A line of text in the middle of the Alert.
+     </div>
+     ````
+     Combining elements with different heights ...
+     ````swift
+     Alert(isAlignedCenter: true) {
+        Svg(...)
+        Div("Some text to the right of the icon.")
+     }
+     ````
+     Will make the HTML ...
+     ````html
+     <div class="alert">
+        <svg>
+        <div>A line of text in the middle of the Alert.</div>
+     </div>
+     ````
+     
+     ## Discussion
+     
+     If you want a Bootstrap styled heading, use an `AlertHeading`
+     
+     If you just want text, use the convenience initializer
+     ````swift
+     init(_ text: String)
+     ````
+
      */
     public init(isAlignedCenter: Bool = false,
                 @TagBuilder contents: () -> [Tag]) {
@@ -39,7 +85,7 @@ public class Alert: Component {
 public class AlertHeading: Component {
     
     /**
-     Conveniently initialize AlertHeading
+     Initialize AlertHeading with text
      
      - parameters:
         - text:String value of an <h4>
