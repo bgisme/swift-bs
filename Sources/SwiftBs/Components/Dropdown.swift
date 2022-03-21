@@ -215,24 +215,24 @@ public class DropdownButton: Component {
         self.init(id: id, color: color, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive) { a }
     }
     
-    public convenience init(_ a: A,
-                            id: String,
+    public convenience init(id: String,
                             color: ThemeColor? = nil,
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
-                            menuAlign: Dropdown.MenuAlign? = nil) {
+                            menuAlign: Dropdown.MenuAlign? = nil,
+                            a: () -> A) {
         let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
-        self.init(id: id, color: color, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive) { a }
+        self.init(id: id, color: color, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive) { a() }
     }
     
-    public convenience init(_ button: Button,
-                            id: String,
+    public convenience init(id: String,
                             color: ThemeColor? = nil,
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
-                            menuAlign: Dropdown.MenuAlign? = nil) {
+                            menuAlign: Dropdown.MenuAlign? = nil,
+                            button: () -> Button) {
         let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
-        self.init(id: id, color: color, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive) { button }
+        self.init(id: id, color: color, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive) { button() }
     }
     
     // Only tags in convenience init()s allowed

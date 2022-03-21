@@ -11,11 +11,12 @@ final class DropdownTests: XCTestCase {
         
         let id1 = "id1"
         let tag = Dropdown(id: id1) { id, isSplit, direction, menuAlign in
-            DropdownButton(Button(),
-                           id: id,
+            DropdownButton(id: id,
                            direction: direction,
                            isSplit: isSplit,
-                           menuAlign: menuAlign)
+                           menuAlign: menuAlign) {
+                Button()
+            }
         } menu: { id, isDark, align in
             DropdownMenu(buttonId: id, isDark: isDark, align: align) {
                 DropdownMenuItem { Button("Test") }
