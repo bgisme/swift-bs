@@ -17,7 +17,7 @@ final class DropdownTests: XCTestCase {
                            isSplit: isSplit,
                            menuAlign: menuAlign)
         } menu: { id, isDark, align in
-            DropdownMenu(toggler: id, isDark: isDark, align: align) {
+            DropdownMenu(buttonId: id, isDark: isDark, align: align) {
                 DropdownMenuItem { Button("Test") }
             }
         }.build()
