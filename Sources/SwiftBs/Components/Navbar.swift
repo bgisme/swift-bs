@@ -91,7 +91,7 @@ public class NavbarBrand: Component {
         self.init(tag: a())
     }
     
-    internal init(tag: Tag) {
+    private init(tag: Tag) {
         super.init {
             tag
                 .class(insert: .navbarBrand)

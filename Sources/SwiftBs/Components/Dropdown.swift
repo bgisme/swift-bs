@@ -161,7 +161,7 @@ public class Dropdown: Component {
     }
 }
 
-public class DropdownButton: Component {
+public final class DropdownButton: Component {
         
     public convenience init(_ title: String,
                             href: String,
@@ -196,12 +196,12 @@ public class DropdownButton: Component {
     }
     
     // Only tags in convenience init()s allowed
-    internal required init(id: String,
-                           color: ThemeColor? = nil,
-                           direction: Dropdown.Direction,
-                           isSplit: Bool,
-                           isMenuAlignResponsive: Bool,
-                           tag: () -> Tag) {
+    private init(id: String,
+                 color: ThemeColor? = nil,
+                 direction: Dropdown.Direction,
+                 isSplit: Bool,
+                 isMenuAlignResponsive: Bool,
+                 tag: () -> Tag) {
         let tag = tag()
         let colorClass = color != nil ? color!.buttonClass : nil
         tag.class(insert: colorClass)
@@ -311,7 +311,7 @@ public class DropdownMenuItem: Component {
     }
     
     /// Only allow certain Tag
-    internal required init(isActive: Bool, isDisabled: Bool, tag: () -> Tag) {
+    private init(isActive: Bool, isDisabled: Bool, tag: () -> Tag) {
         let tag = tag()
         super.init {
             Li {

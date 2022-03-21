@@ -59,13 +59,13 @@ public class Carousel: Component {
         })
     }
     
-    internal init(id: String,
-                  interval milliseconds: Int?,
-                  isCrossFade: Bool,
-                  isAutoplayDisabled: Bool,
-                  isTouchDisabled: Bool,
-                  isDark: Bool,
-                  @TagBuilder contents: () -> [Tag]) {
+    private init(id: String,
+                 interval milliseconds: Int?,
+                 isCrossFade: Bool,
+                 isAutoplayDisabled: Bool,
+                 isTouchDisabled: Bool,
+                 isDark: Bool,
+                 @TagBuilder contents: () -> [Tag]) {
         super.init {
             Div {
                 contents()
@@ -150,7 +150,8 @@ public class CarouselControl: Component {
         case next
     }
     
-    public convenience init(_ direction: Direction, carouselId id: String) {
+    public convenience init(_ direction: Direction,
+                            carouselId id: String) {
         let text: String
         let icon: BsClass
         let controlDirection: BsClass
@@ -177,15 +178,21 @@ public class CarouselControl: Component {
         })
     }
     
-    public convenience init(direction: Direction, carouselId id: String, button: () -> Button) {
+    public convenience init(direction: Direction,
+                            carouselId id: String,
+                            button: () -> Button) {
         self.init(direction: direction, carouselId: id, tag: button)
     }
     
-    public convenience init(direction: Direction, carouselId id: String, a: () -> A) {
+    public convenience init(direction: Direction,
+                            carouselId id: String,
+                            a: () -> A) {
         self.init(direction: direction, carouselId: id, tag: a)
     }
     
-    internal required init(direction: Direction, carouselId id: String, tag: () -> Tag) {
+    private init(direction: Direction,
+                 carouselId id: String,
+                 tag: () -> Tag) {
         super.init {
             tag()
                 .dataBsTarget(id)

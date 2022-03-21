@@ -59,11 +59,11 @@ public class BsButton: Component {
         self.init(color: color, isOutlined: isOutlined, size: size, isBlockLevel: isBlockLevel, tag: input)
     }
     
-    internal init(color: ThemeColor?,
-                  isOutlined: Bool,
-                  size: Size? = nil,
-                  isBlockLevel: Bool = false,
-                  tag: () -> Tag) {
+    private init(color: ThemeColor?,
+                 isOutlined: Bool,
+                 size: Size? = nil,
+                 isBlockLevel: Bool = false,
+                 tag: () -> Tag) {
         let colorClass: BsClass?
         if let color = color {
             colorClass = isOutlined ? color.buttonOutlineClass : color.buttonClass

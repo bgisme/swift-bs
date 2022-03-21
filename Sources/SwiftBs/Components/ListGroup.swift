@@ -74,10 +74,10 @@ public class ListGroupItem: Component {
         self.init(isAction: false, isActive: isActive, isDisabled: isDisabled) { label() }
     }
     
-    internal init(isAction: Bool,
-                  isActive: Bool,
-                  isDisabled: Bool,
-                  tag: () -> Tag) {
+    private init(isAction: Bool,
+                 isActive: Bool,
+                 isDisabled: Bool,
+                 tag: () -> Tag) {
         super.init {
             tag()
                 .class(insert: .listGroupItem)

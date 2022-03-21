@@ -109,7 +109,7 @@ public class CardHeader: Component {
         })
     }
     
-    internal init(tag: () -> Tag) {
+    private init(tag: () -> Tag) {
         super.init {
             tag()
                 .class(insert: .cardHeader)
@@ -194,8 +194,8 @@ public class CardTitle: Component {
         self.init(isSubtitle: isSubtitle, tag: h6)
     }
 
-    internal required init(isSubtitle: Bool,
-                           tag: () -> Tag) {
+    private init(isSubtitle: Bool,
+                 tag: () -> Tag) {
         super.init {
             tag()
                 .class(insert: isSubtitle ? .cardSubtitle : .cardTitle)

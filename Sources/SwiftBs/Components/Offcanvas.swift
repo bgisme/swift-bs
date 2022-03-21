@@ -129,8 +129,8 @@ public class OffcanvasButton: Component {
         }
     }
     
-    internal init(ariaControls: String,
-                  tag: () -> Tag) {
+    private init(ariaControls: String,
+                 tag: () -> Tag) {
         super.init {
             tag()
                 .class(insert: .btn)

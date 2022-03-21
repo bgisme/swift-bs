@@ -59,7 +59,7 @@ public class CollapseButton: Component {
         })
     }
     
-    internal init(contentIds ids: [String], tag: () -> Tag) {
+    private init(contentIds ids: [String], tag: () -> Tag) {
         self.ids = ids
         super.init {
             tag()
