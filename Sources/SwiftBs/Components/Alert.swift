@@ -17,7 +17,7 @@ public class Alert: Component {
         - text: String to appear in Alert
      
      */
-    public convenience init(_ text: String) {
+    public convenience init(_ text: String, color: Color? = nil) {
         self.init {
             Div(text)
         }
@@ -65,17 +65,42 @@ public class Alert: Component {
      
      If you just want text, use the convenience initializer
      ````swift
-     init(_ text: String)
+     init(_ text: String, color: Color?)
      ````
 
      */
-    public init(isAlignedCenter: Bool = false,
+    public init(color: Color? = nil,
+                isAlignedCenter: Bool = false,
                 @TagBuilder contents: () -> [Tag]) {
+        let colorClass: BsClass?
+        if let color = color {
+            switch color {
+            case .primary:
+                colorClass = .alertPrimary
+            case .secondary:
+                colorClass = .alertSecondary
+            case .success:
+                colorClass = .alertSuccess
+            case .danger:
+                colorClass = .alertDanger
+            case .warning:
+                colorClass = .alertWarning
+            case .info:
+                colorClass = .alertInfo
+            case .light:
+                colorClass = .alertLight
+            case .dark:
+                colorClass = .alertDark
+            }
+        } else {
+            colorClass = nil
+        }
         super.init {
             Div {
                 contents()
             }
             .class(insert: .alert)
+            .class(insert: colorClass)
             .class(insert: .dFlex, .alignItemsCenter, if: isAlignedCenter)
             .role(.alert)
         }
