@@ -40,7 +40,7 @@ public class Alert: Component {
      
      */
     public convenience init(_ text: String, color: Color? = nil) {
-        self.init {
+        self.init(color: color) {
             Div(text)
         }
     }
