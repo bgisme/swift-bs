@@ -18,7 +18,7 @@ public class Alert: Component {
         - color: Bootstrap style (.primary, .secondary, etc)
      
      */
-    public convenience init(_ text: String, color: Color? = nil) {
+    public convenience init(_ text: String, color: ThemeColor? = nil) {
         self.init(color: color) {
             Div(text)
         }
@@ -70,7 +70,7 @@ public class Alert: Component {
      ````
 
      */
-    public init(color: Color? = nil,
+    public init(color: ThemeColor? = nil,
                 isAlignedCenter: Bool = false,
                 @TagBuilder contents: () -> [Tag]) {
         let colorClass = color != nil ? color!.backgroundClass : nil

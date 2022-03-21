@@ -14,7 +14,7 @@ public class BsButton: Component {
         case lg
     }
     
-    public convenience init(color: Color? = nil,
+    public convenience init(color: ThemeColor? = nil,
                             isOutlined: Bool = false,
                             size: Size? = nil,
                             isBlockLevel: Bool = false,
@@ -34,7 +34,7 @@ public class BsButton: Component {
         }
     }
     
-    public convenience init(color: Color? = nil,
+    public convenience init(color: ThemeColor? = nil,
                             isOutlined: Bool = false,
                             size: Size? = nil,
                             isBlockLevel: Bool = false,
@@ -51,7 +51,7 @@ public class BsButton: Component {
         }
     }
     
-    public convenience init(color: Color? = nil,
+    public convenience init(color: ThemeColor? = nil,
                             isOutlined: Bool = false,
                             size: Size? = nil,
                             isBlockLevel: Bool = false,
@@ -59,7 +59,7 @@ public class BsButton: Component {
         self.init(color: color, isOutlined: isOutlined, size: size, isBlockLevel: isBlockLevel, tag: input)
     }
     
-    internal init(color: Color?,
+    internal init(color: ThemeColor?,
                   isOutlined: Bool,
                   size: Size? = nil,
                   isBlockLevel: Bool = false,

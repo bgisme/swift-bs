@@ -202,16 +202,11 @@ public class Dropdown: Component {
 }
 
 public class DropdownButton: Component {
-    
-    let id: String
-    let direction: Dropdown.Direction
-    let isSplit: Bool
-    let isMenuAlignResponsive: Bool
-    
+        
     public convenience init(_ title: String,
                             href: String,
                             id: String,
-                            color: Color? = nil,
+                            color: ThemeColor? = nil,
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil) {
@@ -222,7 +217,7 @@ public class DropdownButton: Component {
     
     public convenience init(_ a: A,
                             id: String,
-                            color: Color? = nil,
+                            color: ThemeColor? = nil,
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil) {
@@ -232,7 +227,7 @@ public class DropdownButton: Component {
     
     public convenience init(_ button: Button,
                             id: String,
-                            color: Color? = nil,
+                            color: ThemeColor? = nil,
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil) {
@@ -242,15 +237,11 @@ public class DropdownButton: Component {
     
     // Only tags in convenience init()s allowed
     internal required init(id: String,
-                           color: Color? = nil,
+                           color: ThemeColor? = nil,
                            direction: Dropdown.Direction,
                            isSplit: Bool,
                            isMenuAlignResponsive: Bool,
                            tag: () -> Tag) {
-        self.id = id
-        self.direction = direction
-        self.isSplit = isSplit
-        self.isMenuAlignResponsive = isMenuAlignResponsive
         let tag = tag()
         let colorClass = color != nil ? color!.buttonClass : nil
         tag.class(insert: colorClass)

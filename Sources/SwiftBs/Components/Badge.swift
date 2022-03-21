@@ -10,7 +10,7 @@ import SwiftHtml
 public class Badge: Component {
     
     public convenience init(_ text: String,
-                            color: Color,
+                            color: ThemeColor,
                             isPositioned: Bool = false,
                             isRounded: Bool = false) {
         self.init(color: color, isPositioned: isPositioned, isRounded: isRounded) {
@@ -18,7 +18,7 @@ public class Badge: Component {
         }
     }
     
-    public init(color: Color,
+    public init(color: ThemeColor,
                 isPositioned: Bool = false,
                 isRounded: Bool = false,
                 span: () -> Span) {
