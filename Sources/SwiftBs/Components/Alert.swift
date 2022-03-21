@@ -9,12 +9,34 @@ import SwiftHtml
 import SwiftSvg
 
 public class Alert: Component {
+
+    private static func colorClass(_ color: Color) -> BsClass {
+        switch color {
+        case .primary:
+            return .alertPrimary
+        case .secondary:
+            return .alertSecondary
+        case .success:
+            return .alertSuccess
+        case .danger:
+            return .alertDanger
+        case .warning:
+            return .alertWarning
+        case .info:
+            return .alertInfo
+        case .light:
+            return .alertLight
+        case .dark:
+            return .alertDark
+        }
+    }
     
     /**
      Initialize Alert with text
      
      - parameters:
         - text: String to appear in Alert
+        - color: Bootstrap style (.primary, .secondary, etc)
      
      */
     public convenience init(_ text: String, color: Color? = nil) {
@@ -74,24 +96,7 @@ public class Alert: Component {
                 @TagBuilder contents: () -> [Tag]) {
         let colorClass: BsClass?
         if let color = color {
-            switch color {
-            case .primary:
-                colorClass = .alertPrimary
-            case .secondary:
-                colorClass = .alertSecondary
-            case .success:
-                colorClass = .alertSuccess
-            case .danger:
-                colorClass = .alertDanger
-            case .warning:
-                colorClass = .alertWarning
-            case .info:
-                colorClass = .alertInfo
-            case .light:
-                colorClass = .alertLight
-            case .dark:
-                colorClass = .alertDark
-            }
+            colorClass = Self.colorClass(color)
         } else {
             colorClass = nil
         }
