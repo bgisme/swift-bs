@@ -61,16 +61,16 @@ public class AccordionHeader: Component {
                 id: String,
                 collapseId: String,
                 index: Int,
-                isExpanded: Bool = false) {
+                isCollapsed: Bool = true) {
         super.init {
             H2 {
                 Button(text)
                     .class(insert: .accordionButton)
-                    .class(insert: .collapsed, if: !isExpanded)
+                    .class(insert: .collapsed, if: isCollapsed)
                     .type(.button)
                     .dataBsToggle(.collapse)
                     .dataBsTarget(collapseId)
-                    .ariaExpanded(isExpanded)
+                    .ariaExpanded(!isCollapsed)
                     .ariaControls(collapseId)
             }
             .class(insert: .accordionHeader)
