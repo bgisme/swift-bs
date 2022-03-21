@@ -10,7 +10,7 @@ import SwiftSvg
 
 public class Alert: Component {
         
-    /// contents ... Img, AlertHeading, Any
+    /// contents ... Img, AlertHeading, Any \r
     /// isAlignCenter aligns Img and other contents
     public init(isAlignedCenter: Bool = false,
                 @TagBuilder contents: () -> [Tag]) {
