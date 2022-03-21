@@ -165,38 +165,38 @@ public final class DropdownButton: Component {
         
     public convenience init(_ title: String,
                             href: String,
-                            id: String,
+                            dropdownId id: String,
                             color: ThemeColor? = nil,
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil) {
         let a = A(title).href(href)
         let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
-        self.init(id: id, color: color, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive) { a }
+        self.init(dropdownId: id, color: color, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive) { a }
     }
     
-    public convenience init(id: String,
+    public convenience init(dropdownId id: String,
                             color: ThemeColor? = nil,
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil,
                             a: () -> A) {
         let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
-        self.init(id: id, color: color, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive) { a() }
+        self.init(dropdownId: id, color: color, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive) { a() }
     }
     
-    public convenience init(id: String,
+    public convenience init(dropdownId id: String,
                             color: ThemeColor? = nil,
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil,
                             button: () -> Button) {
         let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
-        self.init(id: id, color: color, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive) { button() }
+        self.init(dropdownId: id, color: color, direction: direction, isSplit: isSplit, isMenuAlignResponsive: isMenuAlignResponsive) { button() }
     }
     
     // Only tags in convenience init()s allowed
-    private init(id: String,
+    private init(dropdownId id: String,
                  color: ThemeColor? = nil,
                  direction: Dropdown.Direction,
                  isSplit: Bool,

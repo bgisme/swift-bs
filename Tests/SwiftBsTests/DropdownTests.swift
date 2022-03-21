@@ -11,7 +11,7 @@ final class DropdownTests: XCTestCase {
         
         let id1 = "id1"
         let tag = Dropdown(id: id1) { id, isSplit, direction, menuAlign in
-            DropdownButton(id: id,
+            DropdownButton(dropdownId: id,
                            direction: direction,
                            isSplit: isSplit,
                            menuAlign: menuAlign) {
