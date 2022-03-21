@@ -5,7 +5,7 @@
 //  Created by Brad Gourley on 3/21/22.
 //
 
-public enum ThemeColor: CaseIterable {
+public enum ThemeColor: String, CaseIterable {
     case primary
     case secondary
     case success
@@ -17,27 +17,6 @@ public enum ThemeColor: CaseIterable {
 }
 
 extension ThemeColor {
-    
-    var color: Color {
-        switch self {
-        case .primary:
-            return .primary
-        case .secondary:
-            return .secondary
-        case .success:
-            return .success
-        case .danger:
-            return .danger
-        case .warning:
-            return .warning
-        case .info:
-            return .info
-        case .light:
-            return .light
-        case .dark:
-            return .dark
-        }
-    }
     
     var buttonClass: BsClass {
         switch self {
