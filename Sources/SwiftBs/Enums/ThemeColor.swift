@@ -5,7 +5,7 @@
 //  Created by Brad Gourley on 3/21/22.
 //
 
-public enum ThemeColor {
+public enum ThemeColor: CaseIterable {
     case primary
     case secondary
     case success
