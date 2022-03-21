@@ -7,6 +7,26 @@
 
 import SwiftHtml
 
+public class PaginationNav: Component {
+    
+    public convenience init(ariaLabel: String,
+                            size s: Pagination.Size? = nil,
+                            @TagBuilder pageItems: () -> [Tag]) {
+        self.init {
+            Pagination(ariaLabel: ariaLabel) {
+                pageItems()
+            }
+        }
+    }
+    
+    /// contents ... Pagination
+    public init(pagination: () -> Pagination) {
+        super.init {
+            Nav{ pagination() }
+        }
+    }
+}
+
 public class Pagination: Component {
     
     public enum Size {
