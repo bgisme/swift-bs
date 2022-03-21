@@ -41,23 +41,43 @@ public class Accordion: Component {
     }
 }
 
+//AccordionItem(index: 0,
+//              isExpanded: true,
+//              accordionId: accordionId) { headerId, collapseId in
+//    AccordionHeader("Item 1",
+//                    id: headerId,
+//                    collapseId: collapseId,
+//                    isExpanded: false)
+
 public class AccordionItem: Component {
     
     public typealias HeaderId = String
     public typealias CollapseId = String
     public typealias IsExpanded = Bool
     
-    public init(index: Int,
+    public init(_ title: String,
+                index: Int,
                 isExpanded: Bool = false,
                 accordionId: String,
-                header: (HeaderId, CollapseId) -> AccordionHeader,
-                collapse: (HeaderId, CollapseId, IsExpanded) -> AccordionCollapse) {
+                isAlwaysOpen: Bool = false,
+                @TagBuilder collapseContents: () -> [Tag]) {
         let headerId = accordionId + "Header" + String(index)
         let collapseId = accordionId + "Collapse" + String(index)
         super.init {
             Div {
-                header(headerId, collapseId)
-                collapse(headerId, collapseId, isExpanded)
+                AccordionHeader(title,
+                                id: headerId,
+                                collapseId: collapseId,
+                                isExpanded: isExpanded)
+                AccordionCollapse(id: collapseId,
+                                  accordionId: accordionId,
+                                  headerId: headerId,
+                                  isExpanded: isExpanded,
+                                  isAlwaysOpen: isAlwaysOpen) {
+                    AccordionBody {
+                        collapseContents()
+                    }
+                }
             }
             .class(insert: .accordionItem)
         }
