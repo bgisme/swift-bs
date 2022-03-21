@@ -158,47 +158,7 @@ public class Dropdown: Component {
                 .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
             }
         }
-    }
-    
-//    public init(direction: Direction = .down,
-//                menuAlign: MenuAlign?,
-//                button: DropdownButton,
-//                arrowButton: DropdownButtonArrow? = nil,
-//                menu: DropdownMenu) {
-//        super.init {
-//            if let arrowButton = arrowButton {
-//                if direction != .start {
-//                    Div {
-//                        button
-//                        arrowButton
-//                        menu
-//                    }
-//                    .class(insert: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
-//                    .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
-//                } else {
-//                    Div {
-//                        Div {
-//                            /// split buttons direction .start are ordered differently and inside extra button group
-//                            arrowButton
-//                            menu
-//                        }
-//                        .class(insert: .btnGroup, .dropstart)
-//                        .role(.group)
-//                        button
-//                    }
-//                    .class(insert: .btnGroup)
-//                }
-//            } else {
-//                /// non-split
-//                Div {
-//                    button
-//                    menu
-//                }
-//                .class(insert: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
-//                .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
-//            }
-//        }
-//    }
+    }    
 }
 
 public class DropdownButton: Component {
