@@ -43,12 +43,19 @@ public class Accordion: Component {
 
 public class AccordionItem: Component {
     
-    public init(header: () -> AccordionHeader,
-                collapse: () -> AccordionCollapse) {
+    public typealias HeaderId = String
+    public typealias CollapseId = String
+    
+    public init(index: Int,
+                accordionId: String,
+                header: (HeaderId) -> AccordionHeader,
+                collapse: (CollapseId) -> AccordionCollapse) {
+        let headerId = accordionId + "Header" + String(index)
+        let collapseId = accordionId + "Collapse" + String(index)
         super.init {
             Div {
-                header()
-                collapse()
+                header(headerId)
+                collapse(collapseId)
             }
             .class(insert: .accordionItem)
         }
@@ -60,7 +67,6 @@ public class AccordionHeader: Component {
     public init(_ text: String,
                 id: String,
                 collapseId: String,
-                index: Int,
                 isExpanded: Bool = false) {
         super.init {
             H2 {
