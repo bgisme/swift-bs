@@ -9,6 +9,12 @@ import SwiftHtml
 import SwiftSvg
 
 public class Alert: Component {
+    
+    public convenience init(_ text: String) {
+        self.init {
+            Text(text)
+        }
+    }
         
     /**
      Initialize an Alert
@@ -48,7 +54,7 @@ public class AlertHeading: Component {
      Initialize AlertHeading
      
      - parameters:
-        - h4: Function that returns an H4
+        - h4: Function that returns H4
      */
     public init(_ h4: () -> H4) {
         super.init {
