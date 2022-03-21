@@ -18,7 +18,7 @@ final class DropdownTests: XCTestCase {
                 Button()
             }
         } menu: { id, isDark, align in
-            DropdownMenu(buttonId: id, isDark: isDark, align: align) {
+            DropdownMenu(dropdownId: id, isDark: isDark, align: align) {
                 DropdownMenuItem { Button("Test") }
             }
         }.build()

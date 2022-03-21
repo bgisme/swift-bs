@@ -268,7 +268,7 @@ public class DropdownMenu: Component {
     public typealias Title = String
     public typealias Href = String
     
-    public init(buttonId: String,
+    public init(dropdownId: String,
                 isDark: Bool = false,
                 align: Dropdown.MenuAlign? = nil,
                 @TagBuilder dropdownMenuItems: () -> [Tag]) {
@@ -279,7 +279,7 @@ public class DropdownMenu: Component {
             .class(insert: .dropdownMenu)
             .class(insert: .dropdownMenuDark, if: isDark)
             .class(insert: align?.classes)
-            .ariaLabelledBy(buttonId)
+            .ariaLabelledBy(dropdownId)
         }
     }
 }
