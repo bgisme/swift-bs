@@ -45,17 +45,19 @@ public class AccordionItem: Component {
     
     public typealias HeaderId = String
     public typealias CollapseId = String
+    public typealias IsExpanded = Bool
     
     public init(index: Int,
+                isExpanded: Bool = false,
                 accordionId: String,
-                header: (HeaderId) -> AccordionHeader,
-                collapse: (CollapseId) -> AccordionCollapse) {
+                header: (HeaderId, CollapseId) -> AccordionHeader,
+                collapse: (HeaderId, CollapseId, IsExpanded) -> AccordionCollapse) {
         let headerId = accordionId + "Header" + String(index)
         let collapseId = accordionId + "Collapse" + String(index)
         super.init {
             Div {
-                header(headerId)
-                collapse(collapseId)
+                header(headerId, collapseId)
+                collapse(headerId, collapseId, isExpanded)
             }
             .class(insert: .accordionItem)
         }
