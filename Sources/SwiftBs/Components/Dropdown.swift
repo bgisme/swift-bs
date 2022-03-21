@@ -158,7 +158,7 @@ public class Dropdown: Component {
                 .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
             }
         }
-    }    
+    }
 }
 
 public class DropdownButton: Component {
