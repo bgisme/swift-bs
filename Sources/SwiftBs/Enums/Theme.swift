@@ -59,9 +59,6 @@ extension Theme {
             return .btnOutlineDark
         }
     }
-}
-
-extension Theme {
     
     var backgroundClass: BsClass {
         switch self {
