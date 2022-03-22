@@ -71,8 +71,13 @@ public class Card: Component {
     }
     
     @discardableResult
-    public func theme(_ value: Theme?, _ condition: Bool = true) -> Self {
+    public func background(_ value: Theme?, _ condition: Bool = true) -> Self {
         self.class(insert: value?.backgroundClass)
+    }
+    
+    @discardableResult
+    public func border(_ value: Theme?, _ condition: Bool = true) -> Self {
+        self.class(insert: value?.borderClass)
     }
 }
 

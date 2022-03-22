@@ -81,6 +81,27 @@ extension Theme {
         }
     }
     
+    var borderClass: BsClass {
+        switch self {
+        case .primary:
+            return .borderPrimary
+        case .secondary:
+            return .borderSecondary
+        case .success:
+            return .borderSuccess
+        case .danger:
+            return .borderDanger
+        case .warning:
+            return .borderWarning
+        case .info:
+            return .borderInfo
+        case .light:
+            return .borderLight
+        case .dark:
+            return .borderDark
+        }
+    }
+    
     var textClass: BsClass {
         switch self {
         case .primary:
