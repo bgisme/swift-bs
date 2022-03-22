@@ -29,12 +29,20 @@ import SwiftHtml
 
 public class Card: Component {
     
+    //! WHEN ALLOWED TO APPEND CHILDREN...
+    //! MAYBE CREATE FUNCS FOR EACH SUB-COMPONENT
+//    @discardableResult
+//    public func header(_ header: CardHeader) {
+//        self.append { header }
+//    }
+    
     public convenience init(header: CardHeader? = nil,
                             topImage: Img? = nil,
                             body: CardBody? = nil,
                             bottomImage: Img? = nil,
-                            footer: CardFooter? = nil) {
-        self.init {
+                            footer: CardFooter? = nil,
+                            width: String) {
+        self.init(width: width) {
             if let header = header { header }
             if let topImage = topImage { topImage }
             if let body = body { body }
@@ -49,11 +57,13 @@ public class Card: Component {
     /// CardBody
     /// Img bottom
     /// CardFooter
-    public init(@TagBuilder contents: () -> [Tag]) {
+    public init(width: String, @TagBuilder contents: () -> [Tag]) {
         super.init {
             Div {
                 contents()
-            }.class(insert: .card)
+            }
+            .class(insert: .card)
+            .style(set: .width(width))
         }
     }
 }
