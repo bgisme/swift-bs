@@ -116,7 +116,7 @@ public class Dropdown: Component {
                   isSplit: isSplit,
                   direction: direction,
                   menuAlign: menuAlign,
-                  isDark: isDark) { id, isSplit, direction, menuAlign in
+                  isDark: isDark) { id, isSplit, direction, menuAlign, size in
             DropdownButton(dropdownId: id,
                            direction: direction,
                            isSplit: isSplit,
@@ -142,7 +142,7 @@ public class Dropdown: Component {
                   isSplit: isSplit,
                   direction: direction,
                   menuAlign: menuAlign,
-                  isDark: isDark) { id, isSplit, direction, menuAlign in
+                  isDark: isDark) { id, isSplit, direction, menuAlign, size in
             DropdownButton(dropdownId: id,
                            direction: direction,
                            isSplit: isSplit,
@@ -157,68 +157,15 @@ public class Dropdown: Component {
         }
     }
     
-//    private init(id: String,
-//                 isSplit: Bool,
-//                 direction: Direction,
-//                 menuAlign align: MenuAlign?,
-//                 isDark: Bool,
-//                 button: DropdownButton,
-//                 @TagBuilder dropdownMenuItems: () -> [Tag]) {
-//        self.button = button
-//        let arrowButton = DropdownButtonArrow(id: id)
-//        self.arrowButton = arrowButton
-//        if isSplit, let classes = button.tag.value(.class)?.bsClasses {
-//            // apply button classes to arrow button so they match
-//            arrowButton.class(insert: classes)
-//        }
-//        let menu = DropdownMenu(dropdownId: id,
-//                                isDark: isDark,
-//                                align: align) {
-//            dropdownMenuItems()
-//        }
-//        super.init {
-//            if isSplit {
-//                if direction != .start {
-//                    Div {
-//                        button
-//                        arrowButton
-//                        menu
-//                    }
-//                    .class(insert: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
-//                    .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
-//                } else {
-//                    Div {
-//                        Div {
-//                            /// split buttons direction .start are ordered differently and inside extra button group
-//                            arrowButton
-//                            menu
-//                        }
-//                        .class(insert: .btnGroup, .dropstart)
-//                        .role(.group)
-//                        button
-//                    }
-//                    .class(insert: .btnGroup)
-//                }
-//            } else {
-//                /// non-split
-//                Div {
-//                    button
-//                    menu
-//                }
-//                .class(insert: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
-//                .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
-//            }
-//        }
-//    }
-    
     public init(id: String,
                 isSplit: Bool = false,
                 direction: Direction = .down,
                 menuAlign: MenuAlign? = nil,
+                size: BsButton.Size? = nil,
                 isDark: Bool = false,
-                button: (Id, IsSplit, Dropdown.Direction, MenuAlign?) -> DropdownButton,
+                button: (Id, IsSplit, Dropdown.Direction, MenuAlign?, BsButton.Size?) -> DropdownButton,
                 menu: (Id, IsDark, MenuAlign?) -> DropdownMenu) {
-        let button = button(id, isSplit, direction, menuAlign)
+        let button = button(id, isSplit, direction, menuAlign, size)
         let arrowButton = DropdownButtonArrow(id: id)
         if isSplit, let classes = button.tag.value(.class)?.bsClasses {
             // apply button classes to arrow button so they match
@@ -261,65 +208,17 @@ public class Dropdown: Component {
         }
     }
     
-//    public init(id: String,
-//                isSplit: Bool = false,
-//                direction: Direction = .down,
-//                menuAlign: MenuAlign? = nil,
-//                isDark: Bool = false,
-//                button: (Id, IsSplit, Dropdown.Direction, MenuAlign?) -> DropdownButton,
-//                menu: (Id, IsDark, MenuAlign?) -> DropdownMenu) {
-//        let button = button(id, isSplit, direction, menuAlign)
-//        let arrowButton = DropdownButtonArrow(id: id)
-//        if isSplit, let classes = button.tag.value(.class)?.bsClasses {
-//            // apply button classes to arrow button so they match
-//            arrowButton.class(insert: classes)
-//        }
-//        super.init {
-//            if isSplit {
-//                if direction != .start {
-//                    Div {
-//                        button
-//                        arrowButton
-//                        menu(id, isDark, menuAlign)
-//                    }
-//                    .class(insert: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
-//                    .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
-//                } else {
-//                    Div {
-//                        Div {
-//                            /// split buttons direction .start are ordered differently and inside extra button group
-//                            arrowButton
-//                            menu(id, isDark, menuAlign)
-//                        }
-//                        .class(insert: .btnGroup, .dropstart)
-//                        .role(.group)
-//                        button
-//                    }
-//                    .class(insert: .btnGroup)
-//                }
-//            } else {
-//                /// non-split
-//                Div {
-//                    button
-//                    menu(id, isDark, menuAlign)
-//                }
-//                .class(insert: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
-//                .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
-//            }
-//        }
-//    }
-    
     @discardableResult
     public func background(_ value: Theme?, _ condition: Bool = true) -> Self {
-        self.button.class(insert: value?.buttonClass, if: condition)
-        self.arrowButton?.tag.class(insert: value?.buttonClass, if: condition)
+        self.button.background(value, condition)
+        self.arrowButton?.background(value, condition)
         return self
     }
     
     @discardableResult
     public func border(_ value: Theme?, _ condition: Bool = true) -> Self {
-        self.button.class(insert: value?.buttonOutlineClass, if: condition)
-        self.arrowButton?.tag.class(insert: value?.buttonOutlineClass, if: condition)
+        self.button.border(value, condition)
+        self.arrowButton?.background(value, condition)
         return self
     }
 }
@@ -329,74 +228,41 @@ public final class DropdownButton: Component {
     public convenience init(_ title: String,
                             href: String,
                             dropdownId id: String,
-                            theme: Theme? = nil,
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil) {
-        self.init(dropdownId: id, theme: theme, direction: direction, isSplit: isSplit, menuAlign: menuAlign) {
+        self.init(dropdownId: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign) {
             A(title).href(href)
         }
     }
     
     public convenience init(dropdownId id: String,
-                            theme: Theme? = nil,
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil,
                             a: () -> A) {
-//        self.init(dropdownId: id, theme: theme, direction: direction, isSplit: isSplit, menuAlign: menuAlign, tag: {
-//            if isSplit {
-//                return a()
-//                    .role(.button)
-//            } else {
-//                return a()
-//                    .role(.button)
-//                    .class(insert: .btn)
-//                    .class(insert: .dropdownToggle)
-//                    .dataBsToggle(.dropdown)
-//                    .ariaExpanded(false)
-//                    .id(id)
-//            }
-//        })
-        self.init(dropdownId: id, theme: theme, direction: direction, isSplit: isSplit, menuAlign: menuAlign) {
+        self.init(dropdownId: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign) {
             BsButton(a: a)
         }
     }
     
     public convenience init(dropdownId id: String,
-                            theme: Theme? = nil,
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil,
                             button: () -> Button) {
-//        self.init(dropdownId: id, theme: theme, direction: direction, isSplit: isSplit, menuAlign: menuAlign, tag: {
-//            if isSplit {
-//                return button()
-//                    .type(.button)
-//                    .class(insert: .btn)
-//            } else {
-//                return button()
-//                    .type(.button)
-//                    .class(insert: .btn)
-//                    .class(insert: .dropdownToggle)
-//                    .dataBsToggle(.dropdown)
-//                    .ariaExpanded(false)
-//                    .id(id) // not required for button groups
-//            }
-//        })
-        self.init(dropdownId: id, theme: theme, direction: direction, isSplit: isSplit, menuAlign: menuAlign) {
+        self.init(dropdownId: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign) {
             BsButton(button: button)
         }
     }
     
     public convenience init(dropdownId id: String,
-                            theme: Theme? = nil,
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil,
                             button: () -> BsButton) {
         let button = button().build()
-        self.init(dropdownId: id, theme: theme, direction: direction, isSplit: isSplit, menuAlign: menuAlign, tag: {
+        self.init(dropdownId: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign, tag: {
             guard !isSplit else { return button }
             return button
                 .class(insert: .dropdownToggle)
@@ -407,7 +273,6 @@ public final class DropdownButton: Component {
     }
     
     internal init(dropdownId id: String,
-                  theme: Theme?,
                   direction: Dropdown.Direction,
                   isSplit: Bool,
                   menuAlign: Dropdown.MenuAlign?,
@@ -415,9 +280,18 @@ public final class DropdownButton: Component {
         let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
         super.init {
             tag()
-                .class(insert: theme?.buttonClass)
                 .dataBsDisplay(.static, !isSplit && isMenuAlignResponsive)
         }
+    }
+    
+    @discardableResult
+    public func background(_ value: Theme?, _ condition: Bool = true) -> Self {
+        self.class(insert: value?.buttonClass, if: condition)
+    }
+    
+    @discardableResult
+    public func border(_ value: Theme?, _ condition: Bool = true) -> Self {
+        self.class(insert: value?.buttonOutlineClass, if: condition)
     }
 }
 
@@ -437,6 +311,16 @@ public class DropdownButtonArrow: Component {
             .dataBsToggle(.dropdown)
             .ariaExpanded(false)
         }
+    }
+    
+    @discardableResult
+    public func background(_ value: Theme?, _ condition: Bool = true) -> Self {
+        self.class(insert: value?.buttonClass, if: condition)
+    }
+    
+    @discardableResult
+    public func border(_ value: Theme?, _ condition: Bool = true) -> Self {
+        self.class(insert: value?.buttonOutlineClass, if: condition)
     }
 }
 
