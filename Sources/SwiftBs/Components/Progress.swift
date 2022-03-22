@@ -63,6 +63,7 @@ public class Progressbar: Component {
                 isAnimated: Bool = false,
                 @TagBuilder contents: () -> [Tag]) {
         let percent = percent <= 100 ? percent : 100
+        let pixels = pixels != nil ? "\(pixels!)" : nil
         super.init {
             Div {
                 if let label = label {
@@ -76,7 +77,7 @@ public class Progressbar: Component {
             .ariaValuemin("0")
             .ariaValuemax("100")
             .class(insert: color?.backgroundClass)
-            .style(set: .height("\(pixels ?? 0)"), if: pixels != nil)
+            .style(set: .height(pixels))
         }
     }
 }

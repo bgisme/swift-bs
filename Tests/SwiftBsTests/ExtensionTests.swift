@@ -6,7 +6,7 @@ final class ExtensionTests: XCTestCase {
 
     func testAddClassesStyles() throws {
         let classes: [BsClass] = [.btn, .btnPrimary]
-        let styles: [CssKeyValue] = [.width("100px"), .height("25px")]
+        let styles: [CssKeyValue] = [.width("100px"), .height("25px")].compactMap{$0}
         let component = BsButton { Button("Test") }
         _ = component.class(insert: classes)
         _ = component.style(set: styles)

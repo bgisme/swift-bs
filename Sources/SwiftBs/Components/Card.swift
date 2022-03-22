@@ -41,7 +41,7 @@ public class Card: Component {
                             body: CardBody? = nil,
                             bottomImage: Img? = nil,
                             footer: CardFooter? = nil,
-                            width: String) {
+                            width: String? = nil) {
         self.init(width: width) {
             if let header = header { header }
             if let topImage = topImage { topImage }
@@ -57,7 +57,7 @@ public class Card: Component {
     /// CardBody
     /// Img bottom
     /// CardFooter
-    public init(width: String, @TagBuilder contents: () -> [Tag]) {
+    public init(width: String? = nil, @TagBuilder contents: () -> [Tag]) {
         super.init {
             Div {
                 contents()

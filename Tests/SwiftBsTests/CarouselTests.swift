@@ -9,7 +9,7 @@ final class CarouselTests: XCTestCase {
     /// data-bs-ride = "carousel"
     func testCarousel() throws {
         let classes: [BsClass] = [.mt3, .bgPrimary]
-        let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")]
+        let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")].compactMap{$0}
         let id = "id"
         let tag = Carousel(id: id, imgs: [
             Img(src: "", alt: ""),
@@ -118,7 +118,7 @@ final class CarouselTests: XCTestCase {
     
     func testCarouselInner() throws {
         let classes: [BsClass] = [.mt3, .bgPrimary]
-        let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")]
+        let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")].compactMap{$0}
         let tag = CarouselInner { Div{} }
             .class(insert: classes)
             .style(set: styles)
@@ -137,7 +137,7 @@ final class CarouselTests: XCTestCase {
     
     func testCarouselItem() throws {
         let classes: [BsClass] = [.mt3, .bgPrimary]
-        let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")]
+        let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")].compactMap{$0}
         let tag = CarouselItem(Img(src: "", alt: "Slide 1"),
                                caption: CarouselCaption("caption title", "caption text"),
                                isActive: true,
@@ -163,7 +163,7 @@ final class CarouselTests: XCTestCase {
     func testCarouselControl() throws {
         let id = "id"
         let classes: [BsClass] = [.mt3, .bgPrimary]
-        let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")]
+        let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")].compactMap{$0}
         let prevTag = CarouselControl(.prev, carouselId: id)
             .class(insert: classes)
             .style(set: styles)
@@ -210,7 +210,7 @@ final class CarouselTests: XCTestCase {
     
     func testCarouselCaption() throws {
         let classes: [BsClass] = [.mt3, .bgPrimary]
-        let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")]
+        let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")].compactMap{$0}
         let tag = CarouselCaption("title", "text")
             .class(insert: classes)
             .style(set: styles)
@@ -226,7 +226,7 @@ final class CarouselTests: XCTestCase {
     
     func testCarouselIndicator() throws {
         let classes: [BsClass] = [.mt3, .bgPrimary]
-        let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")]
+        let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")].compactMap{$0}
         let id = "id"
         let index = 9
         let tag = CarouselIndicator(index: 9,
