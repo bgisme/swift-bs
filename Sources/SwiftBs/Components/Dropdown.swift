@@ -321,7 +321,7 @@ public final class DropdownButton: Component {
         super.init {
             tag()
                 .class(insert: colorClass)
-                .dataBsDisplay(.static, isSplit && isMenuAlignResponsive)
+                .dataBsDisplay(.static, !isSplit && isMenuAlignResponsive)
         }
     }
 }
