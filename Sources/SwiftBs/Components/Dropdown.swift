@@ -119,12 +119,18 @@ public class Dropdown: Component {
                 isDark: Bool = false,
                 button: () -> Button,
                 @TagBuilder dropdownMenuItems: () -> [Tag]) {
+        let button = DropdownButton(dropdownId: id,
+                                    color: color,
+                                    direction: direction,
+                                    isSplit: isSplit,
+                                    menuAlign: menuAlign,
+                                    button: button)
         self.init(id: id,
                   isSplit: isSplit,
                   direction: direction,
                   menuAlign: menuAlign,
                   isDark: isDark,
-                  tag: button,
+                  button: button,
                   dropdownMenuItems: dropdownMenuItems)
     }
     
@@ -136,12 +142,18 @@ public class Dropdown: Component {
                 isDark: Bool = false,
                 a: () -> A,
                 @TagBuilder dropdownMenuItems: () -> [Tag]) {
+        let button = DropdownButton(dropdownId: id,
+                                    color: color,
+                                    direction: direction,
+                                    isSplit: isSplit,
+                                    menuAlign: menuAlign,
+                                    a: a)
         self.init(id: id,
                   isSplit: isSplit,
                   direction: direction,
                   menuAlign: menuAlign,
                   isDark: isDark,
-                  tag: a,
+                  button: button,
                   dropdownMenuItems: dropdownMenuItems)
     }
     
@@ -151,16 +163,10 @@ public class Dropdown: Component {
                  direction: Direction,
                  menuAlign align: MenuAlign?,
                  isDark: Bool,
-                 tag: () -> Tag,
+                 button: DropdownButton,
                  @TagBuilder dropdownMenuItems: () -> [Tag]) {
-        let button = DropdownButton(dropdownId: id,
-                                    color: color,
-                                    direction: direction,
-                                    isSplit: isSplit,
-                                    menuAlign: align,
-                                    tag: tag)
         let arrowButton = DropdownButtonArrow(id: id)
-        if isSplit, let classes = tag().value(.class)?.bsClasses {
+        if isSplit, let classes = button.tag.value(.class)?.bsClasses {
             // apply button classes to arrow button so they match
             arrowButton.class(insert: classes)
         }
@@ -274,7 +280,17 @@ public final class DropdownButton: Component {
                             menuAlign: Dropdown.MenuAlign? = nil,
                             a: () -> A) {
         self.init(dropdownId: id, color: color, direction: direction, isSplit: isSplit, menuAlign: menuAlign, tag: {
-            a()
+            if isSplit {
+                return a()
+                    .role(.button)
+            } else {
+                return a()
+                    .role(.button)
+                    .class(insert: .btn, .dropdownToggle)
+                    .id(id)
+                    .dataBsToggle(.dropdown)
+                    .ariaExpanded(false)
+            }
         })
     }
     
@@ -285,56 +301,33 @@ public final class DropdownButton: Component {
                             menuAlign: Dropdown.MenuAlign? = nil,
                             button: () -> Button) {
         self.init(dropdownId: id, color: color, direction: direction, isSplit: isSplit, menuAlign: menuAlign, tag: {
-            button()
+            if isSplit {
+                return button()
+                    .type(.button)
+                    .class(insert: .btn)
+            } else {
+                return button()
+                    .type(.button)
+                    .class(insert: .btn, .dropdownToggle)
+                    .id(id) // not required for button groups
+                    .dataBsToggle(.dropdown)
+                    .ariaExpanded(false)
+            }
         })
     }
     
-    // Only tags in convenience init()s allowed
     internal init(dropdownId id: String,
-                  color: ThemeColor? = nil,
+                  color: ThemeColor?,
                   direction: Dropdown.Direction,
                   isSplit: Bool,
-                  menuAlign: Dropdown.MenuAlign? = nil,
+                  menuAlign: Dropdown.MenuAlign?,
                   tag: () -> Tag) {
         let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
-        let tag = tag()
         let colorClass = color != nil ? color!.buttonClass : nil
-        tag.class(insert: colorClass)
         super.init {
-            /// split dropdowns have two buttons, non-split just one button
-            /// if isSplit will create a simple button or link without special properties
-            /// DropdownArrowButton has all the special properties
-            /// if NOT isSplit will create button or link with special properties
-            if let link = tag as? A {
-                if isSplit {
-                    link
-                        .role(.button)
-        
-                } else {
-                    link
-                        .role(.button)
-                        .class(insert: .btn, .dropdownToggle)
-                        .id(id)
-                        .dataBsToggle(.dropdown)
-                        .ariaExpanded(false)
-                        .dataBsDisplay(.static, isMenuAlignResponsive)
-        
-                }
-            } else if let button = tag as? Button {
-                if isSplit {
-                    button
-                        .type(.button)
-                        .class(insert: .btn)
-                } else {
-                    button
-                        .type(.button)
-                        .class(insert: .btn, .dropdownToggle)
-                        .id(id) // not required for button groups
-                        .dataBsToggle(.dropdown)
-                        .ariaExpanded(false)
-                        .dataBsDisplay(.static, isMenuAlignResponsive)
-                }
-            }
+            tag()
+                .class(insert: colorClass)
+                .dataBsDisplay(.static, !isSplit && isMenuAlignResponsive)
         }
     }
 }
