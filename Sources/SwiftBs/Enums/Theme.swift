@@ -18,7 +18,7 @@ public enum Theme: String, CaseIterable {
 
 extension Theme {
     
-    var buttonClass: BsClass {
+    public var buttonClass: BsClass {
         switch self {
         case .primary:
             return .btnPrimary
@@ -39,7 +39,7 @@ extension Theme {
         }
     }
     
-    var buttonOutlineClass: BsClass {
+    public var buttonOutlineClass: BsClass {
         switch self {
         case .primary:
             return .btnOutlinePrimary
@@ -60,7 +60,7 @@ extension Theme {
         }
     }
     
-    var backgroundClass: BsClass {
+    public var backgroundClass: BsClass {
         switch self {
         case .primary:
             return .bgPrimary
@@ -81,7 +81,7 @@ extension Theme {
         }
     }
     
-    var borderClass: BsClass {
+    public var borderClass: BsClass {
         switch self {
         case .primary:
             return .borderPrimary
@@ -102,7 +102,7 @@ extension Theme {
         }
     }
     
-    var textClass: BsClass {
+    public var textClass: BsClass {
         switch self {
         case .primary:
             return .textPrimary
