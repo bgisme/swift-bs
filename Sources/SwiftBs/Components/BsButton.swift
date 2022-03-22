@@ -81,7 +81,7 @@ public class BsButton: Component {
     }
     
     @discardableResult
-    public func outline(_ value: Theme?, _ condition: Bool = true) -> Self {
+    public func border(_ value: Theme?, _ condition: Bool = true) -> Self {
         self.class(insert: value?.buttonOutlineClass, if: condition)
     }
 }
