@@ -16,10 +16,9 @@ public class Navbar: Component {
     }
     
     /// collapseBelow = nil ... auto-collapses behind toggler button
-    /// contents ... NavbarContainer
     public init(placement place: Placement? = nil,
                 collapseAt breakpoint: Breakpoint? = nil,
-                @TagBuilder contents: () -> [Tag]) {
+                navbarContainer: () -> NavbarContainer) {
         let placement: BsClass?
         switch place {
         case .fixedTop:
@@ -48,7 +47,7 @@ public class Navbar: Component {
         }
         super.init {
             Nav {
-                contents()
+                navbarContainer()
             }
             .class(insert: .navbar)
             .class(insert: placement)
