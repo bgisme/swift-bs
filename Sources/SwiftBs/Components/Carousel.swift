@@ -50,11 +50,16 @@ public class Carousel: Component {
                   isDark: isDark,
                   contents: {
             if let indicators = indicators {
-                Div { indicators.map { $0 } }.class(insert: .carouselIndicators)
+                Div {
+                    indicators.map { $0 }
+                }
+                .class(insert: .carouselIndicators)
             }
-            carouselItems
-            if let controls = controls {
-                controls.map { $0 }
+            CarouselInner {
+                carouselItems
+                if let controls = controls {
+                    controls.map { $0 }
+                }
             }
         })
     }
