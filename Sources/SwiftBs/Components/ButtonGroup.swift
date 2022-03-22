@@ -47,6 +47,7 @@ public class ButtonGroup: Component {
     public init(ariaLabel: String,
                 size: Size? = nil,
                 isVertical: Bool = false,
+                color: ThemeColor? = nil,
                 @TagBuilder buttons: () -> [Tag]) {
         let sizeClass: BsClass?
         if let size = size {
@@ -63,9 +64,11 @@ public class ButtonGroup: Component {
         } else {
             sizeClass = nil
         }
+        let buttons = buttons()
+        _ = buttons.map{ $0.class(insert: color?.buttonClass) }
         super.init {
             Div {
-                buttons()
+                buttons
             }
             .class(insert: isVertical ? .btnGroupVertical : .btnGroup)
             .class(insert: sizeClass)
