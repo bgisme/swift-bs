@@ -12,14 +12,14 @@ public class Progress: Component {
     public convenience init(percent: Int,
                             label: String? = nil,
                             height pixels: Int? = nil,
-                            color: ThemeColor? = nil,
+                            theme: Theme? = nil,
                             isStriped: Bool = false,
                             isAnimated: Bool = false) {
         self.init {
             Progressbar(percent: percent,
                         label: label,
                         height: pixels,
-                        color: color,
+                        theme: theme,
                         isStriped: isStriped,
                         isAnimated: isAnimated) {}
         }
@@ -41,13 +41,13 @@ public class Progressbar: Component {
     public convenience init(percent: Int,
                             label: String? = nil,
                             height pixels: Int? = nil,
-                            color: ThemeColor? = nil,
+                            theme: Theme? = nil,
                             isStriped: Bool = false,
                             isAnimated: Bool = false) {
         self.init(percent: percent,
                   label: label,
                   height: pixels,
-                  color: color,
+                  theme: theme,
                   isStriped: isStriped,
                   isAnimated: isAnimated,
                   contents: {})
@@ -58,7 +58,7 @@ public class Progressbar: Component {
     public init(percent: Int,
                 label: String? = nil,
                 height pixels: Int? = nil,
-                color: ThemeColor? = nil,
+                theme: Theme? = nil,
                 isStriped: Bool = false,
                 isAnimated: Bool = false,
                 @TagBuilder contents: () -> [Tag]) {
@@ -76,7 +76,7 @@ public class Progressbar: Component {
             .ariaValuenow("\(percent)")
             .ariaValuemin("0")
             .ariaValuemax("100")
-            .class(insert: color?.backgroundClass)
+            .class(insert: theme?.backgroundClass)
             .style(set: .height(pixels))
         }
     }

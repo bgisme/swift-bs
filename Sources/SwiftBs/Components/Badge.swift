@@ -10,22 +10,22 @@ import SwiftHtml
 public class Badge: Component {
     
     public convenience init(_ text: String,
-                            color: ThemeColor,
+                            theme: Theme,
                             isPositioned: Bool = false,
                             isRounded: Bool = false) {
-        self.init(color: color, isPositioned: isPositioned, isRounded: isRounded) {
+        self.init(theme: theme, isPositioned: isPositioned, isRounded: isRounded) {
             Span(text)
         }
     }
     
-    public init(color: ThemeColor,
+    public init(theme: Theme,
                 isPositioned: Bool = false,
                 isRounded: Bool = false,
                 span: () -> Span) {
         super.init {
             span()
                 .class(insert: .badge)
-                .class(insert: color.backgroundClass)
+                .class(insert: theme.backgroundClass)
                 .class(insert: .positionAbsolute, .top0, .start100, .translateMiddle, .roundedPill, if: isPositioned)
                 .class(insert: .roundedPill, if: isRounded)
         }

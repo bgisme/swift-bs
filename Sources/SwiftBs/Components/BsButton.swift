@@ -14,7 +14,7 @@ public class BsButton: Component {
         case lg
     }
     
-    public convenience init(color: ThemeColor? = nil,
+    public convenience init(theme: Theme? = nil,
                             isOutlined: Bool = false,
                             size: Size? = nil,
                             isBlockLevel: Bool = false,
@@ -23,7 +23,7 @@ public class BsButton: Component {
                             isDisabled: Bool = false,
                             isActive: Bool = false,
                             button: () -> Button) {
-        self.init(color: color, isOutlined: isOutlined, size: size, isBlockLevel: isBlockLevel) {
+        self.init(theme: theme, isOutlined: isOutlined, size: size, isBlockLevel: isBlockLevel) {
             button()
                 .type(.button)
                 .class(insert: .active, if: isToggle && isPressed)
@@ -34,14 +34,14 @@ public class BsButton: Component {
         }
     }
     
-    public convenience init(color: ThemeColor? = nil,
+    public convenience init(theme: Theme? = nil,
                             isOutlined: Bool = false,
                             size: Size? = nil,
                             isBlockLevel: Bool = false,
                             isDisabled: Bool = false,
                             isActive: Bool = false,
                             a: () -> A) {
-        self.init(color: color, isOutlined: isOutlined, size: size, isBlockLevel: isBlockLevel) {
+        self.init(theme: theme, isOutlined: isOutlined, size: size, isBlockLevel: isBlockLevel) {
             a()
                 .class(insert: .disabled, if: isDisabled)
                 .role(.button)
@@ -51,25 +51,19 @@ public class BsButton: Component {
         }
     }
     
-    public convenience init(color: ThemeColor? = nil,
+    public convenience init(theme: Theme? = nil,
                             isOutlined: Bool = false,
                             size: Size? = nil,
                             isBlockLevel: Bool = false,
                             input: () -> Input) {
-        self.init(color: color, isOutlined: isOutlined, size: size, isBlockLevel: isBlockLevel, tag: input)
+        self.init(theme: theme, isOutlined: isOutlined, size: size, isBlockLevel: isBlockLevel, tag: input)
     }
     
-    private init(color: ThemeColor?,
+    private init(theme: Theme?,
                  isOutlined: Bool,
                  size: Size? = nil,
                  isBlockLevel: Bool = false,
                  tag: () -> Tag) {
-        let colorClass: BsClass?
-        if let color = color {
-            colorClass = isOutlined ? color.buttonOutlineClass : color.buttonClass
-        } else {
-            colorClass = nil
-        }
         let sizeClass: BsClass?
         if let size = size {
             switch size {
@@ -84,7 +78,7 @@ public class BsButton: Component {
         super.init {
             tag()
                 .class(insert: .btn)
-                .class(insert: colorClass)
+                .class(insert: isOutlined ? theme?.buttonOutlineClass : theme?.buttonClass)
                 .class(insert: sizeClass)
                 .class(insert: .btnBlock, if: isBlockLevel)
         }

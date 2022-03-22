@@ -113,14 +113,14 @@ public class Dropdown: Component {
     
     public convenience init(id: String,
                 isSplit: Bool = false,
-                color: ThemeColor? = nil,
+                theme: Theme? = nil,
                 direction: Direction = .down,
                 menuAlign: MenuAlign? = nil,
                 isDark: Bool = false,
                 button: () -> Button,
                 @TagBuilder dropdownMenuItems: () -> [Tag]) {
         let button = DropdownButton(dropdownId: id,
-                                    color: color,
+                                    theme: theme,
                                     direction: direction,
                                     isSplit: isSplit,
                                     menuAlign: menuAlign,
@@ -136,14 +136,14 @@ public class Dropdown: Component {
     
     public convenience init(id: String,
                 isSplit: Bool = false,
-                color: ThemeColor? = nil,
+                theme: Theme? = nil,
                 direction: Direction = .down,
                 menuAlign: MenuAlign? = nil,
                 isDark: Bool = false,
                 a: () -> A,
                 @TagBuilder dropdownMenuItems: () -> [Tag]) {
         let button = DropdownButton(dropdownId: id,
-                                    color: color,
+                                    theme: theme,
                                     direction: direction,
                                     isSplit: isSplit,
                                     menuAlign: menuAlign,
@@ -159,7 +159,7 @@ public class Dropdown: Component {
     
     private init(id: String,
                  isSplit: Bool,
-                 color: ThemeColor? = nil,
+                 theme: Theme? = nil,
                  direction: Direction,
                  menuAlign align: MenuAlign?,
                  isDark: Bool,
@@ -264,22 +264,22 @@ public final class DropdownButton: Component {
     public convenience init(_ title: String,
                             href: String,
                             dropdownId id: String,
-                            color: ThemeColor? = nil,
+                            theme: Theme? = nil,
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil) {
-        self.init(dropdownId: id, color: color, direction: direction, isSplit: isSplit, menuAlign: menuAlign) {
+        self.init(dropdownId: id, theme: theme, direction: direction, isSplit: isSplit, menuAlign: menuAlign) {
             A(title).href(href)
         }
     }
     
     public convenience init(dropdownId id: String,
-                            color: ThemeColor? = nil,
+                            theme: Theme? = nil,
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil,
                             a: () -> A) {
-        self.init(dropdownId: id, color: color, direction: direction, isSplit: isSplit, menuAlign: menuAlign, tag: {
+        self.init(dropdownId: id, theme: theme, direction: direction, isSplit: isSplit, menuAlign: menuAlign, tag: {
             if isSplit {
                 return a()
                     .role(.button)
@@ -295,12 +295,12 @@ public final class DropdownButton: Component {
     }
     
     public convenience init(dropdownId id: String,
-                            color: ThemeColor? = nil,
+                            theme: Theme? = nil,
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil,
                             button: () -> Button) {
-        self.init(dropdownId: id, color: color, direction: direction, isSplit: isSplit, menuAlign: menuAlign, tag: {
+        self.init(dropdownId: id, theme: theme, direction: direction, isSplit: isSplit, menuAlign: menuAlign, tag: {
             if isSplit {
                 return button()
                     .type(.button)
@@ -317,16 +317,15 @@ public final class DropdownButton: Component {
     }
     
     internal init(dropdownId id: String,
-                  color: ThemeColor?,
+                  theme: Theme?,
                   direction: Dropdown.Direction,
                   isSplit: Bool,
                   menuAlign: Dropdown.MenuAlign?,
                   tag: () -> Tag) {
         let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
-        let colorClass = color != nil ? color!.buttonClass : nil
         super.init {
             tag()
-                .class(insert: colorClass)
+                .class(insert: theme?.buttonClass)
                 .dataBsDisplay(.static, !isSplit && isMenuAlignResponsive)
         }
     }
