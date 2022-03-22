@@ -274,7 +274,17 @@ public final class DropdownButton: Component {
                             menuAlign: Dropdown.MenuAlign? = nil,
                             a: () -> A) {
         self.init(dropdownId: id, color: color, direction: direction, isSplit: isSplit, menuAlign: menuAlign, tag: {
-            a()
+            if isSplit {
+                return a()
+                    .role(.button)
+            } else {
+                return a()
+                    .role(.button)
+                    .class(insert: .btn, .dropdownToggle)
+                    .id(id)
+                    .dataBsToggle(.dropdown)
+                    .ariaExpanded(false)
+            }
         })
     }
     
@@ -285,11 +295,21 @@ public final class DropdownButton: Component {
                             menuAlign: Dropdown.MenuAlign? = nil,
                             button: () -> Button) {
         self.init(dropdownId: id, color: color, direction: direction, isSplit: isSplit, menuAlign: menuAlign, tag: {
-            button()
+            if isSplit {
+                return button()
+                    .type(.button)
+                    .class(insert: .btn)
+            } else {
+                return button()
+                    .type(.button)
+                    .class(insert: .btn, .dropdownToggle)
+                    .id(id) // not required for button groups
+                    .dataBsToggle(.dropdown)
+                    .ariaExpanded(false)
+            }
         })
     }
     
-    // Only tags in convenience init()s allowed
     internal init(dropdownId id: String,
                   color: ThemeColor? = nil,
                   direction: Dropdown.Direction,
@@ -297,44 +317,11 @@ public final class DropdownButton: Component {
                   menuAlign: Dropdown.MenuAlign? = nil,
                   tag: () -> Tag) {
         let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
-        let tag = tag()
         let colorClass = color != nil ? color!.buttonClass : nil
-        tag.class(insert: colorClass)
         super.init {
-            /// split dropdowns have two buttons, non-split just one button
-            /// if isSplit will create a simple button or link without special properties
-            /// DropdownArrowButton has all the special properties
-            /// if NOT isSplit will create button or link with special properties
-            if let link = tag as? A {
-                if isSplit {
-                    link
-                        .role(.button)
-        
-                } else {
-                    link
-                        .role(.button)
-                        .class(insert: .btn, .dropdownToggle)
-                        .id(id)
-                        .dataBsToggle(.dropdown)
-                        .ariaExpanded(false)
-                        .dataBsDisplay(.static, isMenuAlignResponsive)
-        
-                }
-            } else if let button = tag as? Button {
-                if isSplit {
-                    button
-                        .type(.button)
-                        .class(insert: .btn)
-                } else {
-                    button
-                        .type(.button)
-                        .class(insert: .btn, .dropdownToggle)
-                        .id(id) // not required for button groups
-                        .dataBsToggle(.dropdown)
-                        .ariaExpanded(false)
-                        .dataBsDisplay(.static, isMenuAlignResponsive)
-                }
-            }
+            tag()
+                .class(insert: colorClass)
+                .dataBsDisplay(.static, isSplit && isMenuAlignResponsive)
         }
     }
 }
