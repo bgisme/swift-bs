@@ -153,17 +153,17 @@ public class Dropdown: Component {
                  isDark: Bool,
                  tag: () -> Tag,
                  @TagBuilder dropdownMenuItems: () -> [Tag]) {
-        let arrowButton = DropdownButtonArrow(id: id)
-        if isSplit, let classes = tag().value(.class)?.bsClasses {
-            // apply button classes to arrow button so they match
-            arrowButton.class(insert: classes)
-        }
         let button = DropdownButton(dropdownId: id,
                                     color: color,
                                     direction: direction,
                                     isSplit: isSplit,
                                     menuAlign: align,
                                     tag: tag)
+        let arrowButton = DropdownButtonArrow(id: id)
+        if isSplit, let classes = tag().value(.class)?.bsClasses {
+            // apply button classes to arrow button so they match
+            arrowButton.class(insert: classes)
+        }
         let menu = DropdownMenu(dropdownId: id,
                                 isDark: isDark,
                                 align: align) {
