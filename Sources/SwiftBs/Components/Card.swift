@@ -41,6 +41,7 @@ public class Card: Component {
                             body: CardBody? = nil,
                             bottomImage: Img? = nil,
                             footer: CardFooter? = nil,
+                            textAlign: TextAlign? = nil,
                             width: String? = nil) {
         self.init(width: width) {
             if let header = header { header }
@@ -58,12 +59,14 @@ public class Card: Component {
     /// Img bottom
     /// CardFooter
     public init(width: String? = nil,
+                textAlign: TextAlign? = nil,
                 @TagBuilder contents: () -> [Tag]) {
         super.init {
             Div {
                 contents()
             }
             .class(insert: .card)
+            .class(insert: textAlign?.class)
             .style(set: .width(width))
         }
     }
