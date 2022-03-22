@@ -74,7 +74,7 @@ public class Card: Component {
 
 public class CardImageOverlay: Component {
     
-    public init(img: () -> Img, @TagBuilder contents: () -> CardBody) {
+    public init(img: () -> Img, @TagBuilder contents: () -> [Tag]) {
         super.init {
             img().class(insert: .cardImg)
             Div {
