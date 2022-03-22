@@ -260,15 +260,15 @@ public class Dropdown: Component {
     
     @discardableResult
     public func background(_ value: Theme?, _ condition: Bool = true) -> Self {
-        self.button.class(insert: value?.backgroundClass, if: condition)
-        self.arrowButton?.tag.class(insert: value?.backgroundClass, if: condition)
+        self.button.class(insert: value?.buttonClass, if: condition)
+        self.arrowButton?.tag.class(insert: value?.buttonClass, if: condition)
         return self
     }
     
     @discardableResult
     public func border(_ value: Theme?, _ condition: Bool = true) -> Self {
-        self.button.class(insert: value?.borderClass, if: condition)
-        self.arrowButton?.tag.class(insert: value?.borderClass, if: condition)
+        self.button.class(insert: value?.buttonOutlineClass, if: condition)
+        self.arrowButton?.tag.class(insert: value?.buttonOutlineClass, if: condition)
         return self
     }
 }
