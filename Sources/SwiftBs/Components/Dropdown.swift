@@ -111,6 +111,9 @@ public class Dropdown: Component {
         }
     }
     
+    let button: DropdownButton
+    let arrowButton: DropdownButtonArrow?
+    
     public convenience init(id: String,
                 isSplit: Bool = false,
                 direction: Direction = .down,
@@ -160,7 +163,9 @@ public class Dropdown: Component {
                  isDark: Bool,
                  button: DropdownButton,
                  @TagBuilder dropdownMenuItems: () -> [Tag]) {
+        self.button = button
         let arrowButton = DropdownButtonArrow(id: id)
+        self.arrowButton = arrowButton
         if isSplit, let classes = button.tag.value(.class)?.bsClasses {
             // apply button classes to arrow button so they match
             arrowButton.class(insert: classes)
@@ -252,6 +257,20 @@ public class Dropdown: Component {
 //            }
 //        }
 //    }
+    
+    @discardableResult
+    public func background(_ value: Theme?, _ condition: Bool = true) -> Self {
+        self.button.class(insert: value?.backgroundClass, if: condition)
+        self.arrowButton?.tag.class(insert: value?.backgroundClass, if: condition)
+        return self
+    }
+    
+    @discardableResult
+    public func border(_ value: Theme?, _ condition: Bool = true) -> Self {
+        self.button.class(insert: value?.borderClass, if: condition)
+        self.arrowButton?.tag.class(insert: value?.borderClass, if: condition)
+        return self
+    }
 }
 
 public final class DropdownButton: Component {
