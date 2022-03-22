@@ -42,8 +42,8 @@ public class Card: Component {
                             bottomImage: Img? = nil,
                             footer: CardFooter? = nil,
                             textAlign: TextAlign? = nil,
-                            width: String? = nil) {
-        self.init(width: width) {
+                            theme: Theme? = nil) {
+        self.init(textAlign: textAlign, theme: theme) {
             if let header = header { header }
             if let topImage = topImage { topImage }
             if let body = body { body }
@@ -58,8 +58,8 @@ public class Card: Component {
     /// CardBody
     /// Img bottom
     /// CardFooter
-    public init(width: String? = nil,
-                textAlign: TextAlign? = nil,
+    public init(textAlign: TextAlign? = nil,
+                theme: Theme? = nil,
                 @TagBuilder contents: () -> [Tag]) {
         super.init {
             Div {
@@ -67,7 +67,7 @@ public class Card: Component {
             }
             .class(insert: .card)
             .class(insert: textAlign?.class)
-            .style(set: .width(width))
+            .class(insert: theme?.backgroundClass)
         }
     }
 }
