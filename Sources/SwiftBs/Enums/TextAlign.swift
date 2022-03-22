@@ -6,39 +6,39 @@
 //
 
 public enum TextAlign {
-    case textStart
-    case textSmStart
-    case textMdStart
-    case textLgStart
-    case textXlStart
-    case textCenter
-    case textSmCenter
-    case textMdCenter
-    case textLgCenter
-    case textXlCenter
-    case textEnd
-    case textSmEnd
-    case textMdEnd
-    case textLgEnd
-    case textXlEnd
+    case start
+    case startSm
+    case startMd
+    case startLg
+    case startXl
+    case center
+    case centerSm
+    case centerMd
+    case centerLg
+    case centerXl
+    case end
+    case endSm
+    case endMd
+    case endLg
+    case endXl
 
     var `class`: BsClass {
         switch self {
-        case .textStart: return .textStart
-        case .textSmStart: return .textSmStart
-        case .textMdStart: return .textMdStart
-        case .textLgStart: return .textLgStart
-        case .textXlStart: return .textXlStart
-        case .textCenter: return .textCenter
-        case .textSmCenter: return .textSmCenter
-        case .textMdCenter: return .textMdCenter
-        case .textLgCenter: return .textLgCenter
-        case .textXlCenter: return .textXlCenter
-        case .textEnd: return .textEnd
-        case .textSmEnd: return .textSmEnd
-        case .textMdEnd: return .textMdEnd
-        case .textLgEnd: return .textLgEnd
-        case .textXlEnd: return .textXlEnd
+        case .start: return .textStart
+        case .startSm: return .textSmStart
+        case .startMd: return .textMdStart
+        case .startLg: return .textLgStart
+        case .startXl: return .textXlStart
+        case .center: return .textCenter
+        case .centerSm: return .textSmCenter
+        case .centerMd: return .textMdCenter
+        case .centerLg: return .textLgCenter
+        case .centerXl: return .textXlCenter
+        case .end: return .textEnd
+        case .endSm: return .textSmEnd
+        case .endMd: return .textMdEnd
+        case .endLg: return .textLgEnd
+        case .endXl: return .textXlEnd
         }
     }
 }
