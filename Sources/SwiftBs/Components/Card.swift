@@ -270,9 +270,17 @@ public class CardLink: Component {
         }
     }
         
-    public init(_ a: () -> A) {
+    public convenience init(_ a: () -> A) {
+        self.init(tag: a)
+    }
+    
+    public convenience init(_ button: () -> BsButton) {
+        self.init(tag: { button().build() })
+    }
+    
+    private init(tag: () -> Tag) {
         super.init {
-            a()
+            tag()
                 .class(insert: .cardLink)
         }
     }
