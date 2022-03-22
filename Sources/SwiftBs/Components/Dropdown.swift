@@ -113,14 +113,12 @@ public class Dropdown: Component {
     
     public convenience init(id: String,
                 isSplit: Bool = false,
-                theme: Theme? = nil,
                 direction: Direction = .down,
                 menuAlign: MenuAlign? = nil,
                 isDark: Bool = false,
                 button: () -> Button,
                 @TagBuilder dropdownMenuItems: () -> [Tag]) {
         let button = DropdownButton(dropdownId: id,
-                                    theme: theme,
                                     direction: direction,
                                     isSplit: isSplit,
                                     menuAlign: menuAlign,
@@ -136,14 +134,12 @@ public class Dropdown: Component {
     
     public convenience init(id: String,
                 isSplit: Bool = false,
-                theme: Theme? = nil,
                 direction: Direction = .down,
                 menuAlign: MenuAlign? = nil,
                 isDark: Bool = false,
                 a: () -> A,
                 @TagBuilder dropdownMenuItems: () -> [Tag]) {
         let button = DropdownButton(dropdownId: id,
-                                    theme: theme,
                                     direction: direction,
                                     isSplit: isSplit,
                                     menuAlign: menuAlign,
@@ -159,7 +155,6 @@ public class Dropdown: Component {
     
     private init(id: String,
                  isSplit: Bool,
-                 theme: Theme? = nil,
                  direction: Direction,
                  menuAlign align: MenuAlign?,
                  isDark: Bool,
