@@ -40,10 +40,8 @@ public class Card: Component {
                             topImage: Img? = nil,
                             body: CardBody? = nil,
                             bottomImage: Img? = nil,
-                            footer: CardFooter? = nil,
-                            textAlign: TextAlign? = nil,
-                            theme: Theme? = nil) {
-        self.init(textAlign: textAlign, theme: theme) {
+                            footer: CardFooter? = nil) {
+        self.init {
             if let header = header { header }
             if let topImage = topImage { topImage }
             if let body = body { body }
@@ -58,17 +56,23 @@ public class Card: Component {
     /// CardBody
     /// Img bottom
     /// CardFooter
-    public init(textAlign: TextAlign? = nil,
-                theme: Theme? = nil,
-                @TagBuilder contents: () -> [Tag]) {
+    public init(@TagBuilder contents: () -> [Tag]) {
         super.init {
             Div {
                 contents()
             }
             .class(insert: .card)
-            .class(insert: textAlign?.class)
-            .class(insert: theme?.backgroundClass)
         }
+    }
+    
+    @discardableResult
+    public func textAlign(_ value: TextAlign?, _ condition: Bool = true) -> Self {
+        self.class(insert: value?.class, if: condition)
+    }
+    
+    @discardableResult
+    public func theme(_ value: Theme?, _ condition: Bool = true) -> Self {
+        self.class(insert: value?.backgroundClass)
     }
 }
 
