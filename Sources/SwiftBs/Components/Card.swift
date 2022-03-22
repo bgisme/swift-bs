@@ -146,7 +146,7 @@ public class CardBody: Component {
                     CardTitle(title)
                 }
                 if let subtitle = subtitle {
-                    CardTitle(subtitle, isSubtitle: true)
+                    CardSubtitle(subtitle)
                 }
                 if let text = text {
                     CardText(text)
@@ -172,50 +172,76 @@ public class CardBody: Component {
 
 public class CardTitle: Component {
     
-    public convenience init(_ text: String,
-                            isSubtitle: Bool = false) {
-        if isSubtitle {
-            self.init(isSubtitle: isSubtitle, h6: { H6(text) })
-        } else {
-            self.init(isSubtitle: isSubtitle, h5: { H5(text) })
-        }
+    public convenience init(_ text: String) {
+        self.init(h5: { H5(text) })
     }
         
-    public convenience init(isSubtitle: Bool = false,
-                            h1: () -> H1) {
-        self.init(isSubtitle: isSubtitle, tag: h1)
+    public convenience init(h1: () -> H1) {
+        self.init(tag: h1)
     }
 
-    public convenience init(isSubtitle: Bool = false,
-                            h2: () -> H2) {
-        self.init(isSubtitle: isSubtitle, tag: h2)
+    public convenience init(h2: () -> H2) {
+        self.init(tag: h2)
     }
 
-    public convenience init(isSubtitle: Bool = false,
-                            h3: () -> H3) {
-        self.init(isSubtitle: isSubtitle, tag: h3)
+    public convenience init(h3: () -> H3) {
+        self.init(tag: h3)
     }
 
-    public convenience init(isSubtitle: Bool = false,
-                            h4: () -> H4) {
-        self.init(isSubtitle: isSubtitle, tag: h4)
+    public convenience init(h4: () -> H4) {
+        self.init(tag: h4)
     }
 
-    public convenience init(isSubtitle: Bool = false,
-                            h5: () -> H5) {
-        self.init(isSubtitle: isSubtitle, tag: h5)
+    public convenience init(h5: () -> H5) {
+        self.init(tag: h5)
     }
     
-    public convenience init(isSubtitle: Bool = false,
-                            h6: () -> H6) {
-        self.init(isSubtitle: isSubtitle, tag: h6)
+    public convenience init(h6: () -> H6) {
+        self.init(tag: h6)
     }
 
-    private init(isSubtitle: Bool,
-                 tag: () -> Tag) {
+    private init(tag: () -> Tag) {
         super.init {
             tag()
-                .class(insert: isSubtitle ? .cardSubtitle : .cardTitle)
+                .class(insert: .cardTitle)
+        }
+    }
+}
+
+public class CardSubtitle: Component {
+    
+    public convenience init(_ text: String) {
+        self.init(h6: { H6(text) })
+    }
+        
+    public convenience init(h1: () -> H1) {
+        self.init(tag: h1)
+    }
+
+    public convenience init(h2: () -> H2) {
+        self.init(tag: h2)
+    }
+
+    public convenience init(h3: () -> H3) {
+        self.init(tag: h3)
+    }
+
+    public convenience init(h4: () -> H4) {
+        self.init(tag: h4)
+    }
+
+    public convenience init(h5: () -> H5) {
+        self.init(tag: h5)
+    }
+    
+    public convenience init(h6: () -> H6) {
+        self.init(tag: h6)
+    }
+
+    private init(tag: () -> Tag) {
+        super.init {
+            tag()
+                .class(insert: .cardSubtitle)
         }
     }
 }
