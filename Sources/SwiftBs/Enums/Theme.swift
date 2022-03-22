@@ -80,4 +80,25 @@ extension Theme {
             return .bgDark
         }
     }
+    
+    var textClass: BsClass {
+        switch self {
+        case .primary:
+            return .textPrimary
+        case .secondary:
+            return .textSecondary
+        case .success:
+            return .textSuccess
+        case .danger:
+            return .textDanger
+        case .warning:
+            return .textWarning
+        case .info:
+            return .textInfo
+        case .light:
+            return .textLight
+        case .dark:
+            return .textDark
+        }
+    }
 }
