@@ -34,19 +34,6 @@ public class Dropdown: Component {
         }
     }
     
-    // Menus align to left of dropdown by default
-    // To align right, add .dropdown-menu-end to menu
-
-    // To align responsively to size of screen
-    // Add data-bs-display="static" to single button or split-button
-    // Add to menu
-    // .dropdown-menu{-sm|-md|-lg|-xl|-xxl}-end
-    // or
-    // .dropdown-menu{-sm|-md|-lg|-xl|-xxl}-start
-    
-    // For example, to align the dropdown menu right, and on large screens to left
-    // .dropdown-menu-end and .dropdown-menu{-sm|-md|-lg|-xl|-xxl}-start.
-    
     public enum MenuAlign {
         case end
         case responsive(_ bp: MenuAlignBreakpoint)
@@ -111,6 +98,10 @@ public class Dropdown: Component {
         }
     }
     
+    public typealias Id = String
+    public typealias IsSplit = Bool
+    public typealias IsDark = Bool
+    
     let button: DropdownButton
     let arrowButton: DropdownButtonArrow?
     
@@ -121,18 +112,23 @@ public class Dropdown: Component {
                 isDark: Bool = false,
                 button: () -> Button,
                 @TagBuilder dropdownMenuItems: () -> [Tag]) {
-        let button = DropdownButton(dropdownId: id,
-                                    direction: direction,
-                                    isSplit: isSplit,
-                                    menuAlign: menuAlign,
-                                    button: button)
         self.init(id: id,
                   isSplit: isSplit,
                   direction: direction,
                   menuAlign: menuAlign,
-                  isDark: isDark,
-                  button: button,
-                  dropdownMenuItems: dropdownMenuItems)
+                  isDark: isDark) { id, isSplit, direction, menuAlign in
+            DropdownButton(dropdownId: id,
+                           direction: direction,
+                           isSplit: isSplit,
+                           menuAlign: menuAlign,
+                           button: button)
+        } menu: { id, isDark, align in
+            DropdownMenu(dropdownId: id,
+                         isDark: isDark,
+                         align: align) {
+                dropdownMenuItems()
+            }
+        }
     }
     
     public convenience init(id: String,
@@ -142,46 +138,101 @@ public class Dropdown: Component {
                 isDark: Bool = false,
                 a: () -> A,
                 @TagBuilder dropdownMenuItems: () -> [Tag]) {
-        let button = DropdownButton(dropdownId: id,
-                                    direction: direction,
-                                    isSplit: isSplit,
-                                    menuAlign: menuAlign,
-                                    a: a)
         self.init(id: id,
                   isSplit: isSplit,
                   direction: direction,
                   menuAlign: menuAlign,
-                  isDark: isDark,
-                  button: button,
-                  dropdownMenuItems: dropdownMenuItems)
+                  isDark: isDark) { id, isSplit, direction, menuAlign in
+            DropdownButton(dropdownId: id,
+                           direction: direction,
+                           isSplit: isSplit,
+                           menuAlign: menuAlign,
+                           a: a)
+        } menu: { id, isDark, align in
+            DropdownMenu(dropdownId: id,
+                         isDark: isDark,
+                         align: align) {
+                dropdownMenuItems()
+            }
+        }
     }
     
-    private init(id: String,
-                 isSplit: Bool,
-                 direction: Direction,
-                 menuAlign align: MenuAlign?,
-                 isDark: Bool,
-                 button: DropdownButton,
-                 @TagBuilder dropdownMenuItems: () -> [Tag]) {
-        self.button = button
+//    private init(id: String,
+//                 isSplit: Bool,
+//                 direction: Direction,
+//                 menuAlign align: MenuAlign?,
+//                 isDark: Bool,
+//                 button: DropdownButton,
+//                 @TagBuilder dropdownMenuItems: () -> [Tag]) {
+//        self.button = button
+//        let arrowButton = DropdownButtonArrow(id: id)
+//        self.arrowButton = arrowButton
+//        if isSplit, let classes = button.tag.value(.class)?.bsClasses {
+//            // apply button classes to arrow button so they match
+//            arrowButton.class(insert: classes)
+//        }
+//        let menu = DropdownMenu(dropdownId: id,
+//                                isDark: isDark,
+//                                align: align) {
+//            dropdownMenuItems()
+//        }
+//        super.init {
+//            if isSplit {
+//                if direction != .start {
+//                    Div {
+//                        button
+//                        arrowButton
+//                        menu
+//                    }
+//                    .class(insert: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
+//                    .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
+//                } else {
+//                    Div {
+//                        Div {
+//                            /// split buttons direction .start are ordered differently and inside extra button group
+//                            arrowButton
+//                            menu
+//                        }
+//                        .class(insert: .btnGroup, .dropstart)
+//                        .role(.group)
+//                        button
+//                    }
+//                    .class(insert: .btnGroup)
+//                }
+//            } else {
+//                /// non-split
+//                Div {
+//                    button
+//                    menu
+//                }
+//                .class(insert: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
+//                .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
+//            }
+//        }
+//    }
+    
+    public init(id: String,
+                isSplit: Bool = false,
+                direction: Direction = .down,
+                menuAlign: MenuAlign? = nil,
+                isDark: Bool = false,
+                button: (Id, IsSplit, Dropdown.Direction, MenuAlign?) -> DropdownButton,
+                menu: (Id, IsDark, MenuAlign?) -> DropdownMenu) {
+        let button = button(id, isSplit, direction, menuAlign)
         let arrowButton = DropdownButtonArrow(id: id)
-        self.arrowButton = arrowButton
         if isSplit, let classes = button.tag.value(.class)?.bsClasses {
             // apply button classes to arrow button so they match
             arrowButton.class(insert: classes)
         }
-        let menu = DropdownMenu(dropdownId: id,
-                                isDark: isDark,
-                                align: align) {
-            dropdownMenuItems()
-        }
+        self.button = button
+        self.arrowButton = arrowButton
         super.init {
             if isSplit {
                 if direction != .start {
                     Div {
                         button
                         arrowButton
-                        menu
+                        menu(id, isDark, menuAlign)
                     }
                     .class(insert: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
                     .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
@@ -190,7 +241,7 @@ public class Dropdown: Component {
                         Div {
                             /// split buttons direction .start are ordered differently and inside extra button group
                             arrowButton
-                            menu
+                            menu(id, isDark, menuAlign)
                         }
                         .class(insert: .btnGroup, .dropstart)
                         .role(.group)
@@ -202,7 +253,7 @@ public class Dropdown: Component {
                 /// non-split
                 Div {
                     button
-                    menu
+                    menu(id, isDark, menuAlign)
                 }
                 .class(insert: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
                 .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
