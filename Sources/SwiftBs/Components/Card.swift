@@ -57,7 +57,8 @@ public class Card: Component {
     /// CardBody
     /// Img bottom
     /// CardFooter
-    public init(width: String? = nil, @TagBuilder contents: () -> [Tag]) {
+    public init(width: String? = nil,
+                @TagBuilder contents: () -> [Tag]) {
         super.init {
             Div {
                 contents()
@@ -128,6 +129,12 @@ public class CardHeader: Component {
 }
 
 public class CardBody: Component {
+    
+    public convenience init(title: String? = nil,
+                            subtitle: String? = nil,
+                            text: String? = nil) {
+        self.init(title: title, subtitle: subtitle, text: text, links: {})
+    }
     
     public convenience init(title: String? = nil,
                             subtitle: String? = nil,
