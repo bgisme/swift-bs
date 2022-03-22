@@ -11,10 +11,22 @@ public class BsButton: Component {
     
     public enum Size {
         case sm
+        case md
         case lg
+        
+        var `class`: BsClass {
+            switch self {
+            case .sm:
+                return .btnSm
+            case .md:
+                return .btn
+            case .lg:
+                return .btnLg
+            }
+        }
     }
     
-    public convenience init(size: Size? = nil,
+    public convenience init(size: Size = .md,
                             isBlockLevel: Bool = false,
                             isToggle: Bool = false,
                             isPressed: Bool = false,
@@ -32,7 +44,7 @@ public class BsButton: Component {
         }
     }
     
-    public convenience init(size: Size? = nil,
+    public convenience init(size: Size = .md,
                             isBlockLevel: Bool = false,
                             isDisabled: Bool = false,
                             isActive: Bool = false,
@@ -47,30 +59,18 @@ public class BsButton: Component {
         }
     }
     
-    public convenience init(size: Size? = nil,
+    public convenience init(size: Size = .md,
                             isBlockLevel: Bool = false,
                             input: () -> Input) {
         self.init(size: size, isBlockLevel: isBlockLevel, tag: input)
     }
     
-    private init(size: Size? = nil,
+    private init(size: Size = .md,
                  isBlockLevel: Bool = false,
                  tag: () -> Tag) {
-        let sizeClass: BsClass?
-        if let size = size {
-            switch size {
-            case .sm:
-                sizeClass = .btnSm
-            case .lg:
-                sizeClass = .btnLg
-            }
-        } else {
-            sizeClass = nil
-        }
         super.init {
             tag()
-                .class(insert: .btn)
-                .class(insert: sizeClass)
+                .class(insert: size.class)
                 .class(insert: .btnBlock, if: isBlockLevel)
         }
     }
