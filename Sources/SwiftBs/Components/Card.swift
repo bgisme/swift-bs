@@ -75,11 +75,11 @@ public class Card: Component {
 public class CardImageOverlay: Component {
     
     public init(img: () -> Img,
-                card: () -> Card) {
+                cardBody: () -> CardBody) {
         super.init {
             img().class(insert: .cardImg)
             Div {
-                card()
+                cardBody()
             }
             .class(insert: .cardImgOverlay)
         }
