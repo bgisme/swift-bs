@@ -116,10 +116,25 @@ public class CardHeader: Component {
         self.init(tag: h6)
     }
     
-    /// contents ... anything
-    public convenience init(@TagBuilder contents: () -> [Tag]) {
+    public convenience init(div: () -> Div) {
+        self.init(tag: div)
+    }
+    
+    public convenience init(navTab: () -> NavTab) {
+        let cardNav: BsClass?
+        switch navTab().style {
+        case .pills:
+            cardNav = .cardHeaderPills
+        case .tabs:
+            cardNav = .cardHeaderTabs
+        default:
+            cardNav = nil
+        }
         self.init(tag: {
-            Div { contents() }
+            Div {
+                navTab()
+                    .class(insert: cardNav)
+            }
         })
     }
     

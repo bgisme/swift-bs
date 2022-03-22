@@ -10,18 +10,18 @@ import SwiftHtml
 public class NavTab: Component {
     
     public enum Align {
-        case right
         case center
+        case right
     }
     
     public enum Style {
-        case tabs
         case pills
+        case tabs
     }
     
     public enum Width {
-        case proportional
         case equal
+        case proportional
     }
     
     public enum TagType {
@@ -30,12 +30,15 @@ public class NavTab: Component {
         case ul
     }
     
+    let style: Style?
+    
     public init(align: Align? = nil,
                 breakpoints: Breakpoint...,
                 style: Style? = nil,
                 width: Width? = nil,
                 type: TagType,
                 @TagBuilder contents: () -> [Tag]) {
+        self.style = style
         let alignment: BsClass?
         switch align {
         case .right:
