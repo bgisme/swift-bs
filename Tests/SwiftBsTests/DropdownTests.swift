@@ -10,18 +10,12 @@ final class DropdownTests: XCTestCase {
         XCTFail()
         
         let id1 = "id1"
-        let tag = Dropdown(id: id1) { id, isSplit, direction, menuAlign in
-            DropdownButton(dropdownId: id,
-                           direction: direction,
-                           isSplit: isSplit,
-                           menuAlign: menuAlign) {
-                Button()
-            }
-        } menu: { id, isDark, align in
-            DropdownMenu(dropdownId: id, isDark: isDark, align: align) {
-                DropdownMenuItem { Button("Test") }
-            }
+        let tag = Dropdown(id: id1) {
+            Button()
+        } dropdownMenuItems: {
+            DropdownMenuItem { Button("Test") }
         }.build()
+
         XCTAssert(tag.value(.class)?.has(.btnGroup) ?? false)
     }
 }
