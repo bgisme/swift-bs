@@ -1316,6 +1316,8 @@ public enum BsClass: String {
     // MARK: - R
     case rounded
     case roundedPill = "rounded-pill"
+    case roundedStart = "rounded-start"
+    case roundedEnd = "rounded-end"
     
     case row
     
