@@ -344,19 +344,23 @@ public final class DropdownButton: Component {
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil,
                             a: () -> A) {
-        self.init(dropdownId: id, theme: theme, direction: direction, isSplit: isSplit, menuAlign: menuAlign, tag: {
-            if isSplit {
-                return a()
-                    .role(.button)
-            } else {
-                return a()
-                    .role(.button)
-                    .class(insert: .btn, .dropdownToggle)
-                    .id(id)
-                    .dataBsToggle(.dropdown)
-                    .ariaExpanded(false)
-            }
-        })
+//        self.init(dropdownId: id, theme: theme, direction: direction, isSplit: isSplit, menuAlign: menuAlign, tag: {
+//            if isSplit {
+//                return a()
+//                    .role(.button)
+//            } else {
+//                return a()
+//                    .role(.button)
+//                    .class(insert: .btn)
+//                    .class(insert: .dropdownToggle)
+//                    .dataBsToggle(.dropdown)
+//                    .ariaExpanded(false)
+//                    .id(id)
+//            }
+//        })
+        self.init(dropdownId: id, theme: theme, direction: direction, isSplit: isSplit, menuAlign: menuAlign) {
+            BsButton(a: a)
+        }
     }
     
     public convenience init(dropdownId id: String,
@@ -365,19 +369,40 @@ public final class DropdownButton: Component {
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil,
                             button: () -> Button) {
+//        self.init(dropdownId: id, theme: theme, direction: direction, isSplit: isSplit, menuAlign: menuAlign, tag: {
+//            if isSplit {
+//                return button()
+//                    .type(.button)
+//                    .class(insert: .btn)
+//            } else {
+//                return button()
+//                    .type(.button)
+//                    .class(insert: .btn)
+//                    .class(insert: .dropdownToggle)
+//                    .dataBsToggle(.dropdown)
+//                    .ariaExpanded(false)
+//                    .id(id) // not required for button groups
+//            }
+//        })
+        self.init(dropdownId: id, theme: theme, direction: direction, isSplit: isSplit, menuAlign: menuAlign) {
+            BsButton(button: button)
+        }
+    }
+    
+    public convenience init(dropdownId id: String,
+                            theme: Theme? = nil,
+                            direction: Dropdown.Direction = .down,
+                            isSplit: Bool = false,
+                            menuAlign: Dropdown.MenuAlign? = nil,
+                            button: () -> BsButton) {
+        let button = button().build()
         self.init(dropdownId: id, theme: theme, direction: direction, isSplit: isSplit, menuAlign: menuAlign, tag: {
-            if isSplit {
-                return button()
-                    .type(.button)
-                    .class(insert: .btn)
-            } else {
-                return button()
-                    .type(.button)
-                    .class(insert: .btn, .dropdownToggle)
-                    .id(id) // not required for button groups
-                    .dataBsToggle(.dropdown)
-                    .ariaExpanded(false)
-            }
+            guard !isSplit else { return button }
+            return button
+                .class(insert: .dropdownToggle)
+                .dataBsToggle(.dropdown)
+                .ariaExpanded(false)
+                .id(id)
         })
     }
     
