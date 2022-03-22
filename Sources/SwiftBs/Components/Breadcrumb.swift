@@ -22,7 +22,8 @@ public class Breadcrumb: Component {
     public static let breadcrumbDividerRemoved = "''"
     
     //! THIS FUNCTION IS AMBIGUOUSLY CLOSE TO REGULAR INIT
-    public convenience init(divider: String? = nil, @TagBuilder breadcrumbItems: () -> [Tag]) {
+    public convenience init(divider: String? = nil,
+                            @TagBuilder breadcrumbItems: () -> [Tag]) {
         self.init(divider: divider, breadcrumbList: {
             BreadcrumbList {
                 breadcrumbItems()
@@ -30,7 +31,8 @@ public class Breadcrumb: Component {
         })
     }
         
-    public init(divider: String? = nil, breadcrumbList: () -> BreadcrumbList) {
+    public init(divider: String? = nil,
+                breadcrumbList: () -> BreadcrumbList) {
         super.init {
             if let divider = divider {
                 Nav {
