@@ -115,6 +115,10 @@ public class CardHeader: Component {
     public convenience init(h6: () -> H6) {
         self.init(tag: h6)
     }
+    
+    public convenience init(navTab: () -> NavTab) {
+        self.init(contents: { navTab() })
+    }
         
     /// contents ... anything
     public convenience init(@TagBuilder contents: () -> [Tag]) {
