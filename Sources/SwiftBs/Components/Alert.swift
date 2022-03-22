@@ -18,8 +18,8 @@ public class Alert: Component {
         - color: Bootstrap style (.primary, .secondary, etc)
      
      */
-    public convenience init(_ text: String, theme: Theme? = nil) {
-        self.init(theme: theme) {
+    public convenience init(_ text: String) {
+        self.init() {
             Div(text)
         }
     }
@@ -70,18 +70,25 @@ public class Alert: Component {
      ````
 
      */
-    public init(theme: Theme? = nil,
-                isAlignedCenter: Bool = false,
+    public init(isAlignedCenter: Bool = false,
                 @TagBuilder contents: () -> [Tag]) {
         super.init {
             Div {
                 contents()
             }
             .class(insert: .alert)
-            .class(insert: theme?.backgroundClass)
-            .class(insert: .dFlex, .alignItemsCenter, if: isAlignedCenter)
             .role(.alert)
         }
+    }
+    
+    @discardableResult
+    public func alignItems(_ value: ItemsAlign?, _ condition: Bool = true) -> Self {
+        self.class(insert: .dFlex, value?.class, if: condition)
+    }
+    
+    @discardableResult
+    public func background(_ value: Theme?, _ condition: Bool = true) -> Self {
+        self.class(insert: value?.backgroundClass, if: condition)
     }
 }
 

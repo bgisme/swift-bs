@@ -10,24 +10,26 @@ import SwiftHtml
 public class Badge: Component {
     
     public convenience init(_ text: String,
-                            theme: Theme,
                             isPositioned: Bool = false,
                             isRounded: Bool = false) {
-        self.init(theme: theme, isPositioned: isPositioned, isRounded: isRounded) {
+        self.init(isPositioned: isPositioned, isRounded: isRounded) {
             Span(text)
         }
     }
     
-    public init(theme: Theme,
-                isPositioned: Bool = false,
+    public init(isPositioned: Bool = false,
                 isRounded: Bool = false,
                 span: () -> Span) {
         super.init {
             span()
                 .class(insert: .badge)
-                .class(insert: theme.backgroundClass)
                 .class(insert: .positionAbsolute, .top0, .start100, .translateMiddle, .roundedPill, if: isPositioned)
                 .class(insert: .roundedPill, if: isRounded)
         }
-    }    
+    }
+    
+    @discardableResult
+    public func background(_ value: Theme?, _ condition: Bool = true) -> Self {
+        self.class(insert: value?.backgroundClass, if: condition)
+    }
 }
