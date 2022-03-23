@@ -26,26 +26,38 @@ public class Navbar: Component {
         }
     }
     
-    /// collapseBelow = nil ... auto-collapses behind toggler button
-    public convenience init(placement: Placement? = nil,
+//    /// collapseBelow = nil ... auto-collapses behind toggler button
+//    public convenience init(placement: Placement? = nil,
+//                            collapseAt breakpoint: Size? = nil,
+//                            isFluid: Bool = true,
+//                            containerType type: TagType,              // required to disambiguate from init() without any parameters
+//                            @TagBuilder contents: () -> [Tag]) {
+//        self.init(placement: placement, collapseAt: breakpoint) {
+//            Container(type: type, isFluid: isFluid) {
+//                contents()
+//            }
+//        }
+//    }
+    
+    public static func `as`(_ tagType: TagType,
+                            placement: Placement? = nil,
                             collapseAt breakpoint: Size? = nil,
                             isFluid: Bool = true,
-                            containerType type: TagType,              // required to disambiguate from init() without any parameters
-                            @TagBuilder contents: () -> [Tag]) {
-        self.init(placement: placement, collapseAt: breakpoint) {
-            Container(type: type, isFluid: isFluid) {
-                contents()
-            }
+                            @TagBuilder contents: () -> [Tag]) -> Navbar {
+        Navbar(placement: placement,
+               collapseAt: breakpoint) {
+            tagType.tag(contents)
+                .class(insert: .containerFluid)
         }
     }
     
     /// use for access to Container for styling
     public init(placement: Placement? = nil,
                 collapseAt breakpoint: Size? = nil,
-                container: () -> Container) {
+                tag: () -> Tag) {
         super.init {
             Nav {
-                container()
+                tag()
             }
             .class(insert: .navbar)
             .class(insert: placement?.class)

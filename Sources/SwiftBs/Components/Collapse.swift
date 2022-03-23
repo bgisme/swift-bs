@@ -67,7 +67,7 @@ public class CollapseButton: Component {
                 .ariaExpanded(false)
                 .ariaControls(ids.map{$0}.joined(separator: " "))
         }
-    }
+    }    
 }
 
 public class CollapseContent: Component {

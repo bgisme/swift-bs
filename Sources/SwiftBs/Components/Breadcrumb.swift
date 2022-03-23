@@ -22,14 +22,14 @@ public class Breadcrumb: Component {
     public static let breadcrumbDividerRemoved = "''"
     
     //! THIS FUNCTION IS AMBIGUOUSLY CLOSE TO REGULAR INIT
-    public convenience init(divider: String? = nil,
-                            @TagBuilder breadcrumbItems: () -> [Tag]) {
-        self.init(divider: divider, breadcrumbList: {
-            BreadcrumbList {
-                breadcrumbItems()
-            }
-        })
-    }
+//    public convenience init(divider: String? = nil,
+//                            @TagBuilder breadcrumbItems: () -> [Tag]) {
+//        self.init(divider: divider, breadcrumbList: {
+//            BreadcrumbList {
+//                breadcrumbItems()
+//            }
+//        })
+//    }
         
     public init(divider: String? = nil,
                 breadcrumbList: () -> BreadcrumbList) {
@@ -45,7 +45,7 @@ public class Breadcrumb: Component {
                 }
             }
         }
-    }
+    }    
 }
 
 public class BreadcrumbList: Component {
@@ -58,7 +58,7 @@ public class BreadcrumbList: Component {
             }
             .class(insert: .breadcrumb)
         }
-    }
+    }    
 }
 
 public class BreadcrumbListItem: Component {

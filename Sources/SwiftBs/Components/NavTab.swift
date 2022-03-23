@@ -36,7 +36,7 @@ public class NavTab: Component {
                 breakpoints: Breakpoint...,
                 style: Style? = nil,
                 width: Width? = nil,
-                type: TagType,
+                as tagType: TagType,
                 @TagBuilder contents: () -> [Tag]) {
         self.style = style
         let alignment: BsClass?
@@ -90,7 +90,7 @@ public class NavTab: Component {
             spacing = nil
         }
         let tag: Tag
-        switch type {
+        switch tagType {
         case .nav:
             tag = Nav { contents() }
         case .ol:
@@ -138,14 +138,14 @@ public class NavItemDropdown: Component {
     
     public convenience init(id: String,
                             isDark: Bool = false,
-                            menuContainer tag: TagType,
+                            menuAs tagType: DropdownMenu.TagType,
                             a: () -> A,
                             @TagBuilder menuItems: () -> [Tag]) {
         self.init(id: id,
                   isDark: isDark,
                   a: a,
                   menu: { id, isDark in
-            DropdownMenu(dropdownId: id, isDark: isDark, as: tag) {
+            DropdownMenu.as(tagType, dropdownId: id, isDark: isDark) {
                 menuItems()
             }
         })

@@ -38,16 +38,8 @@ public class Accordion: Component {
             .id(id)
             .class(insert: .accordionFlush, if: isFlush)
         }
-    }
+    }    
 }
-
-//AccordionItem(index: 0,
-//              isExpanded: true,
-//              accordionId: accordionId) { headerId, collapseId in
-//    AccordionHeader("Item 1",
-//                    id: headerId,
-//                    collapseId: collapseId,
-//                    isExpanded: false)
 
 public class AccordionItem: Component {
     

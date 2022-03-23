@@ -10,6 +10,11 @@ import Darwin
 
 public class Dropdown: Component {
     
+//    public enum TagType {
+//        case a
+//        case button
+//    }
+    
     public enum Direction {
         case down
         case up
@@ -104,10 +109,10 @@ public class Dropdown: Component {
     public convenience init(id: String,
                             isSplit: Bool = false,
                             direction: Direction = .down,
+                            menuAlign: MenuAlign? = nil,
+                            menuAs tagType: DropdownMenu.TagType = .ul,
                             isDark: Bool = false,
                             size: Size = .md,
-                            menuAlign: MenuAlign? = nil,
-                            menuContainer tag: TagType = .ul,
                             button: () -> Button,
                             @TagBuilder dropdownMenuItems: () -> [Tag]) {
         self.init(id: id,
@@ -123,10 +128,10 @@ public class Dropdown: Component {
                            size: size,
                            button: button)
         } menu: { id, isDark, align in
-            DropdownMenu(dropdownId: id,
-                         isDark: isDark,
-                         align: align,
-                         as: tag) {
+            DropdownMenu.as(tagType,
+                            dropdownId: id,
+                            isDark: isDark,
+                            align: align) {
                 dropdownMenuItems()
             }
         }
@@ -135,10 +140,10 @@ public class Dropdown: Component {
     public convenience init(id: String,
                             isSplit: Bool = false,
                             direction: Direction = .down,
+                            menuAlign: MenuAlign? = nil,
+                            menuAs tagType: DropdownMenu.TagType = .ul,
                             isDark: Bool = false,
                             size: Size = .md,
-                            menuAlign: MenuAlign? = nil,
-                            menuContainer tag: TagType = .ul,
                             a: () -> A,
                             @TagBuilder dropdownMenuItems: () -> [Tag]) {
         self.init(id: id,
@@ -154,10 +159,10 @@ public class Dropdown: Component {
                            size: size,
                            a: a)
         } menu: { id, isDark, align in
-            DropdownMenu(dropdownId: id,
-                         isDark: isDark,
-                         align: align,
-                         as: tag) {
+            DropdownMenu.as(tagType,
+                            dropdownId: id,
+                            isDark: isDark,
+                            align: align) {
                 dropdownMenuItems()
             }
         }
@@ -341,19 +346,59 @@ public class DropdownMenu: Component {
     public typealias Title = String
     public typealias Href = String
     
+    // localized limited version of TagType
+    public enum TagType {
+        case ol
+        case ul
+        case div
+        
+        public func tag(@TagBuilder _ contents: () -> [Tag]) -> Tag {
+            switch self {
+            case .ol:
+                return Ol { contents() }
+            case .ul:
+                return Ul { contents() }
+            case .div:
+                return Div { contents() }
+            }
+        }
+    }
+    
+//    public convenience init(dropdownId: String,
+//                            isDark: Bool = false,
+//                            align: Dropdown.MenuAlign? = nil,
+//                            as tagType: TagType,              // required to disambiguate from init() without any parameters
+//                            @TagBuilder dropdownMenuItems: () -> [Tag]) {
+//        self.init(dropdownId: dropdownId, isDark: isDark, align: align) {
+//            tagType.tag {
+//                dropdownMenuItems()
+//            }
+//        }
+//    }
+    
+    public static func `as`(_ tagType: TagType = .ul,
+                            dropdownId: String,
+                            isDark: Bool = false,
+                            align: Dropdown.MenuAlign? = nil,
+                            @TagBuilder dropdownMenuItems: () -> [Tag]) -> DropdownMenu {
+        DropdownMenu(dropdownId: dropdownId,
+                     isDark: isDark,
+                     align: align) {
+            tagType.tag { dropdownMenuItems() }
+        }
+    }
+
+    // base init needs Tag so it is accessible for styling at declaration
     public init(dropdownId: String,
                 isDark: Bool = false,
                 align: Dropdown.MenuAlign? = nil,
-                as type: TagType = .ul,
-                @TagBuilder contents: () -> [Tag]) {
+                tag: () -> Tag) {
         super.init {
-            type.tag {
-                contents()
-            }
-            .class(insert: .dropdownMenu)
-            .class(insert: .dropdownMenuDark, if: isDark)
-            .class(insert: align?.classes)
-            .ariaLabelledBy(dropdownId)
+            tag()
+                .class(insert: .dropdownMenu)
+                .class(insert: .dropdownMenuDark, if: isDark)
+                .class(insert: align?.classes)
+                .ariaLabelledBy(dropdownId)
         }
     }
 }

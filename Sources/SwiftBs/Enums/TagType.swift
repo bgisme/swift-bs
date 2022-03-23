@@ -120,7 +120,7 @@ public enum TagType {
     case video
     case wbr
     
-    func tag(@TagBuilder _ contents: () -> [Tag]) -> Tag {
+    public func tag(@TagBuilder _ contents: () -> [Tag]) -> Tag {
         switch self {
         case .a:
             return A { contents() }

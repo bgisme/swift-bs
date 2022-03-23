@@ -136,7 +136,7 @@ public class CardHeader: Component {
         })
     }
     
-    private init(tag: () -> Tag) {
+    private override init(tag: () -> Tag) {
         super.init {
             tag()
                 .class(insert: .cardHeader)
@@ -216,7 +216,7 @@ public class CardTitle: Component {
         self.init(tag: h6)
     }
 
-    private init(tag: () -> Tag) {
+    private override init(tag: () -> Tag) {
         super.init {
             tag()
                 .class(insert: .cardTitle)
@@ -254,7 +254,7 @@ public class CardSubtitle: Component {
         self.init(tag: h6)
     }
 
-    private init(tag: () -> Tag) {
+    private override init(tag: () -> Tag) {
         super.init {
             tag()
                 .class(insert: .cardSubtitle)
@@ -294,7 +294,7 @@ public class CardLink: Component {
         self.init(tag: { button().build() })
     }
     
-    private init(tag: () -> Tag) {
+    private override init(tag: () -> Tag) {
         super.init {
             tag()
                 .class(insert: .cardLink)
