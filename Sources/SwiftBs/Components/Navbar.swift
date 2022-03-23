@@ -26,27 +26,14 @@ public class Navbar: Component {
         }
     }
     
-//    /// collapseBelow = nil ... auto-collapses behind toggler button
-//    public convenience init(placement: Placement? = nil,
-//                            collapseAt breakpoint: Size? = nil,
-//                            isFluid: Bool = true,
-//                            containerType type: TagType,              // required to disambiguate from init() without any parameters
-//                            @TagBuilder contents: () -> [Tag]) {
-//        self.init(placement: placement, collapseAt: breakpoint) {
-//            Container(type: type, isFluid: isFluid) {
-//                contents()
-//            }
-//        }
-//    }
-    
-    public static func `as`(_ tagType: TagType,
-                            placement: Placement? = nil,
-                            collapseAt breakpoint: Size? = nil,
-                            isFluid: Bool = true,
-                            @TagBuilder contents: () -> [Tag]) -> Navbar {
+    public static func withContainer(_ type: TagType,
+                                     placement: Placement? = nil,
+                                     collapseAt breakpoint: Size? = nil,
+                                     isFluid: Bool = true,
+                                     @TagBuilder contents: () -> [Tag]) -> Navbar {
         Navbar(placement: placement,
                collapseAt: breakpoint) {
-            tagType.tag(contents)
+            type.tag(contents)
                 .class(insert: .containerFluid)
         }
     }
