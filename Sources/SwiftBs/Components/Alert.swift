@@ -100,8 +100,8 @@ public class AlertHeading: Component {
      - parameters:
         - text:String value of an <h4>
      */
-    public static func make(_ text: String) -> AlertHeading {
-        AlertHeading {
+    public convenience init(_ text: String) {
+        self.init {
             H4(text)
         }
     }
