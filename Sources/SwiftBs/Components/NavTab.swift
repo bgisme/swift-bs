@@ -137,7 +137,7 @@ public class NavItemDropdown: Component {
     public typealias IsDark = Bool
         
     public init(id: String,
-                isDark: Bool,
+                isDark: Bool = false,
                 a: () -> A,
                 menu: (Id, IsDark) -> DropdownMenu) {
         super.init {
