@@ -30,7 +30,7 @@ public class Navbar: Component {
     public convenience init(placement: Placement? = nil,
                             collapseAt breakpoint: Size? = nil,
                             isFluid: Bool = true,
-                            container type: TagType,              // required to disambiguate from init() without any parameters
+                            containerType type: TagType,              // required to disambiguate from init() without any parameters
                             @TagBuilder contents: () -> [Tag]) {
         self.init(placement: placement, collapseAt: breakpoint) {
             Container(type: type, isFluid: isFluid) {

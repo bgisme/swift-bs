@@ -10,7 +10,7 @@ import SwiftHtml
 public class Container: Component {
     
     public init(type: TagType = .div,
-                isFluid: Bool,
+                isFluid: Bool = false,
                 @TagBuilder contents: () -> [Tag]) {
         super.init {
             type.tag(contents)

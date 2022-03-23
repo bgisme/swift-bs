@@ -138,13 +138,14 @@ public class NavItemDropdown: Component {
     
     public convenience init(id: String,
                             isDark: Bool = false,
+                            menuContainer: TagType,
                             a: () -> A,
                             @TagBuilder menuItems: () -> [Tag]) {
         self.init(id: id,
                   isDark: isDark,
                   a: a,
                   menu: { id, isDark in
-            DropdownMenu(dropdownId: id, isDark: isDark) {
+            DropdownMenu(dropdownId: id, isDark: isDark, containerType: menuContainer) {
                 menuItems()
             }
         })

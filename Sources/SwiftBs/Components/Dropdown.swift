@@ -10,11 +10,6 @@ import Darwin
 
 public class Dropdown: Component {
     
-    public enum TagType {
-        case a
-        case button
-    }
-    
     public enum Direction {
         case down
         case up
@@ -110,6 +105,7 @@ public class Dropdown: Component {
                             isSplit: Bool = false,
                             direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
+                            menuContainer containerType: TagType,
                             isDark: Bool = false,
                             size: Size = .md,
                             button: () -> Button,
@@ -129,7 +125,8 @@ public class Dropdown: Component {
         } menu: { id, isDark, align in
             DropdownMenu(dropdownId: id,
                          isDark: isDark,
-                         align: align) {
+                         align: align,
+                         containerType: containerType) {
                 dropdownMenuItems()
             }
         }
@@ -139,6 +136,7 @@ public class Dropdown: Component {
                             isSplit: Bool = false,
                             direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
+                            menuContainer containerType: TagType = .ul,
                             isDark: Bool = false,
                             size: Size = .md,
                             a: () -> A,
@@ -158,7 +156,8 @@ public class Dropdown: Component {
         } menu: { id, isDark, align in
             DropdownMenu(dropdownId: id,
                          isDark: isDark,
-                         align: align) {
+                         align: align,
+                         containerType: containerType) {
                 dropdownMenuItems()
             }
         }
@@ -342,18 +341,43 @@ public class DropdownMenu: Component {
     public typealias Title = String
     public typealias Href = String
     
+//    public init(dropdownId: String,
+//                isDark: Bool = false,
+//                align: Dropdown.MenuAlign? = nil,
+//                @TagBuilder dropdownMenuItems: () -> [Tag]) {
+//        super.init {
+//            Ul {
+//                dropdownMenuItems()
+//            }
+//            .class(insert: .dropdownMenu)
+//            .class(insert: .dropdownMenuDark, if: isDark)
+//            .class(insert: align?.classes)
+//            .ariaLabelledBy(dropdownId)
+//        }
+//    }
+    
+    public convenience init(dropdownId: String,
+                            isDark: Bool = false,
+                            align: Dropdown.MenuAlign? = nil,
+                            containerType type: TagType,              // required to disambiguate from init() without any parameters
+                            @TagBuilder dropdownMenuItems: () -> [Tag]) {
+        self.init(dropdownId: dropdownId, isDark: isDark, align: align) {
+            Container(type: type) {
+                dropdownMenuItems()
+            }
+        }
+    }
+    
     public init(dropdownId: String,
                 isDark: Bool = false,
                 align: Dropdown.MenuAlign? = nil,
-                @TagBuilder dropdownMenuItems: () -> [Tag]) {
+                container: () -> Container) {
         super.init {
-            Ul {
-                dropdownMenuItems()
-            }
-            .class(insert: .dropdownMenu)
-            .class(insert: .dropdownMenuDark, if: isDark)
-            .class(insert: align?.classes)
-            .ariaLabelledBy(dropdownId)
+            container().tag
+                .class(insert: .dropdownMenu)
+                .class(insert: .dropdownMenuDark, if: isDark)
+                .class(insert: align?.classes)
+                .ariaLabelledBy(dropdownId)
         }
     }
 }

@@ -10,7 +10,7 @@ final class DropdownTests: XCTestCase {
         XCTFail()
         
         let id1 = "id1"
-        let tag = Dropdown(id: id1) {
+        let tag = Dropdown(id: id1, menuContainer: .ul) {
             Button()
         } dropdownMenuItems: {
             DropdownMenuItem { Button("Test") }
