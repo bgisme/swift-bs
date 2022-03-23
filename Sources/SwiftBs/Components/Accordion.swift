@@ -26,10 +26,10 @@ public class Accordion: Component {
     public typealias AccordionId = String
     public typealias IsAlwaysOpen = Bool
     
-    public static func asDiv(id: String,
-                             isFlush: Bool = false,
-                             isAlwaysOpen: Bool = false,
-                             @TagBuilder accordionItems: (AccordionId, IsAlwaysOpen) -> [Tag]) -> Accordion {
+    public static func make(id: String,
+                            isFlush: Bool = false,
+                            isAlwaysOpen: Bool = false,
+                            @TagBuilder accordionItems: (AccordionId, IsAlwaysOpen) -> [Tag]) -> Accordion {
         Accordion(id: id, isFlush: isFlush, isAlwaysOpen: isAlwaysOpen) {
             Div {
                 accordionItems(id, isAlwaysOpen)
@@ -56,26 +56,30 @@ public class AccordionItem: Component {
     public typealias CollapseId = String
     public typealias IsExpanded = Bool
     
-    public static func asDiv(_ title: String,
-                             index: Int,
-                             isExpanded: Bool = false,
-                             accordionId: String,
-                             isAlwaysOpen: Bool = false,
-                             @TagBuilder collapseContents: () -> [Tag]) -> AccordionItem {
+    public static func make(_ title: String,
+                            index: Int,
+                            isExpanded: Bool = false,
+                            accordionId: String,
+                            isAlwaysOpen: Bool = false,
+                            @TagBuilder collapseContents: () -> [Tag]) -> AccordionItem {
         let headerId = accordionId + "Header" + String(index)
         let collapseId = accordionId + "Collapse" + String(index)
-        return AccordionItem(title, index: index, accordionId: accordionId) {
+        return AccordionItem(title,
+                             index: index,
+                             isExpanded: isExpanded,
+                             accordionId: accordionId,
+                             isAlwaysOpen: isAlwaysOpen) {
             Div {
-                AccordionHeader(title,
-                                id: headerId,
-                                collapseId: collapseId,
-                                isExpanded: isExpanded)
-                AccordionCollapse(id: collapseId,
-                                  accordionId: accordionId,
-                                  headerId: headerId,
-                                  isExpanded: isExpanded,
-                                  isAlwaysOpen: isAlwaysOpen) {
-                    AccordionBody {
+                AccordionHeader.make(title,
+                                     id: headerId,
+                                     collapseId: collapseId,
+                                     isExpanded: isExpanded)
+                AccordionCollapse.make(id: collapseId,
+                                       accordionId: accordionId,
+                                       headerId: headerId,
+                                       isExpanded: isExpanded,
+                                       isAlwaysOpen: isAlwaysOpen) {
+                    AccordionBody.make {
                         collapseContents()
                     }
                 }
@@ -98,11 +102,11 @@ public class AccordionItem: Component {
 
 public class AccordionHeader: Component {
     
-    public init(_ text: String,
-                id: String,
-                collapseId: String,
-                isExpanded: Bool = false) {
-        super.init {
+    public static func make(_ text: String,
+                            id: String,
+                            collapseId: String,
+                            isExpanded: Bool = false) -> AccordionHeader {
+        AccordionHeader(text, id: id) {
             H2 {
                 Button(text)
                     .class(insert: .accordionButton)
@@ -113,29 +117,52 @@ public class AccordionHeader: Component {
                     .ariaExpanded(isExpanded)
                     .ariaControls(collapseId)
             }
-            .class(insert: .accordionHeader)
-            .id(id)
+        }
+    }
+    
+    public init(_ text: String,
+                id: String,
+                h2: () -> H2) {
+        super.init {
+            h2()
+                .class(insert: .accordionHeader)
+                .id(id)
         }
     }
 }
 
 public class AccordionCollapse: Component {
     
+    public static func make(id: String,
+                            accordionId: String,
+                            headerId: String,
+                            isExpanded: Bool = false,
+                            isAlwaysOpen: Bool = false,
+                            accordionBody: () -> AccordionBody) -> AccordionCollapse {
+        AccordionCollapse(id: id,
+                          accordionId: accordionId,
+                          headerId: headerId,
+                          isExpanded: isExpanded,
+                          isAlwaysOpen: isAlwaysOpen) {
+            Div {
+                accordionBody()
+            }
+        }
+    }
+    
     public init(id: String,
                 accordionId: String,
                 headerId: String,
                 isExpanded: Bool = false,
                 isAlwaysOpen: Bool = false,
-                accordionBody: () -> AccordionBody) {
+                div: () -> Div) {
         super.init {
-            Div {
-                accordionBody()
-            }
-            .id(id)
-            .class(insert: .accordionCollapse, .collapse)
-            .class(insert: .show, if: isExpanded)
-            .ariaLabelledBy(headerId)
-            .dataParent(accordionId, !isAlwaysOpen)
+            div()
+                .id(id)
+                .class(insert: .accordionCollapse, .collapse)
+                .class(insert: .show, if: isExpanded)
+                .ariaLabelledBy(headerId)
+                .dataParent(accordionId, !isAlwaysOpen)
         }
     }
 }
@@ -143,12 +170,18 @@ public class AccordionCollapse: Component {
 public class AccordionBody: Component {
     
     /// contents ... anything
-    public init(@TagBuilder contents: () -> [Tag]) {
-        super.init {
+    public static func make(@TagBuilder contents: () -> [Tag]) -> AccordionBody {
+        AccordionBody.init {
             Div {
                 contents()
             }
-            .class(insert: .accordionBody)
+        }
+    }
+    
+    public init(div: () -> Div) {
+        super.init {
+            div()
+                .class(insert: .accordionBody)
         }
     }
 }
