@@ -283,6 +283,7 @@ public enum BsClass: String {
     
     case dropdown
     case dropdownDivider = "dropdown-divider"
+    case dropdownHeader = "dropdown-header"
     case dropdownItem = "dropdown-item"
     case dropdownItemText = "dropdown-item-text"
     case dropdownMenu = "dropdown-menu"

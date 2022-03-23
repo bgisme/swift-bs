@@ -6,6 +6,7 @@
 //
 
 import SwiftHtml
+import Darwin
 
 public class Dropdown: Component {
     
@@ -407,5 +408,39 @@ public class DropdownMenuDivider: Component {
     
     public init() {
         super.init { Hr().class(insert: .dropdownDivider) }
+    }
+}
+
+public class DropdownMenuHeader: Component {
+    
+    public convenience init(h1: () -> H1) {
+        self.init(tag: h1)
+    }
+    
+    public convenience init(h2: () -> H2) {
+        self.init(tag: h2)
+    }
+
+    public convenience init(h3: () -> H3) {
+        self.init(tag: h3)
+    }
+
+    public convenience init(h4: () -> H4) {
+        self.init(tag: h4)
+    }
+
+    public convenience init(h5: () -> H5) {
+        self.init(tag: h5)
+    }
+
+    public convenience init(h6: () -> H6) {
+        self.init(tag: h6)
+    }
+
+    private init(tag: () -> Tag) {
+        super.init {
+            tag()
+                .class(insert: .dropdownHeader)
+        }
     }
 }
