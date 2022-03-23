@@ -12,7 +12,7 @@ public class Progress: Component {
     public convenience init(percent: Int,
                             label: String? = nil,
                             height pixels: Int? = nil,
-                            theme: Theme? = nil,
+                            theme: ColorTheme? = nil,
                             isStriped: Bool = false,
                             isAnimated: Bool = false) {
         self.init {
@@ -41,7 +41,7 @@ public class Progressbar: Component {
     public convenience init(percent: Int,
                             label: String? = nil,
                             height pixels: Int? = nil,
-                            theme: Theme? = nil,
+                            theme: ColorTheme? = nil,
                             isStriped: Bool = false,
                             isAnimated: Bool = false) {
         self.init(percent: percent,
@@ -58,7 +58,7 @@ public class Progressbar: Component {
     public init(percent: Int,
                 label: String? = nil,
                 height pixels: Int? = nil,
-                theme: Theme? = nil,
+                theme: ColorTheme? = nil,
                 isStriped: Bool = false,
                 isAnimated: Bool = false,
                 @TagBuilder contents: () -> [Tag]) {

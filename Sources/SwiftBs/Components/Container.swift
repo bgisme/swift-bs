@@ -9,9 +9,38 @@ import SwiftHtml
 
 public class Container: Component {
     
-    public init(type: TagType = .div, @TagBuilder contents: () -> [Tag]) {
+    public init(type: TagType = .div,
+                isFluid: Bool,
+                @TagBuilder contents: () -> [Tag]) {
         super.init {
             type.tag(contents)
+                .class(insert: Size.md.containerClass)
+        }
+    }
+}
+
+extension Container: Sizable {
+    
+    @discardableResult
+    public func size(_ value: Size?, _ condition: Bool = true) -> Self {
+        self.class(insert: value?.containerClass, if: condition)
+    }
+}
+
+extension Size {
+    
+    var containerClass: BsClass {
+        switch self {
+        case .xsm, .sm:
+            return .containerSm
+        case .md:
+            return .container
+        case .lg:
+            return .containerLg
+        case .xl:
+            return .containerXl
+        case .xxl:
+            return .containerXxl
         }
     }
 }

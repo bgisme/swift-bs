@@ -1,11 +1,11 @@
 //
-//  Theme.swift
+//  ColorTheme.swift
 //  
 //
 //  Created by Brad Gourley on 3/21/22.
 //
 
-public enum Theme: String, CaseIterable {
+public enum ColorTheme: String, CaseIterable {
     case primary
     case secondary
     case success
@@ -16,7 +16,7 @@ public enum Theme: String, CaseIterable {
     case dark
 }
 
-extension Theme {
+extension ColorTheme {
     
     public var buttonClass: BsClass {
         switch self {

@@ -1,11 +1,11 @@
 //
-//  ItemsAlign.swift
+//  AlignItems.swift
 //  
 //
 //  Created by Brad Gourley on 3/22/22.
 //
 
-public enum ItemsAlign {
+public enum AlignItems {
     case start
     case end
     case center

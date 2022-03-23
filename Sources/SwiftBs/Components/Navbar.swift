@@ -29,7 +29,9 @@ public class Navbar: Component {
     /// collapseBelow = nil ... auto-collapses behind toggler button
     public init(placement: Placement? = nil,
                 collapseAt breakpoint: Breakpoint? = nil,
-                container: () -> Container) {
+                container type: TagType = .div,
+                isFluid: Bool = true,
+                @TagBuilder contents: () -> [Tag]) {
         let expand: BsClass?
         switch breakpoint {
         case .sm:
@@ -47,7 +49,10 @@ public class Navbar: Component {
         }
         super.init {
             Nav {
-                container()
+                Container(type: type, isFluid: isFluid) {
+                    contents()
+                }
+                .class(insert: .containerFluid)
             }
             .class(insert: .navbar)
             .class(insert: placement?.class)

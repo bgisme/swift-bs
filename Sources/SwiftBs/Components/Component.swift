@@ -19,6 +19,17 @@ public class Component: TagRepresentable {
     public func build() -> Tag {
         tag
     }
+
+    @discardableResult
+    public func background(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
+        self.class(insert: value?.backgroundClass, if: condition)
+        return self
+    }
+    
+    @discardableResult
+    public func border(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
+        self.class(insert: value?.borderClass, if: condition)
+    }
 }
 
 extension Component: Bootstrapable {

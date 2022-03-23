@@ -27,9 +27,4 @@ public class Badge: Component {
                 .class(insert: .roundedPill, if: isRounded)
         }
     }
-    
-    @discardableResult
-    public func background(_ value: Theme?, _ condition: Bool = true) -> Self {
-        self.class(insert: value?.backgroundClass, if: condition)
-    }
 }

@@ -110,7 +110,7 @@ public class Dropdown: Component {
                             direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
                             isDark: Bool = false,
-                            size: BsButton.Size = .md,
+                            size: Size = .md,
                             button: () -> Button,
                             @TagBuilder dropdownMenuItems: () -> [Tag]) {
         self.init(id: id,
@@ -139,7 +139,7 @@ public class Dropdown: Component {
                             direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
                             isDark: Bool = false,
-                            size: BsButton.Size = .md,
+                            size: Size = .md,
                             a: () -> A,
                             @TagBuilder dropdownMenuItems: () -> [Tag]) {
         self.init(id: id,
@@ -168,8 +168,8 @@ public class Dropdown: Component {
                 direction: Direction = .down,
                 menuAlign: MenuAlign? = nil,
                 isDark: Bool = false,
-                size: BsButton.Size = .md,
-                button: (Id, IsSplit, Dropdown.Direction, MenuAlign?, BsButton.Size) -> DropdownButton,
+                size: Size = .md,
+                button: (Id, IsSplit, Dropdown.Direction, MenuAlign?, Size) -> DropdownButton,
                 menu: (Id, IsDark, MenuAlign?) -> DropdownMenu) {
         let button = button(id, isSplit, direction, menuAlign, size)
         let arrowButton = DropdownButtonArrow(id: id)
@@ -215,14 +215,14 @@ public class Dropdown: Component {
     }
     
     @discardableResult
-    public func background(_ value: Theme?, _ condition: Bool = true) -> Self {
+    public override func background(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
         self.button.background(value, condition)
         self.arrowButton?.background(value, condition)
         return self
     }
     
     @discardableResult
-    public func border(_ value: Theme?, _ condition: Bool = true) -> Self {
+    public override func border(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
         self.button.border(value, condition)
         self.arrowButton?.background(value, condition)
         return self
@@ -237,7 +237,7 @@ public final class DropdownButton: Component {
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil,
-                            size: BsButton.Size = .md) {
+                            size: Size = .md) {
         self.init(dropdownId: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign, size: size) {
             A(title).href(href)
         }
@@ -247,7 +247,7 @@ public final class DropdownButton: Component {
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil,
-                            size: BsButton.Size = .md,
+                            size: Size = .md,
                             a: () -> A) {
         self.init(dropdownId: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign, size: size) {
             BsButton(a: a)
@@ -258,7 +258,7 @@ public final class DropdownButton: Component {
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil,
-                            size: BsButton.Size = .md,
+                            size: Size = .md,
                             button: () -> Button) {
         self.init(dropdownId: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign, size: size) {
             BsButton(button: button)
@@ -269,7 +269,7 @@ public final class DropdownButton: Component {
                             direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil,
-                            size: BsButton.Size = .md,
+                            size: Size = .md,
                             button: () -> BsButton) {
         let button = button().build()
         self.init(dropdownId: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign, size: size, tag: {
@@ -286,23 +286,23 @@ public final class DropdownButton: Component {
                   direction: Dropdown.Direction,
                   isSplit: Bool,
                   menuAlign: Dropdown.MenuAlign?,
-                  size: BsButton.Size,
+                  size: Size,
                   tag: () -> Tag) {
         let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
         super.init {
             tag()
                 .dataBsDisplay(.static, !isSplit && isMenuAlignResponsive)
-                .class(insert: size.class)
+                .class(insert: size.buttonClass)
         }
     }
     
     @discardableResult
-    public func background(_ value: Theme?, _ condition: Bool = true) -> Self {
+    public override func background(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
         self.class(insert: value?.buttonClass, if: condition)
     }
     
     @discardableResult
-    public func border(_ value: Theme?, _ condition: Bool = true) -> Self {
+    public override func border(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
         self.class(insert: value?.buttonOutlineClass, if: condition)
     }
 }
@@ -326,12 +326,12 @@ public class DropdownButtonArrow: Component {
     }
     
     @discardableResult
-    public func background(_ value: Theme?, _ condition: Bool = true) -> Self {
+    public override func background(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
         self.class(insert: value?.buttonClass, if: condition)
     }
     
     @discardableResult
-    public func border(_ value: Theme?, _ condition: Bool = true) -> Self {
+    public override func border(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
         self.class(insert: value?.buttonOutlineClass, if: condition)
     }
 }

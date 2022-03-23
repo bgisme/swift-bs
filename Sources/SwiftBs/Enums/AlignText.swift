@@ -1,11 +1,11 @@
 //
-//  TextAlign.swift
+//  AlignText.swift
 //  
 //
 //  Created by Brad Gourley on 3/22/22.
 //
 
-public enum TextAlign {
+public enum AlignText {
     case start
     case startSm
     case startMd

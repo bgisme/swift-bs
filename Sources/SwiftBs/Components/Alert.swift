@@ -82,13 +82,8 @@ public class Alert: Component {
     }
     
     @discardableResult
-    public func alignItems(_ value: ItemsAlign?, _ condition: Bool = true) -> Self {
+    public func alignItems(_ value: AlignItems?, _ condition: Bool = true) -> Self {
         self.class(insert: .dFlex, value?.class, if: condition)
-    }
-    
-    @discardableResult
-    public func background(_ value: Theme?, _ condition: Bool = true) -> Self {
-        self.class(insert: value?.backgroundClass, if: condition)
     }
 }
 

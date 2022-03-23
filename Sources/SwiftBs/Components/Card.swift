@@ -66,19 +66,9 @@ public class Card: Component {
     }
     
     @discardableResult
-    public func textAlign(_ value: TextAlign?, _ condition: Bool = true) -> Self {
+    public func textAlign(_ value: AlignText?, _ condition: Bool = true) -> Self {
         self.class(insert: value?.class, if: condition)
-    }
-    
-    @discardableResult
-    public func background(_ value: Theme?, _ condition: Bool = true) -> Self {
-        self.class(insert: value?.backgroundClass)
-    }
-    
-    @discardableResult
-    public func border(_ value: Theme?, _ condition: Bool = true) -> Self {
-        self.class(insert: value?.borderClass)
-    }
+    }    
 }
 
 public class CardImageOverlay: Component {
