@@ -26,7 +26,7 @@ public class Navbar: Component {
         }
     }
     
-    public static func withContainer(_ type: TagType,
+    public static func withContainer(_ type: TagType = .div,
                                      placement: Placement? = nil,
                                      collapseAt breakpoint: Size? = nil,
                                      isFluid: Bool = true,
