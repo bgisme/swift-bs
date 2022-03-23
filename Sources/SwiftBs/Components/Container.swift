@@ -14,8 +14,7 @@ public class Container: Component {
                 @TagBuilder contents: () -> [Tag]) {
         super.init {
             type.tag(contents)
-                .class(insert: Size.md.containerClass)
-                .class(insert: .containerFluid, if: isFluid)
+                .class(insert: isFluid ? .containerFluid : Size.md.containerClass)
         }
     }
 }
