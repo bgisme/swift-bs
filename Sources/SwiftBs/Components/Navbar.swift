@@ -65,6 +65,12 @@ public class NavbarContainer: Component {
             .class(insert: isFluid ? .containerFluid : .container)
         }
     }
+    
+    public init(isFluid: Bool = true, type container: Container = .div, @TagBuilder contents: () -> [Tag]) {
+        super.init {
+            container.tag(contents)
+        }
+    }
 }
 
 public class NavbarBrand: Component {
