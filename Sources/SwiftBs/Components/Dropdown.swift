@@ -105,9 +105,9 @@ public class Dropdown: Component {
                             isSplit: Bool = false,
                             direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
-                            menuContainer containerType: TagType,
                             isDark: Bool = false,
                             size: Size = .md,
+                            menuContainer containerType: TagType,
                             button: () -> Button,
                             @TagBuilder dropdownMenuItems: () -> [Tag]) {
         self.init(id: id,
@@ -136,9 +136,9 @@ public class Dropdown: Component {
                             isSplit: Bool = false,
                             direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
-                            menuContainer containerType: TagType = .ul,
                             isDark: Bool = false,
                             size: Size = .md,
+                            menuContainer containerType: TagType = .ul,
                             a: () -> A,
                             @TagBuilder dropdownMenuItems: () -> [Tag]) {
         self.init(id: id,
