@@ -15,6 +15,7 @@ public class Container: Component {
         super.init {
             type.tag(contents)
                 .class(insert: Size.md.containerClass)
+                .class(insert: .containerFluid, if: isFluid)
         }
     }
 }
