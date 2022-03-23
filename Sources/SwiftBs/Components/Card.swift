@@ -36,12 +36,12 @@ public class Card: Component {
 //        self.append { header }
 //    }
     
-    public convenience init(header: CardHeader? = nil,
+    public static func make(header: CardHeader? = nil,
                             topImage: Img? = nil,
                             body: CardBody? = nil,
                             bottomImage: Img? = nil,
-                            footer: CardFooter? = nil) {
-        self.init {
+                            footer: CardFooter? = nil) -> Card {
+        self.make {
             if let header = header { header }
             if let topImage = topImage { topImage }
             if let body = body { body }
@@ -49,19 +49,25 @@ public class Card: Component {
             if let footer = footer { footer }
         }
     }
-        
+    
     /// contents ...
     /// CardHeader
     /// Img top
     /// CardBody
     /// Img bottom
     /// CardFooter
-    public init(@TagBuilder contents: () -> [Tag]) {
-        super.init {
+    public static func make(@TagBuilder contents: () -> [Tag]) -> Card {
+        Card {
             Div {
                 contents()
             }
-            .class(insert: .card)
+        }
+    }
+    
+    public init(div: () -> Div) {
+        super.init {
+            div()
+                .class(insert: .card)
         }
     }
     
@@ -71,10 +77,12 @@ public class Card: Component {
     }    
 }
 
-public class CardImageOverlay: Component {
+public class CardImageOverlay: TagRepresentable {
+    
+    let group: GroupTag
     
     public init(img: () -> Img, @TagBuilder contents: () -> [Tag]) {
-        super.init {
+        self.group = GroupTag {
             img().class(insert: .cardImg)
             Div {
                 contents()
@@ -82,12 +90,35 @@ public class CardImageOverlay: Component {
             .class(insert: .cardImgOverlay)
         }
     }
+    
+    @TagBuilder
+    public func build() -> Tag {
+        group
+    }
 }
 
 public class CardHeader: Component {
     
-    public convenience init(_ text: String) {
-        self.init(tag: { Div(text) })
+    public static func make(navTab: () -> NavTab) -> CardHeader {
+        let cardNav: BsClass?
+        switch navTab().style {
+        case .pills:
+            cardNav = .cardHeaderPills
+        case .tabs:
+            cardNav = .cardHeaderTabs
+        default:
+            cardNav = nil
+        }
+        return CardHeader(tag: {
+            Div {
+                navTab()
+                    .class(insert: cardNav)
+            }
+        })
+    }
+    
+    public static func make(_ text: String) -> CardHeader {
+        CardHeader(tag: { Div(text) })
     }
         
     public convenience init(h1: () -> H1) {
@@ -117,25 +148,7 @@ public class CardHeader: Component {
     public convenience init(div: () -> Div) {
         self.init(tag: div)
     }
-    
-    public convenience init(navTab: () -> NavTab) {
-        let cardNav: BsClass?
-        switch navTab().style {
-        case .pills:
-            cardNav = .cardHeaderPills
-        case .tabs:
-            cardNav = .cardHeaderTabs
-        default:
-            cardNav = nil
-        }
-        self.init(tag: {
-            Div {
-                navTab()
-                    .class(insert: cardNav)
-            }
-        })
-    }
-    
+        
     private override init(tag: () -> Tag) {
         super.init {
             tag()
@@ -146,26 +159,26 @@ public class CardHeader: Component {
 
 public class CardBody: Component {
     
-    public convenience init(title: String? = nil,
+    public static func make(title: String? = nil,
                             subtitle: String? = nil,
-                            text: String? = nil) {
-        self.init(title: title, subtitle: subtitle, text: text, links: {})
+                            text: String? = nil) -> CardBody {
+        self.make(title: title, subtitle: subtitle, text: text, links: {})
     }
     
-    public convenience init(title: String? = nil,
+    public static func make(title: String? = nil,
                             subtitle: String? = nil,
                             text: String? = nil,
-                            @TagBuilder links: () -> [Tag]) {
-        self.init {
+                            @TagBuilder links: () -> [Tag]) -> CardBody {
+        CardBody {
             Div {
                 if let title = title {
-                    CardTitle(title)
+                    CardTitle.make(title)
                 }
                 if let subtitle = subtitle {
-                    CardSubtitle(subtitle)
+                    CardSubtitle.make(subtitle)
                 }
                 if let text = text {
-                    CardText(text)
+                    CardText.make(text)
                 }
                 links()
             }
@@ -175,21 +188,27 @@ public class CardBody: Component {
     /// contents ...
     /// CardTitle
     /// CardText
-    /// A  A  A
-    public init(@TagBuilder contents: () -> [Tag]) {
-        super.init {
+    /// CardLink
+    public static func make(@TagBuilder contents: () -> [Tag]) -> CardBody {
+        CardBody {
             Div {
                 contents()
             }
-            .class(insert: .cardBody)
+        }
+    }
+    
+    public init(div: () -> Div) {
+        super.init {
+            div()
+                .class(insert: .cardBody)
         }
     }
 }
 
 public class CardTitle: Component {
     
-    public convenience init(_ text: String) {
-        self.init(h5: { H5(text) })
+    public static func make(_ text: String) -> CardTitle {
+        CardTitle(h5: { H5(text) })
     }
         
     public convenience init(h1: () -> H1) {
@@ -226,8 +245,8 @@ public class CardTitle: Component {
 
 public class CardSubtitle: Component {
     
-    public convenience init(_ text: String) {
-        self.init(h6: { H6(text) })
+    public static func make(_ text: String) -> CardSubtitle {
+        CardSubtitle(h6: { H6(text) })
     }
         
     public convenience init(h1: () -> H1) {
@@ -264,13 +283,13 @@ public class CardSubtitle: Component {
 
 public class CardText: Component {
     
-    public convenience init(_ text: String) {
-        self.init {
+    public static func make(_ text: String) -> CardText {
+        CardText {
             P(text)
         }
     }
         
-    public init(_ p: () -> P) {
+    public init(p: () -> P) {
         super.init {
             p()
                 .class(insert: .cardText)
@@ -280,8 +299,8 @@ public class CardText: Component {
 
 public class CardLink: Component {
     
-    public convenience init(_ title: String, href: String) {
-        self.init {
+    public static func make(_ title: String, href: String) -> CardLink {
+        CardLink {
             A(title).href(href)
         }
     }
@@ -304,8 +323,8 @@ public class CardLink: Component {
 
 public class CardFooter: Component {
     
-    public convenience init(_ text: String) {
-        self.init {
+    public static func make(_ text: String) -> CardFooter {
+        CardFooter {
             Div(text)
         }
     }
