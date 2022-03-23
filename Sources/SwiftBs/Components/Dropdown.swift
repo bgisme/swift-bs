@@ -421,7 +421,9 @@ public class DropdownMenuHeader: Component {
     
     public init(h6: () -> H6) {
         super.init {
-            h6()
+            Li {
+                h6()
+            }
         }
     }
 }
