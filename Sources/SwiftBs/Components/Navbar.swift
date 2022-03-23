@@ -10,26 +10,44 @@ import SwiftHtml
 public class Navbar: Component {
     
     public enum Placement {
-        case fixedTop
         case fixedBottom
+        case fixedTop
         case stickyTop  // May not be supported by every browser
+        
+        var `class`: BsClass {
+            switch self {
+            case .fixedBottom:
+                return .fixedBottom
+            case .fixedTop:
+                return .fixedTop
+            case .stickyTop:
+                return .stickyTop
+            }
+        }
+    }
+    
+    /// contents ...
+    /// NavbarBrand
+    /// NavbarToggler
+    /// NavbarNav
+    /// anything
+    convenience public init(placement: Placement? = nil,
+                            collapseAt breakpoint: Breakpoint? = nil,
+                            isFluid: Bool = true,
+                            @TagBuilder contents: () -> [Tag]) {
+        self.init(placement: placement, collapseAt: breakpoint) {
+            NavbarContainer(isFluid: isFluid) {
+                Div {
+                    contents()
+                }
+            }
+        }
     }
     
     /// collapseBelow = nil ... auto-collapses behind toggler button
-    public init(placement place: Placement? = nil,
+    public init(placement: Placement? = nil,
                 collapseAt breakpoint: Breakpoint? = nil,
                 navbarContainer: () -> NavbarContainer) {
-        let placement: BsClass?
-        switch place {
-        case .fixedTop:
-            placement = .fixedTop
-        case .fixedBottom:
-            placement = .fixedBottom
-        case .stickyTop:
-            placement = .stickyTop
-        default:
-            placement = nil
-        }
         let expand: BsClass?
         switch breakpoint {
         case .sm:
@@ -50,7 +68,7 @@ public class Navbar: Component {
                 navbarContainer()
             }
             .class(insert: .navbar)
-            .class(insert: placement)
+            .class(insert: placement?.class)
             .class(insert: expand)
         }
     }
