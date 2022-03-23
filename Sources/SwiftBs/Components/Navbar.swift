@@ -35,13 +35,13 @@ public class Navbar: Component {
                             collapseAt breakpoint: Breakpoint? = nil,
                             isFluid: Bool = true,
                             @TagBuilder contents: () -> [Tag]) {
-        self.init(placement: placement, collapseAt: breakpoint) {
-            NavbarContainer(isFluid: isFluid) {
+        self.init(placement: placement, collapseAt: breakpoint, navbarContainer: {
+            NavbarContainer(isFluid: isFluid, container: {
                 Div {
                     contents()
                 }
-            }
-        }
+            })
+        })
     }
     
     /// collapseBelow = nil ... auto-collapses behind toggler button
@@ -75,6 +75,14 @@ public class Navbar: Component {
 }
 
 public class NavbarContainer: Component {
+    
+    public convenience init(isFluid: Bool = true, @TagBuilder contents: () -> [Tag]) {
+        self.init(isFluid: isFluid, container: {
+            Div {
+                contents()
+            }
+        })
+    }
     
     /// isFluid: false if NavbarBrand is just an image and no text
     public init(isFluid: Bool = true, container: () -> Tag) {
