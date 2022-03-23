@@ -142,7 +142,7 @@ public class NavItemDropdown: Component {
                 menu: (Id, IsDark) -> DropdownMenu) {
         super.init {
             Li {
-                NavLink(isDropdownToggle: true) { a().id(id) }
+                NavLink(isDropdown: true) { a().id(id) }
                 menu(id, isDark)
             }
             .class(insert: .navItem, .dropdown)
