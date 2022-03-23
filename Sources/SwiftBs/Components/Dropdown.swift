@@ -423,6 +423,7 @@ public class DropdownMenuHeader: Component {
         super.init {
             Li {
                 h6()
+                    .class(insert: .dropdownHeader)
             }
         }
     }
