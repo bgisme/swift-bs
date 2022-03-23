@@ -135,6 +135,20 @@ public class NavItemDropdown: Component {
     
     public typealias Id = String
     public typealias IsDark = Bool
+    
+    public convenience init(id: String,
+                            isDark: Bool = false,
+                            a: () -> A,
+                            @TagBuilder menuItems: () -> [Tag]) {
+        self.init(id: id,
+                  isDark: isDark,
+                  a: a,
+                  menu: { id, isDark in
+            DropdownMenu(dropdownId: id, isDark: isDark) {
+                menuItems()
+            }
+        })
+    }
         
     public init(id: String,
                 isDark: Bool = false,
