@@ -32,12 +32,53 @@ public class NavTab: Component {
     
     let style: Style?
     
-    public init(align: Align? = nil,
-                breakpoints: Breakpoint...,
-                style: Style? = nil,
-                width: Width? = nil,
-                as tagType: TagType,
-                @TagBuilder contents: () -> [Tag]) {
+    public static func `as`(_ type: TagType,
+                            align: Align? = nil,
+                            breakpoints: Breakpoint...,
+                            style: Style? = nil,
+                            width: Width? = nil,
+                            @TagBuilder contents: () -> [Tag]) -> NavTab {
+        let tag: Tag
+        switch type {
+        case .nav:
+            tag = Nav { contents() }
+        case .ol:
+            tag = Ol { contents() }
+        case .ul:
+            tag = Ul { contents() }
+        }
+        return NavTab(align: align, breakpoints: breakpoints, style: style, width: width, tag: { tag })
+    }
+    
+    public convenience init(align: Align? = nil,
+                            breakpoints: Breakpoint...,
+                            style: Style? = nil,
+                            width: Width? = nil,
+                            nav: () -> Nav) {
+        self.init(align: align, breakpoints: breakpoints, style: style, width: width, tag: nav)
+    }
+    
+    public convenience init(align: Align? = nil,
+                            breakpoints: Breakpoint...,
+                            style: Style? = nil,
+                            width: Width? = nil,
+                            ol: () -> Ol) {
+        self.init(align: align, breakpoints: breakpoints, style: style, width: width, tag: ol)
+    }
+
+    public convenience init(align: Align? = nil,
+                            breakpoints: Breakpoint...,
+                            style: Style? = nil,
+                            width: Width? = nil,
+                            ul: () -> Ul) {
+        self.init(align: align, breakpoints: breakpoints, style: style, width: width, tag: ul)
+    }
+    
+    private init(align: Align? = nil,
+                 breakpoints: [Breakpoint],
+                 style: Style? = nil,
+                 width: Width? = nil,
+                 tag: () -> Tag) {
         self.style = style
         let alignment: BsClass?
         switch align {
@@ -89,17 +130,8 @@ public class NavTab: Component {
         default:
             spacing = nil
         }
-        let tag: Tag
-        switch tagType {
-        case .nav:
-            tag = Nav { contents() }
-        case .ol:
-            tag = Ol { contents() }
-        case .ul:
-            tag = Ul { contents() }
-        }
         super.init {
-            tag
+            tag()
                 .class(insert: .nav)
                 .class(insert: alignment)
                 .class(insert: verticals)
