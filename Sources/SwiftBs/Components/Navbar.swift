@@ -29,7 +29,7 @@ public class Navbar: Component {
     /// collapseBelow = nil ... auto-collapses behind toggler button
     public init(placement: Placement? = nil,
                 collapseAt breakpoint: Breakpoint? = nil,
-                navbarContainer: () -> NavbarContainer) {
+                container: () -> Container) {
         let expand: BsClass?
         switch breakpoint {
         case .sm:
@@ -47,23 +47,11 @@ public class Navbar: Component {
         }
         super.init {
             Nav {
-                navbarContainer()
+                container()
             }
             .class(insert: .navbar)
             .class(insert: placement?.class)
             .class(insert: expand)
-        }
-    }
-}
-
-public class NavbarContainer: Component {
-    
-    /// isFluid: false if NavbarBrand is just an image and no text
-    public init(isFluid: Bool = true,
-                type: TagType = .div,
-                @TagBuilder contents: () -> [Tag]) {
-        super.init {
-            type.tag(contents)
         }
     }
 }
