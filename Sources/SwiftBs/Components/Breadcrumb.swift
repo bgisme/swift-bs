@@ -21,64 +21,85 @@ public class Breadcrumb: Component {
     public static let breadcrumbArrow = "url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;)"
     public static let breadcrumbDividerRemoved = "''"
     
-    public static func withList(divider: String? = nil,
-                                @TagBuilder breadcrumbItems: () -> [Tag]) -> Breadcrumb {
+    public static func make(divider: String? = nil,
+                            @TagBuilder breadcrumbItems: () -> [Tag]) -> Breadcrumb {
         Breadcrumb(divider: divider) {
-            BreadcrumbList {
+            BreadcrumbList.make {
                 breadcrumbItems()
             }
         }
     }
         
-    public init(divider: String? = nil,
-                breadcrumbList: () -> BreadcrumbList) {
-        super.init {
-            if let divider = divider {
-                Nav {
-                    breadcrumbList()
-                }
-                .style(set: CssKeyValue(Self.breadcrumbDividerKey, divider))
-            } else {
-                Nav {
-                    breadcrumbList()
-                }
+    public convenience init(divider: String? = nil,
+                            breadcrumbList: () -> BreadcrumbList) {
+        let nav: Nav
+        if let divider = divider {
+            nav = Nav {
+                breadcrumbList()
+            }
+            .style(set: CssKeyValue(Self.breadcrumbDividerKey, divider))
+        } else {
+            nav = Nav {
+                breadcrumbList()
             }
         }
-    }    
+        self.init {
+            nav
+        }
+    }
+    
+    public init(nav: () -> Nav) {
+        super.init {
+            nav()
+        }
+    }
 }
 
 public class BreadcrumbList: Component {
         
     /// contents ... BreadcrumbListItems
-    public init(@TagBuilder breadcrumbListItems: () -> [Tag]) {
-        super.init {
+    public static func make(@TagBuilder breadcrumbListItems: () -> [Tag]) -> BreadcrumbList {
+        BreadcrumbList {
             Ol {
                 breadcrumbListItems()
             }
-            .class(insert: .breadcrumb)
         }
-    }    
+    }
+    
+    public init(ol: () -> Ol) {
+        super.init {
+            ol()
+                .class(insert: .breadcrumb)
+        }
+    }
 }
 
 public class BreadcrumbListItem: Component {
     
-    public convenience init(_ title: String,
+    public static func make(_ title: String,
                             href: String,
-                            isActive: Bool = false) {
-        self.init(isActive: isActive) {
+                            isActive: Bool = false) -> BreadcrumbListItem {
+        self.make(isActive: isActive) {
             A(title).href(href)
         }
     }
             
     /// contents ... anything
-    public init(isActive: Bool = false,
-                @TagBuilder contents: () -> [Tag]) {
-        super.init {
+    public static func make(isActive: Bool = false,
+                            @TagBuilder contents: () -> [Tag]) -> BreadcrumbListItem {
+        BreadcrumbListItem(isActive: isActive) {
             Li {
                 contents()
             }
-            .class(insert: .breadcrumbItem)
-            .class(insert: .active, if: isActive)
+        }
+    }
+    
+    public init(isActive: Bool = false,
+                li: () -> Li) {
+        super.init {
+            li()
+                .class(insert: .breadcrumbItem)
+                .class(insert: .active, if: isActive)
         }
     }
 }
