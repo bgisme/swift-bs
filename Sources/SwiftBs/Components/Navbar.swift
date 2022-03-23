@@ -59,14 +59,9 @@ public class Navbar: Component {
 public class NavbarContainer: Component {
     
     /// isFluid: false if NavbarBrand is just an image and no text
-    /// contents ...
-    /// NavbarBrand
-    /// NavbarToggler
-    public init(isFluid: Bool = true, @TagBuilder contents: () -> [Tag]) {
+    public init(isFluid: Bool = true, container: () -> Tag) {
         super.init {
-            Div {
-                contents()
-            }
+            container()
             .class(insert: isFluid ? .containerFluid : .container)
         }
     }
