@@ -31,20 +31,20 @@ public class Navbar: Component {
                                      collapseAt breakpoint: Size? = nil,
                                      isFluid: Bool = true,
                                      @TagBuilder contents: () -> [Tag]) -> Navbar {
-        Navbar(placement: placement,
-               collapseAt: breakpoint) {
-            type.tag(contents)
-                .class(insert: .containerFluid)
+        Navbar(placement: placement, collapseAt: breakpoint) {
+            Container(type: type, isFluid: isFluid) {
+                contents()
+            }
         }
     }
     
     /// use for access to Container for styling
     public init(placement: Placement? = nil,
                 collapseAt breakpoint: Size? = nil,
-                tag: () -> Tag) {
+                container: () -> Container) {
         super.init {
             Nav {
-                tag()
+                container()
             }
             .class(insert: .navbar)
             .class(insert: placement?.class)
