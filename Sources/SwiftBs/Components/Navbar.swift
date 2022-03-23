@@ -25,38 +25,48 @@ public class Navbar: Component {
             }
         }
     }
-        
+    
     /// collapseBelow = nil ... auto-collapses behind toggler button
-    public init(placement: Placement? = nil,
-                collapseAt breakpoint: Breakpoint? = nil,
-                container type: TagType = .div,
-                isFluid: Bool = true,
-                @TagBuilder contents: () -> [Tag]) {
-        let expand: BsClass?
-        switch breakpoint {
-        case .sm:
-            expand = .navbarExpandSm
-        case .md:
-            expand = .navbarExpandMd
-        case .lg:
-            expand = .navbarExpandLg
-        case .xl:
-            expand = .navbarExpandXl
-        case .xxl:
-            expand = .navbarExpandXxl
-        default:
-            expand = nil
+    public convenience init(placement: Placement? = nil,
+                            collapseAt breakpoint: Size? = nil,
+                            isFluid: Bool = true,
+                            container type: TagType = .div,
+                            @TagBuilder contents: () -> [Tag]) {
+        self.init(placement: placement, collapseAt: breakpoint) {
+            Container(type: type, isFluid: isFluid) {
+                contents()
+            }
         }
+    }
+    
+    public init(placement: Placement? = nil,
+                collapseAt breakpoint: Size? = nil,
+                container: () -> Container) {
         super.init {
             Nav {
-                Container(type: type, isFluid: isFluid) {
-                    contents()
-                }
-                .class(insert: .containerFluid)
+                container()
             }
             .class(insert: .navbar)
             .class(insert: placement?.class)
-            .class(insert: expand)
+            .class(insert: breakpoint?.navbarExpand)
+        }
+    }
+}
+
+extension Size {
+    
+    var navbarExpand: BsClass {
+        switch self {
+        case .xsm, .sm:
+            return .navbarExpandSm
+        case .md:
+            return .navbarExpandMd
+        case .lg:
+            return .navbarExpandLg
+        case .xl:
+            return .navbarExpandXl
+        case .xxl:
+            return .navbarExpandXxl
         }
     }
 }
