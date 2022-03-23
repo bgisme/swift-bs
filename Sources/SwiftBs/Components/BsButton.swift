@@ -68,7 +68,7 @@ public class BsButton: Component {
 extension BsButton: Sizable {
     
     @discardableResult
-    public func size(_ value: Size?, _ condition: Bool) -> Self {
+    public func size(_ value: Size?, _ condition: Bool = true) -> Self {
         self.class(insert: value?.buttonClass, if: condition)
     }
 }

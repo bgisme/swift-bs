@@ -39,6 +39,7 @@ public class Navbar: Component {
         }
     }
     
+    /// use when you want to style Container with BsClass
     public init(placement: Placement? = nil,
                 collapseAt breakpoint: Size? = nil,
                 container: () -> Container) {
