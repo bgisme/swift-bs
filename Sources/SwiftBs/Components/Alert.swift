@@ -70,14 +70,19 @@ public class Alert: Component {
      ````
 
      */
-    public init(isAlignedCenter: Bool = false,
-                @TagBuilder contents: () -> [Tag]) {
-        super.init {
+    public static func make(@TagBuilder contents: () -> [Tag]) -> Alert {
+        Alert {
             Div {
                 contents()
             }
-            .class(insert: .alert)
-            .role(.alert)
+        }
+    }
+    
+    public init(div: () -> Div) {
+        super.init {
+            div()
+                .class(insert: .alert)
+                .role(.alert)
         }
     }
     
@@ -95,8 +100,8 @@ public class AlertHeading: Component {
      - parameters:
         - text:String value of an <h4>
      */
-    public convenience init(_ text: String) {
-        self.init {
+    public static func make(_ text: String) -> AlertHeading {
+        AlertHeading {
             H4(text)
         }
     }
@@ -107,7 +112,7 @@ public class AlertHeading: Component {
      - parameters:
         - h4: Function that returns H4
      */
-    public init(_ h4: () -> H4) {
+    public init(h4: () -> H4) {
         super.init {
             h4()
                 .class(insert: .alertHeading)
