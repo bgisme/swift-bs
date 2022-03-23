@@ -134,13 +134,16 @@ public class NavItem: Component {
 public class NavItemDropdown: Component {
     
     public typealias Id = String
+    public typealias IsDark = Bool
         
-    public init(id: String, a: () -> A,
-                menu: (Id) -> DropdownMenu) {
+    public init(id: String,
+                isDark: Bool = false,
+                a: () -> A,
+                menu: (Id, IsDark) -> DropdownMenu) {
         super.init {
             Li {
                 NavLink(isDropdownToggle: true) { a().id(id) }
-                menu(id)
+                menu(id, isDark)
             }
             .class(insert: .navItem, .dropdown)
         }

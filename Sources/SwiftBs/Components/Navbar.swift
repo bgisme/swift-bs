@@ -156,17 +156,18 @@ public class NavbarNav: Component {
         case div
     }
     
+    /// contents ... NavbarText, NavItemDropdown
     public init(scrollHeight pixels: Int? = nil,
                 type: TagType,
-                @TagBuilder navbarTexts: () -> [Tag]) {
+                @TagBuilder contents: () -> [Tag]) {
         let tag: Tag
         switch type {
         case .ol:
-            tag = Ol { navbarTexts() }
+            tag = Ol { contents() }
         case .ul:
-            tag = Ul { navbarTexts() }
+            tag = Ul { contents() }
         case .div:
-            tag = Div { navbarTexts() }
+            tag = Div { contents() }
         }
         let isScrollable: Bool
         let scrollHeight: CssKeyValue?
