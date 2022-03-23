@@ -56,15 +56,15 @@ public class AccordionItem: Component {
     public typealias CollapseId = String
     public typealias IsExpanded = Bool
     
-    public init(_ title: String,
-                index: Int,
-                isExpanded: Bool = false,
-                accordionId: String,
-                isAlwaysOpen: Bool = false,
-                @TagBuilder collapseContents: () -> [Tag]) {
+    public static func asDiv(_ title: String,
+                             index: Int,
+                             isExpanded: Bool = false,
+                             accordionId: String,
+                             isAlwaysOpen: Bool = false,
+                             @TagBuilder collapseContents: () -> [Tag]) -> AccordionItem {
         let headerId = accordionId + "Header" + String(index)
         let collapseId = accordionId + "Collapse" + String(index)
-        super.init {
+        return AccordionItem(title, index: index, accordionId: accordionId) {
             Div {
                 AccordionHeader(title,
                                 id: headerId,
@@ -80,7 +80,18 @@ public class AccordionItem: Component {
                     }
                 }
             }
-            .class(insert: .accordionItem)
+        }
+    }
+    
+    public init(_ title: String,
+                index: Int,
+                isExpanded: Bool = false,
+                accordionId: String,
+                isAlwaysOpen: Bool = false,
+                div: () -> Div) {
+        super.init {
+            div()
+                .class(insert: .accordionItem)
         }
     }
 }
