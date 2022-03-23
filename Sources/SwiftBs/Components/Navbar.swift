@@ -175,7 +175,7 @@ public class NavbarNav: Component {
             isScrollable = true
             scrollHeight = CssKeyValue("--bs-scroll-height", "\(pixels)px")
         } else {
-            isScrollable = true
+            isScrollable = false
             scrollHeight = nil
         }
         super.init {
