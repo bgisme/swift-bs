@@ -6,7 +6,7 @@
 //
 
 public enum Size {
-    case xsm
+    case xs
     case sm
     case md
     case lg

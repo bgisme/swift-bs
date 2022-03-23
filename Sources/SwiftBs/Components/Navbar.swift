@@ -57,7 +57,7 @@ extension Size {
     
     var navbarExpand: BsClass {
         switch self {
-        case .xsm, .sm:
+        case .xs, .sm:
             return .navbarExpandSm
         case .md:
             return .navbarExpandMd

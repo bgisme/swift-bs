@@ -77,7 +77,7 @@ extension Size {
     
     var buttonClass: BsClass {
         switch self {
-        case .xsm, .sm:
+        case .xs, .sm:
             return .btnSm
         case .md:
             return .btn

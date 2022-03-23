@@ -31,7 +31,7 @@ extension Size {
     
     var containerClass: BsClass {
         switch self {
-        case .xsm, .sm:
+        case .xs, .sm:
             return .containerSm
         case .md:
             return .container

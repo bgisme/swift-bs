@@ -20,22 +20,28 @@ import SwiftHtml
 
 public class ButtonGroupToolbar: Component {
     
-    /// contents ... ButtonGroups
-    public init(ariaLabel: String,
-                @TagBuilder buttonGroups: () -> [Tag]) {
-        super.init {
+    public static func make(ariaLabel: String,
+                            @TagBuilder buttonGroups: () -> [Tag]) -> ButtonGroupToolbar {
+        ButtonGroupToolbar(ariaLabel: ariaLabel) {
             Div {
                 buttonGroups()
             }
-            .class(insert: .btnToolbar)
-            .role(.toolbar)
-            .ariaLabelledBy(ariaLabel)
+        }
+    }
+    
+    public init(ariaLabel: String, div: () -> Div) {
+        super.init {
+            div()
+                .class(insert: .btnToolbar)
+                .role(.toolbar)
+                .ariaLabelledBy(ariaLabel)
         }
     }
 }
 
 public class ButtonGroup: Component {
     
+    // localized limited subset of Size
     public enum Size {
         case sm
         case lg
@@ -43,11 +49,23 @@ public class ButtonGroup: Component {
         case xxl
     }
     
-    /// contents ... Buttons
+    public static func make(ariaLabel: String,
+                            size: Size? = nil,
+                            isVertical: Bool = false,
+                            @TagBuilder buttons: () -> [Tag]) -> ButtonGroup {
+        ButtonGroup(ariaLabel: ariaLabel,
+                    size: size,
+                    isVertical: isVertical) {
+            Div {
+                buttons()
+            }
+        }
+    }
+    
     public init(ariaLabel: String,
                 size: Size? = nil,
                 isVertical: Bool = false,
-                @TagBuilder buttons: () -> [Tag]) {
+                div: () -> Div) {
         let sizeClass: BsClass?
         if let size = size {
             switch size {
@@ -64,13 +82,11 @@ public class ButtonGroup: Component {
             sizeClass = nil
         }
         super.init {
-            Div {
-                buttons()
-            }
-            .class(insert: isVertical ? .btnGroupVertical : .btnGroup)
-            .class(insert: sizeClass)
-            .role(.group)
-            .ariaLabelledBy(ariaLabel)
+            div()
+                .class(insert: isVertical ? .btnGroupVertical : .btnGroup)
+                .class(insert: sizeClass)
+                .role(.group)
+                .ariaLabelledBy(ariaLabel)
         }
     }
 }
