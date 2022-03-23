@@ -104,10 +104,10 @@ public class Dropdown: Component {
     public convenience init(id: String,
                             isSplit: Bool = false,
                             direction: Direction = .down,
-                            menuAlign: MenuAlign? = nil,
                             isDark: Bool = false,
                             size: Size = .md,
-                            menuContainer containerType: TagType,
+                            menuAlign: MenuAlign? = nil,
+                            menuContainer tag: TagType = .ul,
                             button: () -> Button,
                             @TagBuilder dropdownMenuItems: () -> [Tag]) {
         self.init(id: id,
@@ -126,7 +126,7 @@ public class Dropdown: Component {
             DropdownMenu(dropdownId: id,
                          isDark: isDark,
                          align: align,
-                         containerType: containerType) {
+                         as: tag) {
                 dropdownMenuItems()
             }
         }
@@ -135,10 +135,10 @@ public class Dropdown: Component {
     public convenience init(id: String,
                             isSplit: Bool = false,
                             direction: Direction = .down,
-                            menuAlign: MenuAlign? = nil,
                             isDark: Bool = false,
                             size: Size = .md,
-                            menuContainer containerType: TagType = .ul,
+                            menuAlign: MenuAlign? = nil,
+                            menuContainer tag: TagType = .ul,
                             a: () -> A,
                             @TagBuilder dropdownMenuItems: () -> [Tag]) {
         self.init(id: id,
@@ -157,7 +157,7 @@ public class Dropdown: Component {
             DropdownMenu(dropdownId: id,
                          isDark: isDark,
                          align: align,
-                         containerType: containerType) {
+                         as: tag) {
                 dropdownMenuItems()
             }
         }
@@ -341,43 +341,19 @@ public class DropdownMenu: Component {
     public typealias Title = String
     public typealias Href = String
     
-//    public init(dropdownId: String,
-//                isDark: Bool = false,
-//                align: Dropdown.MenuAlign? = nil,
-//                @TagBuilder dropdownMenuItems: () -> [Tag]) {
-//        super.init {
-//            Ul {
-//                dropdownMenuItems()
-//            }
-//            .class(insert: .dropdownMenu)
-//            .class(insert: .dropdownMenuDark, if: isDark)
-//            .class(insert: align?.classes)
-//            .ariaLabelledBy(dropdownId)
-//        }
-//    }
-    
-    public convenience init(dropdownId: String,
-                            isDark: Bool = false,
-                            align: Dropdown.MenuAlign? = nil,
-                            containerType type: TagType,              // required to disambiguate from init() without any parameters
-                            @TagBuilder dropdownMenuItems: () -> [Tag]) {
-        self.init(dropdownId: dropdownId, isDark: isDark, align: align) {
-            Container(type: type) {
-                dropdownMenuItems()
-            }
-        }
-    }
-    
     public init(dropdownId: String,
                 isDark: Bool = false,
                 align: Dropdown.MenuAlign? = nil,
-                container: () -> Container) {
+                as type: TagType = .ul,
+                @TagBuilder contents: () -> [Tag]) {
         super.init {
-            container().tag
-                .class(insert: .dropdownMenu)
-                .class(insert: .dropdownMenuDark, if: isDark)
-                .class(insert: align?.classes)
-                .ariaLabelledBy(dropdownId)
+            type.tag {
+                contents()
+            }
+            .class(insert: .dropdownMenu)
+            .class(insert: .dropdownMenuDark, if: isDark)
+            .class(insert: align?.classes)
+            .ariaLabelledBy(dropdownId)
         }
     }
 }
