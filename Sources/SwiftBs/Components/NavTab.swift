@@ -156,12 +156,12 @@ public class NavLink: Component {
                             href: String,
                             isActive: Bool = false,
                             isDisabled: Bool = false,
-                            isDropdownToggle: Bool = false,
+                            isDropdown: Bool = false,
                             aligns: [(Location, Breakpoint)]? = nil,
                             fills: Set<Breakpoint>? = nil) {
         self.init(isActive: isActive,
                   isDisabled: isDisabled,
-                  isDropdownToggle: isDropdownToggle,
+                  isDropdown: isDropdown,
                   aligns: aligns,
                   fills: fills) {
             A(title).href(href)
@@ -170,7 +170,7 @@ public class NavLink: Component {
     
     public init(isActive: Bool = false,
                 isDisabled: Bool = false,
-                isDropdownToggle: Bool = false,
+                isDropdown: Bool = false,
                 aligns: [(Location, Breakpoint)]? = nil,
                 fills: Set<Breakpoint>? = nil,
                 a: () -> A) {
@@ -250,9 +250,10 @@ public class NavLink: Component {
                 .class(insert: .active, if: isActive)
                 .ariaCurrent(isActive)
                 .class(insert: .disabled, if: isDisabled)
-                .class(insert: .dropdownToggle, if: isDropdownToggle)
-                .dataBsToggle(.dropdown, isDropdownToggle)
-                .ariaExpanded(false, isDropdownToggle)
+                .class(insert: .dropdownToggle, if: isDropdown)
+                .dataBsToggle(.dropdown, isDropdown)
+                .ariaExpanded(false, isDropdown)
+                .role(.button)
                 .class(insert: Array(classes))
         }
     }
