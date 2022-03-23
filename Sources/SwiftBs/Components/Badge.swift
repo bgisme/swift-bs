@@ -9,10 +9,10 @@ import SwiftHtml
 
 public class Badge: Component {
     
-    public convenience init(_ text: String,
+    public static func make(_ text: String,
                             isPositioned: Bool = false,
-                            isRounded: Bool = false) {
-        self.init(isPositioned: isPositioned, isRounded: isRounded) {
+                            isRounded: Bool = false) -> Badge {
+        Badge(isPositioned: isPositioned, isRounded: isRounded) {
             Span(text)
         }
     }
