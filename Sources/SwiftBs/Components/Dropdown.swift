@@ -108,19 +108,19 @@ public class Dropdown: Component {
     
     public convenience init(id: String,
                             isSplit: Bool = false,
+                            size: Size = .md,
+                            isDark: Bool = false,
                             direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
                             menuAs tagType: DropdownMenu.TagType = .ul,
-                            isDark: Bool = false,
-                            size: Size = .md,
                             button: () -> Button,
                             @TagBuilder dropdownMenuItems: () -> [Tag]) {
         self.init(id: id,
                   isSplit: isSplit,
-                  direction: direction,
-                  menuAlign: menuAlign,
                   isDark: isDark,
-                  size: size) { id, isSplit, direction, menuAlign, size in
+                  size: size,
+                  direction: direction,
+                  menuAlign: menuAlign) { id, isSplit, direction, menuAlign, size in
             DropdownButton(dropdownId: id,
                            direction: direction,
                            isSplit: isSplit,
@@ -139,19 +139,19 @@ public class Dropdown: Component {
     
     public convenience init(id: String,
                             isSplit: Bool = false,
+                            isDark: Bool = false,
+                            size: Size = .md,
                             direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
                             menuAs tagType: DropdownMenu.TagType = .ul,
-                            isDark: Bool = false,
-                            size: Size = .md,
                             a: () -> A,
                             @TagBuilder dropdownMenuItems: () -> [Tag]) {
         self.init(id: id,
                   isSplit: isSplit,
-                  direction: direction,
-                  menuAlign: menuAlign,
                   isDark: isDark,
-                  size: size) { id, isSplit, direction, menuAlign, size in
+                  size: size,
+                  direction: direction,
+                  menuAlign: menuAlign) { id, isSplit, direction, menuAlign, size in
             DropdownButton(dropdownId: id,
                            direction: direction,
                            isSplit: isSplit,
@@ -170,10 +170,10 @@ public class Dropdown: Component {
     
     public init(id: String,
                 isSplit: Bool = false,
-                direction: Direction = .down,
-                menuAlign: MenuAlign? = nil,
                 isDark: Bool = false,
                 size: Size = .md,
+                direction: Direction = .down,
+                menuAlign: MenuAlign? = nil,
                 button: (Id, IsSplit, Dropdown.Direction, MenuAlign?, Size) -> DropdownButton,
                 menu: (Id, IsDark, MenuAlign?) -> DropdownMenu) {
         let button = button(id, isSplit, direction, menuAlign, size)
