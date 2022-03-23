@@ -60,10 +60,10 @@ public class NavbarContainer: Component {
     
     /// isFluid: false if NavbarBrand is just an image and no text
     public init(isFluid: Bool = true,
-                type container: Container = .div,
+                type: TagType = .div,
                 @TagBuilder contents: () -> [Tag]) {
         super.init {
-            container.tag(contents)
+            type.tag(contents)
         }
     }
 }

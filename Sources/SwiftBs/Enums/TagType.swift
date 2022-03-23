@@ -1,5 +1,5 @@
 //
-//  Container.swift
+//  TagType.swift
 //  
 //
 //  Created by Brad Gourley on 3/23/22.
@@ -8,7 +8,7 @@
 import SwiftHtml
 
 // Cases commented out do not init with { } ... can not be a container
-public enum Container {
+public enum TagType {
     case a
     case abbr
     case address
