@@ -169,19 +169,17 @@ public class CardBody: Component {
                             subtitle: String? = nil,
                             text: String? = nil,
                             @TagBuilder links: () -> [Tag]) -> CardBody {
-        CardBody {
-            Div {
-                if let title = title {
-                    CardTitle.make(title)
-                }
-                if let subtitle = subtitle {
-                    CardSubtitle.make(subtitle)
-                }
-                if let text = text {
-                    CardText.make(text)
-                }
-                links()
+        self.make {
+            if let title = title {
+                CardTitle.make(title)
             }
+            if let subtitle = subtitle {
+                CardSubtitle.make(subtitle)
+            }
+            if let text = text {
+                CardText.make(text)
+            }
+            links()
         }
     }
         
