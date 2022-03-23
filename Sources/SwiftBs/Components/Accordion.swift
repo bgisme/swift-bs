@@ -26,19 +26,28 @@ public class Accordion: Component {
     public typealias AccordionId = String
     public typealias IsAlwaysOpen = Bool
     
-    public init(id: String,
-                isFlush: Bool = false,
-                isAlwaysOpen: Bool = false,
-                @TagBuilder accordionItems: (AccordionId, IsAlwaysOpen) -> [Tag]) {
-        super.init {
+    public static func asDiv(id: String,
+                             isFlush: Bool = false,
+                             isAlwaysOpen: Bool = false,
+                             @TagBuilder accordionItems: (AccordionId, IsAlwaysOpen) -> [Tag]) -> Accordion {
+        Accordion(id: id, isFlush: isFlush, isAlwaysOpen: isAlwaysOpen) {
             Div {
                 accordionItems(id, isAlwaysOpen)
             }
-            .class(insert: .accordion)
-            .id(id)
-            .class(insert: .accordionFlush, if: isFlush)
         }
-    }    
+    }
+    
+    public init(id: String,
+                isFlush: Bool = false,
+                isAlwaysOpen: Bool = false,
+                div: () -> Div) {
+        super.init {
+            div()
+                .class(insert: .accordion)
+                .id(id)
+                .class(insert: .accordionFlush, if: isFlush)
+        }
+    }
 }
 
 public class AccordionItem: Component {
