@@ -29,7 +29,7 @@ public class Navbar: Component {
     /// collapseBelow = nil ... auto-collapses behind toggler button
     public convenience init(placement: Placement? = nil,
                             collapseAt breakpoint: Size? = nil,
-                            isFluid: Bool = true,
+                            isFluid: Bool,                      // required to disambiguate from init() without any parameters
                             container type: TagType = .div,
                             @TagBuilder contents: () -> [Tag]) {
         self.init(placement: placement, collapseAt: breakpoint) {
