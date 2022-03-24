@@ -15,6 +15,24 @@ public class Scrollspy: Component {
         return a
     }
     
+    public static func navItem(_ title: String,
+                               href: String,
+                               scrollspyItemId id: String,
+                               isActive: Bool = false,
+                               isDisabled: Bool = false,
+                               isDropdown: Bool = false,
+                               aligns: [(Location, Breakpoint)]? = nil,
+                               fills: Set<Breakpoint>? = nil) -> NavItem {
+        Self.navItem(scrollspyItemId: id,
+                     isActive: isActive,
+                     isDisabled: isDisabled,
+                     isDropdown: isDropdown,
+                     aligns: aligns,
+                     fills: fills) {
+            A(title).href(href)
+        }
+    }
+    
     public static func navItem(scrollspyItemId id: String,
                                isActive: Bool = false,
                                isDisabled: Bool = false,
