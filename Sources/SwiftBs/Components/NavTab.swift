@@ -28,26 +28,32 @@ public class NavTab: Component {
         case nav
         case ol
         case ul
+        
+        func tag(@TagBuilder _ contents: () -> [Tag]) -> Tag {
+            switch self {
+            case .nav:
+                return Nav { contents() }
+            case .ol:
+                return Ol { contents() }
+            case .ul:
+                return Ul { contents() }
+            }
+        }
     }
     
     let style: Style?
     
-    public convenience init(align: Align? = nil,
+    public static func `as`(_ type: TagType,
+                            align: Align? = nil,
                             breakpoints: Breakpoint...,
                             style: Style? = nil,
                             width: Width? = nil,
-                            as type: TagType,
-                            @TagBuilder contents: () -> [Tag]) {
-        let tag: Tag
-        switch type {
-        case .nav:
-            tag = Nav { contents() }
-        case .ol:
-            tag = Ol { contents() }
-        case .ul:
-            tag = Ul { contents() }
-        }
-        self.init(align: align, breakpoints: breakpoints, style: style, width: width, tag)
+                            @TagBuilder contents: () -> [Tag]) -> NavTab {
+        NavTab(align: align,
+               breakpoints: breakpoints,
+               style: style,
+               width: width,
+               type.tag(contents))
     }
     
     public convenience init(align: Align? = nil,
