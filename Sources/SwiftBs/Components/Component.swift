@@ -33,7 +33,7 @@ import SwiftHtml
 
 public class Component: TagRepresentable {
     
-    let tag: Tag
+    public let tag: Tag
     
     public init(_ tag: Tag) {
         self.tag = tag

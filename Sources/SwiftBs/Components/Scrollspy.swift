@@ -68,9 +68,9 @@ public class Scrollspy: Component {
     
     public convenience init(navId: String,
                             offset: Int = 0,
-                            @TagBuilder contents: () -> [Tag]) {
+                            @TagBuilder contentsWithIds: () -> [Tag]) {
         let div = Div {
-            contents()
+            contentsWithIds()
         }
         self.init(navId: navId, offset: offset, div)
     }
