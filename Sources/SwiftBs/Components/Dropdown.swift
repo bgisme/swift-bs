@@ -397,9 +397,9 @@ public class DropdownMenu: Component {
     }
     
     // for a purely textual dropdown
-    public init(isDark: Bool = false, p: () -> P) {
+    public init(isDark: Bool = false, @TagBuilder contents: () -> [Tag]) {
         let div = Div {
-            p()
+            contents()
         }
             .class(insert: .dropdownMenu)
             .class(insert: .dropdownMenuDark, if: isDark)
