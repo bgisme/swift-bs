@@ -9,7 +9,7 @@ import SwiftHtml
 
 public class Container: Component {
     
-    public init(type: TagType = .div,
+    public init(_ type: TagType = .div,
                 isFluid: Bool = false,
                 @TagBuilder contents: () -> [Tag]) {
         let tag = type

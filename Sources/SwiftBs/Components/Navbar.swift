@@ -32,7 +32,7 @@ public class Navbar: Component {
                             container type: TagType = .div,
                             @TagBuilder contents: () -> [Tag]) {
         self.init(placement: placement, collapseAt: breakpoint) {
-            Container(type: type, isFluid: isFluid) {
+            Container(type, isFluid: isFluid) {
                 contents()
             }
         }
