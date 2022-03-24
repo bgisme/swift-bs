@@ -114,7 +114,7 @@ public class Dropdown: Component {
                             menuAlign: MenuAlign? = nil,
                             menuAs type: DropdownMenu.TagType = .ul,
                             button: () -> Button,
-                            @TagBuilder dropdownMenuItems: () -> [Tag]) {
+                            @TagBuilder dropdownItems: () -> [Tag]) {
         self.init(id: id,
                   isSplit: isSplit,
                   isDark: isDark,
@@ -132,7 +132,7 @@ public class Dropdown: Component {
                          isDark: isDark,
                          align: align,
                          as: type) {
-                dropdownMenuItems()
+                dropdownItems()
             }
         }
     }
@@ -145,7 +145,7 @@ public class Dropdown: Component {
                             menuAlign: MenuAlign? = nil,
                             menuAs type: DropdownMenu.TagType = .ul,
                             a: () -> A,
-                            @TagBuilder dropdownMenuItems: () -> [Tag]) {
+                            @TagBuilder dropdownItems: () -> [Tag]) {
         self.init(id: id,
                   isSplit: isSplit,
                   isDark: isDark,
@@ -163,7 +163,7 @@ public class Dropdown: Component {
                          isDark: isDark,
                          align: align,
                          as: type) {
-                dropdownMenuItems()
+                dropdownItems()
             }
         }
     }
@@ -373,7 +373,7 @@ public class DropdownMenu: Component {
         }
     }
     
-    /// contents ... DropdownMenuItems or anything
+    /// contents ... DropdownItems or anything
     public convenience init(dropdownId: String,
                             isDark: Bool = false,
                             align: Dropdown.MenuAlign? = nil,
@@ -398,7 +398,7 @@ public class DropdownMenu: Component {
     }
 }
 
-public class DropdownMenuItem: Component {
+public class DropdownItem: Component {
     
     public convenience init(nonInteractive span: () -> Span) {
         self.init(isActive: false, isDisabled: false, isInteractive: false, span())

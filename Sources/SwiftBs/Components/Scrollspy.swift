@@ -9,7 +9,41 @@ import SwiftHtml
 
 public class Scrollspy: Component {
     
-    public init(navId: String, offset: Int, _ div: Div) {
+    private static func hrefed(_ a: () -> A, _ id: String) -> A {
+        let a = a()
+        _ = a.href("#\(id)")
+        return a
+    }
+    
+    public static func navLink(scrollspyItemId id: String,
+                               isActive: Bool = false,
+                               isDisabled: Bool = false,
+                               isDropdown: Bool = false,
+                               aligns: [(Location, Breakpoint)]? = nil,
+                               fills: Set<Breakpoint>? = nil,
+                               _ a: () -> A) -> NavLink {
+        return NavLink(isActive: isActive,
+                       isDisabled: isDisabled,
+                       isDropdown: isDropdown,
+                       aligns: aligns,
+                       fills: fills) { hrefed(a, id) }
+    }
+    
+    public static func listGroupItem(scrollspyItemId id: String,
+                                     isActive: Bool = false,
+                                     isDisabled: Bool = false,
+                                     _ a: () -> A) -> ListGroupItem {
+        return ListGroupItem(isActive: isActive, isDisabled: isDisabled) { hrefed(a, id) }
+    }
+    
+    public static func dropdownItem(scrollspyItemId id: String,
+                                    isActive: Bool = false,
+                                    isDisabled: Bool = false,
+                                    _ a: () -> A) -> DropdownItem {
+        DropdownItem(isActive: isActive, isDisabled: isDisabled) { hrefed(a, id)}
+    }
+    
+    public init(navId: String, offset: Int = 0, _ div: Div) {
         _ = div
             .dataBsSpy(.scroll)
             .dataBsTarget(navId)
@@ -19,36 +53,3 @@ public class Scrollspy: Component {
         super.init(div)
     }
 }
-
-//<nav id="navbar-example2" class="navbar navbar-light bg-light px-3">
-//  <a class="navbar-brand" href="#">Navbar</a>
-//  <ul class="nav nav-pills">
-//    <li class="nav-item">
-//      <a class="nav-link" href="#scrollspyHeading1">First</a>
-//    </li>
-//    <li class="nav-item">
-//      <a class="nav-link" href="#scrollspyHeading2">Second</a>
-//    </li>
-//    <li class="nav-item dropdown">
-//      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Dropdown</a>
-//      <ul class="dropdown-menu">
-//        <li><a class="dropdown-item" href="#scrollspyHeading3">Third</a></li>
-//        <li><a class="dropdown-item" href="#scrollspyHeading4">Fourth</a></li>
-//        <li><hr class="dropdown-divider"></li>
-//        <li><a class="dropdown-item" href="#scrollspyHeading5">Fifth</a></li>
-//      </ul>
-//    </li>
-//  </ul>
-//</nav>
-//<div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-offset="0" class="scrollspy-example" tabindex="0">
-//  <h4 id="scrollspyHeading1">First heading</h4>
-//  <p>...</p>
-//  <h4 id="scrollspyHeading2">Second heading</h4>
-//  <p>...</p>
-//  <h4 id="scrollspyHeading3">Third heading</h4>
-//  <p>...</p>
-//  <h4 id="scrollspyHeading4">Fourth heading</h4>
-//  <p>...</p>
-//  <h4 id="scrollspyHeading5">Fifth heading</h4>
-//  <p>...</p>
-//</div>

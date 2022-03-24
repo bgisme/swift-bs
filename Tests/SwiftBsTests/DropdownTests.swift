@@ -12,8 +12,8 @@ final class DropdownTests: XCTestCase {
         let id1 = "id1"
         let tag = Dropdown(id: id1, menuAs: .ul) {
             Button()
-        } dropdownMenuItems: {
-            DropdownMenuItem { Button("Test") }
+        } dropdownItems: {
+            DropdownItem { Button("Test") }
         }.build()
 
         XCTAssert(tag.value(.class)?.has(.btnGroup) ?? false)
