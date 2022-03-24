@@ -29,37 +29,48 @@ public class CollapseButton: Component {
     
     let ids: [String]
     
-    public convenience init(contentIds ids: String..., a: () -> A) {
-        self.init(contentIds: ids, a: a)
+    public convenience init(contentIds ids: String...,
+                            isCollapsed: Bool = true,
+                            a: () -> A) {
+        self.init(contentIds: ids, isCollapsed: isCollapsed, a: a)
     }
     
-    public convenience init(contentIds ids: [String], a: () -> A) {
+    public convenience init(contentIds ids: [String],
+                            isCollapsed: Bool = true,
+                            a: () -> A) {
         let a = a()
             .class(insert: .btn)
             .role(.button)
             .href(ids.count < 2 ? "#\(ids.first ?? "")" : BsClass.multiCollapse.rawValue)
 
-        self.init(contentIds: ids, a)
+        self.init(contentIds: ids, isCollapsed: isCollapsed, a)
     }
     
-    public convenience init(contentIds ids: String..., button: () -> Button) {
+    public convenience init(contentIds ids: String...,
+                            isCollapsed: Bool = true,
+                            button: () -> Button) {
         self.init(contentIds: ids, button: button)
     }
     
-    public convenience init(contentIds ids: [String], button: () -> Button) {
+    public convenience init(contentIds ids: [String],
+                            isCollapsed: Bool = true,
+                            button: () -> Button) {
         let button = button()
             .class(insert: .btn)
             .type(.button)
             .dataBsTarget(ids.count < 2 ? ids.first ?? "" : BsClass.multiCollapse.rawValue, prefix: ids.count < 2 ? .hash : .dot)
 
-        self.init(contentIds: ids, button)
+        self.init(contentIds: ids, isCollapsed: isCollapsed, button)
     }
     
-    private init(contentIds ids: [String], _ tag: Tag) {
+    private init(contentIds ids: [String],
+                 isCollapsed: Bool,
+                 _ tag: Tag) {
         self.ids = ids
         tag
+            .class(insert: .collapse, if: isCollapsed)
             .dataBsToggle(.collapse)
-            .ariaExpanded(false)
+            .ariaExpanded(!isCollapsed)
             .ariaControls(ids.map{$0}.joined(separator: " "))
         
         super.init(tag)
