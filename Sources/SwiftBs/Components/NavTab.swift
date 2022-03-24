@@ -148,10 +148,31 @@ public class NavItem: Component {
     public convenience init(_ title: String,
                             href: String,
                             isActive: Bool = false,
-                            isDisabled: Bool = false) {
-        self.init {
-            NavLink(title, href: href, isActive: isActive, isDisabled: isDisabled)
-        }
+                            isDisabled: Bool = false,
+                            isDropdown: Bool = false,
+                            aligns: [(Location, Breakpoint)]? = nil,
+                            fills: Set<Breakpoint>? = nil) {
+        self.init(isActive: isActive,
+                  isDisabled: isDisabled,
+                  isDropdown: isDropdown,
+                  aligns: aligns,
+                  fills: fills) { A(title).href(href) }
+    }
+    
+    public convenience init(isActive: Bool = false,
+                            isDisabled: Bool = false,
+                            isDropdown: Bool = false,
+                            aligns: [(Location, Breakpoint)]? = nil,
+                            fills: Set<Breakpoint>? = nil,
+                            _ a: () -> A) {
+        self.init(contents: {
+            NavLink(isActive: isActive,
+                    isDisabled: isDisabled,
+                    isDropdown: isDropdown,
+                    aligns: aligns,
+                    fills: fills,
+                    a)
+        })
     }
     
     /// contents ... anything (usually <a>)
@@ -192,7 +213,7 @@ public class NavLink: Component {
                             isDropdown: Bool = false,
                             aligns: [(Location, Breakpoint)]? = nil,
                             fills: Set<Breakpoint>? = nil,
-                            a: () -> A) {
+                            _ a: () -> A) {
         self.init(isActive: isActive, isDisabled: isDisabled, isDropdown: isDropdown, aligns: aligns, fills: fills, a())
     }
     

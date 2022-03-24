@@ -15,18 +15,20 @@ public class Scrollspy: Component {
         return a
     }
     
-    public static func navLink(scrollspyItemId id: String,
+    public static func navItem(scrollspyItemId id: String,
                                isActive: Bool = false,
                                isDisabled: Bool = false,
                                isDropdown: Bool = false,
                                aligns: [(Location, Breakpoint)]? = nil,
                                fills: Set<Breakpoint>? = nil,
-                               _ a: () -> A) -> NavLink {
-        return NavLink(isActive: isActive,
-                       isDisabled: isDisabled,
-                       isDropdown: isDropdown,
-                       aligns: aligns,
-                       fills: fills) { hrefed(a, id) }
+                               _ a: () -> A) -> NavItem {
+        NavItem(isActive: isActive,
+                isDisabled: isDisabled,
+                isDropdown: isDropdown,
+                aligns: aligns,
+                fills: fills) {
+            hrefed(a, id)
+        }
     }
     
     public static func listGroupItem(scrollspyItemId id: String,
