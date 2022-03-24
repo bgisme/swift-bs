@@ -395,6 +395,19 @@ public class DropdownMenu: Component {
 
         super.init(tag)
     }
+    
+    // for a purely textual dropdown
+    public init(_ text: String, isDark: Bool = false, p: () -> P) {
+        let div = Div {
+            p()
+        }
+            .class(insert: .dropdownMenu)
+            .class(insert: .p4)
+            .class(insert: .textMuted)
+            .class(insert: .dropdownMenuDark, if: isDark)
+
+        super.init(div)
+    }
 }
 
 public class DropdownMenuItem: Component {
