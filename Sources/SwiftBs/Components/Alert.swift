@@ -82,8 +82,38 @@ public class Alert: Component {
     }
     
     @discardableResult
+    public override func background(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
+        self.class(insert: value?.alertClass, if: condition)
+        return self
+    }
+    
+    @discardableResult
     public func alignItems(_ value: AlignItems?, _ condition: Bool = true) -> Self {
         self.class(insert: .dFlex, value?.class, if: condition)
+    }
+}
+
+extension ColorTheme {
+    
+    public var alertClass: BsClass {
+        switch self {
+        case .primary:
+            return .alertPrimary
+        case .secondary:
+            return .alertSecondary
+        case .success:
+            return .alertSuccess
+        case .danger:
+            return .alertDanger
+        case .warning:
+            return .alertWarning
+        case .info:
+            return .alertInfo
+        case .light:
+            return .alertLight
+        case .dark:
+            return .alertDark
+        }
     }
 }
 

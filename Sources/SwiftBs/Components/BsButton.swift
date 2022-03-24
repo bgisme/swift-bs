@@ -85,3 +85,48 @@ extension Size {
         }
     }
 }
+
+extension ColorTheme {
+    
+    public var buttonClass: BsClass {
+        switch self {
+        case .primary:
+            return .btnPrimary
+        case .secondary:
+            return .btnSecondary
+        case .success:
+            return .btnSuccess
+        case .danger:
+            return .btnDanger
+        case .warning:
+            return .btnWarning
+        case .info:
+            return .btnInfo
+        case .light:
+            return .btnLight
+        case .dark:
+            return .btnDark
+        }
+    }
+    
+    public var buttonOutlineClass: BsClass {
+        switch self {
+        case .primary:
+            return .btnOutlinePrimary
+        case .secondary:
+            return .btnOutlineSecondary
+        case .success:
+            return .btnOutlineSuccess
+        case .danger:
+            return .btnOutlineDanger
+        case .warning:
+            return .btnOutlineWarning
+        case .info:
+            return .btnOutlineInfo
+        case .light:
+            return .btnOutlineLight
+        case .dark:
+            return .btnOutlineDark
+        }
+    }
+}
