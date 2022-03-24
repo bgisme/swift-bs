@@ -402,8 +402,6 @@ public class DropdownMenu: Component {
             p()
         }
             .class(insert: .dropdownMenu)
-            .class(insert: .p4)
-            .class(insert: .textMuted)
             .class(insert: .dropdownMenuDark, if: isDark)
 
         super.init(div)
