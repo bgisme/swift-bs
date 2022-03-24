@@ -85,17 +85,23 @@ public class CollapseContent: Component {
     }
     
     /// contents ... anything
-    public convenience init(orientation: Orientation = .vertical,
-                id: String,
-                isMultiple: Bool = false,
-                @TagBuilder contents: () -> [Tag]) {
+    public convenience init(id: String,
+                            orientation: Orientation = .vertical,
+                            isCollapsed: Bool = true,
+                            isOnlyCollapseForButton: Bool = true,
+                            @TagBuilder contents: () -> [Tag]) {
         let div = Div { contents() }
-        self.init(orientation: orientation, id: id, isMultiple: isMultiple, div)
+        self.init(id: id,
+                  orientation: orientation,
+                  isCollapsed: isCollapsed,
+                  isOnlyCollapseForButton: isOnlyCollapseForButton,
+                  div)
     }
     
-    private init(orientation: Orientation = .vertical,
-                 id: String,
-                 isMultiple: Bool = false,
+    private init(id: String,
+                 orientation: Orientation,
+                 isCollapsed: Bool,
+                 isOnlyCollapseForButton: Bool,
                  _ div: Div) {
         let isHorizontalCollapse: Bool
         switch orientation {
@@ -112,7 +118,7 @@ public class CollapseContent: Component {
         _ = div
             .class(insert: .collapse)
             .class(insert: .collapseHorizontal, if: isHorizontalCollapse)
-            .class(insert: .multiCollapse, if: isMultiple)
+            .class(insert: .multiCollapse, if: !isOnlyCollapseForButton)
             .id(id)
         
         super.init(div)
