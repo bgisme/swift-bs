@@ -15,10 +15,10 @@ public class Collapse: TagRepresentable {
 
     public init(contentIds ids: [String],
                 p: ([Id]) -> P,
-                div: ([Id]) -> Div) {
+                collapseContent: ([Id]) -> CollapseContent) {
         self.contents = [
             p(ids),
-            div(ids),
+            collapseContent(ids).build(),
         ]
     }
     
