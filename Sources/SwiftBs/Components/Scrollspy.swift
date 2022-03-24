@@ -48,18 +48,35 @@ public class Scrollspy: Component {
         }
     }
     
+    public static func navItemDropdown(id: String,
+                                       scrollspyItemId spyId: String,
+                                       isDark: Bool = false,
+                                       menuAs type: DropdownMenu.TagType = .ul,
+                                       a: () -> A,
+                                       @TagBuilder dropdownItems: () -> [Tag]) -> NavItemDropdown {
+        NavItemDropdown(id: id,
+                        isDark: isDark,
+                        menuAs: type,
+                        a: { hrefed(a, spyId) },
+                        dropdownItems: dropdownItems)
+    }
+    
     public static func listGroupItem(scrollspyItemId id: String,
                                      isActive: Bool = false,
                                      isDisabled: Bool = false,
                                      _ a: () -> A) -> ListGroupItem {
-        return ListGroupItem(isActive: isActive, isDisabled: isDisabled) { hrefed(a, id) }
+        return ListGroupItem(isActive: isActive, isDisabled: isDisabled) {
+            hrefed(a, id)
+        }
     }
     
     public static func dropdownItem(scrollspyItemId id: String,
                                     isActive: Bool = false,
                                     isDisabled: Bool = false,
                                     _ a: () -> A) -> DropdownItem {
-        DropdownItem(isActive: isActive, isDisabled: isDisabled) { hrefed(a, id)}
+        DropdownItem(isActive: isActive, isDisabled: isDisabled) {
+            hrefed(a, id)
+        }
     }
     
     public init(navId: String, offset: Int = 0, _ div: Div) {
