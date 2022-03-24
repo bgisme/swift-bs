@@ -43,17 +43,13 @@ public class NavTab: Component {
     
     let style: Style?
     
-    public static func `as`(_ type: TagType,
+    public convenience init(as type: TagType,
                             align: Align? = nil,
                             breakpoints: Breakpoint...,
                             style: Style? = nil,
                             width: Width? = nil,
-                            @TagBuilder contents: () -> [Tag]) -> NavTab {
-        NavTab(align: align,
-               breakpoints: breakpoints,
-               style: style,
-               width: width,
-               type.tag(contents))
+                            @TagBuilder contents: () -> [Tag]) {
+        self.init(align: align, breakpoints: breakpoints, style: style, width: width, type.tag(contents))
     }
     
     public convenience init(align: Align? = nil,
