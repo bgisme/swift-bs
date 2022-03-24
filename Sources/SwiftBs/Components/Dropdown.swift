@@ -373,12 +373,13 @@ public class DropdownMenu: Component {
         }
     }
     
+    /// contents ... DropdownMenuItems or anything
     public convenience init(dropdownId: String,
                             isDark: Bool = false,
                             align: Dropdown.MenuAlign? = nil,
                             as type: TagType = .ul,
-                            @TagBuilder dropdownMenuItems: () -> [Tag]) {
-        let tag = type.tag { dropdownMenuItems() }
+                            @TagBuilder contents: () -> [Tag]) {
+        let tag = type.tag { contents() }
         self.init(dropdownId: dropdownId, isDark: isDark, align: align, tag)
     }
 
@@ -394,17 +395,6 @@ public class DropdownMenu: Component {
             .ariaLabelledBy(dropdownId)
 
         super.init(tag)
-    }
-    
-    // for a purely textual dropdown
-    public init(isDark: Bool = false, @TagBuilder contents: () -> [Tag]) {
-        let div = Div {
-            contents()
-        }
-            .class(insert: .dropdownMenu)
-            .class(insert: .dropdownMenuDark, if: isDark)
-
-        super.init(div)
     }
 }
 
