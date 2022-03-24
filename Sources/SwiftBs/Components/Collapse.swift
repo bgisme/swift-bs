@@ -13,13 +13,19 @@ public class Collapse: TagRepresentable {
     
     let contents: [Tag]
 
+//    public init(contentIds ids: [String],
+//                p: ([Id]) -> P,
+//                div: ([Id]) -> Div) {
+//        self.contents = [
+//            p(ids),
+//            div(ids),
+//        ]
+//    }
+    
     public init(contentIds ids: [String],
                 p: ([Id]) -> P,
-                div: ([Id]) -> Div) {
-        self.contents = [
-            p(ids),
-            div(ids),
-        ]
+                @TagBuilder contents: ([Id]) -> [Tag]) {
+        self.contents = contents(ids) + [p(ids)]
     }
     
     @TagBuilder
