@@ -204,7 +204,9 @@ public class ModalFooter: Component {
     public convenience init(isCloseable: Bool, others: BsButton...) {
         self.init {
                 if isCloseable {
-                    CloseButton(dismiss: .modal)
+                    BsButton {
+                        Button("Close").dataBsDismiss(.modal)
+                    }
                 }
                 for other in others {
                     other
