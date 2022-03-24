@@ -285,44 +285,44 @@ public class NavLink: Component {
         
         super.init(a)
     }
+}
+
+public class NavItemDropdown: Component {
     
-    public class NavItemDropdown: Component {
-        
-        public typealias Id = String
-        public typealias IsDark = Bool
-        
-        public convenience init(id: String,
-                                isDark: Bool = false,
-                                menuAs type: DropdownMenu.TagType,
-                                a: () -> A,
-                                @TagBuilder menuItems: () -> [Tag]) {
-            self.init(id: id,
-                      isDark: isDark,
-                      a: a,
-                      dropdownMenu: { id, isDark in
-                DropdownMenu(dropdownId: id, isDark: isDark, as: type) {
-                    menuItems()
-                }
-            })
-        }
-        
-        public convenience init(id: String,
-                                isDark: Bool = false,
-                                a: () -> A,
-                                dropdownMenu: (Id, IsDark) -> DropdownMenu) {
-            let a = a().id(id)
-            let li = Li {
-                NavLink(isActive: false, isDisabled: false, isDropdown: true, aligns: nil, fills: nil, a)
-                dropdownMenu(id, isDark)
+    public typealias Id = String
+    public typealias IsDark = Bool
+    
+    public convenience init(id: String,
+                            isDark: Bool = false,
+                            menuAs type: DropdownMenu.TagType,
+                            a: () -> A,
+                            @TagBuilder menuItems: () -> [Tag]) {
+        self.init(id: id,
+                  isDark: isDark,
+                  a: a,
+                  dropdownMenu: { id, isDark in
+            DropdownMenu(dropdownId: id, isDark: isDark, as: type) {
+                menuItems()
             }
-            self.init(li)
+        })
+    }
+    
+    public convenience init(id: String,
+                            isDark: Bool = false,
+                            a: () -> A,
+                            dropdownMenu: (Id, IsDark) -> DropdownMenu) {
+        let a = a().id(id)
+        let li = Li {
+            NavLink(isActive: false, isDisabled: false, isDropdown: true, aligns: nil, fills: nil, a)
+            dropdownMenu(id, isDark)
         }
+        self.init(li)
+    }
+    
+    public init(_ li: Li) {
+        li
+            .class(insert: .navItem, .dropdown)
         
-        public init(_ li: Li) {
-            li
-                .class(insert: .navItem, .dropdown)
-            
-            super.init(li)
-        }
+        super.init(li)
     }
 }
