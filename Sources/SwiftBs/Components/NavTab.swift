@@ -181,7 +181,7 @@ public class NavItemDropdown: Component {
         self.init(id: id,
                   isDark: isDark,
                   a: a,
-                  menu: { id, isDark in
+                  dropdownMenu: { id, isDark in
             DropdownMenu(dropdownId: id, isDark: isDark, as: type) {
                 menuItems()
             }
@@ -191,11 +191,11 @@ public class NavItemDropdown: Component {
     public convenience init(id: String,
                             isDark: Bool = false,
                             a: () -> A,
-                            menu: (Id, IsDark) -> DropdownMenu) {
+                            dropdownMenu: (Id, IsDark) -> DropdownMenu) {
         let a = a().id(id)
         let li = Li {
             NavLink(isActive: false, isDisabled: false, isDropdown: true, aligns: nil, fills: nil, a)
-            menu(id, isDark)
+            dropdownMenu(id, isDark)
         }
         self.init(li)
     }
