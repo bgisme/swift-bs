@@ -43,11 +43,11 @@ public class NavTab: Component {
     
     let style: Style?
     
-    public convenience init(as type: TagType,
-                            align: Align? = nil,
+    public convenience init(align: Align? = nil,
                             breakpoints: Breakpoint...,
                             style: Style? = nil,
                             width: Width? = nil,
+                            as type: TagType,
                             @TagBuilder contents: () -> [Tag]) {
         self.init(align: align, breakpoints: breakpoints, style: style, width: width, type.tag(contents))
     }
