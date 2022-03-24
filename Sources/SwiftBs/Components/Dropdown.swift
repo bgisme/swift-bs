@@ -376,7 +376,7 @@ public class DropdownMenu: Component {
     public convenience init(dropdownId: String,
                             isDark: Bool = false,
                             align: Dropdown.MenuAlign? = nil,
-                            type: TagType = .ul,
+                            as type: TagType = .ul,
                             @TagBuilder dropdownMenuItems: () -> [Tag]) {
         let tag = type.tag { dropdownMenuItems() }
         self.init(dropdownId: dropdownId, isDark: isDark, align: align, tag)
