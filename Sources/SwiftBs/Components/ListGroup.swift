@@ -18,7 +18,7 @@ public class ListGroup: Component {
     public convenience init(isFlush: Bool = false,
                             isNumbered: Bool = false,
                             isHorizontal: Bool = false,
-                            as type: TagType,
+                            as type: TagType = .ul,
                             @TagBuilder listGroupItems: () -> [Tag]) {
         let tag: Tag
         switch type {
