@@ -12,16 +12,13 @@ public class Collapse: TagRepresentable {
     public typealias Id = String
     
     let contents: [Tag]
-
+    
     public init(contentIds ids: [String],
                 p: ([Id]) -> P,
-                collapseContent: ([Id]) -> CollapseContent) {
-        self.contents = [
-            p(ids),
-            collapseContent(ids).build(),
-        ]
+                @TagBuilder contents: ([Id]) -> [Tag]) {
+        self.contents = contents(ids) + [p(ids)]
     }
-    
+
     @TagBuilder
     public func build() -> Tag {
         contents
