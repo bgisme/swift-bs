@@ -293,7 +293,7 @@ public class CardLink: Component {
     }
         
     public convenience init(_ a: () -> A) {
-        self.init(a)
+        self.init(a())
     }
     
     public convenience init(_ button: () -> BsButton) {

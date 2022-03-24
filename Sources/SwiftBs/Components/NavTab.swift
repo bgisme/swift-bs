@@ -36,7 +36,7 @@ public class NavTab: Component {
                             breakpoints: Breakpoint...,
                             style: Style? = nil,
                             width: Width? = nil,
-                            type: TagType,
+                            as type: TagType,
                             @TagBuilder contents: () -> [Tag]) {
         let tag: Tag
         switch type {
