@@ -397,7 +397,7 @@ public class DropdownMenu: Component {
     }
     
     // for a purely textual dropdown
-    public init(_ text: String, isDark: Bool = false, p: () -> P) {
+    public init(isDark: Bool = false, p: () -> P) {
         let div = Div {
             p()
         }
