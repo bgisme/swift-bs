@@ -131,7 +131,7 @@ public class Dropdown: Component {
             DropdownMenu(dropdownId: id,
                          isDark: isDark,
                          align: align,
-                         type: type) {
+                         as: type) {
                 dropdownMenuItems()
             }
         }
@@ -162,7 +162,7 @@ public class Dropdown: Component {
             DropdownMenu(dropdownId: id,
                          isDark: isDark,
                          align: align,
-                         type: type) {
+                         as: type) {
                 dropdownMenuItems()
             }
         }

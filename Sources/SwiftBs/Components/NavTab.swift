@@ -180,7 +180,7 @@ public class NavItemDropdown: Component {
                   isDark: isDark,
                   a: a,
                   menu: { id, isDark in
-            DropdownMenu(dropdownId: id, isDark: isDark, type: type) {
+            DropdownMenu(dropdownId: id, isDark: isDark, as: type) {
                 menuItems()
             }
         })
