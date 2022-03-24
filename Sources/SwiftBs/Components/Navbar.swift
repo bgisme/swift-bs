@@ -29,7 +29,7 @@ public class Navbar: Component {
     public convenience init(placement: Placement? = nil,
                             collapseAt breakpoint: Size? = nil,
                             isFluid: Bool = true,
-                            subcontainer type: TagType = .div,
+                            subcontainer type: TagType,
                             @TagBuilder contents: () -> [Tag]) {
         self.init(placement: placement, collapseAt: breakpoint) {
             Container(type, isFluid: isFluid) {
