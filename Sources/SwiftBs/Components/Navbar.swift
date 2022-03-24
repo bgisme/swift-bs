@@ -173,7 +173,7 @@ public class NavbarNav: Component {
     
     /// contents ... NavbarText, NavItemDropdown
     public convenience init(scrollHeight pixels: Int? = nil,
-                            type: TagType,
+                            as type: TagType = .ul,
                             @TagBuilder contents: () -> [Tag]) {
         let tag: Tag
         switch type {
