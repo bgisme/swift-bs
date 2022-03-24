@@ -68,7 +68,7 @@ public class CollapseButton: Component {
                  _ tag: Tag) {
         self.ids = ids
         tag
-            .class(insert: .collapse, if: isCollapsed)
+            .class(insert: .collapsed, if: isCollapsed)
             .dataBsToggle(.collapse)
             .ariaExpanded(!isCollapsed)
             .ariaControls(ids.map{$0}.joined(separator: " "))
