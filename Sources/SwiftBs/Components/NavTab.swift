@@ -315,15 +315,15 @@ public class NavItemDropdown: Component {
     
     public convenience init(id: String,
                             isDark: Bool = false,
-                            menuAs type: DropdownMenu.TagType,
+                            menuAs type: DropdownMenu.TagType = .ul,
                             a: () -> A,
-                            @TagBuilder menuItems: () -> [Tag]) {
+                            @TagBuilder dropdownItems: () -> [Tag]) {
         self.init(id: id,
                   isDark: isDark,
                   a: a,
                   dropdownMenu: { id, isDark in
             DropdownMenu(dropdownId: id, isDark: isDark, as: type) {
-                menuItems()
+                dropdownItems()
             }
         })
     }
