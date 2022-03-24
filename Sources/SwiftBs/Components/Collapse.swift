@@ -12,13 +12,16 @@ public class Collapse: TagRepresentable {
     public typealias Id = String
     
     let contents: [Tag]
-    
+
     public init(contentIds ids: [String],
                 p: ([Id]) -> P,
-                @TagBuilder contents: ([Id]) -> [Tag]) {
-        self.contents = contents(ids) + [p(ids)]
+                div: ([Id]) -> Div) {
+        self.contents = [
+            p(ids),
+            div(ids),
+        ]
     }
-
+    
     @TagBuilder
     public func build() -> Tag {
         contents
@@ -35,6 +38,7 @@ public class CollapseButton: Component {
     
     public convenience init(contentIds ids: [String], a: () -> A) {
         let a = a()
+            .class(insert: .btn)
             .role(.button)
             .href(ids.count < 2 ? "#\(ids.first ?? "")" : BsClass.multiCollapse.rawValue)
 
@@ -47,6 +51,7 @@ public class CollapseButton: Component {
     
     public convenience init(contentIds ids: [String], button: () -> Button) {
         let button = button()
+            .class(insert: .btn)
             .type(.button)
             .dataBsTarget(ids.count < 2 ? ids.first ?? "" : BsClass.multiCollapse.rawValue, prefix: ids.count < 2 ? .hash : .dot)
 

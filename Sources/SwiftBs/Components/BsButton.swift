@@ -45,7 +45,7 @@ public class BsButton: Component {
         self.init(isBlockLevel: isBlockLevel, input())
     }
     
-    private init(isBlockLevel: Bool = false, _ tag: Tag) {
+    private init(isBlockLevel: Bool, _ tag: Tag) {
         tag
             .class(insert: Size.md.buttonClass)
             .class(insert: .btnBlock, if: isBlockLevel)

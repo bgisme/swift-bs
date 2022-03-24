@@ -424,7 +424,10 @@ public class DropdownMenuItem: Component {
     }
     
     /// Only allow certain Tag
-    private init(isActive: Bool, isDisabled: Bool, isInteractive: Bool, _ tag: Tag) {
+    private init(isActive: Bool,
+                 isDisabled: Bool,
+                 isInteractive: Bool,
+                 _ tag: Tag) {
         if isInteractive {
             tag
                 .class(insert: .dropdownItem)
