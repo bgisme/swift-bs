@@ -16,7 +16,6 @@ public class Scrollspy: Component {
     }
     
     public static func navItem(_ title: String,
-                               href: String,
                                scrollspyItemId id: String,
                                isActive: Bool = false,
                                isDisabled: Bool = false,
@@ -29,7 +28,7 @@ public class Scrollspy: Component {
                      isDropdown: isDropdown,
                      aligns: aligns,
                      fills: fills) {
-            A(title).href(href)
+            A(title)
         }
     }
     
