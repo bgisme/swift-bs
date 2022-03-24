@@ -277,6 +277,10 @@ public class CardText: Component {
     public convenience init(_ text: String) {
         self.init(P(text))
     }
+    
+    public convenience init(p: () -> P) {
+        self.init(p())
+    }
         
     public init(_ p: P) {
         p
