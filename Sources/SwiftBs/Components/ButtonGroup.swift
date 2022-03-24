@@ -20,22 +20,21 @@ import SwiftHtml
 
 public class ButtonGroupToolbar: Component {
     
-    public static func make(ariaLabel: String,
-                            @TagBuilder buttonGroups: () -> [Tag]) -> ButtonGroupToolbar {
-        ButtonGroupToolbar(ariaLabel: ariaLabel) {
-            Div {
-                buttonGroups()
-            }
+    public convenience init(ariaLabel: String,
+                            @TagBuilder buttonGroups: () -> [Tag]) {
+        let div = Div {
+            buttonGroups()
         }
+        self.init(ariaLabel: ariaLabel, div)
     }
     
-    public init(ariaLabel: String, div: () -> Div) {
-        super.init {
-            div()
-                .class(insert: .btnToolbar)
-                .role(.toolbar)
-                .ariaLabelledBy(ariaLabel)
-        }
+    public init(ariaLabel: String, _ div: Div) {
+        div
+            .class(insert: .btnToolbar)
+            .role(.toolbar)
+            .ariaLabelledBy(ariaLabel)
+
+        super.init(div)
     }
 }
 
@@ -49,23 +48,18 @@ public class ButtonGroup: Component {
         case xxl
     }
     
-    public static func make(ariaLabel: String,
+    public convenience init(ariaLabel: String,
                             size: Size? = nil,
                             isVertical: Bool = false,
-                            @TagBuilder buttons: () -> [Tag]) -> ButtonGroup {
-        ButtonGroup(ariaLabel: ariaLabel,
-                    size: size,
-                    isVertical: isVertical) {
-            Div {
-                buttons()
-            }
-        }
+                            @TagBuilder buttons: () -> [Tag]) {
+        let div = Div { buttons() }
+        self.init(ariaLabel: ariaLabel, size: size, isVertical: isVertical, div)
     }
     
     public init(ariaLabel: String,
                 size: Size? = nil,
                 isVertical: Bool = false,
-                div: () -> Div) {
+                _ div: Div) {
         let sizeClass: BsClass?
         if let size = size {
             switch size {
@@ -81,12 +75,13 @@ public class ButtonGroup: Component {
         } else {
             sizeClass = nil
         }
-        super.init {
-            div()
-                .class(insert: isVertical ? .btnGroupVertical : .btnGroup)
-                .class(insert: sizeClass)
-                .role(.group)
-                .ariaLabelledBy(ariaLabel)
-        }
+        
+        div
+            .class(insert: isVertical ? .btnGroupVertical : .btnGroup)
+            .class(insert: sizeClass)
+            .role(.group)
+            .ariaLabelledBy(ariaLabel)
+
+        super.init(div)
     }
 }

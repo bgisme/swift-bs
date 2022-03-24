@@ -26,12 +26,12 @@ public class Navbar: Component {
         }
     }
     
-    public static func withContainer(_ type: TagType = .div,
-                                     placement: Placement? = nil,
-                                     collapseAt breakpoint: Size? = nil,
-                                     isFluid: Bool = true,
-                                     @TagBuilder contents: () -> [Tag]) -> Navbar {
-        Navbar(placement: placement, collapseAt: breakpoint) {
+    public convenience init(placement: Placement? = nil,
+                            collapseAt breakpoint: Size? = nil,
+                            isFluid: Bool = true,
+                            container type: TagType = .div,
+                            @TagBuilder contents: () -> [Tag]) {
+        self.init(placement: placement, collapseAt: breakpoint) {
             Container(type: type, isFluid: isFluid) {
                 contents()
             }
@@ -39,17 +39,21 @@ public class Navbar: Component {
     }
     
     /// use for access to Container for styling
+    public convenience init(placement: Placement? = nil,
+                            collapseAt breakpoint: Size? = nil,
+                            container: () -> Container) {
+        let nav = Nav { container() }
+        self.init(placement: placement, collapseAt: breakpoint, nav)
+    }
+    
     public init(placement: Placement? = nil,
                 collapseAt breakpoint: Size? = nil,
-                container: () -> Container) {
-        super.init {
-            Nav {
-                container()
-            }
+                _ nav: Nav) {
+        nav
             .class(insert: .navbar)
             .class(insert: placement?.class)
             .class(insert: breakpoint?.navbarExpand)
-        }
+        super.init(nav)
     }
 }
 
@@ -74,59 +78,69 @@ extension Size {
 public class NavbarBrand: Component {
         
     public convenience init(_ title: String, href: String) {
-        self.init { A(title).href(href) }
+        self.init(A(title).href(href))
     }
     
     public convenience init(_ title: String) {
-        self.init { Span(title) }
+        self.init(Span(title))
     }
     
     public convenience init(span: () -> Span) {
-        self.init(tag: span())
+        self.init(span())
     }
 
     public convenience init(a: () -> A) {
-        self.init(tag: a())
+        self.init(a())
     }
     
-    private init(tag: Tag) {
-        super.init {
-            tag
-                .class(insert: .navbarBrand)
-        }
+    private override init(_ tag: Tag) {
+        tag
+            .class(insert: .navbarBrand)
+        
+        super.init(tag)
     }
 }
 
 public class NavbarToggler: Component {
     
-    public static func standard(id: String,
-                                ariaLabel: String,
-                                isCollapseOffcanvas: Bool = false,
-                                isBordered: Bool = true) -> NavbarToggler {
-        return NavbarToggler(id: id,
-                             ariaLabel: ariaLabel,
-                             isCollapseOffcanvas: isCollapseOffcanvas) {
-            Button {
-                Span().class(insert: .navbarTogglerIcon)
-            }
-            .style(set: .border("none"), if: !isBordered)
+    public convenience init(id: String,
+                            ariaLabel: String,
+                            isCollapseOffcanvas: Bool = false,
+                            isBordered: Bool = true) {
+        let button = Button {
+            Span().class(insert: .navbarTogglerIcon)
         }
+        .style(set: .border("none"), if: !isBordered)
+        self.init(id: id,
+                  ariaLabel: ariaLabel,
+                  isCollapseOffcanvas: isCollapseOffcanvas,
+                  button)
+    }
+    
+    public convenience init(id: String,
+                ariaLabel: String,
+                isCollapseOffcanvas: Bool = false,
+                button: () -> Button) {
+        self.init(id: id,
+                  ariaLabel: ariaLabel,
+                  isCollapseOffcanvas: isCollapseOffcanvas,
+                  button())
     }
     
     public init(id: String,
                 ariaLabel: String,
                 isCollapseOffcanvas: Bool = false,
-                button: () -> Button) {
-        super.init {
-            button()
-                .class(insert: .navbarToggler)
-                .type(.button)
-                .dataBsToggle(isCollapseOffcanvas ? .offcanvas : .collapse)
-                .dataBsTarget(id)
-                .ariaControls(id)
-                .ariaExpanded(false)
-                .ariaLabel(ariaLabel)
-        }
+                _ button: Button) {
+        button
+            .class(insert: .navbarToggler)
+            .type(.button)
+            .dataBsToggle(isCollapseOffcanvas ? .offcanvas : .collapse)
+            .dataBsTarget(id)
+            .ariaControls(id)
+            .ariaExpanded(false)
+            .ariaLabel(ariaLabel)
+        
+        super.init(button)
     }
 }
 
@@ -135,15 +149,17 @@ public class NavbarCollapse: Component {
     /// contents ...
     /// NavbarNav
     /// anything
-    public init(togglerId id: String,
-                @TagBuilder contents: () -> [Tag]) {
-        super.init {
-            Div {
-                contents()
-            }
+    public convenience init(togglerId id: String, @TagBuilder contents: () -> [Tag]) {
+        let div = Div { contents() }
+        self.init(togglerId: id, div)
+    }
+    
+    public init(togglerId id: String, _ div: Div) {
+        _ = div
             .class(insert: .collapse, .navbarCollapse)
             .id(id)
-        }
+        
+        super.init(div)
     }
 }
 
@@ -156,9 +172,9 @@ public class NavbarNav: Component {
     }
     
     /// contents ... NavbarText, NavItemDropdown
-    public init(scrollHeight pixels: Int? = nil,
-                type: TagType,
-                @TagBuilder contents: () -> [Tag]) {
+    public convenience init(scrollHeight pixels: Int? = nil,
+                            type: TagType,
+                            @TagBuilder contents: () -> [Tag]) {
         let tag: Tag
         switch type {
         case .ol:
@@ -177,25 +193,31 @@ public class NavbarNav: Component {
             isScrollable = false
             scrollHeight = nil
         }
-        super.init {
-            tag
-                .class(insert: .navbarNav)
-                .class(insert: .navbarNavScroll, if: isScrollable)
-                .style(set: scrollHeight)
-        }
+        self.init(isScrollable: isScrollable, scrollHeight: scrollHeight, tag)
+    }
+    
+    public init(isScrollable: Bool = false,
+                scrollHeight: CssKeyValue? = nil,
+                _ tag: Tag) {
+        tag
+            .class(insert: .navbarNav)
+            .class(insert: .navbarNavScroll, if: isScrollable)
+            .style(set: scrollHeight)
+        
+        super.init(tag)
     }
 }
 
 public class NavbarText: Component {
     
     public convenience init(_ text: String) {
-        self.init { Span(text) }
+        self.init(Span(text))
     }
     
-    public init(span: () -> Span) {
-        super.init {
-            span()
-                .class(insert: .navbarText)
-        }
+    public init(_ span: Span) {
+        span
+            .class(insert: .navbarText)
+        
+        super.init(span)
     }
 }

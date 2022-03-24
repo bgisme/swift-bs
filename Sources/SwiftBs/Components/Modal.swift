@@ -9,22 +9,38 @@ import SwiftHtml
 
 public class Modal: Component {
     
-    /// contents ... see ModalDialog
+    /// contents ... see ModalContent
+    public convenience init(id: String,
+                            size: ModalDialog.Size? = nil,
+                            isAnimated: Bool = true,
+                            isBackdropStatic: Bool = false,
+                            isScrollable: Bool = false,
+                            isCentered: Bool = false,
+                            @TagBuilder contents: () -> [Tag]) {
+        self.init(id: id,
+                  isAnimated: isAnimated,
+                  isBackdropStatic: isBackdropStatic) {
+            ModalDialog(size: size,
+                        isScrollable: isScrollable,
+                        isCentered: isCentered) {
+                contents()
+            }
+        }
+    }
+    
+    public convenience init(id: String,
+                            isAnimated: Bool = true,
+                            isBackdropStatic: Bool = false,
+                            dialog: () -> ModalDialog) {
+        let div = Div { dialog() }
+        self.init(id: id, isAnimated: isAnimated, isBackdropStatic: isBackdropStatic, div)
+    }
+    
     public init(id: String,
-                size: ModalDialog.Size? = nil,
                 isAnimated: Bool = true,
                 isBackdropStatic: Bool = false,
-                isScrollable: Bool = false,
-                isCentered: Bool = false,
-                @TagBuilder contents: () -> [Tag]) {
-        super.init {
-            Div {
-                ModalDialog(size: size,
-                            isScrollable: isScrollable,
-                            isCentered: isCentered) {
-                    contents()
-                }
-            }
+                _ div: Div) {
+        div
             .id(id)
             .ariaLabelledBy("\(id)Label")
             .class(insert: .modal)
@@ -33,7 +49,8 @@ public class Modal: Component {
             .dataBsBackdrop(.static, isBackdropStatic)
             .dataBsKeyboard(false, isBackdropStatic)
             .ariaHidden(true)
-        }
+        
+        super.init(div)
     }
 }
 
@@ -75,21 +92,29 @@ public class ModalDialog: Component {
     }
         
     /// contents ... see ModalContent
+    public convenience init(size: Size? = nil,
+                            isScrollable: Bool = false,
+                            isCentered: Bool = false,
+                            @TagBuilder contents: () -> [Tag]) {
+        let div = Div {
+            ModalContent {
+                contents()
+            }
+        }
+        self.init(size: size, isScrollable: isScrollable, isCentered: isCentered, div)
+    }
+    
     public init(size: Size? = nil,
                 isScrollable: Bool = false,
                 isCentered: Bool = false,
-                @TagBuilder contents: () -> [Tag]) {
-        super.init {
-            Div {
-                ModalContent {
-                    contents()
-                }
-            }
+                _ div: Div) {
+        div
             .class(insert: .modalDialog)
             .class(insert: size?.rawValue, if: size != nil)
             .class(insert: .modalDialogScrollable, if: isScrollable)
             .class(insert: .modalDialogCentered, if: isCentered)
-        }
+        
+        super.init(div)
     }
 }
 
@@ -100,13 +125,16 @@ public class ModalContent: Component {
     /// ModalTitle
     /// ModalBody
     /// ModalFooter
-    public init(@TagBuilder contents: () -> [Tag]) {
-        super.init {
-            Div {
-                contents()
-            }
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        let div = Div { contents() }
+        self.init(div)
+    }
+    
+    public init(_ div: Div) {
+        div
             .class(insert: .modalContent)
-        }
+
+        super.init(div)
     }
 }
 
@@ -121,29 +149,31 @@ public class ModalHeader: Component {
         }
     }
     
-    public init(@TagBuilder contents: () -> [Tag]) {
-        super.init {
-            Div {
-                contents()
-            }
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        let div = Div { contents() }
+        self.init(div)
+    }
+    
+    public init(_ div: Div) {
+        div
             .class(insert: .modalHeader)
-        }
+        
+        super.init(div)
     }
 }
 
 public class ModalTitle: Component {
         
     public convenience init(_ text: String) {
-        self.init {
-            H5(text)
-        }
+        let h5 = H5(text)
+        self.init(h5)
     }
     
-    public init(_ h5: () -> H5) {
-        super.init {
-            h5()
-                .class(insert: .modalTitle)
-        }
+    public init(_ h5: H5) {
+        h5
+            .class(insert: .modalTitle)
+        
+        super.init(h5)
     }
 }
 
@@ -156,13 +186,16 @@ public class ModalBody: Component {
     }
     
     /// contents ... anything
-    public init(@TagBuilder contents: () -> [Tag]) {
-        super.init {
-            Div {
-                contents()
-            }
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        let div = Div { contents() }
+        self.init(div)
+    }
+    
+    public init(_ div: Div) {
+        div
             .class(insert: .modalBody)
-        }
+
+        super.init(div)
     }
 }
 
@@ -180,12 +213,17 @@ public class ModalFooter: Component {
     }
     
     /// contents ... anything
-    public init(@TagBuilder contents: () -> [Tag]) {
-        super.init {
-            Div {
-                contents()
-            }
-            .class(insert: .modalFooter)
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        let div = Div {
+            contents()
         }
+        self.init(div)
+    }
+    
+    public init(_ div: Div) {
+        div
+            .class(insert: .modalFooter)
+        
+        super.init(div)
     }
 }

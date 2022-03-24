@@ -20,11 +20,24 @@ public class Offcanvas: Component {
     /// OffcanvasHeader
     /// OffcanvasTitle
     /// OffcanvasBody
+    public convenience init(id: String,
+                            placement: Placement = .start,
+                            isBackgroundScrollable: Bool = false,   // background not scrollable by default
+                            isBackdropVisible: Bool = true,         // backdrop visible by default
+                            @TagBuilder contents: () -> [Tag]) {
+        let div = Div { contents() }
+        self.init(id: id,
+                  placement: placement,
+                  isBackgroundScrollable: isBackgroundScrollable,
+                  isBackdropVisible: isBackdropVisible,
+                  div)
+    }
+    
     public init(id: String,
                 placement: Placement = .start,
-                isBackgroundScrollable: Bool = false,   // background not scrollable by default
-                isBackdropVisible: Bool = true,         // backdrop visible by default
-                @TagBuilder contents: () -> [Tag]) {
+                isBackgroundScrollable: Bool = false,
+                isBackdropVisible: Bool = true,
+                _ div: Div) {
         let place: BsClass
         switch placement {
         case .start:
@@ -36,10 +49,7 @@ public class Offcanvas: Component {
         case .bottom:
             place = .offcanvasBottom
         }
-        super.init {
-            Div {
-                contents()
-            }
+        div
             .class(insert: .offcanvas)
             .class(insert: place)
             .tabindex(-1)
@@ -47,63 +57,68 @@ public class Offcanvas: Component {
             .ariaLabelledBy("\(id)Label")
             .dataBsScroll(isBackgroundScrollable, isBackgroundScrollable)
             .dataBsBackdrop(!isBackdropVisible, !isBackdropVisible)
-        }
+        
+        super.init(div)
     }
 }
 
 /// contents ... anything (usually OffcanvasTitle + OffcanvasCloseButton)
 public class OffcanvasHeader: Component {
         
-    public init(@TagBuilder contents: () -> [Tag]) {
-        super.init {
-            Div {
-                contents()
-            }
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        let div = Div { contents() }
+        self.init(div)
+    }
+    
+    public init(_ div: Div) {
+        div
             .class(insert: .offcanvasHeader)
-        }
+        
+        super.init(div)
     }
 }
 
 public class OffcanvasTitle: Component {
     
-    public convenience init(_ text: String,
-                            offcanvasId id: String) {
-        self.init(offcanvasId: id) { H5(text) }
+    public convenience init(_ text: String, offcanvasId id: String) {
+        self.init(offcanvasId: id, H5(text))
     }
     
-    public init(offcanvasId id: String,
-                h5: () -> H5) {
-        super.init {
-            h5()
-                .class(insert: .offcanvasTitle)
-                .id(id + "Label")
-        }
+    public init(offcanvasId id: String, _ h5: H5) {
+        _ = h5
+            .class(insert: .offcanvasTitle)
+            .id(id + "Label")
+        
+        super.init(h5)
     }
 }
 
 public class OffcanvasBody: Component {
     
     /// contents ... anything
-    public init(@TagBuilder contents: () -> [Tag]) {
-        super.init {
-            Div {
-                contents()
-            }
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        let div = Div { contents() }
+        self.init(div)
+    }
+    
+    public init(_ div: Div) {
+        div
             .class(insert: .offcanvasBody)
-        }
+
+        super.init(div)
     }
 }
 
 public class OffcanvasCloseButton: Component {
     
-    public init() {
-        super.init {
-            Button()
-                .type(.button)
-                .class(insert: .btnClose, .textReset)
-                .dataBsDismiss(.offcanvas)
-                .ariaLabel("Close")
-        }
+    public init(_ button: Button = Button()) {
+        button
+            .type(.button)
+            .class(insert: .btnClose, .textReset)
+            .dataBsDismiss(.offcanvas)
+            .ariaLabel("Close")
+
+        super.init(button)
     }
 }
 
@@ -112,30 +127,27 @@ public class OffcanvasButton: Component {
     public convenience init(offcanvasId id: String,
                             ariaControls: String,
                             a: () -> A) {
-        self.init(ariaControls: ariaControls) {
-            a()
-                .href("#\(id)")
-                .role(.button)
-        }
+        let a = a()
+            .href("#\(id)")
+            .role(.button)
+        self.init(ariaControls: ariaControls, a)
     }
     
     public convenience init(offcanvasId id: String,
                             ariaControls: String,
                             button: () -> Button) {
-        self.init(ariaControls: ariaControls) {
-            button()
-                .type(.button)
-                .dataBsTarget(id)
-        }
+        let button = button()
+            .type(.button)
+            .dataBsTarget(id)
+        self.init(ariaControls: ariaControls, button)
     }
     
-    private init(ariaControls: String,
-                 tag: () -> Tag) {
-        super.init {
-            tag()
-                .class(insert: .btn)
-                .dataBsToggle(.offcanvas)
-                .ariaControls(ariaControls)
-        }
+    private init(ariaControls: String, _ tag: Tag) {
+        tag
+            .class(insert: .btn)
+            .dataBsToggle(.offcanvas)
+            .ariaControls(ariaControls)
+        
+        super.init(tag)
     }
 }

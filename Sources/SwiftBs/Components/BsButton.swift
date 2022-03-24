@@ -15,43 +15,42 @@ public class BsButton: Component {
                             isDisabled: Bool = false,
                             isActive: Bool = false,
                             button: () -> Button) {
-        self.init(isBlockLevel: isBlockLevel) {
-            button()
-                .type(.button)
-                .class(insert: .active, if: isToggle && isPressed)
-                .dataBsToggle(.button, isToggle)
-                .disabled(isDisabled)
-                .ariaPressed(isPressed, isToggle && isPressed)
-                .autoComplete(false, isToggle && isPressed)
-        }
+        let button = button()
+            .type(.button)
+            .class(insert: .active, if: isToggle && isPressed)
+            .dataBsToggle(.button, isToggle)
+            .disabled(isDisabled)
+            .ariaPressed(isPressed, isToggle && isPressed)
+            .autoComplete(false, isToggle && isPressed)
+
+        self.init(isBlockLevel: isBlockLevel, button)
     }
     
     public convenience init(isBlockLevel: Bool = false,
                             isDisabled: Bool = false,
                             isActive: Bool = false,
                             a: () -> A) {
-        self.init(isBlockLevel: isBlockLevel) {
-            a()
-                .class(insert: .disabled, if: isDisabled)
-                .role(.button)
-                .class(insert: .active, if: isActive)
-                .ariaPressed(true, isActive)
-                .ariaDisabled(isDisabled)
-        }
+        let a = a()
+            .class(insert: .disabled, if: isDisabled)
+            .role(.button)
+            .class(insert: .active, if: isActive)
+            .ariaPressed(true, isActive)
+            .ariaDisabled(isDisabled)
+
+        self.init(isBlockLevel: isBlockLevel, a)
     }
     
     public convenience init(isBlockLevel: Bool = false,
                             input: () -> Input) {
-        self.init(isBlockLevel: isBlockLevel, tag: input)
+        self.init(isBlockLevel: isBlockLevel, input())
     }
     
-    private init(isBlockLevel: Bool = false,
-                 tag: () -> Tag) {
-        super.init {
-            tag()
-                .class(insert: Size.md.buttonClass)
-                .class(insert: .btnBlock, if: isBlockLevel)
-        }
+    private init(isBlockLevel: Bool = false, _ tag: Tag) {
+        tag
+            .class(insert: Size.md.buttonClass)
+            .class(insert: .btnBlock, if: isBlockLevel)
+
+        super.init(tag)
     }
     
     @discardableResult

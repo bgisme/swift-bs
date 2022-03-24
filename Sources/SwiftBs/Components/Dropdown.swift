@@ -112,7 +112,7 @@ public class Dropdown: Component {
                             isDark: Bool = false,
                             direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
-                            menuAs tagType: DropdownMenu.TagType = .ul,
+                            menuAs type: DropdownMenu.TagType = .ul,
                             button: () -> Button,
                             @TagBuilder dropdownMenuItems: () -> [Tag]) {
         self.init(id: id,
@@ -128,10 +128,10 @@ public class Dropdown: Component {
                            size: size,
                            button: button)
         } menu: { id, isDark, align in
-            DropdownMenu.as(tagType,
-                            dropdownId: id,
-                            isDark: isDark,
-                            align: align) {
+            DropdownMenu(dropdownId: id,
+                         isDark: isDark,
+                         align: align,
+                         type: type) {
                 dropdownMenuItems()
             }
         }
@@ -143,7 +143,7 @@ public class Dropdown: Component {
                             size: Size = .md,
                             direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
-                            menuAs tagType: DropdownMenu.TagType = .ul,
+                            menuAs type: DropdownMenu.TagType = .ul,
                             a: () -> A,
                             @TagBuilder dropdownMenuItems: () -> [Tag]) {
         self.init(id: id,
@@ -159,64 +159,70 @@ public class Dropdown: Component {
                            size: size,
                            a: a)
         } menu: { id, isDark, align in
-            DropdownMenu.as(tagType,
-                            dropdownId: id,
-                            isDark: isDark,
-                            align: align) {
+            DropdownMenu(dropdownId: id,
+                         isDark: isDark,
+                         align: align,
+                         type: type) {
                 dropdownMenuItems()
             }
         }
     }
     
-    public init(id: String,
-                isSplit: Bool = false,
-                isDark: Bool = false,
-                size: Size = .md,
-                direction: Direction = .down,
-                menuAlign: MenuAlign? = nil,
-                button: (Id, IsSplit, Dropdown.Direction, MenuAlign?, Size) -> DropdownButton,
-                menu: (Id, IsDark, MenuAlign?) -> DropdownMenu) {
+    public convenience init(id: String,
+                            isSplit: Bool = false,
+                            isDark: Bool = false,
+                            size: Size = .md,
+                            direction: Direction = .down,
+                            menuAlign: MenuAlign? = nil,
+                            button: (Id, IsSplit, Dropdown.Direction, MenuAlign?, Size) -> DropdownButton,
+                            menu: (Id, IsDark, MenuAlign?) -> DropdownMenu) {
         let button = button(id, isSplit, direction, menuAlign, size)
         let arrowButton = DropdownButtonArrow(id: id)
         if isSplit, let classes = button.tag.value(.class)?.bsClasses {
             // apply button classes to arrow button so they match
             arrowButton.class(insert: classes)
         }
-        self.button = button
-        self.arrowButton = arrowButton
-        super.init {
-            if isSplit {
-                if direction != .start {
+        let div: Div
+        if isSplit {
+            if direction != .start {
+                div = Div {
+                    button
+                    arrowButton
+                    menu(id, isDark, menuAlign)
+                }
+                .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
+            } else {
+                div = Div {
                     Div {
-                        button
+                        /// split buttons direction .start are ordered differently and inside extra button group
                         arrowButton
                         menu(id, isDark, menuAlign)
                     }
-                    .class(insert: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
-                    .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
-                } else {
-                    Div {
-                        Div {
-                            /// split buttons direction .start are ordered differently and inside extra button group
-                            arrowButton
-                            menu(id, isDark, menuAlign)
-                        }
-                        .class(insert: .btnGroup, .dropstart)
-                        .role(.group)
-                        button
-                    }
-                    .class(insert: .btnGroup)
-                }
-            } else {
-                /// non-split
-                Div {
+                    .class(insert: .dropstart)
+                    .role(.group)
                     button
-                    menu(id, isDark, menuAlign)
                 }
-                .class(insert: .btnGroup)   // make all dropdowns button groups... <div class="dropdown"> does not work for split buttons
-                .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
+                .class(insert: .btnGroup)
             }
+        } else {
+            /// non-split
+            div = Div {
+                button
+                menu(id, isDark, menuAlign)
+            }
+            .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
         }
+        self.init(button: button, arrowButton: arrowButton, div)
+    }
+        
+    public init(button: DropdownButton, arrowButton: DropdownButtonArrow? = nil, _ div: Div) {
+        self.button = button
+        self.arrowButton = arrowButton
+
+        div
+            .class(insert: .btnGroup)
+        
+        super.init(div)
     }
     
     @discardableResult
@@ -277,14 +283,14 @@ public final class DropdownButton: Component {
                             size: Size = .md,
                             button: () -> BsButton) {
         let button = button().build()
-        self.init(dropdownId: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign, size: size, tag: {
-            guard !isSplit else { return button }
-            return button
+        if !isSplit {
+            _ = button
                 .class(insert: .dropdownToggle)
                 .dataBsToggle(.dropdown)
                 .ariaExpanded(false)
                 .id(id)
-        })
+        }
+        self.init(dropdownId: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign, size: size, button)
     }
     
     internal init(dropdownId id: String,
@@ -292,13 +298,12 @@ public final class DropdownButton: Component {
                   isSplit: Bool,
                   menuAlign: Dropdown.MenuAlign?,
                   size: Size,
-                  tag: () -> Tag) {
+                  _ tag: Tag) {
         let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
-        super.init {
-            tag()
-                .dataBsDisplay(.static, !isSplit && isMenuAlignResponsive)
-                .class(insert: size.buttonClass)
-        }
+        tag
+            .dataBsDisplay(.static, !isSplit && isMenuAlignResponsive)
+            .class(insert: size.buttonClass)
+        super.init(tag)
     }
     
     @discardableResult
@@ -314,20 +319,25 @@ public final class DropdownButton: Component {
 
 public class DropdownButtonArrow: Component {
         
-    public init(id: String) {
-        super.init {
-            Button {
-                Span {
-                    Text("Toggle Dropdown")
-                }
-                .class(insert: .visuallyHidden)
+    public convenience init(id: String) {
+        let button = Button {
+            Span {
+                Text("Toggle Dropdown")
             }
+            .class(insert: .visuallyHidden)
+        }
+        self.init(id: id, button)
+    }
+    
+    public init(id: String, _ button: Button) {
+        button
             .type(.button)
             .class(insert: .btn, .dropdownToggle, .dropdownToggleSplit)
             .id(id) // not required for button groups
             .dataBsToggle(.dropdown)
             .ariaExpanded(false)
-        }
+        
+        super.init(button)
     }
     
     @discardableResult
@@ -346,7 +356,6 @@ public class DropdownMenu: Component {
     public typealias Title = String
     public typealias Href = String
     
-    // localized limited version of TagType
     public enum TagType {
         case ol
         case ul
@@ -364,49 +373,34 @@ public class DropdownMenu: Component {
         }
     }
     
-//    public convenience init(dropdownId: String,
-//                            isDark: Bool = false,
-//                            align: Dropdown.MenuAlign? = nil,
-//                            as tagType: TagType,              // required to disambiguate from init() without any parameters
-//                            @TagBuilder dropdownMenuItems: () -> [Tag]) {
-//        self.init(dropdownId: dropdownId, isDark: isDark, align: align) {
-//            tagType.tag {
-//                dropdownMenuItems()
-//            }
-//        }
-//    }
-    
-    public static func `as`(_ tagType: TagType = .ul,
-                            dropdownId: String,
+    public convenience init(dropdownId: String,
                             isDark: Bool = false,
                             align: Dropdown.MenuAlign? = nil,
-                            @TagBuilder dropdownMenuItems: () -> [Tag]) -> DropdownMenu {
-        DropdownMenu(dropdownId: dropdownId,
-                     isDark: isDark,
-                     align: align) {
-            tagType.tag { dropdownMenuItems() }
-        }
+                            type: TagType = .ul,
+                            @TagBuilder dropdownMenuItems: () -> [Tag]) {
+        let tag = type.tag { dropdownMenuItems() }
+        self.init(dropdownId: dropdownId, isDark: isDark, align: align, tag)
     }
 
     // base init needs Tag so it is accessible for styling at declaration
     public init(dropdownId: String,
                 isDark: Bool = false,
                 align: Dropdown.MenuAlign? = nil,
-                tag: () -> Tag) {
-        super.init {
-            tag()
-                .class(insert: .dropdownMenu)
-                .class(insert: .dropdownMenuDark, if: isDark)
-                .class(insert: align?.classes)
-                .ariaLabelledBy(dropdownId)
-        }
+                _ tag: Tag) {
+        tag
+            .class(insert: .dropdownMenu)
+            .class(insert: .dropdownMenuDark, if: isDark)
+            .class(insert: align?.classes)
+            .ariaLabelledBy(dropdownId)
+
+        super.init(tag)
     }
 }
 
 public class DropdownMenuItem: Component {
     
     public convenience init(nonInteractive span: () -> Span) {
-        self.init(isActive: false, isDisabled: false, tag: span)
+        self.init(isActive: false, isDisabled: false, isInteractive: false, span())
     }
     
     /// <A> menu item
@@ -421,55 +415,54 @@ public class DropdownMenuItem: Component {
     
     /// <A> menu item
     public convenience init(isActive: Bool = false, isDisabled: Bool = false, a: () -> A) {
-        self.init(isActive: isActive, isDisabled: isDisabled, tag: a)
+        self.init(isActive: isActive, isDisabled: isDisabled, isInteractive: true, a())
     }
     
     /// <Button> menu item
     public convenience init(isActive: Bool = false, isDisabled: Bool = false, button: () -> Button) {
-        self.init(isActive: isActive, isDisabled: isDisabled, tag: button)
+        self.init(isActive: isActive, isDisabled: isDisabled, isInteractive: true, button())
     }
     
     /// Only allow certain Tag
-    private init(isActive: Bool, isDisabled: Bool, tag: () -> Tag) {
-        let tag = tag()
-        super.init {
-            Li {
-                if let span = tag as? Span {
-                    span
-                        .class(insert: .dropdownItemText)
-                } else {
-                    tag
-                        .class(insert: .dropdownItem)
-                        .class(insert: .active, if: isActive)
-                        .ariaCurrent(isActive)
-                        .class(insert: .disabled, if: isDisabled)
-                }
-            }
+    private init(isActive: Bool, isDisabled: Bool, isInteractive: Bool, _ tag: Tag) {
+        if isInteractive {
+            tag
+                .class(insert: .dropdownItem)
+                .class(insert: .active, if: isActive)
+                .ariaCurrent(isActive)
+                .class(insert: .disabled, if: isDisabled)
+        } else {
+            tag
+                .class(insert: .dropdownItemText)
         }
+        let tag = Li { tag }
+        
+        super.init(tag)
     }
 }
 
 public class DropdownMenuDivider: Component {
     
     public init() {
-        super.init { Hr().class(insert: .dropdownDivider) }
+        let hr = Hr()
+            .class(insert: .dropdownDivider)
+        super.init(hr)
     }
 }
 
 public class DropdownMenuHeader: Component {
    
     public convenience init(_ text: String) {
-        self.init {
-            H6(text)
-        }
+        let h6 = H6(text)
+
+        self.init(h6)
     }
     
-    public init(h6: () -> H6) {
-        super.init {
-            Li {
-                h6()
-                    .class(insert: .dropdownHeader)
-            }
-        }
+    public init(_ h6: H6) {
+        h6
+            .class(insert: .dropdownHeader)
+        let tag = Li { h6 }
+        
+        super.init(tag)
     }
 }

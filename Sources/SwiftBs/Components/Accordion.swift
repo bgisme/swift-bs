@@ -26,27 +26,26 @@ public class Accordion: Component {
     public typealias AccordionId = String
     public typealias IsAlwaysOpen = Bool
     
-    public static func make(id: String,
+    public convenience init(id: String,
                             isFlush: Bool = false,
                             isAlwaysOpen: Bool = false,
-                            @TagBuilder accordionItems: (AccordionId, IsAlwaysOpen) -> [Tag]) -> Accordion {
-        Accordion(id: id, isFlush: isFlush, isAlwaysOpen: isAlwaysOpen) {
-            Div {
-                accordionItems(id, isAlwaysOpen)
-            }
+                            @TagBuilder accordionItems: (AccordionId, IsAlwaysOpen) -> [Tag]) {
+        let div = Div {
+            accordionItems(id, isAlwaysOpen)
         }
+        self.init(id: id, isFlush: isFlush, isAlwaysOpen: isAlwaysOpen, div)
     }
     
     public init(id: String,
                 isFlush: Bool = false,
                 isAlwaysOpen: Bool = false,
-                div: () -> Div) {
-        super.init {
-            div()
-                .class(insert: .accordion)
-                .id(id)
-                .class(insert: .accordionFlush, if: isFlush)
-        }
+                _ div: Div) {
+        div
+            .class(insert: .accordion)
+            .id(id)
+            .class(insert: .accordionFlush, if: isFlush)
+        
+        super.init(div)
     }
 }
 
@@ -56,35 +55,35 @@ public class AccordionItem: Component {
     public typealias CollapseId = String
     public typealias IsExpanded = Bool
     
-    public static func make(_ title: String,
+    public convenience init(_ title: String,
                             index: Int,
                             isExpanded: Bool = false,
                             accordionId: String,
                             isAlwaysOpen: Bool = false,
-                            @TagBuilder collapseContents: () -> [Tag]) -> AccordionItem {
+                            @TagBuilder collapseContents: () -> [Tag]) {
         let headerId = accordionId + "Header" + String(index)
         let collapseId = accordionId + "Collapse" + String(index)
-        return AccordionItem(title,
-                             index: index,
-                             isExpanded: isExpanded,
-                             accordionId: accordionId,
-                             isAlwaysOpen: isAlwaysOpen) {
-            Div {
-                AccordionHeader.make(title,
-                                     id: headerId,
-                                     collapseId: collapseId,
-                                     isExpanded: isExpanded)
-                AccordionCollapse.make(id: collapseId,
-                                       accordionId: accordionId,
-                                       headerId: headerId,
-                                       isExpanded: isExpanded,
-                                       isAlwaysOpen: isAlwaysOpen) {
-                    AccordionBody.make {
-                        collapseContents()
-                    }
+        let div = Div {
+            AccordionHeader(title,
+                            id: headerId,
+                            collapseId: collapseId,
+                            isExpanded: isExpanded)
+            AccordionCollapse(id: collapseId,
+                              accordionId: accordionId,
+                              headerId: headerId,
+                              isExpanded: isExpanded,
+                              isAlwaysOpen: isAlwaysOpen) {
+                AccordionBody {
+                    collapseContents()
                 }
             }
         }
+        self.init(title,
+                  index: index,
+                  isExpanded: isExpanded,
+                  accordionId: accordionId,
+                  isAlwaysOpen: isAlwaysOpen,
+                  div)
     }
     
     public init(_ title: String,
@@ -92,62 +91,59 @@ public class AccordionItem: Component {
                 isExpanded: Bool = false,
                 accordionId: String,
                 isAlwaysOpen: Bool = false,
-                div: () -> Div) {
-        super.init {
-            div()
-                .class(insert: .accordionItem)
-        }
+                _ div: Div) {
+        div
+            .class(insert: .accordionItem)
+        
+        super.init(div)
     }
 }
 
 public class AccordionHeader: Component {
     
-    public static func make(_ text: String,
+    public convenience init(_ text: String,
                             id: String,
                             collapseId: String,
-                            isExpanded: Bool = false) -> AccordionHeader {
-        AccordionHeader(text, id: id) {
-            H2 {
-                Button(text)
-                    .class(insert: .accordionButton)
-                    .class(insert: .collapsed, if: !isExpanded)
-                    .type(.button)
-                    .dataBsToggle(.collapse)
-                    .dataBsTarget(collapseId)
-                    .ariaExpanded(isExpanded)
-                    .ariaControls(collapseId)
-            }
+                            isExpanded: Bool = false) {
+        let h2 = H2 {
+            Button(text)
+                .class(insert: .accordionButton)
+                .class(insert: .collapsed, if: !isExpanded)
+                .type(.button)
+                .dataBsToggle(.collapse)
+                .dataBsTarget(collapseId)
+                .ariaExpanded(isExpanded)
+                .ariaControls(collapseId)
         }
+        self.init(id: id, h2)
     }
     
-    public init(_ text: String,
-                id: String,
-                h2: () -> H2) {
-        super.init {
-            h2()
-                .class(insert: .accordionHeader)
-                .id(id)
-        }
+    public init(id: String, _ h2: H2) {
+        _ = h2
+            .class(insert: .accordionHeader)
+            .id(id)
+
+        super.init(h2)
     }
 }
 
 public class AccordionCollapse: Component {
     
-    public static func make(id: String,
+    public convenience init(id: String,
                             accordionId: String,
                             headerId: String,
                             isExpanded: Bool = false,
                             isAlwaysOpen: Bool = false,
-                            accordionBody: () -> AccordionBody) -> AccordionCollapse {
-        AccordionCollapse(id: id,
-                          accordionId: accordionId,
-                          headerId: headerId,
-                          isExpanded: isExpanded,
-                          isAlwaysOpen: isAlwaysOpen) {
-            Div {
-                accordionBody()
-            }
+                            accordionBody: () -> AccordionBody) {
+        let div = Div {
+            accordionBody()
         }
+        self.init(id: id,
+                  accordionId: accordionId,
+                  headerId: headerId,
+                  isExpanded: isExpanded,
+                  isAlwaysOpen: isAlwaysOpen,
+                  div)
     }
     
     public init(id: String,
@@ -155,33 +151,32 @@ public class AccordionCollapse: Component {
                 headerId: String,
                 isExpanded: Bool = false,
                 isAlwaysOpen: Bool = false,
-                div: () -> Div) {
-        super.init {
-            div()
-                .id(id)
-                .class(insert: .accordionCollapse, .collapse)
-                .class(insert: .show, if: isExpanded)
-                .ariaLabelledBy(headerId)
-                .dataParent(accordionId, !isAlwaysOpen)
-        }
+                _ div: Div) {
+        div
+            .id(id)
+            .class(insert: .accordionCollapse, .collapse)
+            .class(insert: .show, if: isExpanded)
+            .ariaLabelledBy(headerId)
+            .dataParent(accordionId, !isAlwaysOpen)
+
+        super.init(div)
     }
 }
 
 public class AccordionBody: Component {
     
     /// contents ... anything
-    public static func make(@TagBuilder contents: () -> [Tag]) -> AccordionBody {
-        AccordionBody.init {
-            Div {
-                contents()
-            }
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        let div = Div {
+            contents()
         }
+        self.init(div)
     }
     
-    public init(div: () -> Div) {
-        super.init {
-            div()
-                .class(insert: .accordionBody)
-        }
+    public init(_ div: Div) {
+        div
+            .class(insert: .accordionBody)
+
+        super.init(div)
     }
 }

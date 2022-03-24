@@ -15,8 +15,7 @@ public class ListGroup: Component {
         case div
     }
         
-    /// contents ... ListGroupItems
-    public init(isFlush: Bool = false,
+    public convenience init(isFlush: Bool = false,
                             isNumbered: Bool = false,
                             isHorizontal: Bool = false,
                             type: TagType,
@@ -30,13 +29,20 @@ public class ListGroup: Component {
         case .div:
             tag = Div { listGroupItems() }
         }
-        super.init {
-            tag
-                .class(insert: .listGroup)
-                .class(insert: .listGroupFlush, if: isFlush)
-                .class(insert: .listGroupNumbered, if: isNumbered)
-                .class(insert: .listGroupHorizontal, if: isHorizontal)
-        }
+        self.init(isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal, tag)
+    }
+    
+    public init(isFlush: Bool,
+                isNumbered: Bool,
+                isHorizontal: Bool,
+                _ tag: Tag) {
+        tag
+            .class(insert: .listGroup)
+            .class(insert: .listGroupFlush, if: isFlush)
+            .class(insert: .listGroupNumbered, if: isNumbered)
+            .class(insert: .listGroupHorizontal, if: isHorizontal)
+        
+        super.init(tag)
     }
 }
 
@@ -45,47 +51,45 @@ public class ListGroupItem: Component {
     public convenience init(_ text: String,
                             isActive: Bool = false,
                             isDisabled: Bool = false) {
-        self.init(isAction: false, isActive: isActive, isDisabled: isDisabled) {
-            Li(text)
-        }
+        self.init(isAction: false, isActive: isActive, isDisabled: isDisabled, Li(text))
     }
     
     public convenience init(isActive: Bool = false,
                             isDisabled: Bool = false,
                             li: () -> Li) {
-        self.init(isAction: false, isActive: isActive, isDisabled: isDisabled) { li() }
+        self.init(isAction: false, isActive: isActive, isDisabled: isDisabled, li())
     }
     
     public convenience init(isActive: Bool = false,
                             isDisabled: Bool = false,
                             a: () -> A) {
-        self.init(isAction: true, isActive: isActive, isDisabled: isDisabled) { a() }
+        self.init(isAction: true, isActive: isActive, isDisabled: isDisabled, a())
     }
     
     public convenience init(isActive: Bool = false,
                             isDisabled: Bool = false,
                             button: () -> Button) {
-        self.init(isAction: true, isActive: isActive, isDisabled: isDisabled) { button() }
+        self.init(isAction: true, isActive: isActive, isDisabled: isDisabled,  button())
     }
     
     public convenience init(isActive: Bool = false,
                             isDisabled: Bool = false,
                             label: () -> Label) {
-        self.init(isAction: false, isActive: isActive, isDisabled: isDisabled) { label() }
+        self.init(isAction: false, isActive: isActive, isDisabled: isDisabled, label())
     }
     
     private init(isAction: Bool,
                  isActive: Bool,
                  isDisabled: Bool,
-                 tag: () -> Tag) {
-        super.init {
-            tag()
-                .class(insert: .listGroupItem)
-                .class(insert: .listGroupItemAction, if: isAction)
-                .class(insert: .active, if: isActive)
-                .ariaCurrent(isActive)
-                .class(insert: .disabled, if: isDisabled)
-                .ariaDisabled(isDisabled)
-        }
+                 _ tag: Tag) {
+        tag
+            .class(insert: .listGroupItem)
+            .class(insert: .listGroupItemAction, if: isAction)
+            .class(insert: .active, if: isActive)
+            .ariaCurrent(isActive)
+            .class(insert: .disabled, if: isDisabled)
+            .ariaDisabled(isDisabled)
+
+        super.init(tag)
     }
 }

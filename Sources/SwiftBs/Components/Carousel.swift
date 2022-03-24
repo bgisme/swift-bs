@@ -64,17 +64,31 @@ public class Carousel: Component {
         })
     }
     
+    public convenience init(id: String,
+                            interval milliseconds: Int?,
+                            isCrossFade: Bool,
+                            isAutoplayDisabled: Bool,
+                            isTouchDisabled: Bool,
+                            isDark: Bool,
+                            @TagBuilder contents: () -> [Tag]) {
+        let div = Div { contents() }
+        self.init(id: id,
+                  interval: milliseconds,
+                  isCrossFade: isCrossFade,
+                  isAutoplayDisabled: isAutoplayDisabled,
+                  isTouchDisabled: isTouchDisabled,
+                  isDark: isDark,
+                  div)
+    }
+    
     private init(id: String,
-                 interval milliseconds: Int?,
-                 isCrossFade: Bool,
-                 isAutoplayDisabled: Bool,
-                 isTouchDisabled: Bool,
-                 isDark: Bool,
-                 @TagBuilder contents: () -> [Tag]) {
-        super.init {
-            Div {
-                contents()
-            }
+                interval milliseconds: Int?,
+                isCrossFade: Bool,
+                isAutoplayDisabled: Bool,
+                isTouchDisabled: Bool,
+                isDark: Bool,
+                _ tag: Tag) {
+        tag
             .id(id)
             .class(insert: .carousel, .slide)
             .dataBsInterval(milliseconds)
@@ -83,20 +97,24 @@ public class Carousel: Component {
             .dataBsRide(.carousel)
             .dataBsInterval(false, isAutoplayDisabled)
             .dataBsTouch(false, isTouchDisabled)
-        }
+        
+        super.init(tag)
     }
 }
 
 public class CarouselInner: Component {
         
     /// contents ... CarouselItems
-    public init(@TagBuilder contents: () -> [Tag]) {
-        super.init {
-            Div {
-                contents()
-            }
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        let div = Div { contents() }
+        self.init(div)
+    }
+    
+    public init(_ div: Div) {
+        div
             .class(insert: .carouselInner)
-        }
+        
+        super.init(div)
     }
 }
 
@@ -115,36 +133,40 @@ public class CarouselItem: Component {
     }
     
     /// contents ... anything
+    public convenience init(isActive: Bool = false,
+                            interval milliseconds: Int? = nil,
+                            @TagBuilder contents: () -> [Tag]) {
+        let div = Div { contents() }
+        self.init(div)
+    }
+    
     public init(isActive: Bool = false,
                 interval milliseconds: Int? = nil,
-                @TagBuilder contents: () -> [Tag]) {
-        super.init {
-            Div {
-                contents()
-            }
+                _ div: Div) {
+        div
             .class(insert: .carouselItem)
             .class(insert: .active, if: isActive)
             .dataBsInterval(milliseconds)
-        }
+        
+        super.init(div)
     }
 }
 
 public class CarouselCaption: Component {
         
     public convenience init(_ title: String, _ text: String) {
-        self.init {
-            Div {
-                H5(title)
-                P(text)
-            }
+        let div = Div {
+            H5(title)
+            P(text)
         }
+        self.init(div)
     }
     
-    public init(_ div: () -> Div) {
-        super.init {
-            div()
-                .class(insert: .carouselCaption)
-        }
+    public init(_ div: Div) {
+        div
+            .class(insert: .carouselCaption)
+
+        super.init(div)
     }
 }
 
@@ -170,39 +192,39 @@ public class CarouselControl: Component {
             icon = .carouselControlNextIcon
             controlDirection = .carouselControlNext
         }
-        self.init(direction: direction, carouselId: id, tag: {
-            Button {
-                Span()
-                    .class(insert: icon)
-                    .ariaHidden(true)
-                Span(text)
-                    .class(insert: .visuallyHidden)
-            }
-            .type(.button)
-            .class(insert: controlDirection)
-        })
+        let button = Button {
+            Span()
+                .class(insert: icon)
+                .ariaHidden(true)
+            Span(text)
+                .class(insert: .visuallyHidden)
+        }
+        .type(.button)
+        .class(insert: controlDirection)
+
+        self.init(direction: direction, carouselId: id, button)
     }
     
     public convenience init(direction: Direction,
                             carouselId id: String,
                             button: () -> Button) {
-        self.init(direction: direction, carouselId: id, tag: button)
+        self.init(direction: direction, carouselId: id, button())
     }
     
     public convenience init(direction: Direction,
                             carouselId id: String,
                             a: () -> A) {
-        self.init(direction: direction, carouselId: id, tag: a)
+        self.init(direction: direction, carouselId: id, a())
     }
     
     private init(direction: Direction,
                  carouselId id: String,
-                 tag: () -> Tag) {
-        super.init {
-            tag()
-                .dataBsTarget(id)
-                .dataBsSlide(direction.rawValue)
-        }
+                 _ tag: Tag) {
+        tag
+            .dataBsTarget(id)
+            .dataBsSlide(direction.rawValue)
+
+        super.init(tag)
     }
 }
 
@@ -220,18 +242,25 @@ public class CarouselIndicator: Component {
         return indicators
     }
 
+    public convenience init(index: Int,
+                            isActive: Bool = false,
+                            carouselId id: String,
+                            button: () -> Button) {
+        self.init(index: index, isActive: isActive, carouselId: id, button())
+    }
+    
     public init(index: Int,
                 isActive: Bool = false,
                 carouselId id: String,
-                button: () -> Button) {
-        super.init {
-            button()
-                .type(.button)
-                .dataBsTarget(id)
-                .dataBsSlideTo(String(index))
-                .ariaLabel("Slide \(index)")
-                .class(insert: .active, if: isActive)
-                .ariaCurrent(isActive)
-        }
+                _ button: Button) {
+        button
+            .type(.button)
+            .dataBsTarget(id)
+            .dataBsSlideTo(String(index))
+            .ariaLabel("Slide \(index)")
+            .class(insert: .active, if: isActive)
+            .ariaCurrent(isActive)
+        
+        super.init(button)
     }
 }

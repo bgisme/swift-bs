@@ -20,10 +20,13 @@ public class PaginationNav: Component {
     }
     
     /// contents ... Pagination
-    public init(pagination: () -> Pagination) {
-        super.init {
-            Nav{ pagination() }
-        }
+    public convenience init(pagination: () -> Pagination) {
+        let nav = Nav { pagination() }
+        self.init(nav)
+    }
+    
+    public init(_ nav: Nav) {
+        super.init(nav)
     }
 }
 
@@ -34,9 +37,9 @@ public class Pagination: Component {
         case lg
     }
     
-    public init(ariaLabel: String,
-                size s: Size? = nil,
-                @TagBuilder pageItems: () -> [Tag]) {
+    public convenience init(ariaLabel: String,
+                            size s: Size? = nil,
+                            @TagBuilder pageItems: () -> [Tag]) {
         let size: BsClass?
         switch s {
         case .sm:
@@ -46,16 +49,21 @@ public class Pagination: Component {
         default:
             size = nil
         }
-        super.init {
-            Nav {
-                Ul {
-                    
-                }
-                .class(insert: .pagination)
-                .class(insert: size)
+        let nav = Nav {
+            Ul {
+                
             }
-            .ariaLabel(ariaLabel)
+            .class(insert: .pagination)
+            .class(insert: size)
         }
+        self.init(ariaLabel: ariaLabel, nav)
+    }
+    
+    public init(ariaLabel: String, _ nav: Nav) {
+        nav
+            .ariaLabel(ariaLabel)
+
+        super.init(nav)
     }
 }
 
@@ -71,17 +79,22 @@ public class PageItem: Component {
         }
     }
     
+    public convenience init(isActive: Bool = false,
+                            isDisabled: Bool = false,
+                            pageLink: () -> PageLink) {
+        let li = Li { pageLink() }
+        self.init(isActive: isActive, isDisabled: isDisabled, li)
+    }
+    
     public init(isActive: Bool = false,
                 isDisabled: Bool = false,
-                pageLink: () -> PageLink) {
-        super.init {
-            Li {
-                pageLink()
-            }
+                _ li: Li) {
+        li
             .class(insert: .pageItem)
             .class(insert: .active, if: isActive)
             .class(insert: .disabled, if: isDisabled)
-        }
+        
+        super.init(li)
     }
 }
 
@@ -90,14 +103,15 @@ public class PageLink: Component {
     public convenience init(_ title: String,
                             href: String,
                             ariaLabel: String) {
-        self.init(ariaLabel: ariaLabel) { A(title).href(href) }
+        let a = A(title).href(href)
+        self.init(ariaLabel: ariaLabel, a)
     }
     
-    public init(ariaLabel: String, a: () -> A) {
-        super.init {
-            a()
-                .class(insert: .pageLink)
-                .ariaLabel(ariaLabel)
-        }
+    public init(ariaLabel: String, _ a: A) {
+        a
+            .class(insert: .pageLink)
+            .ariaLabel(ariaLabel)
+
+        super.init(a)
     }
 }

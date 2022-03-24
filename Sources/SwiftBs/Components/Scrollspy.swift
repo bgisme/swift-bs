@@ -9,14 +9,14 @@ import SwiftHtml
 
 public class Scrollspy: Component {
     
-    public init(navId: String, offset: Int, div: () -> Div) {
-        super.init {
-            div()
-                .dataBsSpy(.scroll)
-                .dataBsTarget(navId)
-                .dataBsOffset(offset)
-                .tabindex(0)
-        }
+    public init(navId: String, offset: Int, _ div: Div) {
+        _ = div
+            .dataBsSpy(.scroll)
+            .dataBsTarget(navId)
+            .dataBsOffset(offset)
+            .tabindex(0)
+        
+        super.init(div)
     }
 }
 

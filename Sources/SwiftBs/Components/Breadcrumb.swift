@@ -21,13 +21,13 @@ public class Breadcrumb: Component {
     public static let breadcrumbArrow = "url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;)"
     public static let breadcrumbDividerRemoved = "''"
     
-    public static func make(divider: String? = nil,
-                            @TagBuilder breadcrumbItems: () -> [Tag]) -> Breadcrumb {
-        Breadcrumb(divider: divider) {
-            BreadcrumbList.make {
+    public convenience init(divider: String? = nil,
+                            @TagBuilder breadcrumbItems: () -> [Tag]) {
+        self.init(divider: divider, breadcrumbList: {
+            BreadcrumbList {
                 breadcrumbItems()
             }
-        }
+        })
     }
         
     public convenience init(divider: String? = nil,
@@ -43,63 +43,55 @@ public class Breadcrumb: Component {
                 breadcrumbList()
             }
         }
-        self.init {
-            nav
-        }
+        self.init(nav)
     }
     
-    public init(nav: () -> Nav) {
-        super.init {
-            nav()
-        }
+    public init(_ nav: Nav) {
+        super.init(nav)
     }
 }
 
 public class BreadcrumbList: Component {
         
     /// contents ... BreadcrumbListItems
-    public static func make(@TagBuilder breadcrumbListItems: () -> [Tag]) -> BreadcrumbList {
-        BreadcrumbList {
-            Ol {
-                breadcrumbListItems()
-            }
+    public convenience init(@TagBuilder breadcrumbListItems: () -> [Tag]) {
+        let ol = Ol {
+            breadcrumbListItems()
         }
+        self.init(ol)
     }
     
-    public init(ol: () -> Ol) {
-        super.init {
-            ol()
-                .class(insert: .breadcrumb)
-        }
+    public init(_ ol: Ol) {
+        ol
+            .class(insert: .breadcrumb)
+        super.init(ol)
     }
 }
 
 public class BreadcrumbListItem: Component {
     
-    public static func make(_ title: String,
+    public convenience init(_ title: String,
                             href: String,
-                            isActive: Bool = false) -> BreadcrumbListItem {
-        self.make(isActive: isActive) {
+                            isActive: Bool = false) {
+        self.init(isActive: isActive) {
             A(title).href(href)
         }
     }
             
     /// contents ... anything
-    public static func make(isActive: Bool = false,
-                            @TagBuilder contents: () -> [Tag]) -> BreadcrumbListItem {
-        BreadcrumbListItem(isActive: isActive) {
-            Li {
-                contents()
-            }
+    public convenience init(isActive: Bool = false,
+                            @TagBuilder contents: () -> [Tag]) {
+        let li = Li {
+            contents()
         }
+        self.init(isActive: isActive, li)
     }
     
-    public init(isActive: Bool = false,
-                li: () -> Li) {
-        super.init {
-            li()
-                .class(insert: .breadcrumbItem)
-                .class(insert: .active, if: isActive)
-        }
+    public init(isActive: Bool = false, _ li: Li) {
+        li
+            .class(insert: .breadcrumbItem)
+            .class(insert: .active, if: isActive)
+
+        super.init(li)
     }
 }

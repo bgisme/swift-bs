@@ -26,13 +26,16 @@ public class Progress: Component {
     }
     
     /// contents ... Progressbar
-    public init(@TagBuilder contents: () -> [Tag]) {
-        super.init {
-            Div {
-                contents()
-            }
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        let div = Div { contents() }
+        self.init(div)
+    }
+    
+    public init(_ div: Div) {
+        div
             .class(insert: .progress)
-        }
+        
+        super.init(div)
     }
 }
 
@@ -55,22 +58,37 @@ public class Progressbar: Component {
     
     /// percent > 100 becomes 100
     /// contents ... anything (usually nothing)
+    public convenience init(percent: Int,
+                            label: String? = nil,
+                            height pixels: Int? = nil,
+                            theme: ColorTheme? = nil,
+                            isStriped: Bool = false,
+                            isAnimated: Bool = false,
+                            @TagBuilder contents: () -> [Tag]) {
+        let div = Div {
+            if let label = label {
+                Text(label)
+            }
+            contents()
+        }
+        self.init(percent: percent,
+                  height: pixels,
+                  theme: theme,
+                  isStriped: isStriped,
+                  isAnimated: isAnimated,
+                  div)
+    }
+    
     public init(percent: Int,
-                label: String? = nil,
                 height pixels: Int? = nil,
                 theme: ColorTheme? = nil,
                 isStriped: Bool = false,
                 isAnimated: Bool = false,
-                @TagBuilder contents: () -> [Tag]) {
+                _ div: Div) {
         let percent = percent <= 100 ? percent : 100
         let pixels = pixels != nil ? "\(pixels!)" : nil
-        super.init {
-            Div {
-                if let label = label {
-                    Text(label)
-                }
-                contents()
-            }            .class(insert: .progressbar)
+        div
+            .class(insert: .progressbar)
             .role(.progressbar)
             .style(set: .width("\(percent)%"))
             .ariaValuenow("\(percent)")
@@ -78,7 +96,8 @@ public class Progressbar: Component {
             .ariaValuemax("100")
             .class(insert: theme?.backgroundClass)
             .style(set: .height(pixels))
-        }
+        
+        super.init(div)
     }
 }
 

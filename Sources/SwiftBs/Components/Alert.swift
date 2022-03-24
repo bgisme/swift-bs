@@ -19,9 +19,7 @@ public class Alert: Component {
      
      */
     public convenience init(_ text: String) {
-        self.init() {
-            Div(text)
-        }
+        self.init(Div(text))
     }
         
     /**
@@ -70,20 +68,17 @@ public class Alert: Component {
      ````
 
      */
-    public static func make(@TagBuilder contents: () -> [Tag]) -> Alert {
-        Alert {
-            Div {
-                contents()
-            }
-        }
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        let div = Div { contents() }
+        self.init(div)
     }
     
-    public init(div: () -> Div) {
-        super.init {
-            div()
-                .class(insert: .alert)
-                .role(.alert)
-        }
+    public init(_ div: Div) {
+        div
+            .class(insert: .alert)
+            .role(.alert)
+
+        super.init(div)
     }
     
     @discardableResult
@@ -101,9 +96,7 @@ public class AlertHeading: Component {
         - text:String value of an <h4>
      */
     public convenience init(_ text: String) {
-        self.init {
-            H4(text)
-        }
+        self.init(H4(text))
     }
     
     /**
@@ -112,10 +105,10 @@ public class AlertHeading: Component {
      - parameters:
         - h4: Function that returns H4
      */
-    public init(h4: () -> H4) {
-        super.init {
-            h4()
-                .class(insert: .alertHeading)
-        }
+    public init(_ h4: H4) {
+        h4
+            .class(insert: .alertHeading)
+
+        super.init(h4)
     }
 }

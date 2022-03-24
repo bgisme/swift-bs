@@ -32,12 +32,12 @@ public class NavTab: Component {
     
     let style: Style?
     
-    public static func `as`(_ type: TagType,
-                            align: Align? = nil,
+    public convenience init(align: Align? = nil,
                             breakpoints: Breakpoint...,
                             style: Style? = nil,
                             width: Width? = nil,
-                            @TagBuilder contents: () -> [Tag]) -> NavTab {
+                            type: TagType,
+                            @TagBuilder contents: () -> [Tag]) {
         let tag: Tag
         switch type {
         case .nav:
@@ -47,7 +47,7 @@ public class NavTab: Component {
         case .ul:
             tag = Ul { contents() }
         }
-        return NavTab(align: align, breakpoints: breakpoints, style: style, width: width, tag: { tag })
+        self.init(align: align, breakpoints: breakpoints, style: style, width: width, tag)
     }
     
     public convenience init(align: Align? = nil,
@@ -55,7 +55,7 @@ public class NavTab: Component {
                             style: Style? = nil,
                             width: Width? = nil,
                             nav: () -> Nav) {
-        self.init(align: align, breakpoints: breakpoints, style: style, width: width, tag: nav)
+        self.init(align: align, breakpoints: breakpoints, style: style, width: width, nav())
     }
     
     public convenience init(align: Align? = nil,
@@ -63,7 +63,7 @@ public class NavTab: Component {
                             style: Style? = nil,
                             width: Width? = nil,
                             ol: () -> Ol) {
-        self.init(align: align, breakpoints: breakpoints, style: style, width: width, tag: ol)
+        self.init(align: align, breakpoints: breakpoints, style: style, width: width, ol())
     }
 
     public convenience init(align: Align? = nil,
@@ -71,14 +71,14 @@ public class NavTab: Component {
                             style: Style? = nil,
                             width: Width? = nil,
                             ul: () -> Ul) {
-        self.init(align: align, breakpoints: breakpoints, style: style, width: width, tag: ul)
+        self.init(align: align, breakpoints: breakpoints, style: style, width: width, ul())
     }
     
     private init(align: Align? = nil,
                  breakpoints: [Breakpoint],
                  style: Style? = nil,
                  width: Width? = nil,
-                 tag: () -> Tag) {
+                 _ tag: Tag) {
         self.style = style
         let alignment: BsClass?
         switch align {
@@ -130,14 +130,14 @@ public class NavTab: Component {
         default:
             spacing = nil
         }
-        super.init {
-            tag()
-                .class(insert: .nav)
-                .class(insert: alignment)
-                .class(insert: verticals)
-                .class(insert: navStyle)
-                .class(insert: spacing)
-        }
+        tag
+            .class(insert: .nav)
+            .class(insert: alignment)
+            .class(insert: verticals)
+            .class(insert: navStyle)
+            .class(insert: spacing)
+        
+        super.init(tag)
     }
 }
 
@@ -153,13 +153,16 @@ public class NavItem: Component {
     }
     
     /// contents ... anything (usually <a>)
-    public init(@TagBuilder contents: () -> [Tag]) {
-        super.init {
-            Li {
-                contents()
-            }
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        let li = Li { contents() }
+        self.init(li)
+    }
+    
+    public init(_ li: Li) {
+        li
             .class(insert: .navItem)
-        }
+        
+        super.init(li)
     }
 }
 
@@ -170,30 +173,36 @@ public class NavItemDropdown: Component {
     
     public convenience init(id: String,
                             isDark: Bool = false,
-                            menuAs tagType: DropdownMenu.TagType,
+                            menuAs type: DropdownMenu.TagType,
                             a: () -> A,
                             @TagBuilder menuItems: () -> [Tag]) {
         self.init(id: id,
                   isDark: isDark,
                   a: a,
                   menu: { id, isDark in
-            DropdownMenu.as(tagType, dropdownId: id, isDark: isDark) {
+            DropdownMenu(dropdownId: id, isDark: isDark, type: type) {
                 menuItems()
             }
         })
     }
         
-    public init(id: String,
-                isDark: Bool = false,
-                a: () -> A,
-                menu: (Id, IsDark) -> DropdownMenu) {
-        super.init {
-            Li {
-                NavLink(isDropdown: true) { a().id(id) }
-                menu(id, isDark)
-            }
-            .class(insert: .navItem, .dropdown)
+    public convenience init(id: String,
+                            isDark: Bool = false,
+                            a: () -> A,
+                            menu: (Id, IsDark) -> DropdownMenu) {
+        let a = a().id(id)
+        let li = Li {
+            NavLink(isDropdown: true, a)
+            menu(id, isDark)
         }
+        self.init(li)
+    }
+    
+    public init(_ li: Li) {
+        li
+            .class(insert: .navItem, .dropdown)
+
+        super.init(li)
     }
 }
 
@@ -206,13 +215,13 @@ public class NavLink: Component {
                             isDropdown: Bool = false,
                             aligns: [(Location, Breakpoint)]? = nil,
                             fills: Set<Breakpoint>? = nil) {
+        let a = A(title).href(href)
         self.init(isActive: isActive,
                   isDisabled: isDisabled,
                   isDropdown: isDropdown,
                   aligns: aligns,
-                  fills: fills) {
-            A(title).href(href)
-        }
+                  fills: fills,
+                  a)
     }
     
     public init(isActive: Bool = false,
@@ -220,7 +229,7 @@ public class NavLink: Component {
                 isDropdown: Bool = false,
                 aligns: [(Location, Breakpoint)]? = nil,
                 fills: Set<Breakpoint>? = nil,
-                a: () -> A) {
+                _ a: A) {
         var classes = Set<BsClass>()
         if let aligns = aligns {
             for (location, bp) in aligns {
@@ -291,17 +300,17 @@ public class NavLink: Component {
                 }
             }
         }
-        super.init {
-            a()
-                .class(insert: .navLink)
-                .class(insert: .active, if: isActive)
-                .ariaCurrent(isActive)
-                .class(insert: .disabled, if: isDisabled)
-                .class(insert: .dropdownToggle, if: isDropdown)
-                .dataBsToggle(.dropdown, isDropdown)
-                .ariaExpanded(false, isDropdown)
-                .role(.button)
-                .class(insert: Array(classes))
-        }
+        a
+            .class(insert: .navLink)
+            .class(insert: .active, if: isActive)
+            .ariaCurrent(isActive)
+            .class(insert: .disabled, if: isDisabled)
+            .class(insert: .dropdownToggle, if: isDropdown)
+            .dataBsToggle(.dropdown, isDropdown)
+            .ariaExpanded(false, isDropdown)
+            .role(.button)
+            .class(insert: Array(classes))
+        
+        super.init(a)
     }
 }

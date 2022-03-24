@@ -12,10 +12,10 @@ public class Container: Component {
     public init(type: TagType = .div,
                 isFluid: Bool = false,
                 @TagBuilder contents: () -> [Tag]) {
-        super.init {
-            type.tag(contents)
-                .class(insert: isFluid ? .containerFluid : Size.md.containerClass)
-        }
+        let tag = type
+            .tag(contents)
+            .class(insert: isFluid ? .containerFluid : Size.md.containerClass)
+        super.init(tag)
     }
 }
 

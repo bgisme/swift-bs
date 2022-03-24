@@ -36,12 +36,12 @@ public class Card: Component {
 //        self.append { header }
 //    }
     
-    public static func make(header: CardHeader? = nil,
+    public convenience init(header: CardHeader? = nil,
                             topImage: Img? = nil,
                             body: CardBody? = nil,
                             bottomImage: Img? = nil,
-                            footer: CardFooter? = nil) -> Card {
-        self.make {
+                            footer: CardFooter? = nil) {
+        self.init {
             if let header = header { header }
             if let topImage = topImage { topImage }
             if let body = body { body }
@@ -56,19 +56,16 @@ public class Card: Component {
     /// CardBody
     /// Img bottom
     /// CardFooter
-    public static func make(@TagBuilder contents: () -> [Tag]) -> Card {
-        Card {
-            Div {
-                contents()
-            }
-        }
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        let div = Div { contents() }
+        self.init(div)
     }
     
-    public init(div: () -> Div) {
-        super.init {
-            div()
-                .class(insert: .card)
-        }
+    public init(_ div: Div) {
+        div
+            .class(insert: .card)
+
+        super.init(div)
     }
     
     @discardableResult
@@ -99,7 +96,7 @@ public class CardImageOverlay: TagRepresentable {
 
 public class CardHeader: Component {
     
-    public static func make(navTab: () -> NavTab) -> CardHeader {
+    public convenience init(navTab: () -> NavTab) {
         let cardNav: BsClass?
         switch navTab().style {
         case .pills:
@@ -109,75 +106,74 @@ public class CardHeader: Component {
         default:
             cardNav = nil
         }
-        return CardHeader(tag: {
-            Div {
-                navTab()
-                    .class(insert: cardNav)
-            }
-        })
+        let div = Div {
+            navTab()
+                .class(insert: cardNav)
+        }
+        self.init(div)
     }
     
-    public static func make(_ text: String) -> CardHeader {
-        CardHeader(tag: { Div(text) })
+    public convenience init(_ text: String) {
+        self.init(Div(text))
     }
         
     public convenience init(h1: () -> H1) {
-        self.init(tag: h1)
+        self.init(h1())
     }
     
     public convenience init(h2: () -> H2) {
-        self.init(tag: h2)
+        self.init(h2())
     }
 
     public convenience init(h3: () -> H3) {
-        self.init(tag: h3)
+        self.init(h3())
     }
 
     public convenience init(h4: () -> H4) {
-        self.init(tag: h4)
+        self.init(h4())
     }
 
     public convenience init(h5: () -> H5) {
-        self.init(tag: h5)
+        self.init(h5())
     }
     
     public convenience init(h6: () -> H6) {
-        self.init(tag: h6)
+        self.init(h6())
     }
     
     public convenience init(div: () -> Div) {
-        self.init(tag: div)
+        self.init(div())
     }
         
-    private override init(tag: () -> Tag) {
-        super.init {
-            tag()
-                .class(insert: .cardHeader)
-        }
+    private override init(_ tag: Tag) {
+        tag
+            .class(insert: .cardHeader)
+
+        super.init(tag)
     }
 }
 
 public class CardBody: Component {
     
-    public static func make(title: String? = nil,
+    public convenience init(title: String? = nil,
                             subtitle: String? = nil,
-                            text: String? = nil) -> CardBody {
-        self.make(title: title, subtitle: subtitle, text: text, links: {})
+                            text: String? = nil) {
+        self.init(title: title, subtitle: subtitle, text: text, links: {})
     }
     
-    public static func make(title: String? = nil,
+    public convenience init(title: String? = nil,
                             subtitle: String? = nil,
                             text: String? = nil,
-                            @TagBuilder links: () -> [Tag]) -> CardBody {
-        self.make {
+                            @TagBuilder links: () -> [Tag]) {
+        self.init {
             if let title = title {
-                CardTitle.make(title)
+                CardTitle(title)
             }
             if let subtitle = subtitle {
-                CardSubtitle.make(subtitle)
+                CardSubtitle(subtitle)
             }
             if let text = text {
-                CardText.make(text)
+                CardText(text)
             }
             links()
         }
@@ -187,150 +183,141 @@ public class CardBody: Component {
     /// CardTitle
     /// CardText
     /// CardLink
-    public static func make(@TagBuilder contents: () -> [Tag]) -> CardBody {
-        CardBody {
-            Div {
-                contents()
-            }
-        }
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        let div = Div { contents() }
+        self.init(div)
     }
     
-    public init(div: () -> Div) {
-        super.init {
-            div()
-                .class(insert: .cardBody)
-        }
+    public init(_ div: Div) {
+        div
+            .class(insert: .cardBody)
+
+        super.init(div)
     }
 }
 
 public class CardTitle: Component {
     
-    public static func make(_ text: String) -> CardTitle {
-        CardTitle(h5: { H5(text) })
+    public convenience init(_ text: String) {
+        self.init(H5(text))
     }
         
     public convenience init(h1: () -> H1) {
-        self.init(tag: h1)
+        self.init(h1())
     }
 
     public convenience init(h2: () -> H2) {
-        self.init(tag: h2)
+        self.init(h2())
     }
 
     public convenience init(h3: () -> H3) {
-        self.init(tag: h3)
+        self.init(h3())
     }
 
     public convenience init(h4: () -> H4) {
-        self.init(tag: h4)
+        self.init(h4())
     }
 
     public convenience init(h5: () -> H5) {
-        self.init(tag: h5)
+        self.init(h5())
     }
     
     public convenience init(h6: () -> H6) {
-        self.init(tag: h6)
+        self.init(h6())
     }
 
-    private override init(tag: () -> Tag) {
-        super.init {
-            tag()
-                .class(insert: .cardTitle)
-        }
+    private override init(_ tag: Tag) {
+        tag
+            .class(insert: .cardTitle)
+
+        super.init(tag)
     }
 }
 
 public class CardSubtitle: Component {
     
-    public static func make(_ text: String) -> CardSubtitle {
-        CardSubtitle(h6: { H6(text) })
+    public convenience init(_ text: String) {
+        self.init(H6(text))
     }
         
     public convenience init(h1: () -> H1) {
-        self.init(tag: h1)
+        self.init(h1())
     }
 
     public convenience init(h2: () -> H2) {
-        self.init(tag: h2)
+        self.init(h2())
     }
 
     public convenience init(h3: () -> H3) {
-        self.init(tag: h3)
+        self.init(h3())
     }
 
     public convenience init(h4: () -> H4) {
-        self.init(tag: h4)
+        self.init(h4())
     }
 
     public convenience init(h5: () -> H5) {
-        self.init(tag: h5)
+        self.init(h5())
     }
     
     public convenience init(h6: () -> H6) {
-        self.init(tag: h6)
+        self.init(h6())
     }
 
-    private override init(tag: () -> Tag) {
-        super.init {
-            tag()
-                .class(insert: .cardSubtitle)
-        }
+    private override init(_ tag: Tag) {
+        tag
+            .class(insert: .cardSubtitle)
+
+        super.init(tag)
     }
 }
 
 public class CardText: Component {
     
-    public static func make(_ text: String) -> CardText {
-        CardText {
-            P(text)
-        }
+    public convenience init(_ text: String) {
+        self.init(P(text))
     }
         
-    public init(p: () -> P) {
-        super.init {
-            p()
-                .class(insert: .cardText)
-        }
+    public init(_ p: P) {
+        p
+            .class(insert: .cardText)
+
+        super.init(p)
     }
 }
 
 public class CardLink: Component {
     
-    public static func make(_ title: String, href: String) -> CardLink {
-        CardLink {
-            A(title).href(href)
-        }
+    public convenience init(_ title: String, href: String) {
+        self.init(A(title).href(href))
     }
         
     public convenience init(_ a: () -> A) {
-        self.init(tag: a)
+        self.init(a)
     }
     
     public convenience init(_ button: () -> BsButton) {
-        self.init(tag: { button().build() })
+        self.init( button().build() )
     }
     
-    private override init(tag: () -> Tag) {
-        super.init {
-            tag()
-                .class(insert: .cardLink)
-        }
+    private override init(_ tag: Tag) {
+        tag
+            .class(insert: .cardLink)
+
+        super.init(tag)
     }
 }
 
 public class CardFooter: Component {
     
-    public static func make(_ text: String) -> CardFooter {
-        CardFooter {
-            Div(text)
-        }
+    public convenience init(_ text: String) {
+        self.init(Div(text))
     }
         
-    public init(div: () -> Div) {
-        super.init {
-            div()
-                .class(insert: .cardFooter)
-        }
+    public init(_ div: Div) {
+        div
+            .class(insert: .cardFooter)
+
+        super.init(div)
     }
 }

@@ -7,7 +7,7 @@
 
 import SwiftHtml
 
-public class Collapse {
+public class Collapse: TagRepresentable {
     
     public typealias Id = String
     
@@ -21,9 +21,6 @@ public class Collapse {
             div(ids),
         ]
     }
-}
-
-extension Collapse: TagRepresentable {
     
     @TagBuilder
     public func build() -> Tag {
@@ -40,11 +37,11 @@ public class CollapseButton: Component {
     }
     
     public convenience init(contentIds ids: [String], a: () -> A) {
-        self.init(contentIds: ids, tag: {
-            a()
-                .role(.button)
-                .href(ids.count < 2 ? "#\(ids.first ?? "")" : BsClass.multiCollapse.rawValue)
-        })
+        let a = a()
+            .role(.button)
+            .href(ids.count < 2 ? "#\(ids.first ?? "")" : BsClass.multiCollapse.rawValue)
+
+        self.init(contentIds: ids, a)
     }
     
     public convenience init(contentIds ids: String..., button: () -> Button) {
@@ -52,22 +49,22 @@ public class CollapseButton: Component {
     }
     
     public convenience init(contentIds ids: [String], button: () -> Button) {
-        self.init(contentIds: ids, tag: {
-            button()
-                .type(.button)
-                .dataBsTarget(ids.count < 2 ? ids.first ?? "" : BsClass.multiCollapse.rawValue, prefix: ids.count < 2 ? .hash : .dot)
-        })
+        let button = button()
+            .type(.button)
+            .dataBsTarget(ids.count < 2 ? ids.first ?? "" : BsClass.multiCollapse.rawValue, prefix: ids.count < 2 ? .hash : .dot)
+
+        self.init(contentIds: ids, button)
     }
     
-    private init(contentIds ids: [String], tag: () -> Tag) {
+    private init(contentIds ids: [String], _ tag: Tag) {
         self.ids = ids
-        super.init {
-            tag()
-                .dataBsToggle(.collapse)
-                .ariaExpanded(false)
-                .ariaControls(ids.map{$0}.joined(separator: " "))
-        }
-    }    
+        tag
+            .dataBsToggle(.collapse)
+            .ariaExpanded(false)
+            .ariaControls(ids.map{$0}.joined(separator: " "))
+        
+        super.init(tag)
+    }
 }
 
 public class CollapseContent: Component {
@@ -78,11 +75,18 @@ public class CollapseContent: Component {
     }
     
     /// contents ... anything
-    public init(orientation: Orientation = .vertical,
-                            id: String,
-                            isMultiple: Bool = false,
-                            @TagBuilder contents: () -> [Tag]) {
+    public convenience init(orientation: Orientation = .vertical,
+                id: String,
+                isMultiple: Bool = false,
+                @TagBuilder contents: () -> [Tag]) {
         let div = Div { contents() }
+        self.init(orientation: orientation, id: id, isMultiple: isMultiple, div)
+    }
+    
+    private init(orientation: Orientation = .vertical,
+                 id: String,
+                 isMultiple: Bool = false,
+                 _ div: Div) {
         let isHorizontalCollapse: Bool
         switch orientation {
         case .horizontal(let width):
@@ -94,12 +98,13 @@ public class CollapseContent: Component {
         case .vertical:
             isHorizontalCollapse = false
         }
-        super.init {
-            div
-                .class(insert: .collapse)
-                .class(insert: .collapseHorizontal, if: isHorizontalCollapse)
-                .class(insert: .multiCollapse, if: isMultiple)
-                .id(id)
-        }
-    }    
+
+        _ = div
+            .class(insert: .collapse)
+            .class(insert: .collapseHorizontal, if: isHorizontalCollapse)
+            .class(insert: .multiCollapse, if: isMultiple)
+            .id(id)
+        
+        super.init(div)
+    }
 }
