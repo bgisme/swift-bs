@@ -13,7 +13,7 @@ public class PaginationNav: Component {
                             size s: Pagination.Size? = nil,
                             @TagBuilder pageItems: () -> [Tag]) {
         self.init {
-            Pagination(ariaLabel: ariaLabel) {
+            Pagination(ariaLabel: ariaLabel, size: s) {
                 pageItems()
             }
         }
@@ -38,8 +38,15 @@ public class Pagination: Component {
     }
     
     public convenience init(ariaLabel: String,
-                            size s: Size? = nil,
+                            size: Size? = nil,
                             @TagBuilder pageItems: () -> [Tag]) {
+        let ul = Ul { pageItems() }
+        self.init(ariaLabel: ariaLabel, size: size, ul)
+    }
+    
+    public init(ariaLabel: String,
+                size s: Size?,
+                _ ul: Ul) {
         let size: BsClass?
         switch s {
         case .sm:
@@ -49,21 +56,12 @@ public class Pagination: Component {
         default:
             size = nil
         }
-        let nav = Nav {
-            Ul {
-                
-            }
+        ul
             .class(insert: .pagination)
             .class(insert: size)
-        }
-        self.init(ariaLabel: ariaLabel, nav)
-    }
-    
-    public init(ariaLabel: String, _ nav: Nav) {
-        nav
             .ariaLabel(ariaLabel)
 
-        super.init(nav)
+        super.init(ul)
     }
 }
 
