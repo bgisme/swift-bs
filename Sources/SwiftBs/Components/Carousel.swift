@@ -137,11 +137,11 @@ public class CarouselItem: Component {
                             interval milliseconds: Int? = nil,
                             @TagBuilder contents: () -> [Tag]) {
         let div = Div { contents() }
-        self.init(div)
+        self.init(isActive: isActive, interval: milliseconds, div)
     }
     
-    public init(isActive: Bool = false,
-                interval milliseconds: Int? = nil,
+    public init(isActive: Bool,
+                interval milliseconds: Int?,
                 _ div: Div) {
         div
             .class(insert: .carouselItem)
@@ -250,7 +250,7 @@ public class CarouselIndicator: Component {
     }
     
     public init(index: Int,
-                isActive: Bool = false,
+                isActive: Bool,
                 carouselId id: String,
                 _ button: Button) {
         button

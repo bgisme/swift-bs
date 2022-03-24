@@ -86,8 +86,8 @@ public class PageItem: Component {
         self.init(isActive: isActive, isDisabled: isDisabled, li)
     }
     
-    public init(isActive: Bool = false,
-                isDisabled: Bool = false,
+    public init(isActive: Bool,
+                isDisabled: Bool,
                 _ li: Li) {
         li
             .class(insert: .pageItem)

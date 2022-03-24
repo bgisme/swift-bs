@@ -46,8 +46,8 @@ public class Navbar: Component {
         self.init(placement: placement, collapseAt: breakpoint, nav)
     }
     
-    public init(placement: Placement? = nil,
-                collapseAt breakpoint: Size? = nil,
+    public init(placement: Placement?,
+                collapseAt breakpoint: Size?,
                 _ nav: Nav) {
         nav
             .class(insert: .navbar)
@@ -129,7 +129,7 @@ public class NavbarToggler: Component {
     
     public init(id: String,
                 ariaLabel: String,
-                isCollapseOffcanvas: Bool = false,
+                isCollapseOffcanvas: Bool,
                 _ button: Button) {
         button
             .class(insert: .navbarToggler)
@@ -196,8 +196,8 @@ public class NavbarNav: Component {
         self.init(isScrollable: isScrollable, scrollHeight: scrollHeight, tag)
     }
     
-    public init(isScrollable: Bool = false,
-                scrollHeight: CssKeyValue? = nil,
+    public init(isScrollable: Bool,
+                scrollHeight: CssKeyValue?,
                 _ tag: Tag) {
         tag
             .class(insert: .navbarNav)

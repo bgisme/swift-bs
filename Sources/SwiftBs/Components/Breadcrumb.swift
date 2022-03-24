@@ -87,7 +87,7 @@ public class BreadcrumbListItem: Component {
         self.init(isActive: isActive, li)
     }
     
-    public init(isActive: Bool = false, _ li: Li) {
+    public init(isActive: Bool, _ li: Li) {
         li
             .class(insert: .breadcrumbItem)
             .class(insert: .active, if: isActive)

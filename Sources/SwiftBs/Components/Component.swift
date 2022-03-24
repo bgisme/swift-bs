@@ -35,10 +35,6 @@ public class Component: TagRepresentable {
     
     let tag: Tag
     
-//    public init(@TagBuilder tag: () -> Tag) {
-//        self.tag = tag()
-//    }
-    
     public init(_ tag: Tag) {
         self.tag = tag
     }

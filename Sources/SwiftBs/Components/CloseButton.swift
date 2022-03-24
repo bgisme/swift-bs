@@ -16,9 +16,9 @@ public class CloseButton: Component {
         self.init(dismiss: dismiss, isDisabled: isDisabled, isWhite: isWhite, Button())
     }
     
-    public init(dismiss: BsClass? = nil,
-                isDisabled: Bool = false,
-                isWhite: Bool = false,
+    public init(dismiss: BsClass?,
+                isDisabled: Bool,
+                isWhite: Bool,
                 _ button: Button) {
         self.isDisabled = isDisabled
         self.isWhite = isWhite

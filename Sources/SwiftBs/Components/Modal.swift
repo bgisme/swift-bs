@@ -37,8 +37,8 @@ public class Modal: Component {
     }
     
     public init(id: String,
-                isAnimated: Bool = true,
-                isBackdropStatic: Bool = false,
+                isAnimated: Bool,
+                isBackdropStatic: Bool,
                 _ div: Div) {
         div
             .id(id)
@@ -104,9 +104,9 @@ public class ModalDialog: Component {
         self.init(size: size, isScrollable: isScrollable, isCentered: isCentered, div)
     }
     
-    public init(size: Size? = nil,
-                isScrollable: Bool = false,
-                isCentered: Bool = false,
+    public init(size: Size?,
+                isScrollable: Bool,
+                isCentered: Bool,
                 _ div: Div) {
         div
             .class(insert: .modalDialog)

@@ -80,10 +80,10 @@ public class Progressbar: Component {
     }
     
     public init(percent: Int,
-                height pixels: Int? = nil,
-                theme: ColorTheme? = nil,
-                isStriped: Bool = false,
-                isAnimated: Bool = false,
+                height pixels: Int?,
+                theme: ColorTheme?,
+                isStriped: Bool,
+                isAnimated: Bool,
                 _ div: Div) {
         let percent = percent <= 100 ? percent : 100
         let pixels = pixels != nil ? "\(pixels!)" : nil

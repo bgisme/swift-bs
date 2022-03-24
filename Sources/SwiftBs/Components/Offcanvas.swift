@@ -34,9 +34,9 @@ public class Offcanvas: Component {
     }
     
     public init(id: String,
-                placement: Placement = .start,
-                isBackgroundScrollable: Bool = false,
-                isBackdropVisible: Bool = true,
+                placement: Placement,
+                isBackgroundScrollable: Bool,
+                isBackdropVisible: Bool,
                 _ div: Div) {
         let place: BsClass
         switch placement {

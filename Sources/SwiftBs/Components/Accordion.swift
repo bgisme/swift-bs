@@ -37,8 +37,8 @@ public class Accordion: Component {
     }
     
     public init(id: String,
-                isFlush: Bool = false,
-                isAlwaysOpen: Bool = false,
+                isFlush: Bool,
+                isAlwaysOpen: Bool,
                 _ div: Div) {
         div
             .class(insert: .accordion)
@@ -88,9 +88,9 @@ public class AccordionItem: Component {
     
     public init(_ title: String,
                 index: Int,
-                isExpanded: Bool = false,
+                isExpanded: Bool,
                 accordionId: String,
-                isAlwaysOpen: Bool = false,
+                isAlwaysOpen: Bool,
                 _ div: Div) {
         div
             .class(insert: .accordionItem)
@@ -149,8 +149,8 @@ public class AccordionCollapse: Component {
     public init(id: String,
                 accordionId: String,
                 headerId: String,
-                isExpanded: Bool = false,
-                isAlwaysOpen: Bool = false,
+                isExpanded: Bool,
+                isAlwaysOpen: Bool,
                 _ div: Div) {
         div
             .id(id)

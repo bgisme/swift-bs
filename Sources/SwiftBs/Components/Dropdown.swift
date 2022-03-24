@@ -215,7 +215,7 @@ public class Dropdown: Component {
         self.init(button: button, arrowButton: arrowButton, div)
     }
         
-    public init(button: DropdownButton, arrowButton: DropdownButtonArrow? = nil, _ div: Div) {
+    public init(button: DropdownButton, arrowButton: DropdownButtonArrow?, _ div: Div) {
         self.button = button
         self.arrowButton = arrowButton
 
@@ -384,8 +384,8 @@ public class DropdownMenu: Component {
 
     // base init needs Tag so it is accessible for styling at declaration
     public init(dropdownId: String,
-                isDark: Bool = false,
-                align: Dropdown.MenuAlign? = nil,
+                isDark: Bool,
+                align: Dropdown.MenuAlign?,
                 _ tag: Tag) {
         tag
             .class(insert: .dropdownMenu)

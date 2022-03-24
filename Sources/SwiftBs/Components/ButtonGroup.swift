@@ -57,8 +57,8 @@ public class ButtonGroup: Component {
     }
     
     public init(ariaLabel: String,
-                size: Size? = nil,
-                isVertical: Bool = false,
+                size: Size?,
+                isVertical: Bool,
                 _ div: Div) {
         let sizeClass: BsClass?
         if let size = size {

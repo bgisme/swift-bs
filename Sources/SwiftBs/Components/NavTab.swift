@@ -194,7 +194,7 @@ public class NavItemDropdown: Component {
                             menu: (Id, IsDark) -> DropdownMenu) {
         let a = a().id(id)
         let li = Li {
-            NavLink(isDropdown: true, a)
+            NavLink(isActive: false, isDisabled: false, isDropdown: true, aligns: nil, fills: nil, a)
             menu(id, isDark)
         }
         self.init(li)
@@ -225,12 +225,21 @@ public class NavLink: Component {
                   fills: fills,
                   a)
     }
+
+    public convenience init(isActive: Bool = false,
+                            isDisabled: Bool = false,
+                            isDropdown: Bool = false,
+                            aligns: [(Location, Breakpoint)]? = nil,
+                            fills: Set<Breakpoint>? = nil,
+                            a: () -> A) {
+        self.init(isActive: isActive, isDisabled: isDisabled, isDropdown: isDropdown, aligns: aligns, fills: fills, a())
+    }
     
-    public init(isActive: Bool = false,
-                isDisabled: Bool = false,
-                isDropdown: Bool = false,
-                aligns: [(Location, Breakpoint)]? = nil,
-                fills: Set<Breakpoint>? = nil,
+    public init(isActive: Bool,
+                isDisabled: Bool,
+                isDropdown: Bool,
+                aligns: [(Location, Breakpoint)]?,
+                fills: Set<Breakpoint>?,
                 _ a: A) {
         var classes = Set<BsClass>()
         if let aligns = aligns {

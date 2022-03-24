@@ -15,8 +15,8 @@ public class Badge: Component {
         self.init(isPositioned: isPositioned, isRounded: isRounded, Span(text))
     }
     
-    public init(isPositioned: Bool = false,
-                isRounded: Bool = false,
+    public init(isPositioned: Bool,
+                isRounded: Bool,
                 _ span: Span) {
         span
             .class(insert: .badge)
