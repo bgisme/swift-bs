@@ -66,6 +66,15 @@ public class Scrollspy: Component {
         }
     }
     
+    public convenience init(navId: String,
+                            offset: Int = 0,
+                            @TagBuilder contents: () -> [Tag]) {
+        let div = Div {
+            contents()
+        }
+        self.init(navId: navId, offset: offset, div)
+    }
+    
     public init(navId: String, offset: Int = 0, _ div: Div) {
         _ = div
             .dataBsSpy(.scroll)
