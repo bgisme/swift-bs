@@ -207,6 +207,7 @@ public class ModalFooter: Component {
                     BsButton {
                         Button("Close").dataBsDismiss(.modal)
                     }
+                    .border(.secondary)
                 }
                 for other in others {
                     other
