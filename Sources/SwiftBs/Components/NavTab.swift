@@ -74,10 +74,10 @@ public class NavTab: Component {
         self.init(align: align, breakpoints: breakpoints, style: style, width: width, ul())
     }
     
-    private init(align: Align? = nil,
+    private init(align: Align?,
                  breakpoints: [Breakpoint],
-                 style: Style? = nil,
-                 width: Width? = nil,
+                 style: Style?,
+                 width: Width?,
                  _ tag: Tag) {
         self.style = style
         let alignment: BsClass?

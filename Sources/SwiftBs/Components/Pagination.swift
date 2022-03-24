@@ -107,6 +107,10 @@ public class PageLink: Component {
         self.init(ariaLabel: ariaLabel, a)
     }
     
+    public convenience init(ariaLabel: String, a: () -> A) {
+        self.init(ariaLabel: ariaLabel, a())
+    }
+    
     public init(ariaLabel: String, _ a: A) {
         a
             .class(insert: .pageLink)
