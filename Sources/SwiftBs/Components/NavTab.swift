@@ -151,7 +151,9 @@ public class NavItem: Component {
     }
 
     public convenience init(_ title: String, href: String) {
-        self.init { A(title).href(href) }
+        self.init {
+            NavLink(title, href: href)
+        }
     }
     
     public convenience init(a: () -> A) {
