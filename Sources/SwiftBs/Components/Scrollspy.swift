@@ -15,9 +15,11 @@ public class Scrollspy: Component {
         let div = Div {
             contentsWithIds()
         }
+            .style(set: .position("relative"))
+        
         self.init(navId: navId, offset: offset, div)
     }
-    
+
     public init(navId: String, offset: Int = 0, _ div: Div) {
         _ = div
             .dataBsSpy(.scroll)
