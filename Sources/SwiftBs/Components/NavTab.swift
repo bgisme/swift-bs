@@ -87,23 +87,23 @@ public class NavTab: Component {
     }
     
     @discardableResult
-    public func breakpoints(_ values: Set<Breakpoint>) -> Self {
+    public func breakpoints(_ values: Breakpoint...) -> Self {
         guard !values.isEmpty else { return self }
-        var breakpoints = [BsClass.flexColumn]
+        var breakpoints: Set<BsClass> = [.flexColumn]
         _ = values.map {
             switch $0 {
             case .xs:
                 break
             case .sm:
-                breakpoints.append(.flexSmRow)
+                breakpoints.insert(.flexSmRow)
             case .md:
-                breakpoints.append(.flexMdRow)
+                breakpoints.insert(.flexMdRow)
             case .lg:
-                breakpoints.append(.flexLgRow)
+                breakpoints.insert(.flexLgRow)
             case .xl:
-                breakpoints.append(.flexXlRow)
+                breakpoints.insert(.flexXlRow)
             case .xxl:
-                breakpoints.append(.flexXxlRow)
+                breakpoints.insert(.flexXxlRow)
             }
         }
         tag
@@ -213,7 +213,7 @@ public class NavLink: Component {
     }
     
     @discardableResult
-    public func aligns( _ values: [(Location, Breakpoint)]) -> Self {
+    public func aligns( _ values: (Location, Breakpoint)...) -> Self {
         var classes = Set<BsClass>()
         for (location, bp) in values {
             switch location {
@@ -270,7 +270,7 @@ public class NavLink: Component {
     }
     
     @discardableResult
-    public func fills(_ values: Set<Breakpoint>) -> Self {
+    public func fills(_ values: Breakpoint...) -> Self {
         var classes = Set<BsClass>()
         for bp in values {
             switch bp {
