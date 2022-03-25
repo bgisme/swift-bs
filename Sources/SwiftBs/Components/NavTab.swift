@@ -335,6 +335,12 @@ public class NavItemDropdown: Component {
 
 public class NavDropdownButton: Component {
     
+    public convenience init(_ title: String, href: String) {
+        self.init {
+            A(title).href(href)
+        }
+    }
+    
     public convenience init(_ a: () -> A) {
         self.init(a())
     }
