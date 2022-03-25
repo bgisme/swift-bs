@@ -205,15 +205,6 @@ public class NavLink: Component {
     }
     
     @discardableResult
-    public func isDropdown(_ value: Bool = true) -> Self {
-        tag
-            .class(insert: .dropdownToggle, if: value)
-            .dataBsToggle(.dropdown, value)
-            .ariaExpanded(false, value)
-        return self
-    }
-    
-    @discardableResult
     public func aligns( _ values: (Location, Breakpoint)...) -> Self {
         var classes = Set<BsClass>()
         for (location, bp) in values {
@@ -306,14 +297,15 @@ public class NavItemDropdown: Component {
     public typealias Id = String
     public typealias IsDark = Bool
     
+    /// For declaring just button and menu items
     public convenience init(id: String,
                             isDark: Bool = false,
                             menuAs type: DropdownMenu.TagType = .ul,
-                            navLink: () -> NavLink,
+                            navDropdownButton: () -> NavDropdownButton,
                             @TagBuilder dropdownItems: () -> [Tag]) {
         self.init(id: id,
                   isDark: isDark,
-                  navLink: navLink,
+                  navDropdownButton: navDropdownButton,
                   dropdownMenu: { id, isDark in
             DropdownMenu(dropdownId: id, isDark: isDark, as: type) {
                 dropdownItems()
@@ -321,12 +313,13 @@ public class NavItemDropdown: Component {
         })
     }
     
+    /// For declaring button and menu
     public convenience init(id: String,
                             isDark: Bool = false,
-                            navLink: () -> NavLink,
+                            navDropdownButton: () -> NavDropdownButton,
                             dropdownMenu: (Id, IsDark) -> DropdownMenu) {
         let li = Li {
-            navLink().tag.id(id)
+            navDropdownButton()
             dropdownMenu(id, isDark)
         }
         self.init(li)
@@ -337,5 +330,23 @@ public class NavItemDropdown: Component {
             .class(insert: .navItem, .dropdown)
         
         super.init(li)
+    }
+}
+
+public class NavDropdownButton: Component {
+    
+    public convenience init(_ a: () -> A) {
+        self.init(a())
+    }
+    
+    public init(_ a: A) {
+        a
+            .class(insert: .navLink)
+            .class(insert: .dropdownToggle)
+            .dataBsToggle(.dropdown)
+            .ariaExpanded(false)
+            .role(.button)
+        
+        super.init(a)
     }
 }
