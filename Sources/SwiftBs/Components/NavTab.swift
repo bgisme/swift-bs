@@ -49,7 +49,7 @@ public class NavTab: Component {
         return nil
     }
     
-    public convenience init(as type: TagType, @TagBuilder contents: () -> [Tag]) {
+    public convenience init(as type: TagType = .ul, @TagBuilder contents: () -> [Tag]) {
         self.init(type.tag(contents))
     }
     
