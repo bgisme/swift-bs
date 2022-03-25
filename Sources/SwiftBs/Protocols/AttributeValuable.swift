@@ -18,6 +18,8 @@ public protocol AttributeValuable {
     
     func `class`(insert classes: [BsClass]?, _ condition: Bool) -> Self
     
+    func `class`(remove classes: [BsClass]?, _ condition: Bool) -> Self
+    
     func style(set styles: CssKeyValue?..., if condition: Bool) -> Self
     
     func style(set styles: [CssKeyValue]?, _ condition: Bool) -> Self

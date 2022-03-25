@@ -55,6 +55,28 @@ public class Navbar: Component {
             .class(insert: breakpoint?.navbarExpand)
         super.init(nav)
     }
+    
+    /// @NOTE Set isDark, isLight or neither
+    @discardableResult
+    public func brightness(_ value: Brightness?, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        _ = self.tag.class(remove: Brightness.dark.navbarClass.rawValue)
+        _ = self.tag.class(remove: Brightness.light.navbarClass.rawValue)
+        self.tag.class(insert: value?.navbarClass)
+        return self
+    }
+}
+
+extension Brightness {
+    
+    var navbarClass: BsClass {
+        switch self {
+        case .light:
+            return .navbarLight
+        case .dark:
+            return .navbarDark
+        }
+    }
 }
 
 extension Size {

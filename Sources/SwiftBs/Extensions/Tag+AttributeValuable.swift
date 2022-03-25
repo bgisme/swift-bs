@@ -23,9 +23,9 @@ extension Tag: AttributeValuable {
 
     @discardableResult
     public func `class`(insert classes: BsClass?..., if condition: Bool = true) -> Self {
-        self.class(insert: classes.compactMap{ $0 }, condition)
+        self.class(insert: classes.compactMap{$0}, condition)
     }
-
+    
     @discardableResult
     public func `class`(insert classes: [BsClass]?, _ condition: Bool = true) -> Self {
         guard condition, let classes = classes, !classes.isEmpty else { return self }
@@ -37,7 +37,26 @@ extension Tag: AttributeValuable {
         }
         return attribute(.class, value)
     }
-
+    
+    @discardableResult
+    public func `class`(remove value: BsClass?, _ condition: Bool = true) -> Self {
+        guard let value = value else { return self }
+        return self.class(remove: [value], condition)
+    }
+    
+    @discardableResult
+    public func `class`(remove classes: [BsClass]?, _ condition: Bool = true) -> Self {
+        guard condition,
+                let classes = classes,
+                !classes.isEmpty,
+                let value = self.value(.class) else { return self }
+        let reduced = value.remove(classes)
+        if reduced.isEmpty {
+            return deleteAttribute("class")
+        }
+        return attribute(.class, reduced)
+    }
+    
     @discardableResult
     public func style(set styles: CssKeyValue?..., if condition: Bool = true) -> Self {
         self.style(set: styles.compactMap{ $0 }, condition)

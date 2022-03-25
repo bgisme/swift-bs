@@ -68,6 +68,10 @@ extension String {
         return String.styleValue(merged)
     }
     
+    public func remove(_ classes: [BsClass]) -> String {
+        let strClasses = classes.map{ $0.rawValue }
+        return self.classes.filter{ !strClasses.contains($0) }.joined(separator: " ")
+    }
 }
  
 // MARK: - AttributeValuable

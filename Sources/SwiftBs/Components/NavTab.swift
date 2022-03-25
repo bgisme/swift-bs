@@ -74,7 +74,8 @@ public class NavTab: Component {
     }
     
     @discardableResult
-    public func align(_ value: Align) -> Self {
+    public func align(_ value: Align, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
         let align: BsClass
         switch value {
         case .right:
@@ -88,8 +89,8 @@ public class NavTab: Component {
     }
     
     @discardableResult
-    public func breakpoints(_ values: Breakpoint...) -> Self {
-        guard !values.isEmpty else { return self }
+    public func breakpoints(_ values: Breakpoint..., if condition: Bool = true) -> Self {
+        guard condition, !values.isEmpty else { return self }
         var breakpoints: Set<BsClass> = [.flexColumn]
         _ = values.map {
             switch $0 {
@@ -113,7 +114,8 @@ public class NavTab: Component {
     }
     
     @discardableResult
-    public func style(_ value: Style) -> Self {
+    public func style(_ value: Style, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
         let style: BsClass
         switch value {
         case .tabs:
@@ -127,7 +129,8 @@ public class NavTab: Component {
     }
     
     @discardableResult
-    public func width(_ value: Width) -> Self {
+    public func width(_ value: Width, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
         let width: BsClass
         switch value {
         case .proportional:
@@ -192,22 +195,25 @@ public class NavLink: Component {
     }
     
     @discardableResult
-    public func isActive(_ value: Bool = true) -> Self {
+    public func isActive(_ condition: Bool = true) -> Self {
+        guard condition else { return self }
         tag
-            .class(insert: .active, if: value)
-            .ariaCurrent(value)
+            .class(insert: .active)
+            .ariaCurrent(true)
         return self
     }
     
     @discardableResult
-    public func isDisabled(_ value: Bool = true) -> Self {
+    public func isDisabled(_ condition: Bool = true) -> Self {
+        guard condition else { return self }
         tag
-            .class(insert: .disabled, if: value)
+            .class(insert: .disabled)
         return self
     }
     
     @discardableResult
-    public func aligns( _ values: (Location, Breakpoint)...) -> Self {
+    public func aligns( _ values: (Location, Breakpoint)..., if condition: Bool = true) -> Self {
+        guard condition else { return self }
         var classes = Set<BsClass>()
         for (location, bp) in values {
             switch location {
@@ -264,7 +270,8 @@ public class NavLink: Component {
     }
     
     @discardableResult
-    public func fills(_ values: Breakpoint...) -> Self {
+    public func fills(_ values: Breakpoint..., if condition: Bool = true) -> Self {
+        guard condition else { return self }
         var classes = Set<BsClass>()
         for bp in values {
             switch bp {
@@ -288,7 +295,8 @@ public class NavLink: Component {
     }
     
     @discardableResult
-    public func scrollspy(on id: String) -> Self {
+    public func scrollspy(on id: String, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
         tag.attribute("href", "#\(id)")
         return self
     }
