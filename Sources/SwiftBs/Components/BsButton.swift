@@ -9,58 +9,78 @@ import SwiftHtml
 
 public class BsButton: Component {
     
-    public convenience init(isBlockLevel: Bool = false,
-                            isToggle: Bool = false,
+    public convenience init(isToggle: Bool = false,
                             isPressed: Bool = false,
-                            isDisabled: Bool = false,
                             isActive: Bool = false,
                             button: () -> Button) {
         let button = button()
             .type(.button)
             .class(insert: .active, if: isToggle && isPressed)
             .dataBsToggle(.button, isToggle)
-            .disabled(isDisabled)
             .ariaPressed(isPressed, isToggle && isPressed)
             .autoComplete(false, isToggle && isPressed)
 
-        self.init(isBlockLevel: isBlockLevel, button)
+        self.init(button)
     }
     
-    public convenience init(isBlockLevel: Bool = false,
-                            isDisabled: Bool = false,
-                            isActive: Bool = false,
+    public convenience init(isActive: Bool = false,
                             a: () -> A) {
         let a = a()
-            .class(insert: .disabled, if: isDisabled)
             .role(.button)
             .class(insert: .active, if: isActive)
             .ariaPressed(true, isActive)
-            .ariaDisabled(isDisabled)
 
-        self.init(isBlockLevel: isBlockLevel, a)
+        self.init(a)
     }
     
-    public convenience init(isBlockLevel: Bool = false,
-                            input: () -> Input) {
-        self.init(isBlockLevel: isBlockLevel, input())
+    public convenience init(input: () -> Input) {
+        self.init(input())
     }
     
-    private init(isBlockLevel: Bool, _ tag: Tag) {
+    private override init(_ tag: Tag) {
         tag
             .class(insert: Size.md.buttonClass)
-            .class(insert: .btnBlock, if: isBlockLevel)
 
         super.init(tag)
+    }
+        
+    @discardableResult
+    public func isDisabled(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .disabled)
+            .ariaDisabled(true)
+        return self
+    }
+    
+    @discardableResult
+    public func isBlockLevel(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .btnBlock)
+        return self
     }
     
     @discardableResult
     public override func background(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
-        self.class(insert: value?.buttonClass, if: condition)
+        guard condition else { return self }
+        if let value = value {
+            tag.class(insert: value.buttonClass)
+        } else {
+            tag.class(remove: ColorTheme.allCases.map{$0.buttonClass})
+        }
+        return self
     }
     
     @discardableResult
     public override func border(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
-        self.class(insert: value?.buttonOutlineClass, if: condition)
+        guard condition else { return self }
+        if let value = value {
+            tag.class(insert: value.buttonOutlineClass)
+        } else {
+            tag.class(remove: ColorTheme.allCases.map{$0.buttonOutlineClass})
+        }
+        return self
     }
 }
 
@@ -68,7 +88,13 @@ extension BsButton: Sizable {
     
     @discardableResult
     public func size(_ value: Size?, _ condition: Bool = true) -> Self {
-        self.class(insert: value?.buttonClass, if: condition)
+        guard condition else { return self }
+        if let value = value {
+            tag.class(insert: value.buttonClass)
+        } else {
+            tag.class(remove: Size.allCases.map{$0.buttonClass})
+        }
+        return self
     }
 }
 

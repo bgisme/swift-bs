@@ -70,7 +70,13 @@ public class Card: Component {
     
     @discardableResult
     public func textAlign(_ value: AlignText?, _ condition: Bool = true) -> Self {
-        self.class(insert: value?.class, if: condition)
+        guard condition else { return self }
+        if let value = value {
+            tag.class(insert: value.class)
+        } else {
+            tag.class(remove: AlignText.allCases.map{$0.class})
+        }
+        return self
     }    
 }
 

@@ -195,16 +195,16 @@ public class NavLink: Component {
     }
     
     @discardableResult
-    public func isActive(_ condition: Bool = true) -> Self {
+    public func isActive(if condition: Bool = true) -> Self {
         guard condition else { return self }
         tag
-            .class(insert: .active)
+            .class(insert: .active, if: condition)
             .ariaCurrent(true)
         return self
     }
     
     @discardableResult
-    public func isDisabled(_ condition: Bool = true) -> Self {
+    public func isDisabled(if condition: Bool = true) -> Self {
         guard condition else { return self }
         tag
             .class(insert: .disabled)

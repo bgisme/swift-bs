@@ -83,13 +83,25 @@ public class Alert: Component {
     
     @discardableResult
     public override func background(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
-        self.class(insert: value?.alertClass, if: condition)
+        guard condition else { return self }
+        if let value = value {
+            self.class(insert: value.alertClass)
+        } else {
+            self.tag.class(remove: ColorTheme.allCases.map{$0.alertClass})
+        }
         return self
     }
     
     @discardableResult
     public func alignItems(_ value: AlignItems?, _ condition: Bool = true) -> Self {
-        self.class(insert: .dFlex, value?.class, if: condition)
+        guard condition else { return self }
+        if let value = value {
+            self.class(insert: .dFlex, value.class)
+        } else {
+            self.tag.class(remove: AlignItems.allCases.map{$0.class})
+            self.tag.class(remove: .dFlex)
+        }
+        return self
     }
 }
 

@@ -23,7 +23,13 @@ extension Container: Sizable {
     
     @discardableResult
     public func size(_ value: Size?, _ condition: Bool = true) -> Self {
-        self.class(insert: value?.containerClass, if: condition)
+        guard condition else { return self }
+        if let value = value {
+            tag.class(insert: value.containerClass)
+        } else {
+            tag.class(remove: Size.allCases.map{$0.containerClass})
+        }
+        return self
     }
 }
 

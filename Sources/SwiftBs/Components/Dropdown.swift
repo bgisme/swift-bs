@@ -227,8 +227,8 @@ public class Dropdown: Component {
     
     @discardableResult
     public override func background(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
-        self.button.background(value, condition)
-        self.arrowButton?.background(value, condition)
+        button.background(value, condition)
+        arrowButton?.background(value, condition)
         return self
     }
     
@@ -308,12 +308,24 @@ public final class DropdownButton: Component {
     
     @discardableResult
     public override func background(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
-        self.class(insert: value?.buttonClass, if: condition)
+        guard condition else { return self }
+        if let value = value {
+            tag.class(insert: value.buttonClass)
+        } else {
+            tag.class(remove: ColorTheme.allCases.map{$0.buttonClass})
+        }
+        return self
     }
     
     @discardableResult
     public override func border(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
-        self.class(insert: value?.buttonOutlineClass, if: condition)
+        guard condition else { return self }
+        if let value = value {
+            tag.class(insert: value.buttonOutlineClass)
+        } else {
+            tag.class(remove: ColorTheme.allCases.map{$0.buttonOutlineClass})
+        }
+        return self
     }
 }
 
@@ -342,12 +354,24 @@ public class DropdownButtonArrow: Component {
     
     @discardableResult
     public override func background(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
-        self.class(insert: value?.buttonClass, if: condition)
+        guard condition else { return self }
+        if let value = value {
+            tag.class(insert: value.buttonClass)
+        } else {
+            tag.class(remove: ColorTheme.allCases.map{$0.buttonClass})
+        }
+        return self
     }
     
     @discardableResult
     public override func border(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
-        self.class(insert: value?.buttonOutlineClass, if: condition)
+        guard condition else { return self }
+        if let value = value {
+            tag.class(insert: value.buttonOutlineClass)
+        } else {
+            tag.class(remove: ColorTheme.allCases.map{$0.buttonOutlineClass})
+        }
+        return self
     }
 }
 

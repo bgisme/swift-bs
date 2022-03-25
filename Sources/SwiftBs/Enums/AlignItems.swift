@@ -5,7 +5,7 @@
 //  Created by Brad Gourley on 3/22/22.
 //
 
-public enum AlignItems {
+public enum AlignItems: CaseIterable {
     case start
     case end
     case center

@@ -46,13 +46,24 @@ public class Component: TagRepresentable {
 
     @discardableResult
     public func background(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
-        self.class(insert: value?.backgroundClass, if: condition)
+        guard condition else { return self }
+        if let value = value {
+            tag.class(insert: value.backgroundClass)
+        } else {
+            tag.class(remove: ColorTheme.allCases.map{$0.backgroundClass})
+        }
         return self
     }
     
     @discardableResult
     public func border(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
-        self.class(insert: value?.borderClass, if: condition)
+        guard condition else { return self }
+        if let value = value {
+            tag.class(insert: value.borderClass, if: condition)
+        } else {
+            tag.class(remove: ColorTheme.allCases.map{$0.borderClass})
+        }
+        return self
     }
 }
 

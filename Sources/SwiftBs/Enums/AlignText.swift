@@ -5,7 +5,7 @@
 //  Created by Brad Gourley on 3/22/22.
 //
 
-public enum AlignText {
+public enum AlignText: CaseIterable {
     case start
     case startSm
     case startMd
