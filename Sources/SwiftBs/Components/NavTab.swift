@@ -141,14 +141,10 @@ public class NavTab: Component {
 }
 
 public class NavItem: Component {
-        
-    public convenience init(_ title: String, href: String) {
-        self.init { A(title).href(href) }
-    }
     
-    public convenience init(a: () -> A) {
+    public convenience init(navLink: () -> NavLink) {
         let li = Li {
-            a()
+            navLink()
         }
         self.init(li)
     }
