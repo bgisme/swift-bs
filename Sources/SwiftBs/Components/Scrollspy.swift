@@ -9,6 +9,8 @@ import SwiftHtml
 
 public class Scrollspy: Component {
     
+    /// @NOTE: Result <div style='position: relative ; overflow: scroll;'>
+    /// Set the height using .style(set: ...)
     public convenience init(navId: String,
                             offset: Int = 0,
                             @TagBuilder contentsWithIds: () -> [Tag]) {
@@ -16,6 +18,7 @@ public class Scrollspy: Component {
             contentsWithIds()
         }
             .style(set: .position("relative"))
+            .style(set: .overflow("scroll"))
         
         self.init(navId: navId, offset: offset, div)
     }
