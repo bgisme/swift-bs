@@ -14,7 +14,7 @@ public class NavTab: Component {
         case right
     }
     
-    public enum Style {
+    public enum Style: String, CaseIterable {
         case pills
         case tabs
     }
@@ -41,146 +41,118 @@ public class NavTab: Component {
         }
     }
     
-    let style: Style?
-    
-    public convenience init(align: Align? = nil,
-                            breakpoints: Breakpoint...,
-                            style: Style? = nil,
-                            width: Width? = nil,
-                            as type: TagType,
-                            @TagBuilder contents: () -> [Tag]) {
-        self.init(align: align, breakpoints: breakpoints, style: style, width: width, type.tag(contents))
+    public var style: Style? {
+        let firstStyleStr = Style.allCases.compactMap{ style in tag.value(.class)?.classes.first{ $0 == style.rawValue } }.first
+        if let styleStr = firstStyleStr, let style = Style(rawValue: styleStr) {
+            return style
+        }
+        return nil
     }
     
-    public convenience init(align: Align? = nil,
-                            breakpoints: Breakpoint...,
-                            style: Style? = nil,
-                            width: Width? = nil,
-                            nav: () -> Nav) {
-        self.init(align: align, breakpoints: breakpoints, style: style, width: width, nav())
+    public convenience init(as type: TagType, @TagBuilder contents: () -> [Tag]) {
+        self.init(type.tag(contents))
     }
     
-    public convenience init(align: Align? = nil,
-                            breakpoints: Breakpoint...,
-                            style: Style? = nil,
-                            width: Width? = nil,
-                            ol: () -> Ol) {
-        self.init(align: align, breakpoints: breakpoints, style: style, width: width, ol())
+    public convenience init(nav: () -> Nav) {
+        self.init(nav())
+    }
+    
+    public convenience init(ol: () -> Ol) {
+        self.init(ol())
     }
 
-    public convenience init(align: Align? = nil,
-                            breakpoints: Breakpoint...,
-                            style: Style? = nil,
-                            width: Width? = nil,
-                            ul: () -> Ul) {
-        self.init(align: align, breakpoints: breakpoints, style: style, width: width, ul())
+    public convenience init(ul: () -> Ul) {
+        self.init(ul())
     }
     
-    private init(align: Align?,
-                 breakpoints: [Breakpoint],
-                 style: Style?,
-                 width: Width?,
-                 _ tag: Tag) {
-        self.style = style
-        let alignment: BsClass?
-        switch align {
-        case .right:
-            alignment = .justifyContentEnd
-        case .center:
-            alignment = .justifyContentCenter
-        default:
-            alignment = nil
-        }
-        let verticals: [BsClass]?
-        if !breakpoints.isEmpty {
-            var classes: Set<BsClass> = [.flexColumn]
-            _ = breakpoints.map {
-                switch $0 {
-                case .xs:
-                    break
-                case .sm:
-                    classes.insert(.flexSmRow)
-                case .md:
-                    classes.insert(.flexMdRow)
-                case .lg:
-                    classes.insert(.flexLgRow)
-                case .xl:
-                    classes.insert(.flexXlRow)
-                case .xxl:
-                    classes.insert(.flexXxlRow)
-                }
-            }
-            verticals = Array(classes)
-        } else {
-            verticals = nil
-        }
-        let navStyle: BsClass?
-        switch style {
-        case .tabs:
-            navStyle = .navTabs
-        case .pills:
-            navStyle = .navPills
-        default:
-            navStyle = nil
-        }
-        let spacing: BsClass?
-        switch width {
-        case .proportional:
-            spacing = .navFill
-        case .equal:
-            spacing = .navJustified
-        default:
-            spacing = nil
-        }
+    private override init(_ tag: Tag) {
         tag
             .class(insert: .nav)
-            .class(insert: alignment)
-            .class(insert: verticals)
-            .class(insert: navStyle)
-            .class(insert: spacing)
         
         super.init(tag)
+    }
+    
+    @discardableResult
+    public func align(_ value: Align) -> Self {
+        let align: BsClass
+        switch value {
+        case .right:
+            align = .justifyContentEnd
+        case .center:
+            align = .justifyContentCenter
+        }
+        tag
+            .class(insert: align)
+        return self
+    }
+    
+    @discardableResult
+    public func breakpoints(_ values: Set<Breakpoint>) -> Self {
+        guard !values.isEmpty else { return self }
+        var breakpoints = [BsClass.flexColumn]
+        _ = values.map {
+            switch $0 {
+            case .xs:
+                break
+            case .sm:
+                breakpoints.append(.flexSmRow)
+            case .md:
+                breakpoints.append(.flexMdRow)
+            case .lg:
+                breakpoints.append(.flexLgRow)
+            case .xl:
+                breakpoints.append(.flexXlRow)
+            case .xxl:
+                breakpoints.append(.flexXxlRow)
+            }
+        }
+        tag
+            .class(insert: Array(breakpoints))
+        return self
+    }
+    
+    @discardableResult
+    public func style(_ value: Style) -> Self {
+        let style: BsClass
+        switch value {
+        case .tabs:
+            style = .navTabs
+        case .pills:
+            style = .navPills
+        }
+        tag
+            .class(insert: style)
+        return self
+    }
+    
+    @discardableResult
+    public func width(_ value: Width) -> Self {
+        let width: BsClass
+        switch value {
+        case .proportional:
+            width = .navFill
+        case .equal:
+            width = .navJustified
+        }
+        tag
+            .class(insert: width)
+        return self
     }
 }
 
 public class NavItem: Component {
         
-    public convenience init(_ title: String,
-                            href: String,
-                            isActive: Bool = false,
-                            isDisabled: Bool = false,
-                            isDropdown: Bool = false,
-                            aligns: [(Location, Breakpoint)]? = nil,
-                            fills: Set<Breakpoint>? = nil) {
-        self.init(isActive: isActive,
-                  isDisabled: isDisabled,
-                  isDropdown: isDropdown,
-                  aligns: aligns,
-                  fills: fills) { A(title).href(href) }
+    public convenience init(_ title: String, href: String) {
+        self.init { A(title).href(href) }
     }
     
-    public convenience init(isActive: Bool = false,
-                            isDisabled: Bool = false,
-                            isDropdown: Bool = false,
-                            aligns: [(Location, Breakpoint)]? = nil,
-                            fills: Set<Breakpoint>? = nil,
-                            _ a: () -> A) {
-        self.init(contents: {
-            NavLink(isActive: isActive,
-                    isDisabled: isDisabled,
-                    isDropdown: isDropdown,
-                    aligns: aligns,
-                    fills: fills,
-                    a)
-        })
-    }
-    
-    /// contents ... anything (usually <a>)
-    public convenience init(@TagBuilder contents: () -> [Tag]) {
-        let li = Li { contents() }
+    public convenience init(a: () -> A) {
+        let li = Li {
+            a()
+        }
         self.init(li)
     }
-    
+        
     public init(_ li: Li) {
         li
             .class(insert: .navItem)
@@ -191,119 +163,133 @@ public class NavItem: Component {
 
 
 public class NavLink: Component {
-    
-    public convenience init(_ title: String,
-                            href: String,
-                            isActive: Bool = false,
-                            isDisabled: Bool = false,
-                            isDropdown: Bool = false,
-                            aligns: [(Location, Breakpoint)]? = nil,
-                            fills: Set<Breakpoint>? = nil) {
-        let a = A(title).href(href)
-        self.init(isActive: isActive,
-                  isDisabled: isDisabled,
-                  isDropdown: isDropdown,
-                  aligns: aligns,
-                  fills: fills,
-                  a)
+        
+    public convenience init(_ title: String, href: String) {
+        self.init {
+            A(title).href(href)
+        }
     }
 
-    public convenience init(isActive: Bool = false,
-                            isDisabled: Bool = false,
-                            isDropdown: Bool = false,
-                            aligns: [(Location, Breakpoint)]? = nil,
-                            fills: Set<Breakpoint>? = nil,
-                            _ a: () -> A) {
-        self.init(isActive: isActive, isDisabled: isDisabled, isDropdown: isDropdown, aligns: aligns, fills: fills, a())
+    public convenience init(a: () -> A) {
+        self.init(a())
     }
     
-    public init(isActive: Bool,
-                isDisabled: Bool,
-                isDropdown: Bool,
-                aligns: [(Location, Breakpoint)]?,
-                fills: Set<Breakpoint>?,
-                _ a: A) {
-        var classes = Set<BsClass>()
-        if let aligns = aligns {
-            for (location, bp) in aligns {
-                switch location {
-                    case .start:
-                    switch bp {
-                    case .xs:
-                        classes.insert(.textStart)
-                    case .sm:
-                        classes.insert(.textSmStart)
-                    case .md:
-                        classes.insert(.textMdStart)
-                    case .lg:
-                        classes.insert(.textLgStart)
-                    case .xl:
-                        classes.insert(.textXlStart)
-                    case .xxl:
-                        classes.insert(.textXlStart)
-                    }
-                case .end:
-                    switch bp {
-                    case .xs:
-                        classes.insert(.textEnd)
-                    case .sm:
-                        classes.insert(.textSmEnd)
-                    case .md:
-                        classes.insert(.textMdEnd)
-                    case .lg:
-                        classes.insert(.textLgEnd)
-                    case .xl:
-                        classes.insert(.textXlEnd)
-                    case .xxl:
-                        classes.insert(.textXlEnd)
-                    }
-                case .center:
-                    switch bp {
-                    case .xs:
-                        classes.insert(.textCenter)
-                    case .sm:
-                        classes.insert(.textSmCenter)
-                    case .md:
-                        classes.insert(.textMdCenter)
-                    case .lg:
-                        classes.insert(.textLgCenter)
-                    case .xl:
-                        classes.insert(.textXlCenter)
-                    case .xxl:
-                        classes.insert(.textXlCenter)
-                    }
-                }
-            }
-        }
-        if let fills = fills {
-            for bp in fills {
-                switch bp {
-                case .xs:
-                    classes.insert(.flexFill)
-                case .sm:
-                    classes.insert(.flexSmFill)
-                case .md:
-                    classes.insert(.flexMdFill)
-                case .lg:
-                    classes.insert(.flexLgFill)
-                case .xl:
-                    classes.insert(.flexXlFill)
-                case .xxl:
-                    classes.insert(.flexXxlFill)
-                }
-            }
-        }
+    public init(_ a: A) {
         a
             .class(insert: .navLink)
-            .class(insert: .active, if: isActive)
-            .ariaCurrent(isActive)
-            .class(insert: .disabled, if: isDisabled)
-            .class(insert: .dropdownToggle, if: isDropdown)
-            .dataBsToggle(.dropdown, isDropdown)
-            .ariaExpanded(false, isDropdown)
-            .class(insert: Array(classes))
         
         super.init(a)
+    }
+    
+    @discardableResult
+    public func isActive(_ value: Bool = true) -> Self {
+        tag
+            .class(insert: .active, if: value)
+            .ariaCurrent(value)
+        return self
+    }
+    
+    @discardableResult
+    public func isDisabled(_ value: Bool = true) -> Self {
+        tag
+            .class(insert: .disabled, if: value)
+        return self
+    }
+    
+    @discardableResult
+    public func isDropdown(_ value: Bool = true) -> Self {
+        tag
+            .class(insert: .dropdownToggle, if: value)
+            .dataBsToggle(.dropdown, value)
+            .ariaExpanded(false, value)
+        return self
+    }
+    
+    @discardableResult
+    public func aligns( _ values: [(Location, Breakpoint)]) -> Self {
+        var classes = Set<BsClass>()
+        for (location, bp) in values {
+            switch location {
+            case .start:
+                switch bp {
+                case .xs:
+                    classes.insert(.textStart)
+                case .sm:
+                    classes.insert(.textSmStart)
+                case .md:
+                    classes.insert(.textMdStart)
+                case .lg:
+                    classes.insert(.textLgStart)
+                case .xl:
+                    classes.insert(.textXlStart)
+                case .xxl:
+                    classes.insert(.textXlStart)
+                }
+            case .end:
+                switch bp {
+                case .xs:
+                    classes.insert(.textEnd)
+                case .sm:
+                    classes.insert(.textSmEnd)
+                case .md:
+                    classes.insert(.textMdEnd)
+                case .lg:
+                    classes.insert(.textLgEnd)
+                case .xl:
+                    classes.insert(.textXlEnd)
+                case .xxl:
+                    classes.insert(.textXlEnd)
+                }
+            case .center:
+                switch bp {
+                case .xs:
+                    classes.insert(.textCenter)
+                case .sm:
+                    classes.insert(.textSmCenter)
+                case .md:
+                    classes.insert(.textMdCenter)
+                case .lg:
+                    classes.insert(.textLgCenter)
+                case .xl:
+                    classes.insert(.textXlCenter)
+                case .xxl:
+                    classes.insert(.textXlCenter)
+                }
+            }
+        }
+        tag
+            .class(insert: Array(classes))
+        return self
+    }
+    
+    @discardableResult
+    public func fills(_ values: Set<Breakpoint>) -> Self {
+        var classes = Set<BsClass>()
+        for bp in values {
+            switch bp {
+            case .xs:
+                classes.insert(.flexFill)
+            case .sm:
+                classes.insert(.flexSmFill)
+            case .md:
+                classes.insert(.flexMdFill)
+            case .lg:
+                classes.insert(.flexLgFill)
+            case .xl:
+                classes.insert(.flexXlFill)
+            case .xxl:
+                classes.insert(.flexXxlFill)
+            }
+        }
+        tag
+            .class(insert: Array(classes))
+        return self
+    }
+    
+    @discardableResult
+    public func scrollspy(on id: String) -> Self {
+        tag.attribute("href", "#\(id)")
+        return self
     }
 }
 
@@ -333,7 +319,7 @@ public class NavItemDropdown: Component {
                             dropdownMenu: (Id, IsDark) -> DropdownMenu) {
         let a = a().id(id)
         let li = Li {
-            NavLink(isActive: false, isDisabled: false, isDropdown: true, aligns: nil, fills: nil, a)
+            NavLink(a)
             dropdownMenu(id, isDark)
         }
         self.init(li)
