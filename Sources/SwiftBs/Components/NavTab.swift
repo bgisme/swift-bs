@@ -148,6 +148,17 @@ public class NavItem: Component {
         }
         self.init(li)
     }
+
+    public convenience init(_ title: String, href: String) {
+        self.init { A(title).href(href) }
+    }
+    
+    public convenience init(a: () -> A) {
+        let li = Li {
+            a()
+        }
+        self.init(li)
+    }
         
     public init(_ li: Li) {
         li
