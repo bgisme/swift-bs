@@ -9,61 +9,10 @@ import SwiftHtml
 
 public class Scrollspy: Component {
     
-    private static func hrefed(_ a: () -> A, _ id: String) -> A {
+    public static func link(scrollSpyItemId id: String, a: () -> A) -> A {
         let a = a()
         _ = a.href("#\(id)")
         return a
-    }
-    
-    public static func navItem(_ title: String,
-                               scrollspyItemId id: String,
-                               isActive: Bool = false,
-                               isDisabled: Bool = false,
-                               isDropdown: Bool = false,
-                               aligns: [(Location, Breakpoint)]? = nil,
-                               fills: Set<Breakpoint>? = nil) -> NavItem {
-        Self.navItem(scrollspyItemId: id,
-                     isActive: isActive,
-                     isDisabled: isDisabled,
-                     isDropdown: isDropdown,
-                     aligns: aligns,
-                     fills: fills) {
-            A(title)
-        }
-    }
-    
-    public static func navItem(scrollspyItemId id: String,
-                               isActive: Bool = false,
-                               isDisabled: Bool = false,
-                               isDropdown: Bool = false,
-                               aligns: [(Location, Breakpoint)]? = nil,
-                               fills: Set<Breakpoint>? = nil,
-                               _ a: () -> A) -> NavItem {
-        NavItem(isActive: isActive,
-                isDisabled: isDisabled,
-                isDropdown: isDropdown,
-                aligns: aligns,
-                fills: fills) {
-            hrefed(a, id)
-        }
-    }
-    
-    public static func listGroupItem(scrollspyItemId id: String,
-                                     isActive: Bool = false,
-                                     isDisabled: Bool = false,
-                                     _ a: () -> A) -> ListGroupItem {
-        return ListGroupItem(isActive: isActive, isDisabled: isDisabled) {
-            hrefed(a, id)
-        }
-    }
-    
-    public static func dropdownItem(scrollspyItemId id: String,
-                                    isActive: Bool = false,
-                                    isDisabled: Bool = false,
-                                    _ a: () -> A) -> DropdownItem {
-        DropdownItem(isActive: isActive, isDisabled: isDisabled) {
-            hrefed(a, id)
-        }
     }
     
     public convenience init(navId: String,
