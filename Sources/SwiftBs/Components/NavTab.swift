@@ -301,7 +301,6 @@ public class NavLink: Component {
             .class(insert: .dropdownToggle, if: isDropdown)
             .dataBsToggle(.dropdown, isDropdown)
             .ariaExpanded(false, isDropdown)
-            .role(.button)
             .class(insert: Array(classes))
         
         super.init(a)
