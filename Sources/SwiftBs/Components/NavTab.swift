@@ -309,11 +309,11 @@ public class NavItemDropdown: Component {
     public convenience init(id: String,
                             isDark: Bool = false,
                             menuAs type: DropdownMenu.TagType = .ul,
-                            a: () -> A,
+                            navLink: () -> NavLink,
                             @TagBuilder dropdownItems: () -> [Tag]) {
         self.init(id: id,
                   isDark: isDark,
-                  a: a,
+                  navLink: navLink,
                   dropdownMenu: { id, isDark in
             DropdownMenu(dropdownId: id, isDark: isDark, as: type) {
                 dropdownItems()
@@ -323,11 +323,10 @@ public class NavItemDropdown: Component {
     
     public convenience init(id: String,
                             isDark: Bool = false,
-                            a: () -> A,
+                            navLink: () -> NavLink,
                             dropdownMenu: (Id, IsDark) -> DropdownMenu) {
-        let a = a().id(id)
         let li = Li {
-            NavLink(a)
+            navLink().tag.id(id)
             dropdownMenu(id, isDark)
         }
         self.init(li)
