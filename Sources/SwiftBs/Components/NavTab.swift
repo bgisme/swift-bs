@@ -49,7 +49,8 @@ public class NavTab: Component {
         return nil
     }
     
-    public convenience init(as type: TagType = .ul, @TagBuilder contents: () -> [Tag]) {
+    /// @NOTE: type can not be default value ... compiler error ambiguous init
+    public convenience init(as type: TagType, @TagBuilder contents: () -> [Tag]) {
         self.init(type.tag(contents))
     }
     
