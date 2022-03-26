@@ -12,17 +12,31 @@ public class Badge: Component {
     public convenience init(_ text: String,
                             isPositioned: Bool = false,
                             isRounded: Bool = false) {
-        self.init(isPositioned: isPositioned, isRounded: isRounded, Span(text))
+        self.init(Span(text))
+        self.isPositioned(if: isPositioned)
+        self.isRounded(if: isRounded)
     }
     
-    public init(isPositioned: Bool,
-                isRounded: Bool,
-                _ span: Span) {
+    public init(_ span: Span) {
         span
             .class(insert: .badge)
-            .class(insert: .positionAbsolute, .top0, .start100, .translateMiddle, .roundedPill, if: isPositioned)
-            .class(insert: .roundedPill, if: isRounded)
         
         super.init(span)
+    }
+    
+    @discardableResult
+    public func isPositioned(if condition: Bool = false) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .positionAbsolute, .top0, .start100, .translateMiddle, .roundedPill)
+        return self
+    }
+    
+    @discardableResult
+    public func isRounded(if condition: Bool = false) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .roundedPill)
+        return self
     }
 }
