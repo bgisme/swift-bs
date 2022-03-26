@@ -27,25 +27,28 @@ public class Accordion: Component {
     public typealias IsAlwaysOpen = Bool
     
     public convenience init(id: String,
-                            isFlush: Bool = false,
                             isAlwaysOpen: Bool = false,
                             @TagBuilder accordionItems: (AccordionId, IsAlwaysOpen) -> [Tag]) {
         let div = Div {
             accordionItems(id, isAlwaysOpen)
         }
-        self.init(id: id, isFlush: isFlush, isAlwaysOpen: isAlwaysOpen, div)
+        self.init(id: id, div)
     }
     
-    public init(id: String,
-                isFlush: Bool,
-                isAlwaysOpen: Bool,
-                _ div: Div) {
-        div
+    public init(id: String, _ div: Div) {
+        _ = div
             .class(insert: .accordion)
             .id(id)
-            .class(insert: .accordionFlush, if: isFlush)
         
         super.init(div)
+    }
+    
+    @discardableResult
+    public func isFlush(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .accordionFlush)
+        return self
     }
 }
 
@@ -57,7 +60,7 @@ public class AccordionItem: Component {
     
     public convenience init(_ title: String,
                             index: Int,
-                            isExpanded: Bool = false,
+                            isCollapsed: Bool = true,
                             accordionId: String,
                             isAlwaysOpen: Bool = false,
                             @TagBuilder collapseContents: () -> [Tag]) {
@@ -67,31 +70,21 @@ public class AccordionItem: Component {
             AccordionHeader(title,
                             id: headerId,
                             collapseId: collapseId,
-                            isExpanded: isExpanded)
+                            isCollapsed: isCollapsed)
             AccordionCollapse(id: collapseId,
                               accordionId: accordionId,
                               headerId: headerId,
-                              isExpanded: isExpanded,
-                              isAlwaysOpen: isAlwaysOpen) {
+                              isExpanded: !isCollapsed,
+                              isAutoCollapsable: !isAlwaysOpen) {
                 AccordionBody {
                     collapseContents()
                 }
             }
         }
-        self.init(title,
-                  index: index,
-                  isExpanded: isExpanded,
-                  accordionId: accordionId,
-                  isAlwaysOpen: isAlwaysOpen,
-                  div)
+        self.init(div)
     }
     
-    public init(_ title: String,
-                index: Int,
-                isExpanded: Bool,
-                accordionId: String,
-                isAlwaysOpen: Bool,
-                _ div: Div) {
+    public init(_ div: Div) {
         div
             .class(insert: .accordionItem)
         
@@ -104,18 +97,15 @@ public class AccordionHeader: Component {
     public convenience init(_ text: String,
                             id: String,
                             collapseId: String,
-                            isExpanded: Bool = false) {
+                            isCollapsed: Bool = false) {
         let h2 = H2 {
-            Button(text)
-                .class(insert: .accordionButton)
-                .class(insert: .collapsed, if: !isExpanded)
-                .type(.button)
-                .dataBsToggle(.collapse)
-                .dataBsTarget(collapseId)
-                .ariaExpanded(isExpanded)
-                .ariaControls(collapseId)
+            AccordionButton(text,
+                            collapseId: collapseId,
+                            isCollapsed: isCollapsed)
         }
+        
         self.init(id: id, h2)
+        self.isCollapsed(if: isCollapsed)
     }
     
     public init(id: String, _ h2: H2) {
@@ -125,6 +115,45 @@ public class AccordionHeader: Component {
 
         super.init(h2)
     }
+    
+    @discardableResult
+    public func isCollapsed(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .collapsed)
+        return self
+    }
+}
+
+public class AccordionButton: Component {
+    
+    public convenience init(_ text: String,
+                            collapseId: String,
+                            isCollapsed: Bool = false) {
+        let button = Button(text)
+        self.init(collapseId: collapseId, button)
+        self.isCollapsed(if: isCollapsed)
+    }
+    
+    public init(collapseId: String, _ button: Button) {
+        button
+            .class(insert: .accordionButton)
+            .type(.button)
+            .dataBsToggle(.collapse)
+            .dataBsTarget(collapseId)
+            .ariaControls(collapseId)
+        
+        super.init(button)
+    }
+    
+    @discardableResult
+    public func isCollapsed(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .collapsed)
+            .ariaExpanded(false)
+        return self
+    }
 }
 
 public class AccordionCollapse: Component {
@@ -133,33 +162,39 @@ public class AccordionCollapse: Component {
                             accordionId: String,
                             headerId: String,
                             isExpanded: Bool = false,
-                            isAlwaysOpen: Bool = false,
+                            isAutoCollapsable: Bool = true,
                             accordionBody: () -> AccordionBody) {
         let div = Div {
             accordionBody()
         }
-        self.init(id: id,
-                  accordionId: accordionId,
-                  headerId: headerId,
-                  isExpanded: isExpanded,
-                  isAlwaysOpen: isAlwaysOpen,
-                  div)
+        self.init(id: id, headerId: headerId, div)
+        self.isExpanded(if: isExpanded)
+        self.isAutoCollapsable(accordionId: accordionId, isAutoCollapsable)
     }
     
-    public init(id: String,
-                accordionId: String,
-                headerId: String,
-                isExpanded: Bool,
-                isAlwaysOpen: Bool,
-                _ div: Div) {
+    public init(id: String, headerId: String, _ div: Div) {
         div
             .id(id)
             .class(insert: .accordionCollapse, .collapse)
-            .class(insert: .show, if: isExpanded)
             .ariaLabelledBy(headerId)
-            .dataParent(accordionId, !isAlwaysOpen)
 
         super.init(div)
+    }
+    
+    @discardableResult
+    public func isExpanded(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .show)
+        return self
+    }
+    
+    @discardableResult
+    public func isAutoCollapsable(accordionId: String, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .dataParent(accordionId, condition)
+        return self
     }
 }
 
