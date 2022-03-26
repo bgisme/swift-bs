@@ -41,12 +41,13 @@ final class CarouselTests: XCTestCase {
     
     func testCarouselIsCrossfade() throws {
         let tag = Carousel(id: "id",
-                           isCrossFadable: true,
                            imgs: [
                             Img(src: "", alt: ""),
                             Img(src: "", alt: ""),
                             Img(src: "", alt: ""),
-                           ]).build()
+                           ])
+            .isCrossFadable()
+            .build()
         if let classValue = tag.value(.class) {
             XCTAssert(classValue.has(.carouselFade))
         } else {
@@ -57,25 +58,27 @@ final class CarouselTests: XCTestCase {
     func testCarouselIsAutoplayDisabled() throws {
         let interval = 10000
         let tag = Carousel(id: "id",
-                           interval: interval,
-                           isAutoplayDisabled: true,
                            imgs: [
                             Img(src: "", alt: ""),
                             Img(src: "", alt: ""),
                             Img(src: "", alt: ""),
-                           ]).build()
+                           ])
+            .interval(interval)
+            .isAutoplayDisabled()
+            .build()
         if let dataBsInterval = tag.value(.dataBsInterval) {
             XCTAssert(dataBsInterval == "false")
         } else {
             XCTFail()
         }
         let tagNotDisabled = Carousel(id: "id",
-                                      interval: interval,
                                       imgs: [
                                         Img(src: "", alt: ""),
                                         Img(src: "", alt: ""),
                                         Img(src: "", alt: ""),
-                                      ]).build()
+                                      ])
+            .interval(interval)
+            .build()
         if let dataBsRide = tagNotDisabled.value(.dataBsRide) {
             XCTAssert(dataBsRide == BsClass.carousel.rawValue)
         } else {
@@ -88,12 +91,13 @@ final class CarouselTests: XCTestCase {
     
     func testCarouselIsTouchDisabled() throws {
         let tag = Carousel(id: "id",
-                           isTouchDisabled: true,
                            imgs: [
                             Img(src: "", alt: ""),
                             Img(src: "", alt: ""),
                             Img(src: "", alt: ""),
-                           ]).build()
+                           ])
+            .isTouchDisabled()
+            .build()
         if let dataBsTouch = tag.value(.dataBsTouch) {
             XCTAssert(dataBsTouch == String(false))
         } else {
@@ -103,12 +107,13 @@ final class CarouselTests: XCTestCase {
     
     func testCarouselIsDark() throws {
         let tag = Carousel(id: "id",
-                           isDark: true,
                            imgs: [
                             Img(src: "", alt: ""),
                             Img(src: "", alt: ""),
                             Img(src: "", alt: ""),
-                           ]).build()
+                           ])
+            .isDark()
+            .build()
         if let classValue = tag.value(.class) {
             XCTAssert(classValue.has(.carouselDark))
         } else {

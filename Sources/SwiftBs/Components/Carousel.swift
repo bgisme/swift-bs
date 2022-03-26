@@ -10,45 +10,24 @@ import SwiftHtml
 public class Carousel: Component {
     
     public convenience init(id: String,
-                            interval milliseconds: Int? = nil,
                             controls: Bool = false,
                             indicators: Bool = false,
-                            isCrossFadable: Bool = false,
-                            isAutoplayDisabled: Bool = false,
-                            isTouchDisabled: Bool = false,
-                            isDark: Bool = false,
                             imgs: [Img]) {
         let items = imgs.enumerated().map { CarouselItem($1, isActive: $0 == 0) }
         self.init(id: id,
-                  interval: milliseconds,
                   controls: controls,
                   indicators: indicators,
-                  isCrossFadable: isCrossFadable,
-                  isAutoplayDisabled: isAutoplayDisabled,
-                  isTouchDisabled: isTouchDisabled,
-                  isDark: isDark,
                   carouselItems: { items })
     }
     
     public convenience init(id: String,
-                            interval milliseconds: Int? = nil,
                             controls: Bool = false,
                             indicators: Bool = false,
-                            isCrossFadable: Bool = false,
-                            isAutoplayDisabled: Bool = false,
-                            isTouchDisabled: Bool = false,
-                            isDark: Bool = false,
                             @TagBuilder carouselItems: () -> [Tag]) {
         let carouselItems = carouselItems()
         let indicators = indicators ? CarouselIndicator.batch(count: carouselItems.count, carouselId: id) : nil
         let controls = controls ? [CarouselControl(.prev, carouselId: id), CarouselControl(.next, carouselId: id)] : nil
-        self.init(id: id,
-                  interval: milliseconds,
-                  isCrossFadable: isCrossFadable,
-                  isAutoplayDisabled: isAutoplayDisabled,
-                  isTouchDisabled: isTouchDisabled,
-                  isDark: isDark,
-                  contents: {
+        self.init(id: id, contents: {
             if let indicators = indicators {
                 Div {
                     indicators.map { $0 }
@@ -64,21 +43,9 @@ public class Carousel: Component {
         })
     }
     
-    public convenience init(id: String,
-                            interval milliseconds: Int?,
-                            isCrossFadable: Bool,
-                            isAutoplayDisabled: Bool,
-                            isTouchDisabled: Bool,
-                            isDark: Bool,
-                            @TagBuilder contents: () -> [Tag]) {
+    public convenience init(id: String, @TagBuilder contents: () -> [Tag]) {
         let div = Div { contents() }
         self.init(id: id, div)
-        
-        if let milliseconds = milliseconds { self.interval(milliseconds) }
-        self.isCrossFadable(if: isCrossFadable)
-        self.isAutoplayDisabled(if: isAutoplayDisabled)
-        self.isTouchDisabled(if: isTouchDisabled)
-        self.isDark(if: isDark)
     }
     
     private init(id: String, _ tag: Tag) {
