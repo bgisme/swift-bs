@@ -11,11 +11,11 @@ final class CarouselTests: XCTestCase {
         let classes: [BsClass] = [.mt3, .bgPrimary]
         let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")].compactMap{$0}
         let id = "id"
-        let tag = Carousel(id: id, imgs: [
-            Img(src: "", alt: ""),
-            Img(src: "", alt: ""),
-            Img(src: "", alt: ""),
-        ])
+        let tag = Carousel(id: id) {
+            Img(src: "", alt: "")
+            Img(src: "", alt: "")
+            Img(src: "", alt: "")
+        }
             .class(insert: classes)
             .style(set: styles)
             .build()
@@ -40,12 +40,11 @@ final class CarouselTests: XCTestCase {
     }
     
     func testCarouselIsCrossfade() throws {
-        let tag = Carousel(id: "id",
-                           imgs: [
-                            Img(src: "", alt: ""),
-                            Img(src: "", alt: ""),
-                            Img(src: "", alt: ""),
-                           ])
+        let tag = Carousel(id: "id") {
+            Img(src: "", alt: "")
+            Img(src: "", alt: "")
+            Img(src: "", alt: "")
+        }
             .isCrossFadable()
             .build()
         if let classValue = tag.value(.class) {
@@ -57,12 +56,11 @@ final class CarouselTests: XCTestCase {
     
     func testCarouselIsAutoplayDisabled() throws {
         let interval = 10000
-        let tag = Carousel(id: "id",
-                           imgs: [
-                            Img(src: "", alt: ""),
-                            Img(src: "", alt: ""),
-                            Img(src: "", alt: ""),
-                           ])
+        let tag = Carousel(id: "id") {
+            Img(src: "", alt: "")
+            Img(src: "", alt: "")
+            Img(src: "", alt: "")
+        }
             .interval(interval)
             .isAutoplayDisabled()
             .build()
@@ -71,12 +69,11 @@ final class CarouselTests: XCTestCase {
         } else {
             XCTFail()
         }
-        let tagNotDisabled = Carousel(id: "id",
-                                      imgs: [
-                                        Img(src: "", alt: ""),
-                                        Img(src: "", alt: ""),
-                                        Img(src: "", alt: ""),
-                                      ])
+        let tagNotDisabled = Carousel(id: "id") {
+            Img(src: "", alt: "")
+            Img(src: "", alt: "")
+            Img(src: "", alt: "")
+        }
             .interval(interval)
             .build()
         if let dataBsRide = tagNotDisabled.value(.dataBsRide) {
@@ -90,12 +87,11 @@ final class CarouselTests: XCTestCase {
     }
     
     func testCarouselIsTouchDisabled() throws {
-        let tag = Carousel(id: "id",
-                           imgs: [
-                            Img(src: "", alt: ""),
-                            Img(src: "", alt: ""),
-                            Img(src: "", alt: ""),
-                           ])
+        let tag = Carousel(id: "id") {
+            Img(src: "", alt: "")
+            Img(src: "", alt: "")
+            Img(src: "", alt: "")
+        }
             .isTouchDisabled()
             .build()
         if let dataBsTouch = tag.value(.dataBsTouch) {
@@ -106,12 +102,11 @@ final class CarouselTests: XCTestCase {
     }
     
     func testCarouselIsDark() throws {
-        let tag = Carousel(id: "id",
-                           imgs: [
-                            Img(src: "", alt: ""),
-                            Img(src: "", alt: ""),
-                            Img(src: "", alt: ""),
-                           ])
+        let tag = Carousel(id: "id") {
+            Img(src: "", alt: "")
+            Img(src: "", alt: "")
+            Img(src: "", alt: "")
+        }
             .isDark()
             .build()
         if let classValue = tag.value(.class) {

@@ -12,17 +12,6 @@ public class Carousel: Component {
     public convenience init(id: String,
                             controls: Bool = false,
                             indicators: Bool = false,
-                            imgs: [Img]) {
-        let items = imgs.enumerated().map { CarouselItem($1, isActive: $0 == 0) }
-        self.init(id: id,
-                  controls: controls,
-                  indicators: indicators,
-                  carouselItems: { items })
-    }
-    
-    public convenience init(id: String,
-                            controls: Bool = false,
-                            indicators: Bool = false,
                             @TagBuilder carouselItems: () -> [Tag]) {
         let carouselItems = carouselItems()
         let indicators = indicators ? CarouselIndicator.batch(count: carouselItems.count, carouselId: id) : nil
