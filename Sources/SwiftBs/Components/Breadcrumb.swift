@@ -84,14 +84,22 @@ public class BreadcrumbListItem: Component {
         let li = Li {
             contents()
         }
-        self.init(isActive: isActive, li)
+        self.init(li)
+        self.isActive(if: isActive)
     }
     
-    public init(isActive: Bool, _ li: Li) {
+    public init(_ li: Li) {
         li
             .class(insert: .breadcrumbItem)
-            .class(insert: .active, if: isActive)
 
         super.init(li)
+    }
+    
+    @discardableResult
+    public func isActive(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .active)
+        return self
     }
 }
