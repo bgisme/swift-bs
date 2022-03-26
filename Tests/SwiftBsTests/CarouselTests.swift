@@ -41,7 +41,7 @@ final class CarouselTests: XCTestCase {
     
     func testCarouselIsCrossfade() throws {
         let tag = Carousel(id: "id",
-                           isCrossFade: true,
+                           isCrossFadable: true,
                            imgs: [
                             Img(src: "", alt: ""),
                             Img(src: "", alt: ""),

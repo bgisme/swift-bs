@@ -13,7 +13,7 @@ public class Carousel: Component {
                             interval milliseconds: Int? = nil,
                             controls: Bool = false,
                             indicators: Bool = false,
-                            isCrossFade: Bool = false,
+                            isCrossFadable: Bool = false,
                             isAutoplayDisabled: Bool = false,
                             isTouchDisabled: Bool = false,
                             isDark: Bool = false,
@@ -23,7 +23,7 @@ public class Carousel: Component {
                   interval: milliseconds,
                   controls: controls,
                   indicators: indicators,
-                  isCrossFade: isCrossFade,
+                  isCrossFadable: isCrossFadable,
                   isAutoplayDisabled: isAutoplayDisabled,
                   isTouchDisabled: isTouchDisabled,
                   isDark: isDark,
@@ -34,7 +34,7 @@ public class Carousel: Component {
                             interval milliseconds: Int? = nil,
                             controls: Bool = false,
                             indicators: Bool = false,
-                            isCrossFade: Bool = false,
+                            isCrossFadable: Bool = false,
                             isAutoplayDisabled: Bool = false,
                             isTouchDisabled: Bool = false,
                             isDark: Bool = false,
@@ -44,7 +44,7 @@ public class Carousel: Component {
         let controls = controls ? [CarouselControl(.prev, carouselId: id), CarouselControl(.next, carouselId: id)] : nil
         self.init(id: id,
                   interval: milliseconds,
-                  isCrossFade: isCrossFade,
+                  isCrossFadable: isCrossFadable,
                   isAutoplayDisabled: isAutoplayDisabled,
                   isTouchDisabled: isTouchDisabled,
                   isDark: isDark,
@@ -66,39 +66,68 @@ public class Carousel: Component {
     
     public convenience init(id: String,
                             interval milliseconds: Int?,
-                            isCrossFade: Bool,
+                            isCrossFadable: Bool,
                             isAutoplayDisabled: Bool,
                             isTouchDisabled: Bool,
                             isDark: Bool,
                             @TagBuilder contents: () -> [Tag]) {
         let div = Div { contents() }
-        self.init(id: id,
-                  interval: milliseconds,
-                  isCrossFade: isCrossFade,
-                  isAutoplayDisabled: isAutoplayDisabled,
-                  isTouchDisabled: isTouchDisabled,
-                  isDark: isDark,
-                  div)
+        self.init(id: id, div)
+        
+        if let milliseconds = milliseconds { self.interval(milliseconds) }
+        self.isCrossFadable(if: isCrossFadable)
+        self.isAutoplayDisabled(if: isAutoplayDisabled)
+        self.isTouchDisabled(if: isTouchDisabled)
+        self.isDark(if: isDark)
     }
     
-    private init(id: String,
-                interval milliseconds: Int?,
-                isCrossFade: Bool,
-                isAutoplayDisabled: Bool,
-                isTouchDisabled: Bool,
-                isDark: Bool,
-                _ tag: Tag) {
+    private init(id: String, _ tag: Tag) {
         tag
             .id(id)
             .class(insert: .carousel, .slide)
-            .dataBsInterval(milliseconds)
-            .class(insert: .carouselFade, if: isCrossFade)
-            .class(insert: .carouselDark, if: isDark)
             .dataBsRide(.carousel)
-            .dataBsInterval(false, isAutoplayDisabled)
-            .dataBsTouch(false, isTouchDisabled)
         
         super.init(tag)
+    }
+    
+    @discardableResult
+    public func interval(_ milliseconds: Int, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .dataBsInterval(milliseconds)
+        return self
+    }
+    
+    @discardableResult
+    public func isCrossFadable(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .carouselFade)
+        return self
+    }
+    
+    @discardableResult
+    public func isDark(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .carouselDark)
+        return self
+    }
+    
+    @discardableResult
+    public func isAutoplayDisabled(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .dataBsInterval(false)
+        return self
+    }
+    
+    @discardableResult
+    public func isTouchDisabled(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .dataBsTouch(false)
+        return self
     }
 }
 
