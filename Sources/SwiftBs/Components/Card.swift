@@ -134,6 +134,10 @@ public class CardHeader: Component {
 
 public class CardBody: Component {
     
+    public convenience init(_ text: String) {
+        self.init(text: text)
+    }
+    
     public convenience init(title: String? = nil,
                             subtitle: String? = nil,
                             text: String? = nil) {
