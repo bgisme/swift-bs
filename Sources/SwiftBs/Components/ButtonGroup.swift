@@ -20,19 +20,17 @@ import SwiftHtml
 
 public class ButtonGroupToolbar: Component {
     
-    public convenience init(ariaLabel: String,
-                            @TagBuilder buttonGroups: () -> [Tag]) {
+    public convenience init(@TagBuilder buttonGroups: () -> [Tag]) {
         let div = Div {
             buttonGroups()
         }
-        self.init(ariaLabel: ariaLabel, div)
+        self.init(div)
     }
     
-    public init(ariaLabel: String, _ div: Div) {
+    public init(_ div: Div) {
         div
             .class(insert: .btnToolbar)
             .role(.toolbar)
-            .ariaLabelledBy(ariaLabel)
 
         super.init(div)
     }
@@ -46,6 +44,19 @@ public class ButtonGroup: Component {
         case lg
         case xl
         case xxl
+        
+        var buttonGroupClass: BsClass {
+            switch self {
+            case .sm:
+                return .btnGroupSm
+            case .lg:
+                return .btnGroupLg
+            case .xl:
+                return .btnGroupXl
+            case .xxl:
+                return .btnGroupXxl
+            }
+        }
     }
     
     public convenience init(ariaLabel: String,
@@ -60,25 +71,9 @@ public class ButtonGroup: Component {
                 size: Size?,
                 isVertical: Bool,
                 _ div: Div) {
-        let sizeClass: BsClass?
-        if let size = size {
-            switch size {
-            case .sm:
-                sizeClass = .btnGroupSm
-            case .lg:
-                sizeClass = .btnGroupLg
-            case .xl:
-                sizeClass = .btnGroupXl
-            case .xxl:
-                sizeClass = .btnGroupXxl
-            }
-        } else {
-            sizeClass = nil
-        }
-        
         div
             .class(insert: isVertical ? .btnGroupVertical : .btnGroup)
-            .class(insert: sizeClass)
+            .class(insert: size?.buttonGroupClass)
             .role(.group)
             .ariaLabelledBy(ariaLabel)
 
