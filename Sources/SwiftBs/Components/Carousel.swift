@@ -16,7 +16,7 @@ public class Carousel: Component {
         let carouselItems = carouselItems()
         let indicators = indicators ? CarouselIndicator.batch(count: carouselItems.count, carouselId: id) : nil
         let controls = controls ? [CarouselControl(.prev, carouselId: id), CarouselControl(.next, carouselId: id)] : nil
-        self.init(id: id, contents: {
+        let div = Div {
             if let indicators = indicators {
                 Div {
                     indicators.map { $0 }
@@ -29,21 +29,17 @@ public class Carousel: Component {
                     controls.map { $0 }
                 }
             }
-        })
-    }
-    
-    public convenience init(id: String, @TagBuilder contents: () -> [Tag]) {
-        let div = Div { contents() }
+        }
         self.init(id: id, div)
     }
     
-    private init(id: String, _ tag: Tag) {
-        tag
+    private init(id: String, _ div: Div) {
+        div
             .id(id)
             .class(insert: .carousel, .slide)
             .dataBsRide(.carousel)
         
-        super.init(tag)
+        super.init(div)
     }
     
     @discardableResult
