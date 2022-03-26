@@ -17,6 +17,15 @@ public class NavTab: Component {
     public enum Style: String, CaseIterable {
         case pills
         case tabs
+        
+        var `class`: BsClass {
+            switch self {
+            case .tabs:
+                return .navTabs
+            case .pills:
+                return .navPills
+            }
+        }
     }
     
     public enum Width {
@@ -116,15 +125,8 @@ public class NavTab: Component {
     @discardableResult
     public func style(_ value: Style, _ condition: Bool = true) -> Self {
         guard condition else { return self }
-        let style: BsClass
-        switch value {
-        case .tabs:
-            style = .navTabs
-        case .pills:
-            style = .navPills
-        }
         tag
-            .class(insert: style)
+            .class(insert: value.class)
         return self
     }
     
@@ -140,6 +142,14 @@ public class NavTab: Component {
         }
         tag
             .class(insert: width)
+        return self
+    }
+    
+    @discardableResult
+    public func isCardHeaderTabs(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .cardHeaderTabs)
         return self
     }
 }

@@ -14,7 +14,6 @@ import SwiftHtml
 /// Cardbody can also contain one or more links (without any other elements)
 
 /*
- 
     Card
         CardImageOverlay (optional)
         CardHeader
