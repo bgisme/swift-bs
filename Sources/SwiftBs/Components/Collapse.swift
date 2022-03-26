@@ -29,98 +29,93 @@ public class CollapseButton: Component {
     
     let ids: [String]
     
-    public convenience init(contentIds ids: String...,
-                            isCollapsed: Bool = true,
-                            a: () -> A) {
-        self.init(contentIds: ids, isCollapsed: isCollapsed, a: a)
+    public convenience init(contentIds ids: String..., a: () -> A) {
+        self.init(contentIds: ids, a: a)
     }
     
-    public convenience init(contentIds ids: [String],
-                            isCollapsed: Bool = true,
-                            a: () -> A) {
+    public convenience init(contentIds ids: [String], a: () -> A) {
         let a = a()
             .class(insert: .btn)
             .role(.button)
             .href(ids.count < 2 ? "#\(ids.first ?? "")" : BsClass.multiCollapse.rawValue)
 
-        self.init(contentIds: ids, isCollapsed: isCollapsed, a)
+        self.init(contentIds: ids, a)
     }
     
-    public convenience init(contentIds ids: String...,
-                            isCollapsed: Bool = true,
-                            button: () -> Button) {
+    public convenience init(contentIds ids: String..., button: () -> Button) {
         self.init(contentIds: ids, button: button)
     }
     
-    public convenience init(contentIds ids: [String],
-                            isCollapsed: Bool = true,
-                            button: () -> Button) {
+    public convenience init(contentIds ids: [String], button: () -> Button) {
         let button = button()
             .class(insert: .btn)
             .type(.button)
             .dataBsTarget(ids.count < 2 ? ids.first ?? "" : BsClass.multiCollapse.rawValue, prefix: ids.count < 2 ? .hash : .dot)
 
-        self.init(contentIds: ids, isCollapsed: isCollapsed, button)
+        self.init(contentIds: ids, button)
     }
     
-    private init(contentIds ids: [String],
-                 isCollapsed: Bool,
-                 _ tag: Tag) {
+    private init(contentIds ids: [String], _ tag: Tag) {
         self.ids = ids
         tag
-            .class(insert: .collapsed, if: isCollapsed)
             .dataBsToggle(.collapse)
-            .ariaExpanded(!isCollapsed)
             .ariaControls(ids.map{$0}.joined(separator: " "))
+            .class(insert: .collapsed)
         
         super.init(tag)
+    }
+    
+    @discardableResult
+    public func isExpanded(if condition: Bool) -> Self {
+        guard condition else { return self }
+        tag
+            .class(remove: .collapsed)
+            .ariaExpanded(true)
+        return self
     }
 }
 
 public class CollapseContent: Component {
     
-    public enum Orientation {
-        case horizontal(width: String)
-        case vertical
-    }
-    
     /// contents ... anything
-    public convenience init(id: String,
-                            orientation: Orientation = .vertical,
-                            isCollapsed: Bool = true,
-                            isOnlyCollapseForButton: Bool = true,
-                            @TagBuilder contents: () -> [Tag]) {
+    public convenience init(id: String, @TagBuilder contents: () -> [Tag]) {
         let div = Div { contents() }
-        self.init(id: id,
-                  orientation: orientation,
-                  isCollapsed: isCollapsed,
-                  isOnlyCollapseForButton: isOnlyCollapseForButton,
-                  div)
+        self.init(id: id, div)
     }
     
-    private init(id: String,
-                 orientation: Orientation,
-                 isCollapsed: Bool,
-                 isOnlyCollapseForButton: Bool,
-                 _ div: Div) {
-        let isHorizontalCollapse: Bool
-        switch orientation {
-        case .horizontal(let width):
-            isHorizontalCollapse = true
-            // children of horizontal collapse need width to display correctly
-            for child in div.children {
-                child.style(set: .width(width))
-            }
-        case .vertical:
-            isHorizontalCollapse = false
-        }
-
+    private init(id: String, _ div: Div) {
         _ = div
             .class(insert: .collapse)
-            .class(insert: .collapseHorizontal, if: isHorizontalCollapse)
-            .class(insert: .multiCollapse, if: !isOnlyCollapseForButton)
             .id(id)
         
         super.init(div)
+    }
+    
+    ///@NOTE: style='max-width:...' applied to all children
+    @discardableResult
+    public func isHorizontal(maxWidth: String?, if condition: Bool = true) -> Self {
+        guard condition else { return self}
+        for child in tag.children {
+            child.style(set: .maxWidth(maxWidth))
+        }
+        tag
+            .class(insert: .collapseHorizontal)
+        return self
+    }
+    
+    @discardableResult
+    public func isExpanded(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .show)
+        return self
+    }
+    
+    @discardableResult
+    public func isMultiCollapse(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .multiCollapse)
+        return self
     }
 }

@@ -31,8 +31,8 @@ final class CollapseTests: XCTestCase {
 
         // Multiple targets
         let multiContents = [
-            CollapseContent(id: id, isOnlyCollapseForButton: false) { content },
-            CollapseContent(id: "collapseExample2", isOnlyCollapseForButton: false) { content }
+            CollapseContent(id: id) { content }.isMultiCollapse(),
+            CollapseContent(id: "collapseExample2") { content }.isMultiCollapse()
         ]
         let tagC = CollapseButton(contentIds: multiContents.compactMap{$0.tag.value(.id)}) {
             Button("Multi-target")
