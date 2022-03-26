@@ -7,7 +7,9 @@ final class CloseButtonTests: XCTestCase {
     func testCloseButton() throws {
         let classes: [BsClass] = [.mt3, .bgPrimary]
         let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")].compactMap{$0}
-        let tag = CloseButton(dismiss: .modal, isDisabled: true, isWhite: true)
+        let tag = CloseButton(dismiss: .modal)
+            .isDisabled()
+            .isWhite()
             .class(insert: classes)
             .style(set: styles)
             .build()
