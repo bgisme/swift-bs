@@ -10,11 +10,6 @@ import Darwin
 
 public class Dropdown: Component {
     
-//    public enum TagType {
-//        case a
-//        case button
-//    }
-    
     public enum Direction {
         case down
         case up
@@ -110,7 +105,6 @@ public class Dropdown: Component {
                             isSplit: Bool = false,
                             size: Size = .md,
                             isDark: Bool = false,
-                            direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
                             menuAs type: DropdownMenu.TagType = .ul,
                             button: () -> Button,
@@ -119,10 +113,8 @@ public class Dropdown: Component {
                   isSplit: isSplit,
                   isDark: isDark,
                   size: size,
-                  direction: direction,
-                  menuAlign: menuAlign) { id, isSplit, direction, menuAlign, size in
+                  menuAlign: menuAlign) { id, isSplit, menuAlign, size  in
             DropdownButton(dropdownId: id,
-                           direction: direction,
                            isSplit: isSplit,
                            menuAlign: menuAlign,
                            size: size,
@@ -141,7 +133,6 @@ public class Dropdown: Component {
                             isSplit: Bool = false,
                             isDark: Bool = false,
                             size: Size = .md,
-                            direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
                             menuAs type: DropdownMenu.TagType = .ul,
                             a: () -> A,
@@ -150,10 +141,8 @@ public class Dropdown: Component {
                   isSplit: isSplit,
                   isDark: isDark,
                   size: size,
-                  direction: direction,
-                  menuAlign: menuAlign) { id, isSplit, direction, menuAlign, size in
+                  menuAlign: menuAlign) { id, isSplit, menuAlign, size in
             DropdownButton(dropdownId: id,
-                           direction: direction,
                            isSplit: isSplit,
                            menuAlign: menuAlign,
                            size: size,
@@ -174,9 +163,9 @@ public class Dropdown: Component {
                             size: Size = .md,
                             direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
-                            button: (Id, IsSplit, Dropdown.Direction, MenuAlign?, Size) -> DropdownButton,
+                            button: (Id, IsSplit, MenuAlign?, Size) -> DropdownButton,
                             menu: (Id, IsDark, MenuAlign?) -> DropdownMenu) {
-        let button = button(id, isSplit, direction, menuAlign, size)
+        let button = button(id, isSplit, menuAlign, size)
         let arrowButton = DropdownButtonArrow(id: id)
         if isSplit, let classes = button.tag.value(.class)?.bsClasses {
             // apply button classes to arrow button so they match
@@ -245,44 +234,28 @@ public final class DropdownButton: Component {
     public convenience init(_ title: String,
                             href: String,
                             dropdownId id: String,
-                            direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil,
                             size: Size = .md) {
-        self.init(dropdownId: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign, size: size) {
+        self.init(dropdownId: id, isSplit: isSplit, menuAlign: menuAlign, size: size) {
             A(title).href(href)
         }
     }
     
     public convenience init(dropdownId id: String,
-                            direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil,
                             size: Size = .md,
                             a: () -> A) {
-        self.init(dropdownId: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign, size: size) {
-            BsButton(a: a)
-        }
+        self.init(dropdownId: id, isSplit: isSplit, menuAlign: menuAlign, size: size, tag: a())
     }
     
     public convenience init(dropdownId id: String,
-                            direction: Dropdown.Direction = .down,
                             isSplit: Bool = false,
                             menuAlign: Dropdown.MenuAlign? = nil,
                             size: Size = .md,
                             button: () -> Button) {
-        self.init(dropdownId: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign, size: size) {
-            BsButton(button: button)
-        }
-    }
-    
-    public convenience init(dropdownId id: String,
-                            direction: Dropdown.Direction = .down,
-                            isSplit: Bool = false,
-                            menuAlign: Dropdown.MenuAlign? = nil,
-                            size: Size = .md,
-                            button: () -> BsButton) {
-        let button = button().build()
+        let button = button()
         if !isSplit {
             _ = button
                 .class(insert: .dropdownToggle)
@@ -290,15 +263,14 @@ public final class DropdownButton: Component {
                 .ariaExpanded(false)
                 .id(id)
         }
-        self.init(dropdownId: id, direction: direction, isSplit: isSplit, menuAlign: menuAlign, size: size, button)
+        self.init(dropdownId: id, isSplit: isSplit, menuAlign: menuAlign, size: size, tag: button)
     }
     
     internal init(dropdownId id: String,
-                  direction: Dropdown.Direction,
                   isSplit: Bool,
                   menuAlign: Dropdown.MenuAlign?,
                   size: Size,
-                  _ tag: Tag) {
+                  tag: Tag) {
         let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
         tag
             .dataBsDisplay(.static, !isSplit && isMenuAlignResponsive)
