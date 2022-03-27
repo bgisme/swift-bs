@@ -115,7 +115,7 @@ public class Dropdown: Component {
                         arrowButton
                         menu
                     }
-                    .class(insert: .dropstart)
+                    .class(insert: .btnGroup, .dropstart)
                     .role(.group)
                     button
                 }
