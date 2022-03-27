@@ -30,89 +30,24 @@ public class Dropdown: Component {
         }
     }
     
-    public enum MenuAlign {
-        case end
-        case responsive(_ bp: MenuAlignBreakpoint)
-        case endAndResponsive(_ bp: MenuAlignBreakpoint)
-        
-        var classes: [BsClass] {
-            switch self {
-            case .end:
-                return [.dropdownMenuEnd]
-            case .responsive(let bp):
-                return [bp.class]
-            case .endAndResponsive(let bp):
-                return [.dropdownMenuEnd, bp.class]
-            }
-        }
-        
-        var isMenuAlignResponsive: Bool {
-            switch self {
-            case .end:
-                return false
-            case .responsive, .endAndResponsive:
-                return true
-            }
-        }
-    }
-    
-    public enum MenuAlignBreakpoint {
-        case smStart
-        case mdStart
-        case lgStart
-        case xlStart
-        case xxlStart
-        case smEnd
-        case mdEnd
-        case lgEnd
-        case xlEnd
-        case xxlEnd
-        
-        var `class`: BsClass {
-            switch self {
-            case .smStart:
-                return .dropdownMenuSmStart
-            case .mdStart:
-                return .dropdownMenuMdStart
-            case .lgStart:
-                return .dropdownMenuLgStart
-            case .xlStart:
-                return .dropdownMenuXlStart
-            case .xxlStart:
-                return .dropdownMenuXxlStart
-            case .smEnd:
-                return .dropdownMenuSmEnd
-            case .mdEnd:
-                return .dropdownMenuMdEnd
-            case .lgEnd:
-                return .dropdownMenuLgEnd
-            case .xlEnd:
-                return .dropdownMenuXlEnd
-            case .xxlEnd:
-                return .dropdownMenuXxlEnd
-            }
-        }
-    }
-    
     public typealias Id = String
     public typealias IsSplit = Bool
     public typealias IsDark = Bool
     
     let button: DropdownButton
     let arrowButton: DropdownButtonArrow?
+    let menu: DropdownMenu
     
     public convenience init(id: String,
                             isSplit: Bool = false,
-                            isDark: Bool = false,
                             size: Size = .md,
                             direction: Direction = .down,
-                            menuAlign: MenuAlign? = nil,
+                            menuAlign: DropdownMenu.Align? = nil,
                             menuAs type: DropdownMenu.TagType = .ul,
                             button: () -> Button,
                             @TagBuilder dropdownItems: () -> [Tag]) {
         self.init(id: id,
                   isSplit: isSplit,
-                  isDark: isDark,
                   size: size,
                   direction: direction,
                   menuAlign: menuAlign) { id, isSplit, menuAlign, size  in
@@ -121,9 +56,8 @@ public class Dropdown: Component {
                            menuAlign: menuAlign,
                            size: size,
                            button: button)
-        } menu: { id, isDark, align in
+        } menu: { id, align in
             DropdownMenu(dropdownId: id,
-                         isDark: isDark,
                          align: align,
                          as: type) {
                 dropdownItems()
@@ -133,16 +67,14 @@ public class Dropdown: Component {
     
     public convenience init(id: String,
                             isSplit: Bool = false,
-                            isDark: Bool = false,
                             size: Size = .md,
                             direction: Direction = .down,
-                            menuAlign: MenuAlign? = nil,
+                            menuAlign: DropdownMenu.Align? = nil,
                             menuAs type: DropdownMenu.TagType = .ul,
                             a: () -> A,
                             @TagBuilder dropdownItems: () -> [Tag]) {
         self.init(id: id,
                   isSplit: isSplit,
-                  isDark: isDark,
                   size: size,
                   direction: direction,
                   menuAlign: menuAlign) { id, isSplit, menuAlign, size in
@@ -151,9 +83,8 @@ public class Dropdown: Component {
                            menuAlign: menuAlign,
                            size: size,
                            a: a)
-        } menu: { id, isDark, align in
+        } menu: { id, align in
             DropdownMenu(dropdownId: id,
-                         isDark: isDark,
                          align: align,
                          as: type) {
                 dropdownItems()
@@ -163,25 +94,25 @@ public class Dropdown: Component {
     
     public convenience init(id: String,
                             isSplit: Bool = false,
-                            isDark: Bool = false,
                             size: Size = .md,
                             direction: Direction = .down,
-                            menuAlign: MenuAlign? = nil,
-                            button: (Id, IsSplit, MenuAlign?, Size) -> DropdownButton,
-                            menu: (Id, IsDark, MenuAlign?) -> DropdownMenu) {
+                            menuAlign: DropdownMenu.Align? = nil,
+                            button: (Id, IsSplit, DropdownMenu.Align?, Size) -> DropdownButton,
+                            menu: (Id, DropdownMenu.Align?) -> DropdownMenu) {
         let button = button(id, isSplit, menuAlign, size)
         let arrowButton = DropdownButtonArrow(id: id)
         if isSplit, let classes = button.tag.value(.class)?.bsClasses {
             // apply button classes to arrow button so they match
             arrowButton.class(insert: classes)
         }
+        let menu = menu(id, menuAlign)
         let div: Div
         if isSplit {
             if direction != .start {
                 div = Div {
                     button
                     arrowButton
-                    menu(id, isDark, menuAlign)
+                    menu
                 }
                 .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
             } else {
@@ -189,7 +120,7 @@ public class Dropdown: Component {
                     Div {
                         /// split buttons direction .start are ordered differently and inside extra button group
                         arrowButton
-                        menu(id, isDark, menuAlign)
+                        menu
                     }
                     .class(insert: .dropstart)
                     .role(.group)
@@ -201,16 +132,17 @@ public class Dropdown: Component {
             /// non-split
             div = Div {
                 button
-                menu(id, isDark, menuAlign)
+                menu
             }
             .class(insert: direction.bsClass, if: direction != .down)  // down is default direction, not necessary
         }
-        self.init(button: button, arrowButton: arrowButton, div)
+        self.init(button: button, arrowButton: arrowButton, menu: menu, div)
     }
         
-    public init(button: DropdownButton, arrowButton: DropdownButtonArrow?, _ div: Div) {
+    public init(button: DropdownButton, arrowButton: DropdownButtonArrow?, menu: DropdownMenu, _ div: Div) {
         self.button = button
         self.arrowButton = arrowButton
+        self.menu = menu
 
         div
             .class(insert: .btnGroup)
@@ -231,6 +163,12 @@ public class Dropdown: Component {
         self.arrowButton?.background(value, condition)
         return self
     }
+    
+    @discardableResult
+    public func isDark(if condition: Bool = true) -> Self {
+        menu.isDark(if: condition)
+        return self
+    }
 }
 
 public final class DropdownButton: Component {
@@ -239,7 +177,7 @@ public final class DropdownButton: Component {
                             href: String,
                             dropdownId id: String,
                             isSplit: Bool = false,
-                            menuAlign: Dropdown.MenuAlign? = nil,
+                            menuAlign: DropdownMenu.Align? = nil,
                             size: Size = .md) {
         self.init(dropdownId: id, isSplit: isSplit, menuAlign: menuAlign, size: size) {
             A(title).href(href)
@@ -248,7 +186,7 @@ public final class DropdownButton: Component {
     
     public convenience init(dropdownId id: String,
                             isSplit: Bool = false,
-                            menuAlign: Dropdown.MenuAlign? = nil,
+                            menuAlign: DropdownMenu.Align? = nil,
                             size: Size = .md,
                             a: () -> A) {
         self.init(dropdownId: id, isSplit: isSplit, menuAlign: menuAlign, size: size, tag: a())
@@ -256,7 +194,7 @@ public final class DropdownButton: Component {
     
     public convenience init(dropdownId id: String,
                             isSplit: Bool = false,
-                            menuAlign: Dropdown.MenuAlign? = nil,
+                            menuAlign: DropdownMenu.Align? = nil,
                             size: Size = .md,
                             button: () -> Button) {
         let button = button()
@@ -272,7 +210,7 @@ public final class DropdownButton: Component {
     
     internal init(dropdownId id: String,
                   isSplit: Bool,
-                  menuAlign: Dropdown.MenuAlign?,
+                  menuAlign: DropdownMenu.Align?,
                   size: Size,
                   tag: Tag) {
         let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
@@ -356,6 +294,70 @@ public class DropdownMenu: Component {
     public typealias Title = String
     public typealias Href = String
     
+    public enum Align {
+        case end
+        case responsive(_ bp: AlignBreakpoint)
+        case endAndResponsive(_ bp: AlignBreakpoint)
+        
+        var classes: [BsClass] {
+            switch self {
+            case .end:
+                return [.dropdownMenuEnd]
+            case .responsive(let bp):
+                return [bp.class]
+            case .endAndResponsive(let bp):
+                return [.dropdownMenuEnd, bp.class]
+            }
+        }
+        
+        var isMenuAlignResponsive: Bool {
+            switch self {
+            case .end:
+                return false
+            case .responsive, .endAndResponsive:
+                return true
+            }
+        }
+    }
+    
+    public enum AlignBreakpoint {
+        case smStart
+        case mdStart
+        case lgStart
+        case xlStart
+        case xxlStart
+        case smEnd
+        case mdEnd
+        case lgEnd
+        case xlEnd
+        case xxlEnd
+        
+        var `class`: BsClass {
+            switch self {
+            case .smStart:
+                return .dropdownMenuSmStart
+            case .mdStart:
+                return .dropdownMenuMdStart
+            case .lgStart:
+                return .dropdownMenuLgStart
+            case .xlStart:
+                return .dropdownMenuXlStart
+            case .xxlStart:
+                return .dropdownMenuXxlStart
+            case .smEnd:
+                return .dropdownMenuSmEnd
+            case .mdEnd:
+                return .dropdownMenuMdEnd
+            case .lgEnd:
+                return .dropdownMenuLgEnd
+            case .xlEnd:
+                return .dropdownMenuXlEnd
+            case .xxlEnd:
+                return .dropdownMenuXxlEnd
+            }
+        }
+    }
+    
     public enum TagType {
         case ol
         case ul
@@ -376,25 +378,37 @@ public class DropdownMenu: Component {
     /// contents ... DropdownItems or anything
     public convenience init(dropdownId: String,
                             isDark: Bool = false,
-                            align: Dropdown.MenuAlign? = nil,
+                            align: Align? = nil,
                             as type: TagType = .ul,
                             @TagBuilder contents: () -> [Tag]) {
         let tag = type.tag { contents() }
-        self.init(dropdownId: dropdownId, isDark: isDark, align: align, tag)
+        self.init(dropdownId: dropdownId, tag)
+        self.isDark(if: isDark)
+        self.align(align)
     }
 
-    // base init needs Tag so it is accessible for styling at declaration
-    public init(dropdownId: String,
-                isDark: Bool,
-                align: Dropdown.MenuAlign?,
-                _ tag: Tag) {
+    public init(dropdownId: String, _ tag: Tag) {
         tag
             .class(insert: .dropdownMenu)
-            .class(insert: .dropdownMenuDark, if: isDark)
-            .class(insert: align?.classes)
             .ariaLabelledBy(dropdownId)
 
         super.init(tag)
+    }
+    
+    @discardableResult
+    public func isDark(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .dropdownMenuDark)
+        return self
+    }
+    
+    @discardableResult
+    public func align(_ value: Align?, _ condition: Bool = false) -> Self {
+        guard condition, let value = value else { return self }
+        tag
+            .class(insert: value.classes)
+        return self
     }
 }
 
