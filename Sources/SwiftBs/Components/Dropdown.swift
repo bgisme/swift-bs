@@ -184,9 +184,8 @@ public final class DropdownButton: Component {
                             href: String,
                             dropdownId id: String,
                             isSplit: Bool = false,
-                            menuAlign: DropdownMenu.Align? = nil,
-                            size: Size = .md) {
-        self.init(dropdownId: id, isSplit: isSplit, menuAlign: menuAlign, size: size) {
+                            menuAlign: DropdownMenu.Align? = nil) {
+        self.init(dropdownId: id, isSplit: isSplit, menuAlign: menuAlign) {
             A(title).href(href)
         }
     }
@@ -194,7 +193,6 @@ public final class DropdownButton: Component {
     public convenience init(dropdownId id: String,
                             isSplit: Bool = false,
                             menuAlign: DropdownMenu.Align? = nil,
-                            size: Size = .md,
                             a: () -> A) {
         self.init(dropdownId: id, isSplit: isSplit, menuAlign: menuAlign, tag: a())
     }
@@ -202,7 +200,6 @@ public final class DropdownButton: Component {
     public convenience init(dropdownId id: String,
                             isSplit: Bool = false,
                             menuAlign: DropdownMenu.Align? = nil,
-                            size: Size = .md,
                             button: () -> Button) {
         let button = button()
         if !isSplit {
@@ -213,7 +210,6 @@ public final class DropdownButton: Component {
                 .id(id)
         }
         self.init(dropdownId: id, isSplit: isSplit, menuAlign: menuAlign, tag: button)
-        self.size(size)
     }
     
     internal init(dropdownId id: String,
@@ -222,6 +218,7 @@ public final class DropdownButton: Component {
                   tag: Tag) {
         let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
         tag
+            .class(insert: Size.md.buttonClass)
             .dataBsDisplay(.static, !isSplit && isMenuAlignResponsive)
         super.init(tag)
     }
