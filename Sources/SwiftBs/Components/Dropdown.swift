@@ -179,6 +179,11 @@ public class Dropdown: Component {
 }
 
 public final class DropdownButton: Component {
+    
+    private static func isStatic(_ isSplit: Bool, _ menuAlign: DropdownMenu.Align? = nil) -> Bool {
+        let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
+        return !isSplit && isMenuAlignResponsive
+    }
         
     public convenience init(_ title: String,
                             href: String,
@@ -194,7 +199,7 @@ public final class DropdownButton: Component {
                             isSplit: Bool = false,
                             menuAlign: DropdownMenu.Align? = nil,
                             a: () -> A) {
-        self.init(dropdownId: id, isSplit: isSplit, menuAlign: menuAlign, tag: a())
+        self.init(dropdownId: id, isStatic: Self.isStatic(isSplit, menuAlign), tag: a())
     }
     
     public convenience init(dropdownId id: String,
@@ -209,17 +214,16 @@ public final class DropdownButton: Component {
                 .ariaExpanded(false)
                 .id(id)
         }
-        self.init(dropdownId: id, isSplit: isSplit, menuAlign: menuAlign, tag: button)
+        self.init(dropdownId: id, isStatic: Self.isStatic(isSplit, menuAlign), tag: button)
     }
     
+    ///@NOTE: set isStatic to false to disable dynamic positioning and use responsive variation classes
     internal init(dropdownId id: String,
-                  isSplit: Bool,
-                  menuAlign: DropdownMenu.Align?,
+                  isStatic: Bool = false,
                   tag: Tag) {
-        let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
         tag
             .class(insert: Size.md.buttonClass)
-            .dataBsDisplay(.static, !isSplit && isMenuAlignResponsive)
+            .dataBsDisplay(.static, isStatic)
         super.init(tag)
     }
     
