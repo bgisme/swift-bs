@@ -169,6 +169,20 @@ public class Dropdown: Component {
         menu.isDark(if: condition)
         return self
     }
+    
+    @discardableResult
+    public func menuAlign(_ value: DropdownMenu.Align?, _ condition: Bool = true) -> Self {
+        guard let value = value else { return self }
+        menu.align(value, condition)
+        return self
+    }
+    
+    @discardableResult
+    public func size(_ value: Size, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        button.size(value, condition)
+        return self
+    }
 }
 
 public final class DropdownButton: Component {
@@ -189,7 +203,7 @@ public final class DropdownButton: Component {
                             menuAlign: DropdownMenu.Align? = nil,
                             size: Size = .md,
                             a: () -> A) {
-        self.init(dropdownId: id, isSplit: isSplit, menuAlign: menuAlign, size: size, tag: a())
+        self.init(dropdownId: id, isSplit: isSplit, menuAlign: menuAlign, tag: a())
     }
     
     public convenience init(dropdownId id: String,
@@ -205,18 +219,17 @@ public final class DropdownButton: Component {
                 .ariaExpanded(false)
                 .id(id)
         }
-        self.init(dropdownId: id, isSplit: isSplit, menuAlign: menuAlign, size: size, tag: button)
+        self.init(dropdownId: id, isSplit: isSplit, menuAlign: menuAlign, tag: button)
+        self.size(size)
     }
     
     internal init(dropdownId id: String,
                   isSplit: Bool,
                   menuAlign: DropdownMenu.Align?,
-                  size: Size,
                   tag: Tag) {
         let isMenuAlignResponsive = menuAlign != nil ? menuAlign!.isMenuAlignResponsive : false
         tag
             .dataBsDisplay(.static, !isSplit && isMenuAlignResponsive)
-            .class(insert: size.buttonClass)
         super.init(tag)
     }
     
@@ -239,6 +252,14 @@ public final class DropdownButton: Component {
         } else {
             tag.class(remove: ColorTheme.allCases.map{$0.buttonOutlineClass})
         }
+        return self
+    }
+    
+    @discardableResult
+    public func size(_ value: Size, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: value.buttonClass)
         return self
     }
 }
