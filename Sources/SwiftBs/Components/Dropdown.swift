@@ -388,13 +388,11 @@ public class DropdownMenu: Component {
     
     /// contents ... DropdownItems or anything
     public convenience init(dropdownId: String,
-                            isDark: Bool = false,
                             align: Align? = nil,
                             as type: TagType = .ul,
                             @TagBuilder contents: () -> [Tag]) {
         let tag = type.tag { contents() }
         self.init(dropdownId: dropdownId, tag)
-        self.isDark(if: isDark)
         self.align(align)
     }
 

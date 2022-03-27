@@ -315,19 +315,16 @@ public class NavLink: Component {
 public class NavItemDropdown: Component {
     
     public typealias Id = String
-    public typealias IsDark = Bool
     
     /// For declaring just button and menu items
     public convenience init(id: String,
-                            isDark: Bool = false,
                             menuAs type: DropdownMenu.TagType = .ul,
                             navDropdownButton: () -> NavDropdownButton,
                             @TagBuilder dropdownItems: () -> [Tag]) {
         self.init(id: id,
-                  isDark: isDark,
                   navDropdownButton: navDropdownButton,
-                  dropdownMenu: { id, isDark in
-            DropdownMenu(dropdownId: id, isDark: isDark, as: type) {
+                  dropdownMenu: { id in
+            DropdownMenu(dropdownId: id, as: type) {
                 dropdownItems()
             }
         })
@@ -335,12 +332,11 @@ public class NavItemDropdown: Component {
     
     /// For declaring button and menu
     public convenience init(id: String,
-                            isDark: Bool = false,
                             navDropdownButton: () -> NavDropdownButton,
-                            dropdownMenu: (Id, IsDark) -> DropdownMenu) {
+                            dropdownMenu: (Id) -> DropdownMenu) {
         let li = Li {
             navDropdownButton()
-            dropdownMenu(id, isDark)
+            dropdownMenu(id)
         }
         self.init(li)
     }
