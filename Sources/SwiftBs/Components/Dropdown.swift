@@ -133,6 +133,7 @@ public class Dropdown: Component {
                             isSplit: Bool = false,
                             isDark: Bool = false,
                             size: Size = .md,
+                            direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
                             menuAs type: DropdownMenu.TagType = .ul,
                             a: () -> A,
@@ -141,6 +142,7 @@ public class Dropdown: Component {
                   isSplit: isSplit,
                   isDark: isDark,
                   size: size,
+                  direction: direction,
                   menuAlign: menuAlign) { id, isSplit, menuAlign, size in
             DropdownButton(dropdownId: id,
                            isSplit: isSplit,
