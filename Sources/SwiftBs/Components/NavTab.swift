@@ -316,6 +316,9 @@ public class NavItemDropdown: Component {
     
     public typealias Id = String
     
+    public let button: NavDropdownButton
+    public let menu: DropdownMenu
+    
     /// For declaring just button and menu items
     public convenience init(id: String,
                             menuAs type: DropdownMenu.TagType = .ul,
@@ -334,18 +337,29 @@ public class NavItemDropdown: Component {
     public convenience init(id: String,
                             navDropdownButton: () -> NavDropdownButton,
                             dropdownMenu: (Id) -> DropdownMenu) {
+        let button = navDropdownButton()
+        let menu = dropdownMenu(id)
         let li = Li {
-            navDropdownButton()
-            dropdownMenu(id)
+            button
+            menu
         }
-        self.init(li)
+        self.init(button: button, menu: menu, li)
     }
     
-    public init(_ li: Li) {
+    public init(button: NavDropdownButton, menu: DropdownMenu, _ li: Li) {
+        self.button = button
+        self.menu = menu
         li
             .class(insert: .navItem, .dropdown)
         
         super.init(li)
+    }
+    
+    @discardableResult
+    public func isDark(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        menu.isDark(if: condition)
+        return self
     }
 }
 
