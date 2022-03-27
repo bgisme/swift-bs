@@ -40,7 +40,6 @@ public class Dropdown: Component {
     
     public convenience init(id: String,
                             isSplit: Bool = false,
-                            size: Size = .md,
                             direction: Direction = .down,
                             menuAlign: DropdownMenu.Align? = nil,
                             menuAs type: DropdownMenu.TagType = .ul,
@@ -48,13 +47,11 @@ public class Dropdown: Component {
                             @TagBuilder dropdownItems: () -> [Tag]) {
         self.init(id: id,
                   isSplit: isSplit,
-                  size: size,
                   direction: direction,
-                  menuAlign: menuAlign) { id, isSplit, menuAlign, size  in
+                  menuAlign: menuAlign) { id, isSplit, menuAlign  in
             DropdownButton(dropdownId: id,
                            isSplit: isSplit,
                            menuAlign: menuAlign,
-                           size: size,
                            button: button)
         } menu: { id, align in
             DropdownMenu(dropdownId: id,
@@ -67,7 +64,6 @@ public class Dropdown: Component {
     
     public convenience init(id: String,
                             isSplit: Bool = false,
-                            size: Size = .md,
                             direction: Direction = .down,
                             menuAlign: DropdownMenu.Align? = nil,
                             menuAs type: DropdownMenu.TagType = .ul,
@@ -75,13 +71,11 @@ public class Dropdown: Component {
                             @TagBuilder dropdownItems: () -> [Tag]) {
         self.init(id: id,
                   isSplit: isSplit,
-                  size: size,
                   direction: direction,
-                  menuAlign: menuAlign) { id, isSplit, menuAlign, size in
+                  menuAlign: menuAlign) { id, isSplit, menuAlign in
             DropdownButton(dropdownId: id,
                            isSplit: isSplit,
                            menuAlign: menuAlign,
-                           size: size,
                            a: a)
         } menu: { id, align in
             DropdownMenu(dropdownId: id,
@@ -94,12 +88,11 @@ public class Dropdown: Component {
     
     public convenience init(id: String,
                             isSplit: Bool = false,
-                            size: Size = .md,
                             direction: Direction = .down,
                             menuAlign: DropdownMenu.Align? = nil,
-                            button: (Id, IsSplit, DropdownMenu.Align?, Size) -> DropdownButton,
+                            button: (Id, IsSplit, DropdownMenu.Align?) -> DropdownButton,
                             menu: (Id, DropdownMenu.Align?) -> DropdownMenu) {
-        let button = button(id, isSplit, menuAlign, size)
+        let button = button(id, isSplit, menuAlign)
         let arrowButton = DropdownButtonArrow(id: id)
         if isSplit, let classes = button.tag.value(.class)?.bsClasses {
             // apply button classes to arrow button so they match
