@@ -103,8 +103,9 @@ public class Dropdown: Component {
     
     public convenience init(id: String,
                             isSplit: Bool = false,
-                            size: Size = .md,
                             isDark: Bool = false,
+                            size: Size = .md,
+                            direction: Direction = .down,
                             menuAlign: MenuAlign? = nil,
                             menuAs type: DropdownMenu.TagType = .ul,
                             button: () -> Button,
@@ -113,6 +114,7 @@ public class Dropdown: Component {
                   isSplit: isSplit,
                   isDark: isDark,
                   size: size,
+                  direction: direction,
                   menuAlign: menuAlign) { id, isSplit, menuAlign, size  in
             DropdownButton(dropdownId: id,
                            isSplit: isSplit,
