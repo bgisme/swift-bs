@@ -26,12 +26,10 @@ public class Navbar: Component {
         }
     }
     
-    public convenience init(placement: Placement? = nil,
-                            collapseAt breakpoint: Size? = nil,
-                            isFluid: Bool = true,
+    public convenience init(isFluid: Bool = true,
                             subcontainer type: TagType,
                             @TagBuilder contents: () -> [Tag]) {
-        self.init(placement: placement, collapseAt: breakpoint) {
+        self.init {
             Container(type, isFluid: isFluid) {
                 contents()
             }
@@ -39,20 +37,15 @@ public class Navbar: Component {
     }
     
     /// use for access to Container for styling
-    public convenience init(placement: Placement? = nil,
-                            collapseAt breakpoint: Size? = nil,
-                            container: () -> Container) {
+    public convenience init(container: () -> Container) {
         let nav = Nav { container() }
-        self.init(placement: placement, collapseAt: breakpoint, nav)
+        self.init(nav)
     }
     
-    public init(placement: Placement?,
-                collapseAt breakpoint: Size?,
-                _ nav: Nav) {
+    public init(_ nav: Nav) {
         nav
             .class(insert: .navbar)
-            .class(insert: placement?.class)
-            .class(insert: breakpoint?.navbarExpand)
+
         super.init(nav)
     }
     
@@ -63,6 +56,22 @@ public class Navbar: Component {
         _ = self.tag.class(remove: Brightness.dark.navbarClass.rawValue)
         _ = self.tag.class(remove: Brightness.light.navbarClass.rawValue)
         self.tag.class(insert: value?.navbarClass)
+        return self
+    }
+    
+    @discardableResult
+    public func placement(_ value: Placement, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: value.class)
+        return self
+    }
+    
+    @discardableResult
+    public func collpase(_ value: Size, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: value.navbarExpand)
         return self
     }
 }

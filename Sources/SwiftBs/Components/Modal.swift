@@ -9,17 +9,6 @@ import SwiftHtml
 
 public class Modal: Component {
     
-//    /// contents ... see ModalContent
-//    /// @NOTE: include contents parameter label to avoid func ambiguity
-//    public convenience init(id: String, @TagBuilder contents: () -> [Tag]) {
-//        let div = Div {
-//            ModalDialog {
-//                contents()
-//            }
-//        }
-//        self.init(id: id, div)
-//    }
-    
     public convenience init(id: String, dialog: () -> ModalDialog) {
         let div = Div { dialog() }
         self.init(id: id, div)
@@ -44,6 +33,7 @@ public class Modal: Component {
         return self
     }
     
+    /// clicking outside modal does not dismiss it
     @discardableResult
     public func isBackdropStatic(if condition: Bool = true) -> Self {
         guard condition else { return self }
