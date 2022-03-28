@@ -390,12 +390,11 @@ public class DropdownMenu: Component {
         }
     }
     
-    /// contents ... DropdownItems or anything
     public convenience init(dropdownId: String,
                             align: Align? = nil,
                             as type: TagType = .ul,
-                            @TagBuilder contents: () -> [Tag]) {
-        let tag = type.tag { contents() }
+                            @TagBuilder dropdownItems: () -> [Tag]) {
+        let tag = type.tag { dropdownItems() }
         self.init(dropdownId: dropdownId, tag)
         self.align(align)
     }
@@ -428,40 +427,29 @@ public class DropdownMenu: Component {
 public class DropdownItem: Component {
     
     public convenience init(nonInteractive span: () -> Span) {
-        self.init(isActive: false, isDisabled: false, isInteractive: false, span())
+        self.init(isInteractive: false, span())
     }
     
     /// <A> menu item
-    public convenience init(_ title: String,
-                            href: String,
-                            isActive: Bool = false,
-                            isDisabled: Bool = false) {
-        self.init(isActive: isActive, isDisabled: isDisabled, a: {
-            A(title).href(href)
-        })
+    public convenience init(_ title: String, href: String) {
+        self.init { A(title).href(href) }
     }
     
     /// <A> menu item
-    public convenience init(isActive: Bool = false, isDisabled: Bool = false, a: () -> A) {
-        self.init(isActive: isActive, isDisabled: isDisabled, isInteractive: true, a())
+    public convenience init(a: () -> A) {
+        self.init(isInteractive: true, a())
     }
     
     /// <Button> menu item
-    public convenience init(isActive: Bool = false, isDisabled: Bool = false, button: () -> Button) {
-        self.init(isActive: isActive, isDisabled: isDisabled, isInteractive: true, button())
+    public convenience init(button: () -> Button) {
+        self.init(isInteractive: true, button())
     }
     
     /// Only allow certain Tag
-    private init(isActive: Bool,
-                 isDisabled: Bool,
-                 isInteractive: Bool,
-                 _ tag: Tag) {
+    private init(isInteractive: Bool, _ tag: Tag) {
         if isInteractive {
             tag
                 .class(insert: .dropdownItem)
-                .class(insert: .active, if: isActive)
-                .ariaCurrent(isActive)
-                .class(insert: .disabled, if: isDisabled)
         } else {
             tag
                 .class(insert: .dropdownItemText)
@@ -470,9 +458,26 @@ public class DropdownItem: Component {
         
         super.init(tag)
     }
+    
+    @discardableResult
+    public func isActive(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .active, if: condition)
+            .ariaCurrent(true)
+        return self
+    }
+    
+    @discardableResult
+    public func isDisabled(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .disabled, if: condition)
+        return self
+    }
 }
 
-public class DropdownMenuDivider: Component {
+public class DropdownDivider: Component {
     
     public init() {
         let hr = Hr()
@@ -481,7 +486,7 @@ public class DropdownMenuDivider: Component {
     }
 }
 
-public class DropdownMenuHeader: Component {
+public class DropdownHeader: Component {
    
     public convenience init(_ text: String) {
         let h6 = H6(text)
