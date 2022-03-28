@@ -68,7 +68,7 @@ public class Navbar: Component {
     }
     
     @discardableResult
-    public func collpase(_ value: Size, _ condition: Bool = true) -> Self {
+    public func collapse(_ value: Size, _ condition: Bool = true) -> Self {
         guard condition else { return self }
         tag
             .class(insert: value.navbarExpand)
