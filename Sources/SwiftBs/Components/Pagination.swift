@@ -9,14 +9,12 @@ import SwiftHtml
 
 public class PaginationNav: Component {
     
-    public convenience init(ariaLabel: String,
-                            size s: Pagination.Size? = nil,
-                            @TagBuilder pageItems: () -> [Tag]) {
-        self.init {
-            Pagination(ariaLabel: ariaLabel, size: s) {
+    public convenience init(@TagBuilder pageItems: () -> [Tag]) {
+        self.init(pagination: {
+            Pagination {
                 pageItems()
             }
-        }
+        })
     }
     
     /// contents ... Pagination
@@ -32,36 +30,24 @@ public class PaginationNav: Component {
 
 public class Pagination: Component {
     
-    public enum Size {
-        case sm
-        case lg
-    }
-    
-    public convenience init(ariaLabel: String,
-                            size: Size? = nil,
-                            @TagBuilder pageItems: () -> [Tag]) {
+    public convenience init(@TagBuilder pageItems: () -> [Tag]) {
         let ul = Ul { pageItems() }
-        self.init(ariaLabel: ariaLabel, size: size, ul)
+        self.init(ul)
     }
     
-    public init(ariaLabel: String,
-                size s: Size?,
-                _ ul: Ul) {
-        let size: BsClass?
-        switch s {
-        case .sm:
-            size = .paginationSm
-        case .lg:
-            size = .paginationLg
-        default:
-            size = nil
-        }
+    public init(_ ul: Ul) {
         ul
-            .class(insert: .pagination)
-            .class(insert: size)
-            .ariaLabel(ariaLabel)
+            .class(insert: Size.md.paginationClass)
 
         super.init(ul)
+    }
+    
+    @discardableResult
+    public func size(_ value: Size, _ condition: Bool = true) -> Self {
+        guard condition, value != Size.md else { return self }
+        tag
+            .class(insert: value.paginationClass)
+        return self
     }
 }
 
@@ -115,5 +101,19 @@ public class PageLink: Component {
             .ariaLabel(ariaLabel)
 
         super.init(a)
+    }
+}
+
+extension Size {
+    
+    var paginationClass: BsClass {
+        switch self {
+        case .xs, .sm:
+            return .paginationSm
+        case .md:
+            return .pagination
+        case .lg, .xl, .xxl:
+            return .paginationLg
+        }
     }
 }

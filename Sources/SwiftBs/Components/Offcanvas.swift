@@ -34,7 +34,7 @@ public class Offcanvas: Component {
     /// OffcanvasTitle
     /// OffcanvasBody
     public convenience init(id: String,
-                            placement: Placement = .start,
+                            placement: Placement,
                             @TagBuilder contents: () -> [Tag]) {
         let div = Div { contents() }
         self.init(id: id,
