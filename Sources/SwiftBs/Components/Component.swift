@@ -73,6 +73,14 @@ public class Component: TagRepresentable {
             .ariaLabel(value)
         return self
     }
+    
+    @discardableResult
+    public func alignItems(_ value: AlignItems, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: value.class)
+        return self
+    }
 }
 
 extension Component: Bootstrapable {

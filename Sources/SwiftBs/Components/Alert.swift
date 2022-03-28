@@ -93,14 +93,10 @@ public class Alert: Component {
     }
     
     @discardableResult
-    public func alignItems(_ value: AlignItems?, _ condition: Bool = true) -> Self {
+    public override func alignItems(_ value: AlignItems, _ condition: Bool = true) -> Self {
         guard condition else { return self }
-        if let value = value {
-            self.class(insert: .dFlex, value.class)
-        } else {
-            self.tag.class(remove: AlignItems.allCases.map{$0.class})
-            self.tag.class(remove: .dFlex)
-        }
+        self.class(insert: .dFlex)
+        super.alignItems(value, condition)
         return self
     }
 }
