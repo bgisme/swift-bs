@@ -13,8 +13,8 @@ public class Scrollspy: Component {
     /// Set the height using .style(set: ...)
     public convenience init(navId: String,
                             offset: Int = 0,
-                            height: String? = "nil",
-                            isScrollOverflow: Bool = false,
+                            height: String? = nil,
+                            isScrollOverflow: Bool = true,
                             @TagBuilder contentsWithIds: () -> [Tag]) {
         let div = Div {
             contentsWithIds()
