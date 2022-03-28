@@ -11,7 +11,7 @@ public class Scrollspy: Component {
     
     /// @NOTE: Result <div style='position: relative ; overflow: scroll;'>
     /// Set the height using .style(set: ...)
-    public convenience init(navId: String,
+    public convenience init(onContainerId id: String,
                             offset: Int = 0,
                             height: String? = nil,
                             isScrollOverflow: Bool = true,
@@ -27,13 +27,13 @@ public class Scrollspy: Component {
             div.style(set: .overflow("scroll"))
         }
         
-        self.init(navId: navId, offset: offset, div)
+        self.init(containerId: id, offset: offset, div)
     }
 
-    public init(navId: String, offset: Int = 0, _ div: Div) {
+    public init(containerId id: String, offset: Int = 0, _ div: Div) {
         _ = div
             .dataBsSpy(.scroll)
-            .dataBsTarget(navId)
+            .dataBsTarget(id)
             .dataBsOffset(offset)
             .tabindex(0)
         
