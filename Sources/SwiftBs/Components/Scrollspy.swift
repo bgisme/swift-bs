@@ -9,19 +9,19 @@ import SwiftHtml
 
 public class Scrollspy: Component {
     
-    /// @NOTE: Result <div style='position: relative ; overflow: scroll;'>
-    /// Set the height using .style(set: ...)
+    /// @NOTE: Default <div style='position: relative'>
+    /// offset: Pixels to offset from top when calculating position of scroll
     public convenience init(onContainerId id: String,
-                            offset: Int = 0,
-                            height: String? = nil,
+                            offset: Int = 10,
+                            maxHeight: String? = nil,
                             isScrollOverflow: Bool = true,
                             @TagBuilder contentsWithIds: () -> [Tag]) {
         let div = Div {
             contentsWithIds()
         }.style(set: .position("relative"))
         
-        if let height = height {
-            div.style(set: .height(height))
+        if let maxHeight = maxHeight {
+            div.style(set: .maxHeight(maxHeight))
         }
         if isScrollOverflow {
             div.style(set: .overflow("scroll"))
@@ -30,7 +30,7 @@ public class Scrollspy: Component {
         self.init(containerId: id, offset: offset, div)
     }
 
-    public init(containerId id: String, offset: Int = 0, _ div: Div) {
+    public init(containerId id: String, offset: Int = 10, _ div: Div) {
         _ = div
             .dataBsSpy(.scroll)
             .dataBsTarget(id)
