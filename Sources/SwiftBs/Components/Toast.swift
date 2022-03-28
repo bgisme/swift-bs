@@ -23,22 +23,28 @@ public class ToastContainer: Component {
 
 public class Toast: Component {
     
-    public convenience init(id: String, @TagBuilder contents: () -> [Tag]) {
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
         let div = Div {
             contents()
         }
-        self.init(id: id, div)
+        self.init(div)
     }
     
-    public init(id: String, _ div: Div) {
-        _ = div
+    public init(_ div: Div) {
+        div
             .class(insert: .toast)
             .role(.alert)
             .ariaLive(.assertive)
             .ariaAtomic(true)
-            .id(id)
         
         super.init(div)
+    }
+    
+    @discardableResult
+    public func id(_ value: String?, _ condition: Bool = true) -> Self {
+        guard condition, let value = value else { return self }
+        _ = tag.id(value)
+        return self
     }
 }
 
