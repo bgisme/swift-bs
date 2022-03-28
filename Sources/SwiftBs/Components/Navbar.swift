@@ -26,8 +26,15 @@ public class Navbar: Component {
         }
     }
     
-    public convenience init(@TagBuilder contents: () -> [Tag]) {
+    public convenience init(subcontainer type: TagType? = nil,
+                            isFluid: Bool = false,
+                            @TagBuilder contents: () -> [Tag]) {
         let nav = Nav {
+            if let type = type {
+                Container(type, isFluid: isFluid) {
+                    contents()
+                }
+            }
             contents()
         }
         self.init(nav)
