@@ -14,15 +14,17 @@ public class Scrollspy: Component {
     public convenience init(navId: String,
                             offset: Int = 0,
                             height: String? = "nil",
+                            isScrollOverflow: Bool = false,
                             @TagBuilder contentsWithIds: () -> [Tag]) {
         let div = Div {
             contentsWithIds()
-        }
-            .style(set: .position("relative"))
-            .style(set: .overflow("scroll"))
+        }.style(set: .position("relative"))
         
         if let height = height {
             div.style(set: .height(height))
+        }
+        if isScrollOverflow {
+            div.style(set: .overflow("scroll"))
         }
         
         self.init(navId: navId, offset: offset, div)
