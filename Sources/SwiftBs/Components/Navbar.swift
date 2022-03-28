@@ -26,19 +26,10 @@ public class Navbar: Component {
         }
     }
     
-    public convenience init(isFluid: Bool = true,
-                            subcontainer type: TagType,
-                            @TagBuilder contents: () -> [Tag]) {
-        self.init {
-            Container(type, isFluid: isFluid) {
-                contents()
-            }
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        let nav = Nav {
+            contents()
         }
-    }
-    
-    /// use for access to Container for styling
-    public convenience init(container: () -> Container) {
-        let nav = Nav { container() }
         self.init(nav)
     }
     
