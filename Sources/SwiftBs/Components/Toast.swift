@@ -9,11 +9,15 @@ import SwiftHtml
 
 public class ToastContainer: Component {
     
+    public convenience init(div: () -> Div) {
+        self.init(div())
+    }
+    
     public init(_ div: Div) {
         div
             .class(insert: .toastContainer)
         
-        self.init(div)
+        super.init(div)
     }
 }
 
