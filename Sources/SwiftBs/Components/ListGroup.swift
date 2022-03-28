@@ -15,10 +15,7 @@ public class ListGroup: Component {
         case div
     }
         
-    public convenience init(isFlush: Bool = false,
-                            isNumbered: Bool = false,
-                            isHorizontal: Bool = false,
-                            as type: TagType = .ul,
+    public convenience init(as type: TagType = .ul,
                             @TagBuilder listGroupItems: () -> [Tag]) {
         let tag: Tag
         switch type {
@@ -29,67 +26,86 @@ public class ListGroup: Component {
         case .div:
             tag = Div { listGroupItems() }
         }
-        self.init(isFlush: isFlush, isNumbered: isNumbered, isHorizontal: isHorizontal, tag)
+        self.init(tag)
     }
     
-    public init(isFlush: Bool,
-                isNumbered: Bool,
-                isHorizontal: Bool,
-                _ tag: Tag) {
+    private override init(_ tag: Tag) {
         tag
             .class(insert: .listGroup)
-            .class(insert: .listGroupFlush, if: isFlush)
-            .class(insert: .listGroupNumbered, if: isNumbered)
-            .class(insert: .listGroupHorizontal, if: isHorizontal)
         
         super.init(tag)
+    }
+    
+    @discardableResult
+    public func isFlush(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .listGroupFlush, if: condition)
+        return self
+    }
+    
+    @discardableResult
+    public func isNumbered(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .listGroupNumbered, if: condition)
+        return self
+    }
+    
+    @discardableResult
+    public func isHorizontal(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .listGroupHorizontal, if: condition)
+        return self
     }
 }
 
 public class ListGroupItem: Component {
     
-    public convenience init(_ text: String,
-                            isActive: Bool = false,
-                            isDisabled: Bool = false) {
-        self.init(isAction: false, isActive: isActive, isDisabled: isDisabled, Li(text))
+    public convenience init(_ text: String) {
+        self.init(isAction: false, Li(text))
     }
     
-    public convenience init(isActive: Bool = false,
-                            isDisabled: Bool = false,
-                            li: () -> Li) {
-        self.init(isAction: false, isActive: isActive, isDisabled: isDisabled, li())
+    public convenience init(li: () -> Li) {
+        self.init(isAction: false, li())
     }
     
-    public convenience init(isActive: Bool = false,
-                            isDisabled: Bool = false,
-                            a: () -> A) {
-        self.init(isAction: true, isActive: isActive, isDisabled: isDisabled, a())
+    public convenience init(a: () -> A) {
+        self.init(isAction: true, a())
     }
     
-    public convenience init(isActive: Bool = false,
-                            isDisabled: Bool = false,
-                            button: () -> Button) {
-        self.init(isAction: true, isActive: isActive, isDisabled: isDisabled,  button())
+    public convenience init(button: () -> Button) {
+        self.init(isAction: true,  button())
     }
     
-    public convenience init(isActive: Bool = false,
-                            isDisabled: Bool = false,
-                            label: () -> Label) {
-        self.init(isAction: false, isActive: isActive, isDisabled: isDisabled, label())
+    public convenience init(label: () -> Label) {
+        self.init(isAction: false, label())
     }
     
-    private init(isAction: Bool,
-                 isActive: Bool,
-                 isDisabled: Bool,
-                 _ tag: Tag) {
+    private init(isAction: Bool, _ tag: Tag) {
         tag
             .class(insert: .listGroupItem)
             .class(insert: .listGroupItemAction, if: isAction)
-            .class(insert: .active, if: isActive)
-            .ariaCurrent(isActive)
-            .class(insert: .disabled, if: isDisabled)
-            .ariaDisabled(isDisabled)
 
         super.init(tag)
+    }
+    
+    @discardableResult
+    public func isActive(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .active)
+            .ariaCurrent(true)
+        return self
+    }
+    
+    @discardableResult
+    public func isDisabled(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .disabled)
+            .ariaDisabled(true)
+        return self
     }
 }
