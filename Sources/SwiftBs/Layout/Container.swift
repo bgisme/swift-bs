@@ -16,7 +16,7 @@ public class Container: Component {
             .tag(contents)
             .class(insert: isFluid ? .containerFluid : Size.md.containerClass)
         super.init(tag)
-    }
+    }    
 }
 
 extension Container: Sizable {
