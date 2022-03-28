@@ -108,4 +108,11 @@ public class ListGroupItem: Component {
             .ariaDisabled(true)
         return self
     }
+    
+    @discardableResult
+    public func scrollspy(on id: String, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag.attribute("href", "#\(id)")
+        return self
+    }
 }
