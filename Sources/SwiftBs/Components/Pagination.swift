@@ -47,11 +47,10 @@ public class PageItem: Component {
     
     public convenience init(_ title: String,
                             href: String,
-                            ariaLabel: String,
                             isActive: Bool = false,
                             isDisabled: Bool = false) {
         self.init(isActive: isActive, isDisabled: isDisabled) {
-            PageLink(title, href: href, ariaLabel: ariaLabel)
+            PageLink(title, href: href)
         }
     }
     
@@ -76,21 +75,19 @@ public class PageItem: Component {
 
 public class PageLink: Component {
     
-    public convenience init(_ title: String,
-                            href: String,
-                            ariaLabel: String) {
-        let a = A(title).href(href)
-        self.init(ariaLabel: ariaLabel, a)
+    public convenience init(_ title: String, href: String) {
+        self.init {
+            A(title).href(href)
+        }
     }
     
-    public convenience init(ariaLabel: String, a: () -> A) {
-        self.init(ariaLabel: ariaLabel, a())
+    public convenience init(a: () -> A) {
+        self.init(a())
     }
     
-    public init(ariaLabel: String, _ a: A) {
+    public init(_ a: A) {
         a
             .class(insert: .pageLink)
-            .ariaLabel(ariaLabel)
 
         super.init(a)
     }
