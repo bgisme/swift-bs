@@ -9,14 +9,6 @@ import SwiftHtml
 
 public class PaginationNav: Component {
     
-    public convenience init(@TagBuilder pageItems: () -> [Tag]) {
-        self.init(pagination: {
-            Pagination {
-                pageItems()
-            }
-        })
-    }
-    
     /// contents ... Pagination
     public convenience init(pagination: () -> Pagination) {
         let nav = Nav { pagination() }
