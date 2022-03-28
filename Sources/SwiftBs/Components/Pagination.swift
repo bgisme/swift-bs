@@ -45,31 +45,38 @@ public class Pagination: Component {
 
 public class PageItem: Component {
     
-    public convenience init(_ title: String,
-                            href: String,
-                            isActive: Bool = false,
-                            isDisabled: Bool = false) {
-        self.init(isActive: isActive, isDisabled: isDisabled) {
+    public convenience init(_ title: String, href: String) {
+        self.init {
             PageLink(title, href: href)
         }
     }
     
-    public convenience init(isActive: Bool = false,
-                            isDisabled: Bool = false,
-                            pageLink: () -> PageLink) {
+    public convenience init(pageLink: () -> PageLink) {
         let li = Li { pageLink() }
-        self.init(isActive: isActive, isDisabled: isDisabled, li)
+        self.init(li)
     }
     
-    public init(isActive: Bool,
-                isDisabled: Bool,
-                _ li: Li) {
+    public init(_ li: Li) {
         li
             .class(insert: .pageItem)
-            .class(insert: .active, if: isActive)
-            .class(insert: .disabled, if: isDisabled)
         
         super.init(li)
+    }
+    
+    @discardableResult
+    public func isActive(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .active)
+        return self
+    }
+    
+    @discardableResult
+    public func isDisabled(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .disabled)
+        return self
     }
 }
 
