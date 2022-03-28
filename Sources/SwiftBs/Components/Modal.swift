@@ -12,45 +12,47 @@ public class Modal: Component {
     /// contents ... see ModalContent
     public convenience init(id: String,
                             size: ModalDialog.Size? = nil,
-                            isAnimated: Bool = true,
-                            isBackdropStatic: Bool = false,
                             isScrollable: Bool = false,
                             isCentered: Bool = false,
                             @TagBuilder contents: () -> [Tag]) {
-        self.init(id: id,
-                  isAnimated: isAnimated,
-                  isBackdropStatic: isBackdropStatic) {
-            ModalDialog(size: size,
-                        isScrollable: isScrollable,
-                        isCentered: isCentered) {
+        self.init(id: id) {
+            ModalDialog {
                 contents()
             }
         }
     }
     
-    public convenience init(id: String,
-                            isAnimated: Bool = true,
-                            isBackdropStatic: Bool = false,
-                            dialog: () -> ModalDialog) {
+    public convenience init(id: String, dialog: () -> ModalDialog) {
         let div = Div { dialog() }
-        self.init(id: id, isAnimated: isAnimated, isBackdropStatic: isBackdropStatic, div)
+        self.init(id: id, div)
     }
     
-    public init(id: String,
-                isAnimated: Bool,
-                isBackdropStatic: Bool,
-                _ div: Div) {
+    public init(id: String, _ div: Div) {
         div
             .id(id)
             .ariaLabelledBy("\(id)Label")
             .class(insert: .modal)
-            .class(insert: .fade, if: isAnimated)
             .tabindex(-1)
-            .dataBsBackdrop(.static, isBackdropStatic)
-            .dataBsKeyboard(false, isBackdropStatic)
             .ariaHidden(true)
         
         super.init(div)
+    }
+    
+    @discardableResult
+    public func isFadable(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .fade)
+        return self
+    }
+    
+    @discardableResult
+    public func isBackdropStatic(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .dataBsBackdrop(.static)
+            .dataBsKeyboard(false)
+        return self
     }
 }
 
@@ -92,29 +94,44 @@ public class ModalDialog: Component {
     }
         
     /// contents ... see ModalContent
-    public convenience init(size: Size? = nil,
-                            isScrollable: Bool = false,
-                            isCentered: Bool = false,
-                            @TagBuilder contents: () -> [Tag]) {
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
         let div = Div {
             ModalContent {
                 contents()
             }
         }
-        self.init(size: size, isScrollable: isScrollable, isCentered: isCentered, div)
+        self.init(div)
     }
     
-    public init(size: Size?,
-                isScrollable: Bool,
-                isCentered: Bool,
-                _ div: Div) {
+    public init(_ div: Div) {
         div
             .class(insert: .modalDialog)
-            .class(insert: size?.rawValue, if: size != nil)
-            .class(insert: .modalDialogScrollable, if: isScrollable)
-            .class(insert: .modalDialogCentered, if: isCentered)
         
         super.init(div)
+    }
+    
+    @discardableResult
+    public func size(_ value: Size, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: value.rawValue)
+        return self
+    }
+    
+    @discardableResult
+    public func isScrollable(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .modalDialogScrollable)
+        return self
+    }
+    
+    @discardableResult
+    public func isCentered(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .modalDialogCentered)
+        return self
     }
 }
 

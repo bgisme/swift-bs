@@ -64,29 +64,29 @@ public class ListGroup: Component {
 public class ListGroupItem: Component {
     
     public convenience init(_ text: String) {
-        self.init(isAction: false, Li(text))
+        self.init(isActionable: false, Li(text))
     }
     
     public convenience init(li: () -> Li) {
-        self.init(isAction: false, li())
+        self.init(isActionable: false, li())
     }
     
     public convenience init(a: () -> A) {
-        self.init(isAction: true, a())
+        self.init(isActionable: true, a())
     }
     
     public convenience init(button: () -> Button) {
-        self.init(isAction: true,  button())
+        self.init(isActionable: true,  button())
     }
     
     public convenience init(label: () -> Label) {
-        self.init(isAction: false, label())
+        self.init(isActionable: false, label())
     }
     
-    private init(isAction: Bool, _ tag: Tag) {
+    private init(isActionable: Bool, _ tag: Tag) {
         tag
             .class(insert: .listGroupItem)
-            .class(insert: .listGroupItemAction, if: isAction)
+            .class(insert: .listGroupItemAction, if: isActionable)
 
         super.init(tag)
     }
