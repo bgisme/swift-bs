@@ -14,6 +14,19 @@ public class Offcanvas: Component {
         case end
         case top
         case bottom
+        
+        var `class`: BsClass {
+            switch self {
+            case .start:
+                return .offcanvasTop
+            case .end:
+                return .offcanvasEnd
+            case .top:
+                return .offcanvasTop
+            case .bottom:
+                return .offcanvasBottom
+            }
+        }
     }
     
     /// contents ...
@@ -22,43 +35,42 @@ public class Offcanvas: Component {
     /// OffcanvasBody
     public convenience init(id: String,
                             placement: Placement = .start,
-                            isBackgroundScrollable: Bool = false,   // background not scrollable by default
-                            isBackdropVisible: Bool = true,         // backdrop visible by default
                             @TagBuilder contents: () -> [Tag]) {
         let div = Div { contents() }
         self.init(id: id,
                   placement: placement,
-                  isBackgroundScrollable: isBackgroundScrollable,
-                  isBackdropVisible: isBackdropVisible,
                   div)
     }
     
     public init(id: String,
                 placement: Placement,
-                isBackgroundScrollable: Bool,
-                isBackdropVisible: Bool,
                 _ div: Div) {
-        let place: BsClass
-        switch placement {
-        case .start:
-            place = .offcanvasTop
-        case .end:
-            place = .offcanvasEnd
-        case .top:
-            place = .offcanvasTop
-        case .bottom:
-            place = .offcanvasBottom
-        }
         div
             .class(insert: .offcanvas)
-            .class(insert: place)
+            .class(insert: placement.class)
             .tabindex(-1)
             .id(id)
             .ariaLabelledBy("\(id)Label")
-            .dataBsScroll(isBackgroundScrollable, isBackgroundScrollable)
-            .dataBsBackdrop(!isBackdropVisible, !isBackdropVisible)
         
         super.init(div)
+    }
+    
+    @discardableResult
+    public func isBackgroundScrollable(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .dataBsScroll(true)
+
+        return self
+    }
+    
+    /// @NOTE: Background is dimmed by default. Use this to turn off dimming.
+    @discardableResult
+    public func isBackgroundVisible(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .dataBsBackdrop(false)
+        return self
     }
 }
 
@@ -124,29 +136,24 @@ public class OffcanvasCloseButton: Component {
 
 public class OffcanvasButton: Component {
     
-    public convenience init(offcanvasId id: String,
-                            ariaControls: String,
-                            a: () -> A) {
+    public convenience init(offcanvasId id: String, a: () -> A) {
         let a = a()
             .href("#\(id)")
             .role(.button)
-        self.init(ariaControls: ariaControls, a)
+        self.init(a)
     }
     
-    public convenience init(offcanvasId id: String,
-                            ariaControls: String,
-                            button: () -> Button) {
+    public convenience init(offcanvasId id: String, button: () -> Button) {
         let button = button()
             .type(.button)
             .dataBsTarget(id)
-        self.init(ariaControls: ariaControls, button)
+        self.init(button)
     }
     
-    private init(ariaControls: String, _ tag: Tag) {
+    private override init(_ tag: Tag) {
         tag
             .class(insert: .btn)
             .dataBsToggle(.offcanvas)
-            .ariaControls(ariaControls)
         
         super.init(tag)
     }

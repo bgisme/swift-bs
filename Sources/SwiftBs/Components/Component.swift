@@ -65,6 +65,14 @@ public class Component: TagRepresentable {
         }
         return self
     }
+    
+    @discardableResult
+    public func ariaLabel(_ value: String, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .ariaLabel(value)
+        return self
+    }
 }
 
 extension Component: Bootstrapable {

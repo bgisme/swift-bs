@@ -49,13 +49,21 @@ public class Navbar: Component {
         super.init(nav)
     }
     
-    /// @NOTE Set isDark, isLight or neither
     @discardableResult
-    public func brightness(_ value: Brightness?, _ condition: Bool = true) -> Self {
+    public func isDark(if condition: Bool = true) -> Self {
         guard condition else { return self }
-        _ = self.tag.class(remove: Brightness.dark.navbarClass.rawValue)
-        _ = self.tag.class(remove: Brightness.light.navbarClass.rawValue)
-        self.tag.class(insert: value?.navbarClass)
+        _ = self.tag.class(remove: BsClass.navbarLight)
+        tag
+            .class(insert: .navbarDark)
+        return self
+    }
+    
+    @discardableResult
+    public func isLight(if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        _ = self.tag.class(remove: BsClass.navbarDark)
+        tag
+            .class(insert: .navbarLight)
         return self
     }
     
@@ -73,18 +81,6 @@ public class Navbar: Component {
         tag
             .class(insert: value.navbarExpand)
         return self
-    }
-}
-
-extension Brightness {
-    
-    var navbarClass: BsClass {
-        switch self {
-        case .light:
-            return .navbarLight
-        case .dark:
-            return .navbarDark
-        }
     }
 }
 
@@ -134,18 +130,18 @@ public class NavbarBrand: Component {
 
 public class NavbarToggler: Component {
     
-    public convenience init(id: String, ariaLabel: String) {
+    public convenience init(id: String) {
         let button = Button {
             Span().class(insert: .navbarTogglerIcon)
         }
-        self.init(id: id, ariaLabel: ariaLabel, button)
+        self.init(id: id, button)
     }
     
-    public convenience init(id: String, ariaLabel: String, button: () -> Button) {
-        self.init(id: id, ariaLabel: ariaLabel, button())
+    public convenience init(id: String, button: () -> Button) {
+        self.init(id: id, button())
     }
     
-    public init(id: String, ariaLabel: String, _ button: Button) {
+    public init(id: String, _ button: Button) {
         button
             .class(insert: .navbarToggler)
             .type(.button)
@@ -153,7 +149,6 @@ public class NavbarToggler: Component {
             .dataBsTarget(id)
             .ariaControls(id)
             .ariaExpanded(false)
-            .ariaLabel(ariaLabel)
         
         super.init(button)
     }
@@ -172,7 +167,7 @@ public class NavbarToggler: Component {
         tag
             .style(set: .border("none"))
         return self
-    }
+    }    
 }
 
 public class NavbarCollapse: Component {

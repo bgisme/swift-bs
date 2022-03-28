@@ -53,13 +53,5 @@ public class CloseButton: Component {
         tag
             .class(insert: .btnCloseWhite)
         return self
-    }
-    
-    @discardableResult
-    public func ariaLabel(_ value: String, _ condition: Bool = true) -> Self {
-        guard condition else { return self }
-        tag
-            .ariaLabel(value)
-        return self
-    }
+    }    
 }
