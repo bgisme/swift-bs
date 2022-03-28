@@ -10,9 +10,8 @@ import SwiftHtml
 public class Scrollspy: Component {
     
     /// @NOTE: Default <div style='position: relative'>
-    /// offset: Pixels to offset from top when calculating position of scroll
     public convenience init(onContainerId id: String,
-                            offset: Int = 10,
+                            offset pixelsFromTop: Int = 10,
                             maxHeight: String? = nil,
                             isScrollOverflow: Bool = true,
                             @TagBuilder contentsWithIds: () -> [Tag]) {
@@ -27,14 +26,14 @@ public class Scrollspy: Component {
             div.style(set: .overflow("scroll"))
         }
         
-        self.init(containerId: id, offset: offset, div)
+        self.init(containerId: id, offset: pixelsFromTop, div)
     }
 
-    public init(containerId id: String, offset: Int = 10, _ div: Div) {
+    public init(containerId id: String, offset pixelsFromTop: Int = 10, _ div: Div) {
         _ = div
             .dataBsSpy(.scroll)
             .dataBsTarget(id)
-            .dataBsOffset(offset)
+            .dataBsOffset(pixelsFromTop)
             .tabindex(0)
         
         super.init(div)

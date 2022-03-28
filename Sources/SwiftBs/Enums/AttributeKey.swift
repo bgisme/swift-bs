@@ -7,12 +7,14 @@
 
 public enum AttributeKey: String {
     /// String Attributes
+    case ariaAtomic = "aria-atomic"
     case ariaControls = "aria-controls"
     case ariaCurrent = "aria-current"
     case ariaDescribedby = "aria-describedby"
     case ariaDisabled = "aria-disabled"
     case ariaLabel = "aria-label"
     case ariaLabelledBy = "aria-labelledby"
+    case ariaLlive = "aria-live"
     case ariaValuenow = "aria-valuenow"
     case ariaValuemin = "aria-valuemin"
     case ariaValuemax = "aria-valuemax"

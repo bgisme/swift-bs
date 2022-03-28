@@ -83,6 +83,11 @@ extension Tag: AttributeValuable {
 extension Tag {
     
     @discardableResult
+    public func ariaAtomic(_ value: Bool?, _ condition: Bool = true) -> Self {
+        attr(.ariaAtomic, String(value), condition)
+    }
+    
+    @discardableResult
     public func ariaControls(_ value: BsClass?, _ condition: Bool = true) -> Self {
         attr(.ariaControls, String(value), condition)
     }
@@ -133,6 +138,11 @@ extension Tag {
     @discardableResult
     public func ariaLabelledBy(_ value: String?, _ condition: Bool = true) -> Self {
         attr(.ariaLabelledBy, value, condition)
+    }
+    
+    @discardableResult
+    public func ariaLive(_ value: Politeness?, _ condition: Bool = true) -> Self {
+        attr(.ariaLlive, value?.rawValue, condition)
     }
     
     /// condition == true ... aria-pressed="true"

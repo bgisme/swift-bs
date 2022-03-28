@@ -13,6 +13,7 @@ public class CloseButton: Component {
         case alert
         case modal
         case offcanvas
+        case toast
         
         var `class`: BsClass {
             switch self {
@@ -22,6 +23,8 @@ public class CloseButton: Component {
                 return .modal
             case .offcanvas:
                 return .offcanvas
+            case .toast:
+                return .toast
             }
         }
     }
@@ -37,6 +40,14 @@ public class CloseButton: Component {
             .ariaLabel("Close")
 
         super.init(button)
+    }
+    
+    @discardableResult
+    public func dismiss(_ value: Dismiss, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .dataBsDismiss(value.class)
+        return self
     }
     
     @discardableResult

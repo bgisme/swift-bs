@@ -1515,6 +1515,11 @@ public enum BsClass: String {
     case textLight = "text-light"
     case textDark = "text-dark"
     
+    case toast
+    case toastHeader = "toast-header"
+    case toastBody = "toast-body"
+    case toastContainer = "toast-container"
+    
     case top0 = "top-0"
     
     case translateMiddle = "translate-middle"
