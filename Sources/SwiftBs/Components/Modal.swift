@@ -10,16 +10,14 @@ import SwiftHtml
 public class Modal: Component {
     
     /// contents ... see ModalContent
-    public convenience init(id: String,
-                            size: ModalDialog.Size? = nil,
-                            isScrollable: Bool = false,
-                            isCentered: Bool = false,
-                            @TagBuilder contents: () -> [Tag]) {
-        self.init(id: id) {
+    /// @NOTE: include contents parameter label to avoid func ambiguity
+    public convenience init(id: String, @TagBuilder contents: () -> [Tag]) {
+        let div = Div {
             ModalDialog {
                 contents()
             }
         }
+        self.init(id: id, div)
     }
     
     public convenience init(id: String, dialog: () -> ModalDialog) {
@@ -220,15 +218,15 @@ public class ModalFooter: Component {
         
     public convenience init(isCloseable: Bool, others: BsButton...) {
         self.init {
-                if isCloseable {
-                    BsButton {
-                        Button("Close").dataBsDismiss(.modal)
-                    }
-                    .border(.secondary)
+            if isCloseable {
+                BsButton {
+                    Button("Close").dataBsDismiss(.modal)
                 }
-                for other in others {
-                    other
-                }
+                .border(.secondary)
+            }
+            for other in others {
+                other
+            }
         }
     }
     
