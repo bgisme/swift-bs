@@ -68,6 +68,10 @@ public class ToastHeader: Component {
 
 public class ToastBody: Component {
     
+    public convenience init(div: () -> Div) {
+        self.init(div())
+    }
+    
     public init(_ div: Div) {
         div
             .class(insert: .toastBody)
