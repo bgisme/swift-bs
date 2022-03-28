@@ -134,44 +134,44 @@ public class NavbarBrand: Component {
 
 public class NavbarToggler: Component {
     
-    public convenience init(id: String,
-                            ariaLabel: String,
-                            isCollapseOffcanvas: Bool = false,
-                            isBordered: Bool = true) {
+    public convenience init(id: String, ariaLabel: String) {
         let button = Button {
             Span().class(insert: .navbarTogglerIcon)
         }
-        .style(set: .border("none"), if: !isBordered)
-        self.init(id: id,
-                  ariaLabel: ariaLabel,
-                  isCollapseOffcanvas: isCollapseOffcanvas,
-                  button)
+        self.init(id: id, ariaLabel: ariaLabel, button)
     }
     
-    public convenience init(id: String,
-                ariaLabel: String,
-                isCollapseOffcanvas: Bool = false,
-                button: () -> Button) {
-        self.init(id: id,
-                  ariaLabel: ariaLabel,
-                  isCollapseOffcanvas: isCollapseOffcanvas,
-                  button())
+    public convenience init(id: String, ariaLabel: String, button: () -> Button) {
+        self.init(id: id, ariaLabel: ariaLabel, button())
     }
     
-    public init(id: String,
-                ariaLabel: String,
-                isCollapseOffcanvas: Bool,
-                _ button: Button) {
+    public init(id: String, ariaLabel: String, _ button: Button) {
         button
             .class(insert: .navbarToggler)
             .type(.button)
-            .dataBsToggle(isCollapseOffcanvas ? .offcanvas : .collapse)
+            .dataBsToggle(.collapse)
             .dataBsTarget(id)
             .ariaControls(id)
             .ariaExpanded(false)
             .ariaLabel(ariaLabel)
         
         super.init(button)
+    }
+    
+    @discardableResult
+    public func isCollapseOffscreen(if condition: Bool = false) -> Self {
+        guard condition else { return self }
+        tag
+            .dataBsToggle(.offcanvas)
+        return self
+    }
+    
+    @discardableResult
+    public func isBorderless(if condition: Bool = false) -> Self {
+        guard condition else { return self }
+        tag
+            .style(set: .border("none"))
+        return self
     }
 }
 
@@ -203,9 +203,7 @@ public class NavbarNav: Component {
     }
     
     /// contents ... NavbarText, NavItemDropdown
-    public convenience init(scrollHeight pixels: Int? = nil,
-                            as type: TagType = .ul,
-                            @TagBuilder contents: () -> [Tag]) {
+    public convenience init(as type: TagType = .ul, @TagBuilder contents: () -> [Tag]) {
         let tag: Tag
         switch type {
         case .ol:
@@ -215,27 +213,23 @@ public class NavbarNav: Component {
         case .div:
             tag = Div { contents() }
         }
-        let isScrollable: Bool
-        let scrollHeight: CssKeyValue?
-        if let pixels = pixels, pixels < Int.max {
-            isScrollable = true
-            scrollHeight = CssKeyValue("--bs-scroll-height", "\(pixels)px")
-        } else {
-            isScrollable = false
-            scrollHeight = nil
-        }
-        self.init(isScrollable: isScrollable, scrollHeight: scrollHeight, tag)
+        self.init(tag)
     }
     
-    public init(isScrollable: Bool,
-                scrollHeight: CssKeyValue?,
-                _ tag: Tag) {
+    private override init(_ tag: Tag) {
         tag
             .class(insert: .navbarNav)
-            .class(insert: .navbarNavScroll, if: isScrollable)
-            .style(set: scrollHeight)
         
         super.init(tag)
+    }
+    
+    @discardableResult
+    public func isScrollable(pixelHeight: Int, _ condition : Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: .navbarNavScroll)
+            .style(set: CssKeyValue("--bs-scroll-height", "\(pixelHeight)px"))
+        return self
     }
 }
 
