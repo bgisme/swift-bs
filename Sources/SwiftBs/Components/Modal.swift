@@ -9,16 +9,16 @@ import SwiftHtml
 
 public class Modal: Component {
     
-    /// contents ... see ModalContent
-    /// @NOTE: include contents parameter label to avoid func ambiguity
-    public convenience init(id: String, @TagBuilder contents: () -> [Tag]) {
-        let div = Div {
-            ModalDialog {
-                contents()
-            }
-        }
-        self.init(id: id, div)
-    }
+//    /// contents ... see ModalContent
+//    /// @NOTE: include contents parameter label to avoid func ambiguity
+//    public convenience init(id: String, @TagBuilder contents: () -> [Tag]) {
+//        let div = Div {
+//            ModalDialog {
+//                contents()
+//            }
+//        }
+//        self.init(id: id, div)
+//    }
     
     public convenience init(id: String, dialog: () -> ModalDialog) {
         let div = Div { dialog() }
