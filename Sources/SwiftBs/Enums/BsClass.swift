@@ -100,6 +100,8 @@ public enum BsClass: String {
     case borderDark = "border-dark"
     case borderWhite = "border-white"
     
+    case borderTop = "border-top"
+    
     case bottom0 = "bottom-0"
     
     case breadcrumb
