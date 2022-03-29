@@ -80,6 +80,29 @@ public class BsButton: Component {
         }
         return self
     }
+    
+    @discardableResult
+    public func popover(title: String? = nil,
+                        content: String? = nil,
+                        direction: PopDirection? = nil,
+                        isClickDismissable: Bool = false,
+                        condition: Bool = true) -> Self {
+        guard condition else { return self }
+        if let title = title {
+            _ = tag.title(title)
+        }
+        tag
+            .dataBsContent(content)
+            .dataBsToggle(.popover)
+            .dataBsContainer(.body)
+            .dataBsPlacement(direction)
+        if isClickDismissable {
+            tag
+                .tabindex(0)
+                .dataBsTrigger(.focus)
+        }
+        return self
+    }
 }
 
 extension BsButton: Sizable {
