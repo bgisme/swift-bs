@@ -130,7 +130,7 @@ public class NavbarToggler: Component {
     
     public convenience init(id: String) {
         let button = Button {
-            Span().class(insert: .navbarTogglerIcon)
+            Span().class(insert: .navbarTogglerIcon).style(set: .border("none"))
         }
         self.init(id: id, button)
     }
