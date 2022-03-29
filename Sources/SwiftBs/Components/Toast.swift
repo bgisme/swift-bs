@@ -63,6 +63,7 @@ public class ToastContainer: Component {
         guard condition else { return self }
         tag
             .class(insert: value.classes)
+            .style(set: .position("fixed"))
             .style(set: .zIndex("11"))
         return self
     }
@@ -92,6 +93,7 @@ public class Toast: Component {
         guard condition else { return self }
         tag
             .class(insert: value.classes)
+            .style(set: .position("fixed"))
             .style(set: .zIndex("11"))
         return self
     }
