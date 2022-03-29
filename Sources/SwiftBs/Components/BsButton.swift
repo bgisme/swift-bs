@@ -85,7 +85,7 @@ public class BsButton: Component {
     public func popover(_ title: String? = nil,
                         content: String? = nil,
                         direction: PopDirection? = nil,
-                        triggers: Set<PopoverTrigger>? = nil,
+                        trigger: PopoverTrigger? = nil,
                         condition: Bool = true) -> Self {
         guard condition else { return self }
         if let title = title {
@@ -96,10 +96,10 @@ public class BsButton: Component {
             .dataBsToggle(.popover)
             .dataBsContainer(.body)
             .dataBsPlacement(direction)
-        if let triggers = triggers {
+        if let trigger = trigger {
             tag
                 .tabindex(0)
-                .dataBsTrigger(triggers)
+                .dataBsTrigger(trigger)
         }
         return self
     }
