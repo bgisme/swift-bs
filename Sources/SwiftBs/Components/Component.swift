@@ -86,6 +86,38 @@ public class Component: TagRepresentable {
         _ = tag.id(value)
         return self
     }
+
+    ///@NOTE: Popovers must be initialized via javascript (see Bootstrap documentation)
+    @discardableResult
+    public func popover(_ title: String,
+                        content: String,
+                        direction: PopDirection? = nil,
+                        if condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .title(title)
+            .dataBsContent(content)
+            .dataBsToggle(.popover)
+            .dataBsContainer(.body)
+        if let direction = direction {
+             tag
+                .dataBsPlacement(direction, condition)
+        }
+        return self
+    }
+    
+    ///@NOTE: Tooltips must be initialized via javascript (see Bootstrap documentation)
+    @discardableResult
+    public func toolTip(_ title: String, direction: PopDirection? = nil, _ condition: Bool = true) -> Self {
+        tag
+            .title(title)
+            .dataBsToggle(.tooltip)
+        if let direction = direction {
+             tag
+                .dataBsPlacement(direction, condition)
+        }
+        return self
+    }
 }
 
 extension Component: Bootstrapable {

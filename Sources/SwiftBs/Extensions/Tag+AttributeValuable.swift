@@ -195,6 +195,16 @@ extension Tag {
     }
     
     @discardableResult
+    public func dataBsContent(_ value: String?, _ condition: Bool = true) -> Self {
+        attr(.dataBsContent, value, condition)
+    }
+    
+    @discardableResult
+    public func dataBsContainer(_ value: DataContainer?, _ condition: Bool = true) -> Self {
+        attr(.dataBsContainer, value?.rawValue, condition)
+    }
+    
+    @discardableResult
     public func dataBsDelay(_ value: Int?, _ condition: Bool = true) -> Self {
         attr(.dataBsDelay, String(value), condition)
     }
@@ -227,6 +237,11 @@ extension Tag {
     @discardableResult
     public func dataBsOffset(_ value: Int?, _ condition: Bool = true) -> Self {
         attr(.dataBsOffset, String(value), condition)
+    }
+    
+    @discardableResult
+    public func dataBsPlacement(_ value: PopDirection?, _ condition: Bool = true) -> Self {
+        attr(.dataBsPlacement, value?.rawValue, condition)
     }
     
     @discardableResult

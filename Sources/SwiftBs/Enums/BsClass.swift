@@ -89,6 +89,8 @@ public enum BsClass: String {
     case blockquote
     case blockquoteFooter = "blockquote-footer"
     
+    case body
+    
     case border
     case borderPrimary = "border-primary"
     case borderSecondary = "border-secondary"
@@ -1045,6 +1047,8 @@ public enum BsClass: String {
     case placeholderSm = "placeholder-sm"
     case placeholderLg = "placeholder-lg"
     
+    case popover
+    
     case progress
     case progressbar
     case progressBarStriped = "progress-bar-striped"
@@ -1535,6 +1539,8 @@ public enum BsClass: String {
     
     case top0 = "top-0"
     case top50 = "top-50"
+    
+    case tooltip
     
     case translateMiddle = "translate-middle"
     case translateMiddleX = "translate-middle-x"
