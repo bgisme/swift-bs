@@ -90,7 +90,7 @@ public class Component: TagRepresentable {
     ///@NOTE: Popovers must be initialized via javascript (see Bootstrap documentation)
     @discardableResult
     public func popover(_ title: String,
-                        content: String?,
+                        content: String? = nil,
                         direction: PopDirection? = nil,
                         if condition: Bool = true) -> Self {
         guard condition else { return self }
