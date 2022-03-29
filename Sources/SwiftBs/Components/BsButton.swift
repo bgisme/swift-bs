@@ -82,7 +82,7 @@ public class BsButton: Component {
     }
     
     @discardableResult
-    public func popover(title: String? = nil,
+    public func popover(_ title: String? = nil,
                         content: String? = nil,
                         direction: PopDirection? = nil,
                         isClickDismissable: Bool = false,
