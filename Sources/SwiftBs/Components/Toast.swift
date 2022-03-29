@@ -113,7 +113,7 @@ public class Toast: Component {
     }
     
     @discardableResult
-    public func delay(_ milliseconds: Int, _ condition: Bool = true) -> Self {
+    public func autoHideDelay(_ milliseconds: Int, _ condition: Bool = true) -> Self {
         tag
             .dataBsDelay(milliseconds, condition)
         return self
