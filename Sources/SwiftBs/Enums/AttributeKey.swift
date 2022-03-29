@@ -35,6 +35,7 @@ public enum AttributeKey: String {
     case dataBsSlideTo = "data-bs-slide-to"
     case dataBsTarget = "data-bs-target"
     case dataBsToggle = "data-bs-toggle"
+    case dataBsTrigger = "data-bs-trigger"
     case dataBsSpy = "data-bs-spy"
     case disabled = "disabled"
     case grid

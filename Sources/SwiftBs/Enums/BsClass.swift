@@ -361,6 +361,8 @@ public enum BsClass: String {
     case flexXlFill = "flex-xl-fill"
     case flexXxlFill = "flex-xxl-fill"
     
+    case focus
+    
     case formCheck = "form-check"
     case formCheckInline = "form-check-inline"
     case formCheckInput = "form-check-input"

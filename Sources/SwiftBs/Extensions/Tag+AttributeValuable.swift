@@ -291,6 +291,11 @@ extension Tag {
     }
     
     @discardableResult
+    public func dataBsTrigger(_ value: BsClass?, _ condition: Bool = true) -> Self {
+        attr(.dataBsTrigger, String(value), condition)
+    }
+    
+    @discardableResult
     public func dataParent(_ value: String?, _ condition: Bool = true) -> Self {
         guard let value = value else { return self }
         return attr(.dataParent, "#" + value, condition)
