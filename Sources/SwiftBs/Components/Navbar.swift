@@ -152,7 +152,7 @@ public class NavbarToggler: Component {
     }
     
     @discardableResult
-    public func isCollapseOffscreen(if condition: Bool = false) -> Self {
+    public func isCollapseOffscreen(if condition: Bool = true) -> Self {
         guard condition else { return self }
         tag
             .dataBsToggle(.offcanvas)
@@ -160,7 +160,7 @@ public class NavbarToggler: Component {
     }
     
     @discardableResult
-    public func isBorderless(if condition: Bool = false) -> Self {
+    public func isBorderless(if condition: Bool = true) -> Self {
         guard condition else { return self }
         tag
             .style(set: .border("none"))

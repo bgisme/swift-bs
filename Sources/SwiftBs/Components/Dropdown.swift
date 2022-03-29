@@ -416,7 +416,7 @@ public class DropdownMenu: Component {
     }
     
     @discardableResult
-    public func align(_ value: Align?, _ condition: Bool = false) -> Self {
+    public func align(_ value: Align?, _ condition: Bool = true) -> Self {
         guard condition, let value = value else { return self }
         tag
             .class(insert: value.classes)
