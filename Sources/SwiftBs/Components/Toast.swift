@@ -88,7 +88,7 @@ public class Toast: Component {
     }
     
     @discardableResult
-    public func placement(_ value: Placement, _ condition: Bool = true) -> Self {
+    public func placement(_ value: ToastContainer.Placement, _ condition: Bool = true) -> Self {
         guard condition else { return self }
         tag
             .class(insert: value.classes)
