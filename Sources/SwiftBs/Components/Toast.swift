@@ -81,28 +81,48 @@ public class Toast: Component {
     public init(_ div: Div) {
         div
             .class(insert: .toast)
-            .role(.alert)
-            .ariaLive(.assertive)
+            .role(.status)
+            .ariaLive(.polite)
             .ariaAtomic(true)
         
         super.init(div)
     }
     
     @discardableResult
-    public func placement(_ value: ToastContainer.Placement, _ condition: Bool = true) -> Self {
-        guard condition else { return self }
+    public func isImportant(if condition: Bool = true) -> Self {
         tag
-            .class(insert: value.classes)
-            .style(set: .position("fixed"))
-            .style(set: .zIndex("11"))
+            .role(.alert, condition)
+            .ariaLive(.assertive, condition)
+        return self
+    }
+    
+    @discardableResult
+    public func placement(_ value: ToastContainer.Placement, _ condition: Bool = true) -> Self {
+        tag
+            .class(insert: value.classes, condition)
+            .style(set: .position("fixed"), if: condition)
+            .style(set: .zIndex("11"), if: condition)
         return self
     }
     
     @discardableResult
     public func text(_ value: TextColor, _ condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: value.class)
+            .class(insert: value.class, if: condition)
+        return self
+    }
+    
+    @discardableResult
+    public func delay(_ milliseconds: Int, _ condition: Bool = true) -> Self {
+        tag
+            .dataBsDelay(milliseconds, condition)
+        return self
+    }
+    
+    @discardableResult
+    public func isAutoHideOff(if condition: Bool = true) -> Self {
+        tag
+            .dataBsAutohide(true, condition)
         return self
     }
 }

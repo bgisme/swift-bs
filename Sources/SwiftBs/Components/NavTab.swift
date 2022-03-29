@@ -124,9 +124,8 @@ public class NavTab: Component {
     
     @discardableResult
     public func style(_ value: Style, _ condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: value.class)
+            .class(insert: value.class, if: condition)
         return self
     }
     
@@ -147,9 +146,8 @@ public class NavTab: Component {
     
     @discardableResult
     public func isCardHeaderTabs(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .cardHeaderTabs)
+            .class(insert: .cardHeaderTabs, if: condition)
         return self
     }
 }
@@ -206,18 +204,16 @@ public class NavLink: Component {
     
     @discardableResult
     public func isActive(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
             .class(insert: .active, if: condition)
-            .ariaCurrent(true)
+            .ariaCurrent(condition)
         return self
     }
     
     @discardableResult
     public func isDisabled(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .disabled)
+            .class(insert: .disabled, if: condition)
         return self
     }
     
@@ -357,7 +353,6 @@ public class NavItemDropdown: Component {
     
     @discardableResult
     public func isDark(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         menu.isDark(if: condition)
         return self
     }

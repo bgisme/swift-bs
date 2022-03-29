@@ -65,17 +65,15 @@ public class PageItem: Component {
     
     @discardableResult
     public func isActive(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .active)
+            .class(insert: .active, if: condition)
         return self
     }
     
     @discardableResult
     public func isDisabled(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .disabled)
+            .class(insert: .disabled, if: condition)
         return self
     }
 }

@@ -172,7 +172,6 @@ public class Dropdown: Component {
     
     @discardableResult
     public func size(_ value: Size, _ condition: Bool = true) -> Self {
-        guard condition else { return self }
         button.size(value, condition)
         return self
     }
@@ -251,9 +250,8 @@ public final class DropdownButton: Component {
     
     @discardableResult
     public func size(_ value: Size, _ condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: value.buttonClass)
+            .class(insert: value.buttonClass, if: condition)
         return self
     }
 }
@@ -409,9 +407,8 @@ public class DropdownMenu: Component {
     
     @discardableResult
     public func isDark(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .dropdownMenuDark)
+            .class(insert: .dropdownMenuDark, if: condition)
         return self
     }
     
@@ -461,16 +458,14 @@ public class DropdownItem: Component {
     
     @discardableResult
     public func isActive(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
             .class(insert: .active, if: condition)
-            .ariaCurrent(true)
+            .ariaCurrent(condition)
         return self
     }
     
     @discardableResult
     public func isDisabled(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
             .class(insert: .disabled, if: condition)
         return self

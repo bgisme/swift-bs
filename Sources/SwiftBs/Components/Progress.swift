@@ -58,17 +58,15 @@ public class Progressbar: Component {
     
     @discardableResult
     public func isStriped(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .progressBarStriped)
+            .class(insert: .progressBarStriped, if: condition)
         return self
     }
     
     @discardableResult
     public func isAnimated(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .progressBarAnimated)
+            .class(insert: .progressBarAnimated, if: condition)
         return self
     }
 }

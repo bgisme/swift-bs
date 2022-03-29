@@ -57,9 +57,8 @@ public class Offcanvas: Component {
     
     @discardableResult
     public func isBackgroundScrollable(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .dataBsScroll(true)
+            .dataBsScroll(true, condition)
 
         return self
     }
@@ -67,9 +66,8 @@ public class Offcanvas: Component {
     /// @NOTE: Background is dimmed by default. Use this to turn off dimming.
     @discardableResult
     public func isBackgroundVisible(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .dataBsBackdrop(false)
+            .dataBsBackdrop(false, condition)
         return self
     }
 }

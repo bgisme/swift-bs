@@ -27,19 +27,17 @@ public class Modal: Component {
     
     @discardableResult
     public func isFadable(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .fade)
+            .class(insert: .fade, if: condition)
         return self
     }
     
     /// clicking outside modal does not dismiss it
     @discardableResult
     public func isBackdropStatic(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .dataBsBackdrop(.static)
-            .dataBsKeyboard(false)
+            .dataBsBackdrop(.static, condition)
+            .dataBsKeyboard(false, condition)
         return self
     }
 }
@@ -100,25 +98,22 @@ public class ModalDialog: Component {
     
     @discardableResult
     public func size(_ value: Size, _ condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: value.rawValue)
+            .class(insert: value.rawValue, if: condition)
         return self
     }
     
     @discardableResult
     public func isScrollable(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .modalDialogScrollable)
+            .class(insert: .modalDialogScrollable, if: condition)
         return self
     }
     
     @discardableResult
     public func isCentered(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .modalDialogCentered)
+            .class(insert: .modalDialogCentered, if: condition)
         return self
     }
 }

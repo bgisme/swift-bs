@@ -94,8 +94,7 @@ public class Alert: Component {
     
     @discardableResult
     public override func alignItems(_ value: AlignItems, _ condition: Bool = true) -> Self {
-        guard condition else { return self }
-        self.class(insert: .dFlex)
+        self.class(insert: .dFlex, if: condition)
         super.alignItems(value, condition)
         return self
     }

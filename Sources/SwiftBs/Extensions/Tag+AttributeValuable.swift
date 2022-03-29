@@ -178,6 +178,11 @@ extension Tag {
     public func checked(_ condition: Bool = true) -> Self {
         attrFlag(.checked, condition)
     }
+    
+    @discardableResult
+    public func dataBsAutohide(_ value: Bool?, _ condition: Bool = true) -> Self {
+        attr(.dataBsAutohide, String(value), condition)
+    }
 
     @discardableResult
     public func dataBsBackdrop(_ value: BsClass?, _ condition: Bool = true) -> Self {
@@ -187,6 +192,11 @@ extension Tag {
     @discardableResult
     public func dataBsBackdrop(_ value: Bool?, _ condition: Bool = true) -> Self {
         attr(.dataBsBackdrop, String(value), condition)
+    }
+    
+    @discardableResult
+    public func dataBsDelay(_ value: Int?, _ condition: Bool = true) -> Self {
+        attr(.dataBsDelay, String(value), condition)
     }
 
     @discardableResult

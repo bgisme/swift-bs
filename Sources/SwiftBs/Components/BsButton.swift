@@ -46,18 +46,16 @@ public class BsButton: Component {
         
     @discardableResult
     public func isDisabled(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .disabled)
-            .ariaDisabled(true)
+            .class(insert: .disabled, if: condition)
+            .ariaDisabled(condition)
         return self
     }
     
     @discardableResult
     public func isBlockLevel(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .btnBlock)
+            .class(insert: .btnBlock, if: condition)
         return self
     }
     

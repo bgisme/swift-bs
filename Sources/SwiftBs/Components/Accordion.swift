@@ -45,9 +45,8 @@ public class Accordion: Component {
     
     @discardableResult
     public func isFlush(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .accordionFlush)
+            .class(insert: .accordionFlush, if: condition)
         return self
     }
 }
@@ -118,9 +117,8 @@ public class AccordionHeader: Component {
     
     @discardableResult
     public func isCollapsed(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .collapsed)
+            .class(insert: .collapsed, if: condition)
         return self
     }
 }
@@ -148,10 +146,9 @@ public class AccordionButton: Component {
     
     @discardableResult
     public func isCollapsed(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .collapsed)
-            .ariaExpanded(false)
+            .class(insert: .collapsed, if: condition)
+            .ariaExpanded(false, condition)
         return self
     }
 }
@@ -183,15 +180,13 @@ public class AccordionCollapse: Component {
     
     @discardableResult
     public func isExpanded(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .show)
+            .class(insert: .show, if: condition)
         return self
     }
     
     @discardableResult
     public func isAutoCollapsable(accordionId: String, _ condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
             .dataParent(accordionId, condition)
         return self

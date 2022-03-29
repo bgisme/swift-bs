@@ -44,41 +44,36 @@ public class Carousel: Component {
     
     @discardableResult
     public func interval(_ milliseconds: Int, _ condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .dataBsInterval(milliseconds)
+            .dataBsInterval(milliseconds, condition)
         return self
     }
     
     @discardableResult
     public func isCrossFadable(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .carouselFade)
+            .class(insert: .carouselFade, if: condition)
         return self
     }
     
     @discardableResult
     public func isDark(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .carouselDark)
+            .class(insert: .carouselDark, if: condition)
         return self
     }
     
     @discardableResult
     public func isAutoplayDisabled(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .dataBsInterval(false)
+            .dataBsInterval(false, condition)
         return self
     }
     
     @discardableResult
     public func isTouchDisabled(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .dataBsTouch(false)
+            .dataBsTouch(false, condition)
         return self
     }
 }

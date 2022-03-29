@@ -46,17 +46,15 @@ public class Component: TagRepresentable {
     
     @discardableResult
     public func ariaLabel(_ value: String, _ condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .ariaLabel(value)
+            .ariaLabel(value, condition)
         return self
     }
     
     @discardableResult
     public func alignItems(_ value: AlignItems, _ condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: value.class)
+            .class(insert: value.class, if: condition)
         return self
     }
 

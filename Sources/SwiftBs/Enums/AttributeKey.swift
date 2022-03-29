@@ -20,7 +20,9 @@ public enum AttributeKey: String {
     case ariaValuemax = "aria-valuemax"
     case `class`
     case dataParent = "data-bs-parent"
+    case dataBsAutohide = "data-bs-autohide"
     case dataBsBackdrop = "data-bs-backdrop"
+    case dataBsDelay = "data-bs-delay"
     case dataBsDisplay = "data-bs-display"
     case dataBsDismiss = "data-bs-dismiss"
     case dataBsOffset = "data-bs-offset"

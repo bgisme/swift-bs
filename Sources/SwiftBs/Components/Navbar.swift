@@ -67,17 +67,15 @@ public class Navbar: Component {
     
     @discardableResult
     public func placement(_ value: Placement, _ condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: value.class)
+            .class(insert: value.class, if: condition)
         return self
     }
     
     @discardableResult
     public func collapse(_ value: Size, _ condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: value.navbarExpand)
+            .class(insert: value.navbarExpand, if: condition)
         return self
     }
 }
@@ -153,17 +151,15 @@ public class NavbarToggler: Component {
     
     @discardableResult
     public func isCollapseOffscreen(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .dataBsToggle(.offcanvas)
+            .dataBsToggle(.offcanvas, condition)
         return self
     }
     
     @discardableResult
     public func isBorderless(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .style(set: .border("none"))
+            .style(set: .border("none"), if: condition)
         return self
     }    
 }
@@ -218,10 +214,9 @@ public class NavbarNav: Component {
     
     @discardableResult
     public func isScrollable(pixelHeight: Int, _ condition : Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .navbarNavScroll)
-            .style(set: CssKeyValue("--bs-scroll-height", "\(pixelHeight)px"))
+            .class(insert: .navbarNavScroll, if: condition)
+            .style(set: CssKeyValue("--bs-scroll-height", "\(pixelHeight)px"), if: condition)
         return self
     }
 }

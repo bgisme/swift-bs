@@ -67,10 +67,9 @@ public class CollapseButton: Component {
     
     @discardableResult
     public func isExpanded(if condition: Bool) -> Self {
-        guard condition else { return self }
         tag
-            .class(remove: .collapsed)
-            .ariaExpanded(true)
+            .class(remove: .collapsed, condition)
+            .ariaExpanded(true, condition)
         return self
     }
 }
@@ -105,17 +104,15 @@ public class CollapseContent: Component {
     
     @discardableResult
     public func isExpanded(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .show)
+            .class(insert: .show, if: condition)
         return self
     }
     
     @discardableResult
     public func isMultiCollapse(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .multiCollapse)
+            .class(insert: .multiCollapse, if: condition)
         return self
     }
 }

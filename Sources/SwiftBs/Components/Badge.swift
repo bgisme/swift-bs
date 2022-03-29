@@ -26,17 +26,15 @@ public class Badge: Component {
     
     @discardableResult
     public func isPositioned(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .positionAbsolute, .top0, .start100, .translateMiddle, .roundedPill)
+            .class(insert: .positionAbsolute, .top0, .start100, .translateMiddle, .roundedPill, if: condition)
         return self
     }
     
     @discardableResult
     public func isRounded(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .roundedPill)
+            .class(insert: .roundedPill, if: condition)
         return self
     }
 }

@@ -44,25 +44,22 @@ public class CloseButton: Component {
     
     @discardableResult
     public func dismiss(_ value: Dismiss, _ condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .dataBsDismiss(value.class)
+            .dataBsDismiss(value.class, condition)
         return self
     }
     
     @discardableResult
     public func isDisabled(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .flagAttribute("disabled", nil)
+            .flagAttribute("disabled", nil, condition)
         return self
     }
     
     @discardableResult
     public func isWhite(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .btnCloseWhite)
+            .class(insert: .btnCloseWhite, if: condition)
         return self
     }    
 }

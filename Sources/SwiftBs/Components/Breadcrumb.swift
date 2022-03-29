@@ -97,9 +97,8 @@ public class BreadcrumbListItem: Component {
     
     @discardableResult
     public func isActive(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .active)
+            .class(insert: .active, if: condition)
         return self
     }
 }

@@ -38,7 +38,6 @@ public class ListGroup: Component {
     
     @discardableResult
     public func isFlush(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
             .class(insert: .listGroupFlush, if: condition)
         return self
@@ -46,7 +45,6 @@ public class ListGroup: Component {
     
     @discardableResult
     public func isNumbered(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
             .class(insert: .listGroupNumbered, if: condition)
         return self
@@ -54,7 +52,6 @@ public class ListGroup: Component {
     
     @discardableResult
     public func isHorizontal(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
             .class(insert: .listGroupHorizontal, if: condition)
         return self
@@ -93,19 +90,17 @@ public class ListGroupItem: Component {
     
     @discardableResult
     public func isActive(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .active)
-            .ariaCurrent(true)
+            .class(insert: .active, if: condition)
+            .ariaCurrent(condition)
         return self
     }
     
     @discardableResult
     public func isDisabled(if condition: Bool = true) -> Self {
-        guard condition else { return self }
         tag
-            .class(insert: .disabled)
-            .ariaDisabled(true)
+            .class(insert: .disabled, if: condition)
+            .ariaDisabled(condition)
         return self
     }
     
