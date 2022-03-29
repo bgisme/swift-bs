@@ -125,8 +125,11 @@ public class ToastBody: Component {
         }
     }
     
-    public convenience init(div: () -> Div) {
-        self.init(div())
+    public convenience init(@TagBuilder contents: () -> [Tag]) {
+        let div = Div {
+            contents()
+        }
+        self.init(div)
     }
     
     public init(_ div: Div) {
