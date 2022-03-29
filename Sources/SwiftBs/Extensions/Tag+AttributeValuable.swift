@@ -291,8 +291,8 @@ extension Tag {
     }
     
     @discardableResult
-    public func dataBsTrigger(_ value: BsClass?, _ condition: Bool = true) -> Self {
-        attr(.dataBsTrigger, String(value), condition)
+    public func dataBsTrigger(_ values: Set<PopoverTrigger>?, _ condition: Bool = true) -> Self {
+        attr(.dataBsTrigger, values?.map{$0.rawValue}.joined(separator: " "), condition)
     }
     
     @discardableResult
