@@ -103,6 +103,7 @@ public class Component: TagRepresentable {
         return self
     }
     
+    
     ///@NOTE: Tooltips must be initialized via javascript (see Bootstrap documentation)
     @discardableResult
     public func toolTip(_ title: String, direction: PopDirection? = nil, _ condition: Bool = true) -> Self {
