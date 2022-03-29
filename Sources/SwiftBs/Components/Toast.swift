@@ -120,9 +120,9 @@ public class Toast: Component {
     }
     
     @discardableResult
-    public func isAutoHideOff(if condition: Bool = true) -> Self {
+    public func isManualClose(if condition: Bool = true) -> Self {
         tag
-            .dataBsAutohide(true, condition)
+            .dataBsAutohide(false, condition)
         return self
     }
 }
