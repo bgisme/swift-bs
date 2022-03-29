@@ -81,11 +81,17 @@ public class BsButton: Component {
         return self
     }
     
+    public enum Trigger: String {
+        case focus  // popover opens after click on button, closes after click outside button
+        case hover  // popover opens while hovering, close while not
+        case click  // popover toggles open and closed with clicks on button
+    }
+    
     @discardableResult
     public func popover(_ title: String? = nil,
                         content: String? = nil,
                         direction: PopDirection? = nil,
-                        trigger: PopoverTrigger? = nil,
+                        trigger: Trigger? = nil,
                         condition: Bool = true) -> Self {
         guard condition else { return self }
         if let title = title {
