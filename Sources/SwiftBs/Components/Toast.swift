@@ -119,6 +119,12 @@ public class ToastHeader: Component {
 
 public class ToastBody: Component {
     
+    public convenience init(_ text: String) {
+        self.init {
+            Div(text)
+        }
+    }
+    
     public convenience init(div: () -> Div) {
         self.init(div())
     }
