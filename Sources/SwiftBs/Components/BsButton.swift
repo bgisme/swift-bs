@@ -132,6 +132,8 @@ extension ColorTheme {
             return .btnLight
         case .dark:
             return .btnDark
+        case .white:
+            return .btnLight
         }
     }
     
@@ -153,6 +155,8 @@ extension ColorTheme {
             return .btnOutlineLight
         case .dark:
             return .btnOutlineDark
+        case .white:
+            return .btnOutlineLight
         }
     }
 }

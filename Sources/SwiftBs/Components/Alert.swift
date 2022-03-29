@@ -121,6 +121,8 @@ extension ColorTheme {
             return .alertLight
         case .dark:
             return .alertDark
+        case .white:
+            return .alertLight      // No white version
         }
     }
 }

@@ -1493,7 +1493,6 @@ public enum BsClass: String {
     
     case textDecorationUnderline = "text-decoration-underline"
     case textDecorationLineThrough = "text-decoration-line-through"
-    case textMuted = "text-muted"
     case textNowrap = "text-nowrap"
     case textTruncate = "text-truncate"
     
@@ -1515,15 +1514,19 @@ public enum BsClass: String {
     case textLgEnd = "text-lg-end"
     case textXlEnd = "text-xl-end"
     
-    case textWhite = "text-white"
     case textPrimary = "text-primary"
     case textSecondary = "text-secondary"
     case textSuccess = "text-success"
-    case textInfo = "text-info"
-    case textWarning = "text-warning"
     case textDanger = "text-danger"
+    case textWarning = "text-warning"
+    case textInfo = "text-info"
     case textLight = "text-light"
     case textDark = "text-dark"
+    case textWhite = "text-white"
+    case textWhite50 = "text-white-50"
+    case textBlack50 = "text-black-50"
+    case textBody = "text-body"
+    case textMuted = "text-muted"
     
     case toast
     case toastHeader = "toast-header"

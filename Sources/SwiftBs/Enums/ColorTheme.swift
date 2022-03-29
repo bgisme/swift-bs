@@ -14,6 +14,7 @@ public enum ColorTheme: String, CaseIterable {
     case info
     case light
     case dark
+    case white
 }
 
 extension ColorTheme {
@@ -36,6 +37,8 @@ extension ColorTheme {
             return .bgLight
         case .dark:
             return .bgDark
+        case .white:
+            return .bgWhite
         }
     }
     
@@ -57,27 +60,8 @@ extension ColorTheme {
             return .borderLight
         case .dark:
             return .borderDark
-        }
-    }
-    
-    public var textClass: BsClass {
-        switch self {
-        case .primary:
-            return .textPrimary
-        case .secondary:
-            return .textSecondary
-        case .success:
-            return .textSuccess
-        case .danger:
-            return .textDanger
-        case .warning:
-            return .textWarning
-        case .info:
-            return .textInfo
-        case .light:
-            return .textLight
-        case .dark:
-            return .textDark
+        case .white:
+            return .borderWhite
         }
     }
 }

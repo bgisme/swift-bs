@@ -97,6 +97,14 @@ public class Toast: Component {
             .style(set: .zIndex("11"))
         return self
     }
+    
+    @discardableResult
+    public func text(_ value: TextColor, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: value.class)
+        return self
+    }
 }
 
 public class ToastHeader: Component {
