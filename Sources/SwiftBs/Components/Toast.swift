@@ -9,8 +9,46 @@ import SwiftHtml
 
 public class ToastContainer: Component {
     
-    public convenience init(div: () -> Div) {
-        self.init(div())
+    public enum Placement {
+        case topLeft
+        case topCenter
+        case topRight
+        case middleLeft
+        case middleCenter
+        case middleRight
+        case bottomLeft
+        case bottomCenter
+        case bottomRight
+        
+        var classes: [BsClass] {
+            switch self {
+            case .topLeft:
+                return [.top0, .start0]
+            case .topCenter:
+                return [.top0, .start50, .translateMiddleX]
+            case .topRight:
+                return [.top0, .end0]
+            case .middleLeft:
+                return [.top50, .start0, .translateMiddleY]
+            case .middleCenter:
+                return [.top50, .start50, .translateMiddle]
+            case .middleRight:
+                return [.top50, .end0, .translateMiddleY]
+            case .bottomLeft:
+                return [.bottom0, .start0]
+            case .bottomCenter:
+                return [.bottom0, .start50, .translateMiddleX]
+            case .bottomRight:
+                return [.bottom0, .end0]
+            }
+        }
+    }
+        
+    public convenience init(@TagBuilder toasts: () -> [Tag]) {
+        let div = Div {
+            toasts()
+        }
+        self.init(div)
     }
     
     public init(_ div: Div) {
@@ -18,6 +56,15 @@ public class ToastContainer: Component {
             .class(insert: .toastContainer)
         
         super.init(div)
+    }
+    
+    @discardableResult
+    public func placement(_ value: Placement, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: value.classes)
+            .style(set: .zIndex("11"))
+        return self
     }
 }
 
@@ -41,9 +88,11 @@ public class Toast: Component {
     }
     
     @discardableResult
-    public func id(_ value: String?, _ condition: Bool = true) -> Self {
-        guard condition, let value = value else { return self }
-        _ = tag.id(value)
+    public func placement(_ value: Placement, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: value.classes)
+            .style(set: .zIndex("11"))
         return self
     }
 }

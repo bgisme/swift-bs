@@ -100,6 +100,8 @@ public enum BsClass: String {
     case borderDark = "border-dark"
     case borderWhite = "border-white"
     
+    case bottom0 = "bottom-0"
+    
     case breadcrumb
     case breadcrumbItem = "breadcrumb-item"
     
@@ -308,6 +310,8 @@ public enum BsClass: String {
     case dropup
     case dropstart
     
+    // MARK: -E
+    case end0 = "end-0"
     
     // MARK: - F
     case fade
@@ -1452,6 +1456,8 @@ public enum BsClass: String {
     
     case srOnly = "sr-only"
     
+    case start0 = "start-0"
+    case start50 = "start-50"
     case start100 = "start-100"
     
     case `static`
@@ -1521,9 +1527,12 @@ public enum BsClass: String {
     case toastContainer = "toast-container"
     
     case top0 = "top-0"
+    case top50 = "top-50"
     
     case translateMiddle = "translate-middle"
-    
+    case translateMiddleX = "translate-middle-x"
+    case translateMiddleY = "translate-middle-y"
+
     case trClickable = "tr-clickable"
     
     // MARK: - V

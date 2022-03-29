@@ -43,6 +43,22 @@ public class Component: TagRepresentable {
     public func build() -> Tag {
         tag
     }
+    
+    @discardableResult
+    public func ariaLabel(_ value: String, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .ariaLabel(value)
+        return self
+    }
+    
+    @discardableResult
+    public func alignItems(_ value: AlignItems, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        tag
+            .class(insert: value.class)
+        return self
+    }
 
     @discardableResult
     public func background(_ value: ColorTheme?, _ condition: Bool = true) -> Self {
@@ -67,18 +83,9 @@ public class Component: TagRepresentable {
     }
     
     @discardableResult
-    public func ariaLabel(_ value: String, _ condition: Bool = true) -> Self {
-        guard condition else { return self }
-        tag
-            .ariaLabel(value)
-        return self
-    }
-    
-    @discardableResult
-    public func alignItems(_ value: AlignItems, _ condition: Bool = true) -> Self {
-        guard condition else { return self }
-        tag
-            .class(insert: value.class)
+    public func id(_ value: String?, _ condition: Bool = true) -> Self {
+        guard condition, let value = value else { return self }
+        _ = tag.id(value)
         return self
     }
 }
