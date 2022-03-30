@@ -245,6 +245,11 @@ extension Tag {
     }
     
     @discardableResult
+    public func dataBsOriginalTitle(_ value: String?, _ condition: Bool = true) -> Self {
+        attr(.dataBsOriginalTitle, value, condition)
+    }
+    
+    @discardableResult
     public func dataBsPlacement(_ value: PopDirection?, _ condition: Bool = true) -> Self {
         attr(.dataBsPlacement, value?.rawValue, condition)
     }

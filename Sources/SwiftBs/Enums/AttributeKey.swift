@@ -29,6 +29,7 @@ public enum AttributeKey: String {
     case dataBsDisplay = "data-bs-display"
     case dataBsDismiss = "data-bs-dismiss"
     case dataBsOffset = "data-bs-offset"
+    case dataBsOriginalTitle = "data-bs-original-title"
     case dataBsPlacement = "data-bs-placement"
     case dataBsRide = "data-bs-ride"
     case dataBsScroll = "data-bs-scroll"
