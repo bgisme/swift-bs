@@ -23,30 +23,30 @@ public class Placeholder: Component {
         }
     }
     
-    public convenience init(tag: () -> Tag) {
-        self.init(tag())
-    }
-    
-    public override init(_ tag: Tag) {
-        tag
-            .class(insert: Size.md.placeholderClass)
-        
-        super.init(tag)
-    }
-    
-    @discardableResult
-    public func width(_ value: Width, _ condition: Bool = true) -> Self {
-        tag
-            .class(insert: value.class, if: condition)
-        return self
-    }
-    
-    @discardableResult
-    public func size(_ value: Size, _ condition: Bool = true) -> Self {
-        tag
-            .class(insert: value.placeholderClass, if: condition)
-        return self
-    }    
+//    public convenience init(tag: () -> Tag) {
+//        self.init(tag())
+//    }
+//
+//    public override init(_ tag: Tag) {
+//        tag
+//            .class(insert: Size.md.placeholderClass)
+//
+//        super.init(tag)
+//    }
+//
+//    @discardableResult
+//    public func width(_ value: Width, _ condition: Bool = true) -> Self {
+//        tag
+//            .class(insert: value.class, if: condition)
+//        return self
+//    }
+//
+//    @discardableResult
+//    public func size(_ value: Size, _ condition: Bool = true) -> Self {
+//        tag
+//            .class(insert: value.placeholderClass, if: condition)
+//        return self
+//    }
 }
 
 extension Size {
@@ -62,5 +62,21 @@ extension Size {
         case .lg, .xl, .xxl:
             return .placeholderLg
         }
+    }
+}
+
+extension Tag {
+    
+    @discardableResult
+    public func isPlaceholder(size: Size? = nil, animation: Placeholder.Animation? = nil) -> Self {
+        var classes = [Size.md.placeholderClass]
+        if let size = size, size != .md {
+            classes += [size.placeholderClass]
+        }
+        if let animation = animation {
+            classes += [animation.class]
+        }
+        self.class(insert: classes)
+        return self
     }
 }
