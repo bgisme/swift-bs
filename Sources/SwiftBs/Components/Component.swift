@@ -116,7 +116,7 @@ public class Component: TagRepresentable {
             .title("")
             .dataBsOriginalTitle(title)
             .dataBsToggle(.tooltip)
-            .dataBsHtml(isHTML)
+            .dataBsHtml(isHTML, isHTML)
         if let direction = direction {
              tag
                 .dataBsPlacement(direction, condition)
