@@ -70,12 +70,14 @@ extension Tag {
     @discardableResult
     public func isPlaceholder(width: Width,
                               size: Size? = nil,
+                              color: ColorTheme? = nil,
                               if condition: Bool = true) -> Self {
         // the class tag 'placeholder' is only used when followed by width (unless width is specified in style attribute)
         self
             .class(insert: Size.md.placeholderClass, if: condition)
             .class(insert: width.class, if: condition)
             .class(insert: size?.placeholderClass, if: condition)
+            .class(insert: color?.backgroundClass, if: condition)
         return self
     }
     
