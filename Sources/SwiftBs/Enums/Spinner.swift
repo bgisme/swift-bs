@@ -33,12 +33,13 @@ public class Spinner: Component {
         }
     }
     
-    public convenience init(style: Style, isSmall: Bool = false) {
+    /// @Note: Supply text and <span> will be inserted into <div>
+    public convenience init(_ text: String? = nil, style: Style, isSmall: Bool = false) {
         let div = Div {
-            Span {
-                Text("...Loading")
+            if let text = text {
+                Span(text)
+                    .class(insert: .visuallyHidden)
             }
-            .class(insert: .visuallyHidden)
         }
         self.init(style: style, isSmall: isSmall, div)
     }
