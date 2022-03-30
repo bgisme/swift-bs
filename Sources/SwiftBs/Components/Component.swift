@@ -97,10 +97,11 @@ public class Component: TagRepresentable {
     @discardableResult
     public func popover(_ title: String? = nil,
                         content: String? = nil,
+                        isHTML: Bool = false,
                         direction: PopDirection? = nil,
-                        triggers: Set<Trigger>? = nil,
+                        triggers: Set<Component.Trigger>? = nil,
                         condition: Bool = true) -> Self {
-        tag.popover(title, content: content, direction: direction, triggers: triggers, condition: condition)
+        tag.popover(title, content: content, isHTML: isHTML, direction: direction, triggers: triggers, condition: condition)
         return self
     }
     
@@ -149,7 +150,6 @@ extension Tag {
         return self
     }
 }
-
 
 extension Component: Bootstrapable {
     
