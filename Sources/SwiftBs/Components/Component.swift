@@ -98,9 +98,9 @@ public class Component: TagRepresentable {
     public func popover(_ title: String? = nil,
                         content: String? = nil,
                         direction: PopDirection? = nil,
-                        trigger: Trigger? = nil,
+                        triggers: Set<Trigger>? = nil,
                         condition: Bool = true) -> Self {
-        tag.popover(title, content: content, direction: direction, trigger: trigger, condition: condition)
+        tag.popover(title, content: content, direction: direction, triggers: triggers, condition: condition)
         return self
     }
     
@@ -126,7 +126,7 @@ extension Tag {
     public func popover(_ title: String? = nil,
                         content: String? = nil,
                         direction: PopDirection? = nil,
-                        trigger: Component.Trigger? = nil,
+                        triggers: Set<Component.Trigger>? = nil,
                         condition: Bool = true) -> Self {
         guard condition else { return self }
         if let title = title {
@@ -137,10 +137,10 @@ extension Tag {
             .dataBsToggle(.popover)
             .dataBsContainer(.body)
             .dataBsPlacement(direction)
-        if let trigger = trigger {
+        if let triggers = triggers {
             self
                 .tabindex(0)
-                .dataBsTrigger(trigger)
+                .dataBsTrigger(triggers)
         }
         return self
     }
