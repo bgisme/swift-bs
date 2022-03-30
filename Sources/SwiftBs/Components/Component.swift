@@ -120,6 +120,8 @@ public class Component: TagRepresentable {
 
 extension Tag {
     
+    /* This extension on Tag is intended solely for the purposes of allowing a <span>
+     around a disabled button or other basic elements to handle popovers */
     @discardableResult
     public func popover(_ title: String? = nil,
                         content: String? = nil,
