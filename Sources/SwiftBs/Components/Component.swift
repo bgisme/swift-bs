@@ -105,10 +105,11 @@ public class Component: TagRepresentable {
         return self
     }
     
-    ///@NOTE: Tooltips must be initialized via javascript (see Bootstrap documentation)
+    ///@NOTE: Tooltips must be initialized via javascript (see Bootstrap documentation).
+    ///Do not set isHTML = true if worried about XSS attacks.
     @discardableResult
     public func tooltip(_ title: String,
-                        isHTML: Bool = true,
+                        isHTML: Bool = false,
                         direction: PopDirection? = nil,
                         _ condition: Bool = true) -> Self {
         tag
