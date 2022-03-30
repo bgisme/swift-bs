@@ -1464,6 +1464,11 @@ public enum BsClass: String {
     
     case small
     
+    case spinnerBorder = "spinner-border"
+    case spinnerGrow = "spinner-grow"
+    case spinnerBorderSm = "spinner-border-sm"
+    case spinnerGrowSm = "spinner-grow-sm"
+    
     case srOnly = "sr-only"
     
     case start0 = "start-0"
