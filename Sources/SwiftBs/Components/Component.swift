@@ -52,6 +52,13 @@ public class Component: TagRepresentable {
     }
     
     @discardableResult
+    public func ariaHidden(if condition: Bool = true) -> Self {
+        tag
+            .ariaHidden()
+        return self
+    }
+    
+    @discardableResult
     public func alignItems(_ value: AlignItems, _ condition: Bool = true) -> Self {
         tag
             .class(insert: value.class, if: condition)
