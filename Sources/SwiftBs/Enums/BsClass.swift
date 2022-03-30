@@ -612,6 +612,11 @@ public enum BsClass: String {
     case modalLg = "modal-lg"
     case modalXl = "modal-xl"
     
+    case m1 = "m-1"
+    case m2 = "m-2"
+    case m3 = "m-3"
+    case m4 = "m-4"
+    case m5 = "m-5"
     case mAuto = "m-auto"
     
     case mt0 = "mt-0"
