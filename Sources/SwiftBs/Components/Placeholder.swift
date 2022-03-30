@@ -23,6 +23,11 @@ public class Placeholder: Component {
         }
     }
     
+    public convenience init() {
+        let span = Span()
+        self.init(span)
+    }
+    
     public init(_ span: Span) {
         span
             .class(insert: Size.md.placeholderClass)
