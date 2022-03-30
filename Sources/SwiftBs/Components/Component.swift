@@ -100,20 +100,7 @@ public class Component: TagRepresentable {
                         direction: PopDirection? = nil,
                         trigger: Trigger? = nil,
                         condition: Bool = true) -> Self {
-        guard condition else { return self }
-        if let title = title {
-            _ = tag.title(title)
-        }
-        tag
-            .dataBsContent(content)
-            .dataBsToggle(.popover)
-            .dataBsContainer(.body)
-            .dataBsPlacement(direction)
-        if let trigger = trigger {
-            tag
-                .tabindex(0)
-                .dataBsTrigger(trigger)
-        }
+        tag.popover(title, content: content, direction: direction, trigger: trigger, condition: condition)
         return self
     }
     
@@ -126,6 +113,32 @@ public class Component: TagRepresentable {
         if let direction = direction {
              tag
                 .dataBsPlacement(direction, condition)
+        }
+        return self
+    }
+}
+
+extension Tag {
+    
+    @discardableResult
+    public func popover(_ title: String? = nil,
+                        content: String? = nil,
+                        direction: PopDirection? = nil,
+                        trigger: Component.Trigger? = nil,
+                        condition: Bool = true) -> Self {
+        guard condition else { return self }
+        if let title = title {
+            _ = self.title(title)
+        }
+        self
+            .dataBsContent(content)
+            .dataBsToggle(.popover)
+            .dataBsContainer(.body)
+            .dataBsPlacement(direction)
+        if let trigger = trigger {
+            self
+                .tabindex(0)
+                .dataBsTrigger(trigger)
         }
         return self
     }
