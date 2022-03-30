@@ -74,6 +74,7 @@ extension Tag {
         // the class tag 'placeholder' is only used when followed by width (unless width is specified in style attribute)
         self
             .class(insert: Size.md.placeholderClass, if: condition)
+            .class(insert: width.class, if: condition)
             .class(insert: size?.placeholderClass, if: condition)
         return self
     }
