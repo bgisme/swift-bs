@@ -132,6 +132,34 @@ public class CardHeader: Component {
     }
 }
 
+public class CardImgTop: Component {
+    
+    public convenience init(img: () -> Img) {
+        self.init(img())
+    }
+    
+    public init(_ img: Img) {
+        img
+            .class(insert: .cardImgTop)
+        
+        super.init(img)
+    }
+}
+
+public class CardImgBottom: Component {
+    
+    public convenience init(img: () -> Img) {
+        self.init(img())
+    }
+    
+    public init(_ img: Img) {
+        img
+            .class(insert: .cardImgBottom)
+        
+        super.init(img)
+    }
+}
+
 public class CardBody: Component {
     
     public convenience init(_ text: String) {
