@@ -23,9 +23,8 @@ public class Placeholder: Component {
         }
     }
     
-    public convenience init() {
-        let span = Span()
-        self.init(span)
+    public convenience init(tag: () -> Tag) {
+        self.init(tag())
     }
     
     public override init(_ tag: Tag) {
