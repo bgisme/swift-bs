@@ -37,8 +37,7 @@ public class Spinner: Component {
     public convenience init(_ text: String? = nil, style: Style, isSmall: Bool = false) {
         let div = Div {
             if let text = text {
-                Span(text)
-                    .class(insert: .visuallyHidden)
+                Span(text).class(insert: .visuallyHidden)
             }
         }
         self.init(style: style, isSmall: isSmall, div)
