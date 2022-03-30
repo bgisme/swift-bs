@@ -8,7 +8,7 @@ final class CarouselTests: XCTestCase {
     /// class contains 'carousel' and 'slide'
     /// data-bs-ride = "carousel"
     func testCarousel() throws {
-        let classes: [BsClass] = [.mt3, .bgPrimary]
+        let classes: [Utility] = [.mt3, .bgPrimary]
         let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")].compactMap{$0}
         let id = "id"
         let tag = Carousel(id: id) {
@@ -31,7 +31,7 @@ final class CarouselTests: XCTestCase {
             XCTFail()
         }
         if let dataBsRide = tag.value(.dataBsRide) {
-            XCTAssert(dataBsRide == BsClass.carousel.rawValue)
+            XCTAssert(dataBsRide == Utility.carousel.rawValue)
         } else {
             XCTFail()
         }
@@ -77,7 +77,7 @@ final class CarouselTests: XCTestCase {
             .interval(interval)
             .build()
         if let dataBsRide = tagNotDisabled.value(.dataBsRide) {
-            XCTAssert(dataBsRide == BsClass.carousel.rawValue)
+            XCTAssert(dataBsRide == Utility.carousel.rawValue)
         } else {
             XCTFail()
         }
@@ -117,7 +117,7 @@ final class CarouselTests: XCTestCase {
     }
     
     func testCarouselInner() throws {
-        let classes: [BsClass] = [.mt3, .bgPrimary]
+        let classes: [Utility] = [.mt3, .bgPrimary]
         let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")].compactMap{$0}
         let tag = CarouselInner { Div{} }
             .class(insert: classes)
@@ -136,7 +136,7 @@ final class CarouselTests: XCTestCase {
     }
     
     func testCarouselItem() throws {
-        let classes: [BsClass] = [.mt3, .bgPrimary]
+        let classes: [Utility] = [.mt3, .bgPrimary]
         let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")].compactMap{$0}
         let tag = CarouselItem(Img(src: "", alt: "Slide 1"),
                                caption: CarouselCaption("caption title", "caption text"),
@@ -162,7 +162,7 @@ final class CarouselTests: XCTestCase {
     
     func testCarouselControl() throws {
         let id = "id"
-        let classes: [BsClass] = [.mt3, .bgPrimary]
+        let classes: [Utility] = [.mt3, .bgPrimary]
         let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")].compactMap{$0}
         let prevTag = CarouselControl(.prev, carouselId: id)
             .class(insert: classes)
@@ -209,7 +209,7 @@ final class CarouselTests: XCTestCase {
     }
     
     func testCarouselCaption() throws {
-        let classes: [BsClass] = [.mt3, .bgPrimary]
+        let classes: [Utility] = [.mt3, .bgPrimary]
         let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")].compactMap{$0}
         let tag = CarouselCaption("title", "text")
             .class(insert: classes)
@@ -225,7 +225,7 @@ final class CarouselTests: XCTestCase {
     }
     
     func testCarouselIndicator() throws {
-        let classes: [BsClass] = [.mt3, .bgPrimary]
+        let classes: [Utility] = [.mt3, .bgPrimary]
         let styles: [CssKeyValue] = [.marginTop("3"), .backgroundColor("blue")].compactMap{$0}
         let id = "id"
         let index = 9
@@ -236,7 +236,7 @@ final class CarouselTests: XCTestCase {
             .style(set: styles)
             .build()
         if let type = tag.value("type") {
-            XCTAssert(type == BsClass.button.rawValue)
+            XCTAssert(type == Utility.button.rawValue)
         } else {
             XCTFail()
         }

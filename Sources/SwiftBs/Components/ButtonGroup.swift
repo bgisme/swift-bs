@@ -45,7 +45,7 @@ public class ButtonGroup: Component {
         case xl
         case xxl
         
-        var buttonGroupClass: BsClass {
+        var buttonGroupClass: Utility {
             switch self {
             case .sm:
                 return .btnGroupSm

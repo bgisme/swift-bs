@@ -11,7 +11,7 @@ extension Tag {
         node.attributes.contains(where: { $0.key == key.rawValue })
     }
     
-    func has(_ classes: [BsClass]) -> Bool {
+    func has(_ classes: [Utility]) -> Bool {
         guard !classes.isEmpty else { return true }
         guard let classValue = value(.class), !classValue.isEmpty else { return false }
         return classValue.has(classes)

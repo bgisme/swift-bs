@@ -55,7 +55,7 @@ public class ModalDialog: Component {
         case fullscreenXlDown
         case fullscreenXxlDown
         
-        var rawValue: BsClass {
+        var rawValue: Utility {
             switch self {
             case .sm:
                 return .modalSm

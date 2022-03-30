@@ -37,7 +37,7 @@ public enum AlignItems: CaseIterable {
     case xxlBaseline
     case xxlStretch
     
-    var `class`: BsClass {
+    var `class`: Utility {
         switch self {
         case .start: return .alignItemsStart
         case .end: return .alignItemsEnd

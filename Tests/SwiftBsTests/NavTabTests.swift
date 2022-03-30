@@ -9,6 +9,6 @@ final class NavTabTests: XCTestCase {
         XCTFail()
         
         let tag = NavTab { Ol() }.build()
-        XCTAssert(tag.value(.class) == BsClass.nav.rawValue)
+        XCTAssert(tag.value(.class) == Utility.nav.rawValue)
     }
 }

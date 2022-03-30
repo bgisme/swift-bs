@@ -20,7 +20,7 @@ public enum TextColor {
     case body
     case muted
     
-    var `class`: BsClass {
+    var `class`: Utility {
         switch self {
         case .primary:
             return .textPrimary

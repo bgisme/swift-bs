@@ -26,7 +26,7 @@ extension String {
         return value + String.styleSeparator
     }
     
-    public static func classValue(_ classes: [BsClass]) -> String {
+    public static func classValue(_ classes: [Utility]) -> String {
         Self.classValue(classes.map{ $0.rawValue })
     }
     
@@ -49,11 +49,11 @@ extension String {
         self.split(separator: " ").map({ String($0) })
     }
     
-    public var bsClasses: [BsClass] {
-        classes.compactMap{ BsClass.init(rawValue: $0) }
+    public var bsClasses: [Utility] {
+        classes.compactMap{ Utility.init(rawValue: $0) }
     }
     
-    public func add(_ classes: [BsClass]) -> String {
+    public func add(_ classes: [Utility]) -> String {
         let existing = self.classes
         let merged = existing + classes.map{$0.rawValue}.filter{ !existing.contains($0) }
         return Self.classValue(merged)
@@ -68,7 +68,7 @@ extension String {
         return String.styleValue(merged)
     }
     
-    public func remove(_ classes: [BsClass]) -> String {
+    public func remove(_ classes: [Utility]) -> String {
         let strClasses = classes.map{ $0.rawValue }
         return self.classes.filter{ !strClasses.contains($0) }.joined(separator: " ")
     }
@@ -78,11 +78,11 @@ extension String {
 
 extension String {
     
-    public init(_ `class`: BsClass) {
+    public init(_ `class`: Utility) {
         self.init(`class`.rawValue)
     }
     
-    public init?(_ `class`: BsClass?) {
+    public init?(_ `class`: Utility?) {
         guard let `class` = `class` else { return nil }
         self.init(`class`.rawValue)
     }

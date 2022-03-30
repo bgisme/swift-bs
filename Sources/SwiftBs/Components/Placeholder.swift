@@ -13,7 +13,7 @@ public class Placeholder: Component {
         case glow
         case wave
         
-        var `class`: BsClass {
+        var `class`: Utility {
             switch self {
             case .glow:
                 return .placeholderGlow
@@ -51,7 +51,7 @@ public class Placeholder: Component {
 
 extension Size {
     
-    var placeholderClass: BsClass {
+    var placeholderClass: Utility {
         switch self {
         case .xs:
             return .placeholderXs

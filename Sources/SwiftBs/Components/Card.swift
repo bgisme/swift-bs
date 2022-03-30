@@ -76,7 +76,7 @@ public class CardImageOverlay: TagRepresentable {
 public class CardHeader: Component {
     
     public convenience init(navTab: () -> NavTab) {
-        let cardNav: BsClass?
+        let cardNav: Utility?
         switch navTab().style {
         case .pills:
             cardNav = .cardHeaderPills

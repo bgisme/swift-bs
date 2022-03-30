@@ -22,7 +22,7 @@ public enum AlignText: CaseIterable {
     case endLg
     case endXl
 
-    var `class`: BsClass {
+    var `class`: Utility {
         switch self {
         case .start: return .textStart
         case .startSm: return .textSmStart

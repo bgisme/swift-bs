@@ -14,7 +14,7 @@ public class Navbar: Component {
         case fixedTop
         case stickyTop  // May not be supported by every browser
         
-        var `class`: BsClass {
+        var `class`: Utility {
             switch self {
             case .fixedBottom:
                 return .fixedBottom
@@ -50,7 +50,7 @@ public class Navbar: Component {
     @discardableResult
     public func isDark(if condition: Bool = true) -> Self {
         guard condition else { return self }
-        _ = self.tag.class(remove: BsClass.navbarLight)
+        _ = self.tag.class(remove: Utility.navbarLight)
         tag
             .class(insert: .navbarDark)
         return self
@@ -59,7 +59,7 @@ public class Navbar: Component {
     @discardableResult
     public func isLight(if condition: Bool = true) -> Self {
         guard condition else { return self }
-        _ = self.tag.class(remove: BsClass.navbarDark)
+        _ = self.tag.class(remove: Utility.navbarDark)
         tag
             .class(insert: .navbarLight)
         return self
@@ -82,7 +82,7 @@ public class Navbar: Component {
 
 extension Size {
     
-    var navbarExpand: BsClass {
+    var navbarExpand: Utility {
         switch self {
         case .xs, .sm:
             return .navbarExpandSm

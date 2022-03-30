@@ -100,7 +100,7 @@ public class PageLink: Component {
 
 extension Size {
     
-    var paginationClass: BsClass {
+    var paginationClass: Utility {
         switch self {
         case .xs, .sm:
             return .paginationSm

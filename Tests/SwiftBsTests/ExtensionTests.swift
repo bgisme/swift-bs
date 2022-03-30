@@ -5,7 +5,7 @@ import XCTest
 final class ExtensionTests: XCTestCase {
 
     func testAddClassesStyles() throws {
-        let classes: [BsClass] = [.btn, .btnPrimary]
+        let classes: [Utility] = [.btn, .btnPrimary]
         let styles: [CssKeyValue] = [.width("100px"), .height("25px")].compactMap{$0}
         let component = BsButton { Button("Test") }
         _ = component.class(insert: classes)
@@ -14,7 +14,7 @@ final class ExtensionTests: XCTestCase {
         XCTAssert(tag.has(classes))
         XCTAssert(tag.has(styles))
         
-        let emptyClasses: [BsClass] = []
+        let emptyClasses: [Utility] = []
         let emptyStyles: [CssKeyValue] = []
         let tagB = Button()
             .class(insert: emptyClasses)

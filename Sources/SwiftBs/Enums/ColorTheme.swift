@@ -19,7 +19,7 @@ public enum ColorTheme: String, CaseIterable {
 
 extension ColorTheme {
         
-    public var backgroundClass: BsClass {
+    public var backgroundClass: Utility {
         switch self {
         case .primary:
             return .bgPrimary
@@ -42,7 +42,7 @@ extension ColorTheme {
         }
     }
     
-    public var borderClass: BsClass {
+    public var borderClass: Utility {
         switch self {
         case .primary:
             return .borderPrimary
@@ -65,7 +65,7 @@ extension ColorTheme {
         }
     }
     
-    public var textClass: BsClass {
+    public var textClass: Utility {
         switch self {
         case .primary:
             return .textPrimary

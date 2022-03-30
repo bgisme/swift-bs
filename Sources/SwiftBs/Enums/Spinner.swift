@@ -14,7 +14,7 @@ public class Spinner: Component {
         case border
         case grow
         
-        public var `class`: BsClass {
+        public var `class`: Utility {
             switch self {
             case .border:
                 return .spinnerBorder
@@ -23,7 +23,7 @@ public class Spinner: Component {
             }
         }
         
-        public var smallClass: BsClass {
+        public var smallClass: Utility {
             switch self {
             case .border:
                 return .spinnerBorderSm

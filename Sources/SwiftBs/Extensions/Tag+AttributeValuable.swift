@@ -22,12 +22,12 @@ extension Tag: AttributeValuable {
     }
 
     @discardableResult
-    public func `class`(insert classes: BsClass?..., if condition: Bool = true) -> Self {
+    public func `class`(insert classes: Utility?..., if condition: Bool = true) -> Self {
         self.class(insert: classes.compactMap{$0}, condition)
     }
     
     @discardableResult
-    public func `class`(insert classes: [BsClass]?, _ condition: Bool = true) -> Self {
+    public func `class`(insert classes: [Utility]?, _ condition: Bool = true) -> Self {
         guard condition, let classes = classes, !classes.isEmpty else { return self }
         let value: String
         if let existing = self.value(.class) {
@@ -39,13 +39,13 @@ extension Tag: AttributeValuable {
     }
     
     @discardableResult
-    public func `class`(remove value: BsClass?, _ condition: Bool = true) -> Self {
+    public func `class`(remove value: Utility?, _ condition: Bool = true) -> Self {
         guard let value = value else { return self }
         return self.class(remove: [value], condition)
     }
     
     @discardableResult
-    public func `class`(remove classes: [BsClass]?, _ condition: Bool = true) -> Self {
+    public func `class`(remove classes: [Utility]?, _ condition: Bool = true) -> Self {
         guard condition,
                 let classes = classes,
                 !classes.isEmpty,
@@ -88,7 +88,7 @@ extension Tag {
     }
     
     @discardableResult
-    public func ariaControls(_ value: BsClass?, _ condition: Bool = true) -> Self {
+    public func ariaControls(_ value: Utility?, _ condition: Bool = true) -> Self {
         attr(.ariaControls, String(value), condition)
     }
     
@@ -185,7 +185,7 @@ extension Tag {
     }
 
     @discardableResult
-    public func dataBsBackdrop(_ value: BsClass?, _ condition: Bool = true) -> Self {
+    public func dataBsBackdrop(_ value: Utility?, _ condition: Bool = true) -> Self {
         attr(.dataBsBackdrop, String(value), condition)
     }
     
@@ -210,12 +210,12 @@ extension Tag {
     }
 
     @discardableResult
-    public func dataBsDismiss(_ value: BsClass?, _ condition: Bool = true) -> Self {
+    public func dataBsDismiss(_ value: Utility?, _ condition: Bool = true) -> Self {
         attr(.dataBsDismiss, String(value), condition)
     }
     
     @discardableResult
-    public func dataBsDisplay(_ value: BsClass?, _ condition: Bool = true) -> Self {
+    public func dataBsDisplay(_ value: Utility?, _ condition: Bool = true) -> Self {
         attr(.dataBsDisplay, String(value), condition)
     }
     
@@ -255,7 +255,7 @@ extension Tag {
     }
     
     @discardableResult
-    public func dataBsRide(_ value: BsClass?, _ condition: Bool = true) -> Self {
+    public func dataBsRide(_ value: Utility?, _ condition: Bool = true) -> Self {
         attr(.dataBsRide, String(value), condition)
     }
     
@@ -275,12 +275,12 @@ extension Tag {
     }
 
     @discardableResult
-    public func dataBsSpy(_ value: BsClass?, _ condition: Bool = true) -> Self {
+    public func dataBsSpy(_ value: Utility?, _ condition: Bool = true) -> Self {
         attr(.dataBsSpy, String(value), condition)
     }
     
     @discardableResult
-    public func dataBsTarget(_ value: BsClass?, prefix: AttributeValuePrefix = .hash, _ condition: Bool = true) -> Self {
+    public func dataBsTarget(_ value: Utility?, prefix: AttributeValuePrefix = .hash, _ condition: Bool = true) -> Self {
         dataBsTarget(String(value), prefix: prefix, condition)
     }
     
@@ -291,7 +291,7 @@ extension Tag {
     }
     
     @discardableResult
-    public func dataBsToggle(_ value: BsClass?, _ condition: Bool = true) -> Self {
+    public func dataBsToggle(_ value: Utility?, _ condition: Bool = true) -> Self {
         attr(.dataBsToggle, String(value), condition)
     }
     

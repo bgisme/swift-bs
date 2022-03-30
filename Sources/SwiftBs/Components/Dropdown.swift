@@ -16,7 +16,7 @@ public class Dropdown: Component {
         case start
         case end
         
-        var bsClass: BsClass {
+        var bsClass: Utility {
             switch self {
             case .down:
                 return .dropdown
@@ -312,7 +312,7 @@ public class DropdownMenu: Component {
         case responsive(_ bp: AlignBreakpoint)
         case endAndResponsive(_ bp: AlignBreakpoint)
         
-        var classes: [BsClass] {
+        var classes: [Utility] {
             switch self {
             case .end:
                 return [.dropdownMenuEnd]
@@ -345,7 +345,7 @@ public class DropdownMenu: Component {
         case xlEnd
         case xxlEnd
         
-        var `class`: BsClass {
+        var `class`: Utility {
             switch self {
             case .smStart:
                 return .dropdownMenuSmStart

@@ -12,7 +12,7 @@ final class CollapseTests: XCTestCase {
         let tagA = CollapseButton(contentIds: [id]) {
             A("Link with href").href("#")
         }.build()
-        XCTAssert(tagA.value(.role) == BsClass.button.rawValue)
+        XCTAssert(tagA.value(.role) == Utility.button.rawValue)
         XCTAssert(tagA.value("href") == "#\(id)")
         
         // <button> version
@@ -22,7 +22,7 @@ final class CollapseTests: XCTestCase {
         XCTAssert(tagB.value(.dataBsTarget) == "#\(id)")
         
         // All buttons and convenience inits
-        XCTAssert(tagB.value(.dataBsToggle) == BsClass.collapse.rawValue)
+        XCTAssert(tagB.value(.dataBsToggle) == Utility.collapse.rawValue)
         if let ariaExpandedValue = tagB.value(.ariaExpanded) {
             XCTAssert(Bool(ariaExpandedValue) == false)
         } else {
@@ -37,7 +37,7 @@ final class CollapseTests: XCTestCase {
         let tagC = CollapseButton(contentIds: multiContents.compactMap{$0.tag.value(.id)}) {
             Button("Multi-target")
         }.build()
-        XCTAssert(tagC.value(.dataBsTarget) == "." + BsClass.multiCollapse.rawValue)
+        XCTAssert(tagC.value(.dataBsTarget) == "." + Utility.multiCollapse.rawValue)
         XCTAssert(tagC.value(.ariaControls) == multiContents.compactMap{$0.tag.value(.id)}.joined(separator: " "))
         let multiTags = multiContents.map{$0.build()}
         var isAllMultiCollapse = true

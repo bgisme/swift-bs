@@ -15,7 +15,7 @@ public class CloseButton: Component {
         case offcanvas
         case toast
         
-        var `class`: BsClass {
+        var `class`: Utility {
             switch self {
             case .alert:
                 return .alert

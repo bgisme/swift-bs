@@ -20,7 +20,7 @@ public class ToastContainer: Component {
         case bottomCenter
         case bottomRight
         
-        var classes: [BsClass] {
+        var classes: [Utility] {
             switch self {
             case .topLeft:
                 return [.top0, .start0]

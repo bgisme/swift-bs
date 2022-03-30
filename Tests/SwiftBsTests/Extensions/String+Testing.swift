@@ -3,11 +3,11 @@
 
 extension String {
     
-    func has(_ bsClass: BsClass) -> Bool {
+    func has(_ bsClass: Utility) -> Bool {
         return has([bsClass])
     }
     
-    func has(_ classes: [BsClass]) -> Bool {
+    func has(_ classes: [Utility]) -> Bool {
         return has(classes.map{ String($0) }, " ")
     }
     

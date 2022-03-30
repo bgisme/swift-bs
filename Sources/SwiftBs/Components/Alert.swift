@@ -102,7 +102,7 @@ public class Alert: Component {
 
 extension ColorTheme {
     
-    public var alertClass: BsClass {
+    public var alertClass: Utility {
         switch self {
         case .primary:
             return .alertPrimary

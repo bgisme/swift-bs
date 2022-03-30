@@ -23,7 +23,7 @@ public enum Width {
     case w75
     case w100
     
-    public var `class`: BsClass {
+    public var `class`: Utility {
         switch self {
         case .col:
             return .col

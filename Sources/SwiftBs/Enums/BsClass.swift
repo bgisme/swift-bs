@@ -1,12 +1,12 @@
 //
-//  BsClass.swift
+//  Utility.swift
 //  
 //
 //  Created by BG on 2/9/22.
 //
 
 
-public enum BsClass: String {
+public enum Utility: String {
     // MARK: - A
     case accordion
     case accordionButton = "accordion-button"
@@ -85,13 +85,18 @@ public enum BsClass: String {
     case bgTransparent = "bg-transparent"
     case bgWarning = "bg-warning"
     case bgWhite = "bg-white"
+    case bgGradient = "bg-gradient"
+    
+    case bgOpacity10 = "bg-opacity-10"
+    case bgOpacity25 = "bg-opacity-25"
+    case bgOpacity50 = "bg-opacity-50"
+    case bgOpacity75 = "bg-opacity-75"
     
     case blockquote
     case blockquoteFooter = "blockquote-footer"
     
     case body
     
-    case border
     case borderPrimary = "border-primary"
     case borderSecondary = "border-secondary"
     case borderSuccess = "border-success"
@@ -102,7 +107,36 @@ public enum BsClass: String {
     case borderDark = "border-dark"
     case borderWhite = "border-white"
     
+    case border
     case borderTop = "border-top"
+    case borderEnd = "border-end"
+    case borderBottom = "border-bottom"
+    case borderStart = "border-start"
+    
+    case border1 = "border-1"
+    case border2 = "border-2"
+    case border3 = "border-3"
+    case border4 = "border-4"
+    case border5 = "border-5"
+    
+    case border0 = "border-0"
+    case borderTop0 = "border-top-0"
+    case borderEnd0 = "border-end-0"
+    case borderBottom0 = "border-bottom-0"
+    case borderStart0 = "border-start-0"
+    
+    case rounded
+    case roundedTop = "rounded-top"
+    case roundedEnd = "rounded-end"
+    case roundedBottom = "rounded-bottom"
+    case roundedStart = "rounded-start"
+    case roundedCircle = "rounded-circle"
+    case roundedPill = "rounded-pill"
+    
+    case rounded0 = "rounded-0"
+    case rounded1 = "rounded-1"
+    case rounded2 = "rounded-2"
+    case rounded3 = "rounded-3"
     
     case bottom0 = "bottom-0"
     
@@ -314,7 +348,7 @@ public enum BsClass: String {
     case dropup
     case dropstart
     
-    // MARK: -E
+    // MARK: - E
     case end0 = "end-0"
     
     // MARK: - F
@@ -383,6 +417,13 @@ public enum BsClass: String {
     case fwBold = "fw-bold"
     
     // MARK: - G
+    case gap0 = "gap-0"
+    case gap1 = "gap-1"
+    case gap2 = "gap-2"
+    case gap3 = "gap-3"
+    case gap4 = "gap-4"
+    case gap5 = "gap-5"
+    
     case grid
     case gCol2 = "g-col-2"
     case gColSm2 = "g-col-sm-2"
@@ -540,6 +581,8 @@ public enum BsClass: String {
     case h100 = "h-100"
     case hAuto = "h-auto"
     
+    case hstack
+    
     // MARK: - I
     case imgFluid = "img-fluid"
     case imgThumbnail = "img-thumbnail"
@@ -568,6 +611,15 @@ public enum BsClass: String {
     
     // MARK: - L
     case lead
+    
+    case linkPrimary = "link-primary"
+    case linkSecondary = "link-secondary"
+    case linkSuccess = "link-success"
+    case linkDanger = "link-danger"
+    case linkWarning = "link-warning"
+    case linkInfo = "link-info"
+    case linkLight = "link-light"
+    case linkDark = "link-dark"
     
     case listGroup = "list-group"
     case listGroupFlush = "list-group-flush"
@@ -1361,11 +1413,6 @@ public enum BsClass: String {
     case pyXxlAuto = "py-xxl-auto"
     
     // MARK: - R
-    case rounded
-    case roundedPill = "rounded-pill"
-    case roundedStart = "rounded-start"
-    case roundedEnd = "rounded-end"
-    
     case row
     
     case rowColsAuto = "row-cols-auto"
@@ -1483,6 +1530,7 @@ public enum BsClass: String {
     case `static`
     
     case stickyTop = "sticky-top"   //! Not fully supported in every browser
+    case stretchedLink = "stretched-link"
     
     // MARK: - T
     case table
@@ -1565,6 +1613,9 @@ public enum BsClass: String {
     case validTooltip = "valid-tooltip"
     
     case visuallyHidden = "visually-hidden"
+    case visuallyHiddenFocusable = "visually-hidden-focusable"
+    case vr
+    case vstack
     
     // MARK: - W
     case wasValidated = "was-validated"

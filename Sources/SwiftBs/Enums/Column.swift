@@ -19,7 +19,7 @@ public enum Column {
     case col11
     case col12
     
-    public var `class`: BsClass {
+    public var `class`: Utility {
         switch self {
         case .col:
             return .col

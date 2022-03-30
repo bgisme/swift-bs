@@ -37,7 +37,7 @@ public class CollapseButton: Component {
         let a = a()
             .class(insert: .btn)
             .role(.button)
-            .href(ids.count < 2 ? "#\(ids.first ?? "")" : BsClass.multiCollapse.rawValue)
+            .href(ids.count < 2 ? "#\(ids.first ?? "")" : Utility.multiCollapse.rawValue)
 
         self.init(contentIds: ids, a)
     }
@@ -50,7 +50,7 @@ public class CollapseButton: Component {
         let button = button()
             .class(insert: .btn)
             .type(.button)
-            .dataBsTarget(ids.count < 2 ? ids.first ?? "" : BsClass.multiCollapse.rawValue, prefix: ids.count < 2 ? .hash : .dot)
+            .dataBsTarget(ids.count < 2 ? ids.first ?? "" : Utility.multiCollapse.rawValue, prefix: ids.count < 2 ? .hash : .dot)
 
         self.init(contentIds: ids, button)
     }

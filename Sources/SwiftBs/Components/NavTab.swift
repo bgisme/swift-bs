@@ -18,7 +18,7 @@ public class NavTab: Component {
         case pills
         case tabs
         
-        var `class`: BsClass {
+        var `class`: Utility {
             switch self {
             case .tabs:
                 return .navTabs
@@ -85,7 +85,7 @@ public class NavTab: Component {
     @discardableResult
     public func align(_ value: Align, _ condition: Bool = true) -> Self {
         guard condition else { return self }
-        let align: BsClass
+        let align: Utility
         switch value {
         case .right:
             align = .justifyContentEnd
@@ -100,7 +100,7 @@ public class NavTab: Component {
     @discardableResult
     public func breakpoints(_ values: Breakpoint..., if condition: Bool = true) -> Self {
         guard condition, !values.isEmpty else { return self }
-        var breakpoints: Set<BsClass> = [.flexColumn]
+        var breakpoints: Set<Utility> = [.flexColumn]
         _ = values.map {
             switch $0 {
             case .xs:
@@ -132,7 +132,7 @@ public class NavTab: Component {
     @discardableResult
     public func width(_ value: Width, _ condition: Bool = true) -> Self {
         guard condition else { return self }
-        let width: BsClass
+        let width: Utility
         switch value {
         case .proportional:
             width = .navFill
@@ -220,7 +220,7 @@ public class NavLink: Component {
     @discardableResult
     public func aligns( _ values: (Location, Breakpoint)..., if condition: Bool = true) -> Self {
         guard condition else { return self }
-        var classes = Set<BsClass>()
+        var classes = Set<Utility>()
         for (location, bp) in values {
             switch location {
             case .start:
@@ -278,7 +278,7 @@ public class NavLink: Component {
     @discardableResult
     public func fills(_ values: Breakpoint..., if condition: Bool = true) -> Self {
         guard condition else { return self }
-        var classes = Set<BsClass>()
+        var classes = Set<Utility>()
         for bp in values {
             switch bp {
             case .xs:

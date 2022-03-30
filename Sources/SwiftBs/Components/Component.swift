@@ -190,12 +190,12 @@ extension Tag {
 extension Component: Bootstrapable {
     
     @discardableResult
-    public func `class`(insert classes: BsClass?..., if condition: Bool = true) -> Self {
+    public func `class`(insert classes: Utility?..., if condition: Bool = true) -> Self {
         self.class(insert: classes.compactMap{ $0 }, condition)
     }
     
     @discardableResult
-    public func `class`(insert classes: [BsClass]?, _ condition: Bool = true) -> Self {
+    public func `class`(insert classes: [Utility]?, _ condition: Bool = true) -> Self {
         tag.class(insert: classes, condition)
         return self
     }

@@ -98,7 +98,7 @@ extension BsButton: Sizable {
 
 extension Size {
     
-    var buttonClass: BsClass {
+    var buttonClass: Utility {
         switch self {
         case .xs, .sm:
             return .btnSm
@@ -112,7 +112,7 @@ extension Size {
 
 extension ColorTheme {
     
-    public var buttonClass: BsClass {
+    public var buttonClass: Utility {
         switch self {
         case .primary:
             return .btnPrimary
@@ -135,7 +135,7 @@ extension ColorTheme {
         }
     }
     
-    public var buttonOutlineClass: BsClass {
+    public var buttonOutlineClass: Utility {
         switch self {
         case .primary:
             return .btnOutlinePrimary

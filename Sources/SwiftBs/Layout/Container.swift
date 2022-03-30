@@ -35,7 +35,7 @@ extension Container: Sizable {
 
 extension Size {
     
-    var containerClass: BsClass {
+    var containerClass: Utility {
         switch self {
         case .xs, .sm:
             return .containerSm

@@ -15,7 +15,7 @@ public class Offcanvas: Component {
         case top
         case bottom
         
-        var `class`: BsClass {
+        var `class`: Utility {
             switch self {
             case .start:
                 return .offcanvasTop

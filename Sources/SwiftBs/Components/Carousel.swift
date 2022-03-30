@@ -156,8 +156,8 @@ public class CarouselControl: Component {
     public convenience init(_ direction: Direction,
                             carouselId id: String) {
         let text: String
-        let icon: BsClass
-        let controlDirection: BsClass
+        let icon: Utility
+        let controlDirection: Utility
         switch direction {
         case .prev:
             text = "Previous"
