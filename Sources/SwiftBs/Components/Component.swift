@@ -113,6 +113,7 @@ public class Component: TagRepresentable {
                         direction: PopDirection? = nil,
                         _ condition: Bool = true) -> Self {
         tag
+            .title("")
             .dataBsOriginalTitle(title)
             .dataBsToggle(.tooltip)
             .dataBsHtml(isHTML)
