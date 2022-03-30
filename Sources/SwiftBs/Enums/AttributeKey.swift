@@ -21,6 +21,7 @@ public enum AttributeKey: String {
     case `class`
     case dataParent = "data-bs-parent"
     case dataBsAutohide = "data-bs-autohide"
+    case dataBsHtml = "data-bs-html"
     case dataBsBackdrop = "data-bs-backdrop"
     case dataBsContent = "data-bs-content"
     case dataBsContainer = "data-bs-container"

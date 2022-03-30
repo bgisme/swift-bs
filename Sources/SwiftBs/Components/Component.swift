@@ -121,10 +121,13 @@ public class Component: TagRepresentable {
 extension Tag {
     
     /* This extension on Tag is intended solely for the purposes of allowing a <span>
-     around a disabled button or other basic elements to handle popovers */
+     around a disabled button or other basic elements to handle popovers. There's a forwarding
+     func on Component, from where the call will most likely originate. */
+    ///@NOTE: Do not set isHTML = true if worried about XSS attacks.
     @discardableResult
     public func popover(_ title: String? = nil,
                         content: String? = nil,
+                        isHTML: Bool = false,
                         direction: PopDirection? = nil,
                         triggers: Set<Component.Trigger>? = nil,
                         condition: Bool = true) -> Self {
@@ -137,6 +140,7 @@ extension Tag {
             .dataBsToggle(.popover)
             .dataBsContainer(.body)
             .dataBsPlacement(direction)
+            .dataBsHtml(isHTML)
         if let triggers = triggers {
             self
                 .tabindex(0)

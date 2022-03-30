@@ -220,6 +220,11 @@ extension Tag {
     }
     
     @discardableResult
+    public func dataBsHtml(_ value: Bool?, _ condition: Bool = true) -> Self {
+        attr(.dataBsHtml, String(value), condition)
+    }
+    
+    @discardableResult
     public func dataBsInterval(_ value: Int?, _ condition: Bool = true) -> Self {
         attr(.dataBsInterval, String(value), condition)
     }
