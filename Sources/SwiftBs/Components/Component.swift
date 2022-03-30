@@ -120,6 +120,27 @@ public class Component: TagRepresentable {
 
 extension Tag {
     
+    public enum PlaceholderAnimation {
+        case glow
+        case wave
+        
+        var `class`: BsClass {
+            switch self {
+            case .glow:
+                return .placeholderGlow
+            case .wave:
+                return .placeholderWave
+            }
+        }
+    }
+    
+    @discardableResult
+    public func isPlaceholderAnimated(_ value: PlaceholderAnimation, _ condition: Bool = true) -> Self {
+        self
+            .class(insert: value.class, if: condition)
+        return self
+    }
+    
     /* This extension on Tag is intended solely for the purposes of allowing a <span>
      around a disabled button or other basic elements to handle popovers. There's a forwarding
      func on Component, from where the call will most likely originate. */
