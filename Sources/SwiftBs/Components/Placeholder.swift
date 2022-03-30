@@ -68,23 +68,19 @@ extension Size {
 extension Tag {
     
     @discardableResult
-    public func isPlaceholder(width: Width? = nil,
+    public func isPlaceholder(width: Width,
                               size: Size? = nil,
-                              animation: Placeholder.Animation? = nil) -> Self {
-        var classes = [BsClass]()
-        if let width = width {
-            // the class tag 'placeholder' is always accompanied by width (unless width specified in style attribute)
-            // if width != nil add 'placeholder' to class
-            classes += [Size.md.placeholderClass]
-            if let size = size, size != .md {
-                classes += [size.placeholderClass]
-            }
-            classes += [width.class]
-        }
-        if let animation = animation {
-            classes += [animation.class]
-        }
-        self.class(insert: classes)
+                              if condition: Bool = true) -> Self {
+        // the class tag 'placeholder' is only used when followed by width (unless width is specified in style attribute)
+        self
+            .class(insert: Size.md.placeholderClass, if: condition)
+            .class(insert: size?.placeholderClass, if: condition)
+        return self
+    }
+    
+    @discardableResult
+    public func isPlaceHolderAnimated(_ value: Placeholder.Animation, _ condition: Bool = true) -> Self {
+        self.class(insert: value.class, if: condition)
         return self
     }
 }
