@@ -93,7 +93,8 @@ public class Component: TagRepresentable {
         case click  /// popover toggles open and closed with clicks on button
     }
     
-    ///@NOTE: Popovers must be initialized via javascript (see Bootstrap documentation). Do not set isHTML = true if worried about XSS attacks.
+    ///@NOTE: Popovers must be initialized via javascript (see Bootstrap documentation).
+    ///Do not set isHTML = true if worried about XSS attacks.
     @discardableResult
     public func popover(_ title: String? = nil,
                         content: String? = nil,
@@ -112,15 +113,7 @@ public class Component: TagRepresentable {
                         isHTML: Bool = false,
                         direction: PopDirection? = nil,
                         _ condition: Bool = true) -> Self {
-        tag
-            .title("")
-            .dataBsOriginalTitle(title)
-            .dataBsToggle(.tooltip)
-            .dataBsHtml(isHTML, isHTML)
-        if let direction = direction {
-             tag
-                .dataBsPlacement(direction, condition)
-        }
+        tag.tooltip(title, isHTML: isHTML, direction: direction, condition)
         return self
     }
 }
@@ -152,6 +145,23 @@ extension Tag {
             self
                 .tabindex(0)
                 .dataBsTrigger(triggers)
+        }
+        return self
+    }
+    
+    @discardableResult
+    public func tooltip(_ title: String,
+                        isHTML: Bool = false,
+                        direction: PopDirection? = nil,
+                        _ condition: Bool = true) -> Self {
+        self
+            .title("")
+            .dataBsOriginalTitle(title)
+            .dataBsToggle(.tooltip)
+            .dataBsHtml(isHTML, isHTML) // second isHTML... do not add tag unless true
+        if let direction = direction {
+             self
+                .dataBsPlacement(direction, condition)
         }
         return self
     }
