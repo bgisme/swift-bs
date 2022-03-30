@@ -68,8 +68,13 @@ extension Size {
 extension Tag {
     
     @discardableResult
-    public func isPlaceholder(size: Size? = nil, animation: Placeholder.Animation? = nil) -> Self {
+    public func isPlaceholder(width: Width? = nil,
+                              size: Size? = nil,
+                              animation: Placeholder.Animation? = nil) -> Self {
         var classes = [Size.md.placeholderClass]
+        if let width = width {
+            classes += [width.class]
+        }
         if let size = size, size != .md {
             classes += [size.placeholderClass]
         }
