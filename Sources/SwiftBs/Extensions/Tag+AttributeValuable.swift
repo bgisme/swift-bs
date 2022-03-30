@@ -291,7 +291,7 @@ extension Tag {
     }
     
     @discardableResult
-    public func dataBsTrigger(_ value: BsButton.Trigger?, _ condition: Bool = true) -> Self {
+    public func dataBsTrigger(_ value: Component.Trigger?, _ condition: Bool = true) -> Self {
         attr(.dataBsTrigger, value?.rawValue, condition)
     }
     

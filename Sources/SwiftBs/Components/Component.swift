@@ -87,23 +87,35 @@ public class Component: TagRepresentable {
         return self
     }
 
-//    ///@NOTE: Popovers must be initialized via javascript (see Bootstrap documentation)
-//    @discardableResult
-//    public func popover(_ title: String? = nil,
-//                        content: String? = nil,
-//                        direction: PopDirection? = nil,
-//                        if condition: Bool = true) -> Self {
-//        guard condition else { return self }
-//        if let title = title {
-//            _ = tag.title(title)
-//        }
-//        tag
-//            .dataBsContent(content)
-//            .dataBsToggle(.popover)
-//            .dataBsContainer(.body)
-//            .dataBsPlacement(direction)
-//        return self
-//    }
+    public enum Trigger: String {
+        case focus  /// popover opens after click on button, closes after click outside button
+        case hover  /// popover opens while hovering, close while not
+        case click  /// popover toggles open and closed with clicks on button
+    }
+    
+    ///@NOTE: Popovers must be initialized via javascript (see Bootstrap documentation)
+    @discardableResult
+    public func popover(_ title: String? = nil,
+                        content: String? = nil,
+                        direction: PopDirection? = nil,
+                        trigger: Trigger? = nil,
+                        condition: Bool = true) -> Self {
+        guard condition else { return self }
+        if let title = title {
+            _ = tag.title(title)
+        }
+        tag
+            .dataBsContent(content)
+            .dataBsToggle(.popover)
+            .dataBsContainer(.body)
+            .dataBsPlacement(direction)
+        if let trigger = trigger {
+            tag
+                .tabindex(0)
+                .dataBsTrigger(trigger)
+        }
+        return self
+    }
     
     ///@NOTE: Tooltips must be initialized via javascript (see Bootstrap documentation)
     @discardableResult
