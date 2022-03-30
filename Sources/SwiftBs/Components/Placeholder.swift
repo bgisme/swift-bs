@@ -71,12 +71,15 @@ extension Tag {
     public func isPlaceholder(width: Width? = nil,
                               size: Size? = nil,
                               animation: Placeholder.Animation? = nil) -> Self {
-        var classes = [Size.md.placeholderClass]
+        var classes = [BsClass]()
         if let width = width {
+            // the class tag 'placeholder' is always accompanied by width (unless width specified in style attribute)
+            // if width != nil add 'placeholder' to class
+            classes += [Size.md.placeholderClass]
+            if let size = size, size != .md {
+                classes += [size.placeholderClass]
+            }
             classes += [width.class]
-        }
-        if let size = size, size != .md {
-            classes += [size.placeholderClass]
         }
         if let animation = animation {
             classes += [animation.class]
