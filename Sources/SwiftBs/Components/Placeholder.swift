@@ -28,11 +28,11 @@ public class Placeholder: Component {
         self.init(span)
     }
     
-    public init(_ span: Span) {
-        span
+    public override init(_ tag: Tag) {
+        tag
             .class(insert: Size.md.placeholderClass)
         
-        super.init(span)
+        super.init(tag)
     }
     
     @discardableResult
