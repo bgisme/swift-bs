@@ -9,6 +9,20 @@ import SwiftHtml
 
 public class Placeholder: Component {
     
+    public enum Animation {
+        case glow
+        case wave
+        
+        var `class`: BsClass {
+            switch self {
+            case .glow:
+                return .placeholderGlow
+            case .wave:
+                return .placeholderWave
+            }
+        }
+    }
+    
     public init(_ span: Span) {
         span
             .class(insert: Size.md.placeholderClass)

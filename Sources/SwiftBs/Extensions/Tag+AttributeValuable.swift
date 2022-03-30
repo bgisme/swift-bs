@@ -301,7 +301,7 @@ extension Tag {
     }
     
     @discardableResult
-    public func dataBsTrigger(_ values: Set<Component.Trigger>?, _ condition: Bool = true) -> Self {
+    public func dataBsTrigger(_ values: Set<Component.PopTrigger>?, _ condition: Bool = true) -> Self {
         attr(.dataBsTrigger, values?.map{$0.rawValue}.joined(separator: " "), condition)
     }
     

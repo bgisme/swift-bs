@@ -94,10 +94,16 @@ public class Component: TagRepresentable {
         return self
     }
 
-    public enum Trigger: String {
+    public enum PopTrigger: String {
         case focus  /// popover opens after click on button, closes after click outside button
         case hover  /// popover opens while hovering, close while not
         case click  /// popover toggles open and closed with clicks on button
+    }
+    
+    @discardableResult
+    public func isPlaceholderAnimated(_ value: Placeholder.Animation, _ condition: Bool = true) -> Self {
+        tag.isPlaceholderAnimated(value, condition)
+        return self
     }
     
     ///@NOTE: Popovers must be initialized via javascript (see Bootstrap documentation).
@@ -107,7 +113,7 @@ public class Component: TagRepresentable {
                         content: String? = nil,
                         isHTML: Bool = false,
                         direction: PopDirection? = nil,
-                        triggers: Set<Component.Trigger>? = nil,
+                        triggers: Set<Component.PopTrigger>? = nil,
                         condition: Bool = true) -> Self {
         tag.popover(title, content: content, isHTML: isHTML, direction: direction, triggers: triggers, condition: condition)
         return self
@@ -127,22 +133,8 @@ public class Component: TagRepresentable {
 
 extension Tag {
     
-    public enum PlaceholderAnimation {
-        case glow
-        case wave
-        
-        var `class`: BsClass {
-            switch self {
-            case .glow:
-                return .placeholderGlow
-            case .wave:
-                return .placeholderWave
-            }
-        }
-    }
-    
     @discardableResult
-    public func isPlaceholderAnimated(_ value: PlaceholderAnimation, _ condition: Bool = true) -> Self {
+    public func isPlaceholderAnimated(_ value: Placeholder.Animation, _ condition: Bool = true) -> Self {
         self
             .class(insert: value.class, if: condition)
         return self
@@ -157,7 +149,7 @@ extension Tag {
                         content: String? = nil,
                         isHTML: Bool = false,
                         direction: PopDirection? = nil,
-                        triggers: Set<Component.Trigger>? = nil,
+                        triggers: Set<Component.PopTrigger>? = nil,
                         condition: Bool = true) -> Self {
         guard condition else { return self }
         if let title = title {
