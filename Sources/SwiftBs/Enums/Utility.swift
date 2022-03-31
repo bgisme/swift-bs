@@ -151,6 +151,24 @@ public enum Utility: String {
     case bgOpacity50 = "bg-opacity-50"
     case bgOpacity75 = "bg-opacity-75"
     
+    case bgBlue = "bg-blue"
+    case bgIndigo = "bg-indigo"
+    case bgNavy = "bg-navy"
+    case bgMaroon = "bg-maroon"
+    case bgBrown = "bg-brown"
+    case bgPurple = "bg-purple"
+    case bgPink = "bg-pink"
+    case bgMagenta = "bg-magenta"
+    case bgRed = "bg-red"
+    case bgOrange = "bg-orange"
+    case bgYellow = "bg-yellow"
+    case bgLime = "bg-lime"
+    case bgGreen = "bg-green"
+    case bgTeal = "bg-teal"
+    case bgCyan = "bg-cyan"
+    case bgBlack = "bg-black"
+    case bgGray = "bg-gray"
+    
     case blockquote
     case blockquoteFooter = "blockquote-footer"
     
