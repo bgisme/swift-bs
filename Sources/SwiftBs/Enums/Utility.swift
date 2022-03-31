@@ -30,6 +30,13 @@ public enum Utility: String {
     case alertSuccess = "alert-success"
     case alertWarning = "alert-warning"
     
+    case alignBaseline = "align-baseline"
+    case alignTop = "align-top"
+    case alignMiddle = "align-middle"
+    case alignBottom = "align-bottom"
+    case alignTextTop = "align-text-top"
+    case alignTextBottom = "align-text-bottom"
+    
     case alignContentStart = "align-content-start"
     case alignContentEnd = "align-content-end"
     case alignContentCenter = "align-content-center"
@@ -123,12 +130,6 @@ public enum Utility: String {
     case alignSelfXxlBaseline = "align-self-xxl-baseline"
     case alignSelfXxlStretch = "align-self-xxl-stretch"
     
-    case alignBottom = "align-bottom"
-    case alignMiddle = "align-middle"
-    case alignTextTop = "align-text-top"
-    case alignTop = "align-top"
-    
-    
     // MARK: - B
     case badge
     
@@ -183,20 +184,9 @@ public enum Utility: String {
     case borderBottom0 = "border-bottom-0"
     case borderStart0 = "border-start-0"
     
-    case rounded
-    case roundedTop = "rounded-top"
-    case roundedEnd = "rounded-end"
-    case roundedBottom = "rounded-bottom"
-    case roundedStart = "rounded-start"
-    case roundedCircle = "rounded-circle"
-    case roundedPill = "rounded-pill"
-    
-    case rounded0 = "rounded-0"
-    case rounded1 = "rounded-1"
-    case rounded2 = "rounded-2"
-    case rounded3 = "rounded-3"
-    
     case bottom0 = "bottom-0"
+    case bottom50 = "bottom-50"
+    case bottom100 = "bottom-100"
     
     case breadcrumb
     case breadcrumbItem = "breadcrumb-item"
@@ -475,6 +465,8 @@ public enum Utility: String {
     
     // MARK: - E
     case end0 = "end-0"
+    case end50 = "end-50"
+    case end100 = "end-100"
     
     // MARK: - F
     case fade
@@ -484,9 +476,6 @@ public enum Utility: String {
     
     case fixedTop = "fixed-top"
     case fixedBottom = "fixed-bottom"
-    
-    case floatEnd = "float-end"
-    case floatStart = "float-start"
     
     case flexRow = "flex-row"
     case flexRowReverse = "flex-row-reverse"
@@ -564,7 +553,28 @@ public enum Utility: String {
     case flexXxlWrap = "flex-xxl-wrap"
     case flexXxlWrapReverse = "flex-xxl-wrap-reverse"
     
+    case floatStart = "float-start"
+    case floatEnd = "float-end"
+    case floatNone = "float-none"
+    case floatSmStart = "float-sm-start"
+    case floatSmEnd = "float-sm-end"
+    case floatSmNone = "float-sm-none"
+    case floatMdStart = "float-md-start"
+    case floatMdEnd = "float-md-end"
+    case floatMdNone = "float-md-none"
+    case floatLgStart = "float-lg-start"
+    case floatLgEnd = "float-lg-end"
+    case floatLgNone = "float-lg-none"
+    case floatXlStart = "float-xl-start"
+    case floatXlEnd = "float-xl-end"
+    case floatXlNone = "float-xl-none"
+    case floatXxlStart = "float-xxl-start"
+    case floatXxlEnd = "float-xxl-end"
+    case floatXxlNone = "float-xxl-none"
+    
     case focus
+    
+    case fontMonospace = "font-monospace"
     
     case formCheck = "form-check"
     case formCheckInline = "form-check-inline"
@@ -583,7 +593,21 @@ public enum Utility: String {
     case formSwitch = "form-switch"
     case formText = "form-text"
     
+    case fs1 = "fs-1"
+    case fs2 = "fs-2"
+    case fs3 = "fs-3"
+    case fs4 = "fs-4"
+    case fs5 = "fs-5"
+    case fs6 = "fs-6"
+
+    case fstItalic = "fst-italic"
+    case fstNormal = "fst-normal"
+
     case fwBold = "fw-bold"
+    case fwBolder = "fw-bolder"
+    case fwNormal = "fw-normal"
+    case fwLight = "fw-light"
+    case fwLighter = "fw-lighter"
     
     // MARK: - G
     case gap0 = "gap-0"
@@ -592,6 +616,48 @@ public enum Utility: String {
     case gap3 = "gap-3"
     case gap4 = "gap-4"
     case gap5 = "gap-5"
+    
+    case gapXs0 = "gap-xs-0"
+    case gapSm0 = "gap-sm-0"
+    case gapMd0 = "gap-md-0"
+    case gapLg0 = "gap-lg-0"
+    case gapXl0 = "gap-xl-0"
+    case gapXxl0 = "gap-xxl-0"
+
+    case gapXs1 = "gap-xs-1"
+    case gapSm1 = "gap-sm-1"
+    case gapMd1 = "gap-md-1"
+    case gapLg1 = "gap-lg-1"
+    case gapXl1 = "gap-xl-1"
+    case gapXxl1 = "gap-xxl-1"
+
+    case gapXs2 = "gap-xs-2"
+    case gapSm2 = "gap-sm-2"
+    case gapMd2 = "gap-md-2"
+    case gapLg2 = "gap-lg-2"
+    case gapXl2 = "gap-xl-2"
+    case gapXxl2 = "gap-xxl-2"
+
+    case gapXs3 = "gap-xs-3"
+    case gapSm3 = "gap-sm-3"
+    case gapMd3 = "gap-md-3"
+    case gapLg3 = "gap-lg-3"
+    case gapXl3 = "gap-xl-3"
+    case gapXxl3 = "gap-xxl-3"
+
+    case gapXs4 = "gap-xs-4"
+    case gapSm4 = "gap-sm-4"
+    case gapMd4 = "gap-md-4"
+    case gapLg4 = "gap-lg-4"
+    case gapXl4 = "gap-xl-4"
+    case gapXxl4 = "gap-xxl-4"
+
+    case gapXs5 = "gap-xs-5"
+    case gapSm5 = "gap-sm-5"
+    case gapMd5 = "gap-md-5"
+    case gapLg5 = "gap-lg-5"
+    case gapXl5 = "gap-xl-5"
+    case gapXxl5 = "gap-xxl-5"
     
     case grid
     case gCol2 = "g-col-2"
@@ -769,6 +835,7 @@ public enum Utility: String {
     case invalidFeedback = "invalid-feedback"
     case isValid = "is-valid"
     case isInvalid = "is-invalid"
+    case invisible
     
     // MARK: - J
     case justifyContentStart = "justify-content-start"
@@ -839,6 +906,10 @@ public enum Utility: String {
     case listInlineItem = "list-inline-item"
     case listUnstyled = "list-unstyled"
     
+    case lh1 = "lh-1"
+    case lhSm = "lh-sm"
+    case lhBase = "lh-base"
+    case lhLg = "lh-lg"
     
     // MARK: - M
     case multiCollapse = "multi-collapse"
@@ -864,13 +935,6 @@ public enum Utility: String {
     case modalLg = "modal-lg"
     case modalXl = "modal-xl"
     
-    case m1 = "m-1"
-    case m2 = "m-2"
-    case m3 = "m-3"
-    case m4 = "m-4"
-    case m5 = "m-5"
-    case mAuto = "m-auto"
-    
     case mt0 = "mt-0"
     case mt1 = "mt-1"
     case mt2 = "mt-2"
@@ -878,7 +942,6 @@ public enum Utility: String {
     case mt4 = "mt-4"
     case mt5 = "mt-5"
     case mtAuto = "mt-auto"
-    
     case mtSm0 = "mt-sm-0"
     case mtSm1 = "mt-sm-1"
     case mtSm2 = "mt-sm-2"
@@ -886,7 +949,6 @@ public enum Utility: String {
     case mtSm4 = "mt-sm-4"
     case mtSm5 = "mt-sm-5"
     case mtSmAuto = "mt-sm-auto"
-    
     case mtMd0 = "mt-md-0"
     case mtMd1 = "mt-md-1"
     case mtMd2 = "mt-md-2"
@@ -894,7 +956,6 @@ public enum Utility: String {
     case mtMd4 = "mt-md-4"
     case mtMd5 = "mt-md-5"
     case mtMdAuto = "mt-md-auto"
-    
     case mtLg0 = "mt-lg-0"
     case mtLg1 = "mt-lg-1"
     case mtLg2 = "mt-lg-2"
@@ -902,7 +963,6 @@ public enum Utility: String {
     case mtLg4 = "mt-lg-4"
     case mtLg5 = "mt-lg-5"
     case mtLgAuto = "mt-lg-auto"
-    
     case mtXl0 = "mt-xl-0"
     case mtXl1 = "mt-xl-1"
     case mtXl2 = "mt-xl-2"
@@ -910,7 +970,6 @@ public enum Utility: String {
     case mtXl4 = "mt-xl-4"
     case mtXl5 = "mt-xl-5"
     case mtXlAuto = "mt-xl-auto"
-    
     case mtXxl0 = "mt-xxl-0"
     case mtXxl1 = "mt-xxl-1"
     case mtXxl2 = "mt-xxl-2"
@@ -918,7 +977,6 @@ public enum Utility: String {
     case mtXxl4 = "mt-xxl-4"
     case mtXxl5 = "mt-xxl-5"
     case mtXxlAuto = "mt-xxl-auto"
-    
     case mb0 = "mb-0"
     case mb1 = "mb-1"
     case mb2 = "mb-2"
@@ -926,7 +984,6 @@ public enum Utility: String {
     case mb4 = "mb-4"
     case mb5 = "mb-5"
     case mbAuto = "mb-auto"
-    
     case mbSm0 = "mb-sm-0"
     case mbSm1 = "mb-sm-1"
     case mbSm2 = "mb-sm-2"
@@ -934,7 +991,6 @@ public enum Utility: String {
     case mbSm4 = "mb-sm-4"
     case mbSm5 = "mb-sm-5"
     case mbSmAuto = "mb-sm-auto"
-    
     case mbMd0 = "mb-md-0"
     case mbMd1 = "mb-md-1"
     case mbMd2 = "mb-md-2"
@@ -942,7 +998,6 @@ public enum Utility: String {
     case mbMd4 = "mb-md-4"
     case mbMd5 = "mb-md-5"
     case mbMdAuto = "mb-md-auto"
-    
     case mbLg0 = "mb-lg-0"
     case mbLg1 = "mb-lg-1"
     case mbLg2 = "mb-lg-2"
@@ -950,7 +1005,6 @@ public enum Utility: String {
     case mbLg4 = "mb-lg-4"
     case mbLg5 = "mb-lg-5"
     case mbLgAuto = "mb-lg-auto"
-    
     case mbXl0 = "mb-xl-0"
     case mbXl1 = "mb-xl-1"
     case mbXl2 = "mb-xl-2"
@@ -958,7 +1012,6 @@ public enum Utility: String {
     case mbXl4 = "mb-xl-4"
     case mbXl5 = "mb-xl-5"
     case mbXlAuto = "mb-xl-auto"
-    
     case mbXxl0 = "mb-xxl-0"
     case mbXxl1 = "mb-xxl-1"
     case mbXxl2 = "mb-xxl-2"
@@ -966,7 +1019,6 @@ public enum Utility: String {
     case mbXxl4 = "mb-xxl-4"
     case mbXxl5 = "mb-xxl-5"
     case mbXxlAuto = "mb-xxl-auto"
-    
     case ms0 = "ms-0"
     case ms1 = "ms-1"
     case ms2 = "ms-2"
@@ -974,7 +1026,6 @@ public enum Utility: String {
     case ms4 = "ms-4"
     case ms5 = "ms-5"
     case msAuto = "ms-auto"
-    
     case msSm0 = "ms-sm-0"
     case msSm1 = "ms-sm-1"
     case msSm2 = "ms-sm-2"
@@ -982,7 +1033,6 @@ public enum Utility: String {
     case msSm4 = "ms-sm-4"
     case msSm5 = "ms-sm-5"
     case msSmAuto = "ms-sm-auto"
-    
     case msMd0 = "ms-md-0"
     case msMd1 = "ms-md-1"
     case msMd2 = "ms-md-2"
@@ -990,7 +1040,6 @@ public enum Utility: String {
     case msMd4 = "ms-md-4"
     case msMd5 = "ms-md-5"
     case msMdAuto = "ms-md-auto"
-    
     case msLg0 = "ms-lg-0"
     case msLg1 = "ms-lg-1"
     case msLg2 = "ms-lg-2"
@@ -998,7 +1047,6 @@ public enum Utility: String {
     case msLg4 = "ms-lg-4"
     case msLg5 = "ms-lg-5"
     case msLgAuto = "ms-lg-auto"
-    
     case msXl0 = "ms-xl-0"
     case msXl1 = "ms-xl-1"
     case msXl2 = "ms-xl-2"
@@ -1006,7 +1054,6 @@ public enum Utility: String {
     case msXl4 = "ms-xl-4"
     case msXl5 = "ms-xl-5"
     case msXlAuto = "ms-xl-auto"
-    
     case msXxl0 = "ms-xxl-0"
     case msXxl1 = "ms-xxl-1"
     case msXxl2 = "ms-xxl-2"
@@ -1014,7 +1061,6 @@ public enum Utility: String {
     case msXxl4 = "ms-xxl-4"
     case msXxl5 = "ms-xxl-5"
     case msXxlAuto = "ms-xxl-auto"
-    
     case me0 = "me-0"
     case me1 = "me-1"
     case me2 = "me-2"
@@ -1022,7 +1068,6 @@ public enum Utility: String {
     case me4 = "me-4"
     case me5 = "me-5"
     case meAuto = "me-auto"
-    
     case meSm0 = "me-sm-0"
     case meSm1 = "me-sm-1"
     case meSm2 = "me-sm-2"
@@ -1030,7 +1075,6 @@ public enum Utility: String {
     case meSm4 = "me-sm-4"
     case meSm5 = "me-sm-5"
     case meSmAuto = "me-sm-auto"
-    
     case meMd0 = "me-md-0"
     case meMd1 = "me-md-1"
     case meMd2 = "me-md-2"
@@ -1038,7 +1082,6 @@ public enum Utility: String {
     case meMd4 = "me-md-4"
     case meMd5 = "me-md-5"
     case meMdAuto = "me-md-auto"
-    
     case meLg0 = "me-lg-0"
     case meLg1 = "me-lg-1"
     case meLg2 = "me-lg-2"
@@ -1046,7 +1089,6 @@ public enum Utility: String {
     case meLg4 = "me-lg-4"
     case meLg5 = "me-lg-5"
     case meLgAuto = "me-lg-auto"
-    
     case meXl0 = "me-xl-0"
     case meXl1 = "me-xl-1"
     case meXl2 = "me-xl-2"
@@ -1054,7 +1096,6 @@ public enum Utility: String {
     case meXl4 = "me-xl-4"
     case meXl5 = "me-xl-5"
     case meXlAuto = "me-xl-auto"
-    
     case meXxl0 = "me-xxl-0"
     case meXxl1 = "me-xxl-1"
     case meXxl2 = "me-xxl-2"
@@ -1062,7 +1103,6 @@ public enum Utility: String {
     case meXxl4 = "me-xxl-4"
     case meXxl5 = "me-xxl-5"
     case meXxlAuto = "me-xxl-auto"
-    
     case mx0 = "mx-0"
     case mx1 = "mx-1"
     case mx2 = "mx-2"
@@ -1070,7 +1110,6 @@ public enum Utility: String {
     case mx4 = "mx-4"
     case mx5 = "mx-5"
     case mxAuto = "mx-auto"
-    
     case mxSm0 = "mx-sm-0"
     case mxSm1 = "mx-sm-1"
     case mxSm2 = "mx-sm-2"
@@ -1078,7 +1117,6 @@ public enum Utility: String {
     case mxSm4 = "mx-sm-4"
     case mxSm5 = "mx-sm-5"
     case mxSmAuto = "mx-sm-auto"
-    
     case mxMd0 = "mx-md-0"
     case mxMd1 = "mx-md-1"
     case mxMd2 = "mx-md-2"
@@ -1086,7 +1124,6 @@ public enum Utility: String {
     case mxMd4 = "mx-md-4"
     case mxMd5 = "mx-md-5"
     case mxMdAuto = "mx-md-auto"
-    
     case mxLg0 = "mx-lg-0"
     case mxLg1 = "mx-lg-1"
     case mxLg2 = "mx-lg-2"
@@ -1094,7 +1131,6 @@ public enum Utility: String {
     case mxLg4 = "mx-lg-4"
     case mxLg5 = "mx-lg-5"
     case mxLgAuto = "mx-lg-auto"
-    
     case mxXl0 = "mx-xl-0"
     case mxXl1 = "mx-xl-1"
     case mxXl2 = "mx-xl-2"
@@ -1102,7 +1138,6 @@ public enum Utility: String {
     case mxXl4 = "mx-xl-4"
     case mxXl5 = "mx-xl-5"
     case mxXlAuto = "mx-xl-auto"
-    
     case mxXxl0 = "mx-xxl-0"
     case mxXxl1 = "mx-xxl-1"
     case mxXxl2 = "mx-xxl-2"
@@ -1110,7 +1145,6 @@ public enum Utility: String {
     case mxXxl4 = "mx-xxl-4"
     case mxXxl5 = "mx-xxl-5"
     case mxXxlAuto = "mx-xxl-auto"
-    
     case my0 = "my-0"
     case my1 = "my-1"
     case my2 = "my-2"
@@ -1118,7 +1152,6 @@ public enum Utility: String {
     case my4 = "my-4"
     case my5 = "my-5"
     case myAuto = "my-auto"
-    
     case mySm0 = "my-sm-0"
     case mySm1 = "my-sm-1"
     case mySm2 = "my-sm-2"
@@ -1126,7 +1159,6 @@ public enum Utility: String {
     case mySm4 = "my-sm-4"
     case mySm5 = "my-sm-5"
     case mySmAuto = "my-sm-auto"
-    
     case myMd0 = "my-md-0"
     case myMd1 = "my-md-1"
     case myMd2 = "my-md-2"
@@ -1134,7 +1166,6 @@ public enum Utility: String {
     case myMd4 = "my-md-4"
     case myMd5 = "my-md-5"
     case myMdAuto = "my-md-auto"
-    
     case myLg0 = "my-lg-0"
     case myLg1 = "my-lg-1"
     case myLg2 = "my-lg-2"
@@ -1142,7 +1173,6 @@ public enum Utility: String {
     case myLg4 = "my-lg-4"
     case myLg5 = "my-lg-5"
     case myLgAuto = "my-lg-auto"
-    
     case myXl0 = "my-xl-0"
     case myXl1 = "my-xl-1"
     case myXl2 = "my-xl-2"
@@ -1150,7 +1180,6 @@ public enum Utility: String {
     case myXl4 = "my-xl-4"
     case myXl5 = "my-xl-5"
     case myXlAuto = "my-xl-auto"
-    
     case myXxl0 = "my-xxl-0"
     case myXxl1 = "my-xxl-1"
     case myXxl2 = "my-xxl-2"
@@ -1158,6 +1187,51 @@ public enum Utility: String {
     case myXxl4 = "my-xxl-4"
     case myXxl5 = "my-xxl-5"
     case myXxlAuto = "my-xxl-auto"
+    case m0 = "m-0"
+    case m1 = "m-1"
+    case m2 = "m-2"
+    case m3 = "m-3"
+    case m4 = "m-4"
+    case m5 = "m-5"
+    case mAuto = "m-auto"
+    case mSm0 = "m-sm-0"
+    case mSm1 = "m-sm-1"
+    case mSm2 = "m-sm-2"
+    case mSm3 = "m-sm-3"
+    case mSm4 = "m-sm-4"
+    case mSm5 = "m-sm-5"
+    case mSmAuto = "m-sm-auto"
+    case mMd0 = "m-md-0"
+    case mMd1 = "m-md-1"
+    case mMd2 = "m-md-2"
+    case mMd3 = "m-md-3"
+    case mMd4 = "m-md-4"
+    case mMd5 = "m-md-5"
+    case mMdAuto = "m-md-auto"
+    case mLg0 = "m-lg-0"
+    case mLg1 = "m-lg-1"
+    case mLg2 = "m-lg-2"
+    case mLg3 = "m-lg-3"
+    case mLg4 = "m-lg-4"
+    case mLg5 = "m-lg-5"
+    case mLgAuto = "m-lg-auto"
+    case mXl0 = "m-xl-0"
+    case mXl1 = "m-xl-1"
+    case mXl2 = "m-xl-2"
+    case mXl3 = "m-xl-3"
+    case mXl4 = "m-xl-4"
+    case mXl5 = "m-xl-5"
+    case mXlAuto = "m-xl-auto"
+    case mXxl0 = "m-xxl-0"
+    case mXxl1 = "m-xxl-1"
+    case mXxl2 = "m-xxl-2"
+    case mXxl3 = "m-xxl-3"
+    case mXxl4 = "m-xxl-4"
+    case mXxl5 = "m-xxl-5"
+    case mXxlAuto = "m-xxl-auto"
+    
+    case mw100 = "mw-100"
+    case mh100 = "mh-100"
     
     case mark
     
@@ -1190,6 +1264,12 @@ public enum Utility: String {
     case needsValidation = "needs-validation"
     
     // MARK: - O
+    
+    case opacity100 = "opacity-100"
+    case opacity75 = "opacity-75"
+    case opacity50 = "opacity-50"
+    case opacity25 = "opacity-25"
+    
     case order0 = "order-0"
     case order1 = "order-1"
     case order2 = "order-2"
@@ -1333,6 +1413,11 @@ public enum Utility: String {
     case offsetXxl11 = "offset-xxl-11"
     case offsetXxl12 = "offset-xxl-12"
     
+    case overflowAuto = "overflow-auto"
+    case overflowHidden = "overflow-hidden"
+    case overflowVisible = "overflow-visible"
+    case overflowScroll = "overflow-scroll"
+    
     // MARK: - P
     case pagination
     case pageItem = "page-item"
@@ -1349,18 +1434,16 @@ public enum Utility: String {
     
     case popover
     
+    case positionStatic = "position-static"
+    case positionRelative = "position-relative"
+    case positionAbsolute = "position-absolute"
+    case positionFixed = "position-fixed"
+    case positionSticky = "position-sticky"
+    
     case progress
     case progressbar
     case progressBarStriped = "progress-bar-striped"
     case progressBarAnimated = "progress-bar-animated"
-    
-    case p0 = "p-0"
-    case p1 = "p-1"
-    case p2 = "p-2"
-    case p3 = "p-3"
-    case p4 = "p-4"
-    case p5 = "p-5"
-    case pAuto = "p-auto"
     
     case pt0 = "pt-0"
     case pt1 = "pt-1"
@@ -1369,7 +1452,6 @@ public enum Utility: String {
     case pt4 = "pt-4"
     case pt5 = "pt-5"
     case ptAuto = "pt-auto"
-    
     case ptSm0 = "pt-sm-0"
     case ptSm1 = "pt-sm-1"
     case ptSm2 = "pt-sm-2"
@@ -1377,7 +1459,6 @@ public enum Utility: String {
     case ptSm4 = "pt-sm-4"
     case ptSm5 = "pt-sm-5"
     case ptSmAuto = "pt-sm-auto"
-    
     case ptMd0 = "pt-md-0"
     case ptMd1 = "pt-md-1"
     case ptMd2 = "pt-md-2"
@@ -1385,7 +1466,6 @@ public enum Utility: String {
     case ptMd4 = "pt-md-4"
     case ptMd5 = "pt-md-5"
     case ptMdAuto = "pt-md-auto"
-    
     case ptLg0 = "pt-lg-0"
     case ptLg1 = "pt-lg-1"
     case ptLg2 = "pt-lg-2"
@@ -1393,7 +1473,6 @@ public enum Utility: String {
     case ptLg4 = "pt-lg-4"
     case ptLg5 = "pt-lg-5"
     case ptLgAuto = "pt-lg-auto"
-    
     case ptXl0 = "pt-xl-0"
     case ptXl1 = "pt-xl-1"
     case ptXl2 = "pt-xl-2"
@@ -1401,7 +1480,6 @@ public enum Utility: String {
     case ptXl4 = "pt-xl-4"
     case ptXl5 = "pt-xl-5"
     case ptXlAuto = "pt-xl-auto"
-    
     case ptXxl0 = "pt-xxl-0"
     case ptXxl1 = "pt-xxl-1"
     case ptXxl2 = "pt-xxl-2"
@@ -1409,7 +1487,6 @@ public enum Utility: String {
     case ptXxl4 = "pt-xxl-4"
     case ptXxl5 = "pt-xxl-5"
     case ptXxlAuto = "pt-xxl-auto"
-    
     case pb0 = "pb-0"
     case pb1 = "pb-1"
     case pb2 = "pb-2"
@@ -1417,7 +1494,6 @@ public enum Utility: String {
     case pb4 = "pb-4"
     case pb5 = "pb-5"
     case pbAuto = "pb-auto"
-    
     case pbSm0 = "pb-sm-0"
     case pbSm1 = "pb-sm-1"
     case pbSm2 = "pb-sm-2"
@@ -1425,7 +1501,6 @@ public enum Utility: String {
     case pbSm4 = "pb-sm-4"
     case pbSm5 = "pb-sm-5"
     case pbSmAuto = "pb-sm-auto"
-    
     case pbMd0 = "pb-md-0"
     case pbMd1 = "pb-md-1"
     case pbMd2 = "pb-md-2"
@@ -1433,7 +1508,6 @@ public enum Utility: String {
     case pbMd4 = "pb-md-4"
     case pbMd5 = "pb-md-5"
     case pbMdAuto = "pb-md-auto"
-    
     case pbLg0 = "pb-lg-0"
     case pbLg1 = "pb-lg-1"
     case pbLg2 = "pb-lg-2"
@@ -1441,7 +1515,6 @@ public enum Utility: String {
     case pbLg4 = "pb-lg-4"
     case pbLg5 = "pb-lg-5"
     case pbLgAuto = "pb-lg-auto"
-    
     case pbXl0 = "pb-xl-0"
     case pbXl1 = "pb-xl-1"
     case pbXl2 = "pb-xl-2"
@@ -1449,7 +1522,6 @@ public enum Utility: String {
     case pbXl4 = "pb-xl-4"
     case pbXl5 = "pb-xl-5"
     case pbXlAuto = "pb-xl-auto"
-    
     case pbXxl0 = "pb-xxl-0"
     case pbXxl1 = "pb-xxl-1"
     case pbXxl2 = "pb-xxl-2"
@@ -1457,58 +1529,6 @@ public enum Utility: String {
     case pbXxl4 = "pb-xxl-4"
     case pbXxl5 = "pb-xxl-5"
     case pbXxlAuto = "pb-xxl-auto"
-    
-    case pe0 = "pe-0"
-    case pe1 = "pe-1"
-    case pe2 = "pe-2"
-    case pe3 = "pe-3"
-    case pe4 = "pe-4"
-    case pe5 = "pe-5"
-    case peAuto = "pe-auto"
-    
-    case peSm0 = "pe-sm-0"
-    case peSm1 = "pe-sm-1"
-    case peSm2 = "pe-sm-2"
-    case peSm3 = "pe-sm-3"
-    case peSm4 = "pe-sm-4"
-    case peSm5 = "pe-sm-5"
-    case peSmAuto = "pe-sm-auto"
-    
-    case peMd0 = "pe-md-0"
-    case peMd1 = "pe-md-1"
-    case peMd2 = "pe-md-2"
-    case peMd3 = "pe-md-3"
-    case peMd4 = "pe-md-4"
-    case peMd5 = "pe-md-5"
-    case peMdAuto = "pe-md-auto"
-    
-    case peLg0 = "pe-lg-0"
-    case peLg1 = "pe-lg-1"
-    case peLg2 = "pe-lg-2"
-    case peLg3 = "pe-lg-3"
-    case peLg4 = "pe-lg-4"
-    case peLg5 = "pe-lg-5"
-    case peLgAuto = "pe-lg-auto"
-    
-    case peXl0 = "pe-xl-0"
-    case peXl1 = "pe-xl-1"
-    case peXl2 = "pe-xl-2"
-    case peXl3 = "pe-xl-3"
-    case peXl4 = "pe-xl-4"
-    case peXl5 = "pe-xl-5"
-    case peXlAuto = "pe-xl-auto"
-    
-    case peXxl0 = "pe-xxl-0"
-    case peXxl1 = "pe-xxl-1"
-    case peXxl2 = "pe-xxl-2"
-    case peXxl3 = "pe-xxl-3"
-    case peXxl4 = "pe-xxl-4"
-    case peXxl5 = "pe-xxl-5"
-    case peXxlAuto = "pe-xxl-auto"
-    
-    case positionAbsolute = "position-absolute"
-    case positionRelative = "position-relative"
-    
     case ps0 = "ps-0"
     case ps1 = "ps-1"
     case ps2 = "ps-2"
@@ -1516,7 +1536,6 @@ public enum Utility: String {
     case ps4 = "ps-4"
     case ps5 = "ps-5"
     case psAuto = "ps-auto"
-    
     case psSm0 = "ps-sm-0"
     case psSm1 = "ps-sm-1"
     case psSm2 = "ps-sm-2"
@@ -1524,7 +1543,6 @@ public enum Utility: String {
     case psSm4 = "ps-sm-4"
     case psSm5 = "ps-sm-5"
     case psSmAuto = "ps-sm-auto"
-    
     case psMd0 = "ps-md-0"
     case psMd1 = "ps-md-1"
     case psMd2 = "ps-md-2"
@@ -1532,7 +1550,6 @@ public enum Utility: String {
     case psMd4 = "ps-md-4"
     case psMd5 = "ps-md-5"
     case psMdAuto = "ps-md-auto"
-    
     case psLg0 = "ps-lg-0"
     case psLg1 = "ps-lg-1"
     case psLg2 = "ps-lg-2"
@@ -1540,7 +1557,6 @@ public enum Utility: String {
     case psLg4 = "ps-lg-4"
     case psLg5 = "ps-lg-5"
     case psLgAuto = "ps-lg-auto"
-    
     case psXl0 = "ps-xl-0"
     case psXl1 = "ps-xl-1"
     case psXl2 = "ps-xl-2"
@@ -1548,7 +1564,6 @@ public enum Utility: String {
     case psXl4 = "ps-xl-4"
     case psXl5 = "ps-xl-5"
     case psXlAuto = "ps-xl-auto"
-    
     case psXxl0 = "ps-xxl-0"
     case psXxl1 = "ps-xxl-1"
     case psXxl2 = "ps-xxl-2"
@@ -1556,7 +1571,48 @@ public enum Utility: String {
     case psXxl4 = "ps-xxl-4"
     case psXxl5 = "ps-xxl-5"
     case psXxlAuto = "ps-xxl-auto"
-    
+    case pe0 = "pe-0"
+    case pe1 = "pe-1"
+    case pe2 = "pe-2"
+    case pe3 = "pe-3"
+    case pe4 = "pe-4"
+    case pe5 = "pe-5"
+    case peAuto = "pe-auto"
+    case peSm0 = "pe-sm-0"
+    case peSm1 = "pe-sm-1"
+    case peSm2 = "pe-sm-2"
+    case peSm3 = "pe-sm-3"
+    case peSm4 = "pe-sm-4"
+    case peSm5 = "pe-sm-5"
+    case peSmAuto = "pe-sm-auto"
+    case peMd0 = "pe-md-0"
+    case peMd1 = "pe-md-1"
+    case peMd2 = "pe-md-2"
+    case peMd3 = "pe-md-3"
+    case peMd4 = "pe-md-4"
+    case peMd5 = "pe-md-5"
+    case peMdAuto = "pe-md-auto"
+    case peLg0 = "pe-lg-0"
+    case peLg1 = "pe-lg-1"
+    case peLg2 = "pe-lg-2"
+    case peLg3 = "pe-lg-3"
+    case peLg4 = "pe-lg-4"
+    case peLg5 = "pe-lg-5"
+    case peLgAuto = "pe-lg-auto"
+    case peXl0 = "pe-xl-0"
+    case peXl1 = "pe-xl-1"
+    case peXl2 = "pe-xl-2"
+    case peXl3 = "pe-xl-3"
+    case peXl4 = "pe-xl-4"
+    case peXl5 = "pe-xl-5"
+    case peXlAuto = "pe-xl-auto"
+    case peXxl0 = "pe-xxl-0"
+    case peXxl1 = "pe-xxl-1"
+    case peXxl2 = "pe-xxl-2"
+    case peXxl3 = "pe-xxl-3"
+    case peXxl4 = "pe-xxl-4"
+    case peXxl5 = "pe-xxl-5"
+    case peXxlAuto = "pe-xxl-auto"
     case px0 = "px-0"
     case px1 = "px-1"
     case px2 = "px-2"
@@ -1564,7 +1620,6 @@ public enum Utility: String {
     case px4 = "px-4"
     case px5 = "px-5"
     case pxAuto = "px-auto"
-    
     case pxSm0 = "px-sm-0"
     case pxSm1 = "px-sm-1"
     case pxSm2 = "px-sm-2"
@@ -1572,7 +1627,6 @@ public enum Utility: String {
     case pxSm4 = "px-sm-4"
     case pxSm5 = "px-sm-5"
     case pxSmAuto = "px-sm-auto"
-    
     case pxMd0 = "px-md-0"
     case pxMd1 = "px-md-1"
     case pxMd2 = "px-md-2"
@@ -1580,7 +1634,6 @@ public enum Utility: String {
     case pxMd4 = "px-md-4"
     case pxMd5 = "px-md-5"
     case pxMdAuto = "px-md-auto"
-    
     case pxLg0 = "px-lg-0"
     case pxLg1 = "px-lg-1"
     case pxLg2 = "px-lg-2"
@@ -1588,7 +1641,6 @@ public enum Utility: String {
     case pxLg4 = "px-lg-4"
     case pxLg5 = "px-lg-5"
     case pxLgAuto = "px-lg-auto"
-    
     case pxXl0 = "px-xl-0"
     case pxXl1 = "px-xl-1"
     case pxXl2 = "px-xl-2"
@@ -1596,7 +1648,6 @@ public enum Utility: String {
     case pxXl4 = "px-xl-4"
     case pxXl5 = "px-xl-5"
     case pxXlAuto = "px-xl-auto"
-    
     case pxXxl0 = "px-xxl-0"
     case pxXxl1 = "px-xxl-1"
     case pxXxl2 = "px-xxl-2"
@@ -1604,7 +1655,6 @@ public enum Utility: String {
     case pxXxl4 = "px-xxl-4"
     case pxXxl5 = "px-xxl-5"
     case pxXxlAuto = "px-xxl-auto"
-    
     case py0 = "py-0"
     case py1 = "py-1"
     case py2 = "py-2"
@@ -1612,7 +1662,6 @@ public enum Utility: String {
     case py4 = "py-4"
     case py5 = "py-5"
     case pyAuto = "py-auto"
-    
     case pySm0 = "py-sm-0"
     case pySm1 = "py-sm-1"
     case pySm2 = "py-sm-2"
@@ -1620,7 +1669,6 @@ public enum Utility: String {
     case pySm4 = "py-sm-4"
     case pySm5 = "py-sm-5"
     case pySmAuto = "py-sm-auto"
-    
     case pyMd0 = "py-md-0"
     case pyMd1 = "py-md-1"
     case pyMd2 = "py-md-2"
@@ -1628,7 +1676,6 @@ public enum Utility: String {
     case pyMd4 = "py-md-4"
     case pyMd5 = "py-md-5"
     case pyMdAuto = "py-md-auto"
-    
     case pyLg0 = "py-lg-0"
     case pyLg1 = "py-lg-1"
     case pyLg2 = "py-lg-2"
@@ -1636,7 +1683,6 @@ public enum Utility: String {
     case pyLg4 = "py-lg-4"
     case pyLg5 = "py-lg-5"
     case pyLgAuto = "py-lg-auto"
-    
     case pyXl0 = "py-xl-0"
     case pyXl1 = "py-xl-1"
     case pyXl2 = "py-xl-2"
@@ -1644,7 +1690,6 @@ public enum Utility: String {
     case pyXl4 = "py-xl-4"
     case pyXl5 = "py-xl-5"
     case pyXlAuto = "py-xl-auto"
-    
     case pyXxl0 = "py-xxl-0"
     case pyXxl1 = "py-xxl-1"
     case pyXxl2 = "py-xxl-2"
@@ -1652,8 +1697,63 @@ public enum Utility: String {
     case pyXxl4 = "py-xxl-4"
     case pyXxl5 = "py-xxl-5"
     case pyXxlAuto = "py-xxl-auto"
+    case p0 = "p-0"
+    case p1 = "p-1"
+    case p2 = "p-2"
+    case p3 = "p-3"
+    case p4 = "p-4"
+    case p5 = "p-5"
+    case pAuto = "p-auto"
+    case pSm0 = "p-sm-0"
+    case pSm1 = "p-sm-1"
+    case pSm2 = "p-sm-2"
+    case pSm3 = "p-sm-3"
+    case pSm4 = "p-sm-4"
+    case pSm5 = "p-sm-5"
+    case pSmAuto = "p-sm-auto"
+    case pMd0 = "p-md-0"
+    case pMd1 = "p-md-1"
+    case pMd2 = "p-md-2"
+    case pMd3 = "p-md-3"
+    case pMd4 = "p-md-4"
+    case pMd5 = "p-md-5"
+    case pMdAuto = "p-md-auto"
+    case pLg0 = "p-lg-0"
+    case pLg1 = "p-lg-1"
+    case pLg2 = "p-lg-2"
+    case pLg3 = "p-lg-3"
+    case pLg4 = "p-lg-4"
+    case pLg5 = "p-lg-5"
+    case pLgAuto = "p-lg-auto"
+    case pXl0 = "p-xl-0"
+    case pXl1 = "p-xl-1"
+    case pXl2 = "p-xl-2"
+    case pXl3 = "p-xl-3"
+    case pXl4 = "p-xl-4"
+    case pXl5 = "p-xl-5"
+    case pXlAuto = "p-xl-auto"
+    case pXxl0 = "p-xxl-0"
+    case pXxl1 = "p-xxl-1"
+    case pXxl2 = "p-xxl-2"
+    case pXxl3 = "p-xxl-3"
+    case pXxl4 = "p-xxl-4"
+    case pXxl5 = "p-xxl-5"
+    case pXxlAuto = "p-xxl-auto"
     
     // MARK: - R
+    case rounded
+    case roundedTop = "rounded-top"
+    case roundedEnd = "rounded-end"
+    case roundedBottom = "rounded-bottom"
+    case roundedStart = "rounded-start"
+    case roundedCircle = "rounded-circle"
+    case roundedPill = "rounded-pill"
+    
+    case rounded0 = "rounded-0"
+    case rounded1 = "rounded-1"
+    case rounded2 = "rounded-2"
+    case rounded3 = "rounded-3"
+    
     case row
     
     case rowColsAuto = "row-cols-auto"
@@ -1751,6 +1851,11 @@ public enum Utility: String {
     case select
     case scroll
     
+    case shadowNone = "shadow-none"
+    case shadowSm = "shadow-sm"
+    case shadow
+    case shadowLg = "shadow-lg"
+    
     case show
     
     case slide
@@ -1796,10 +1901,17 @@ public enum Utility: String {
     case tableResponsiveXxl = "table-responsive-xxl"
     case tableSm = "table-sm"
     
+    case textBreak = "text-break"
     case textDecorationUnderline = "text-decoration-underline"
     case textDecorationLineThrough = "text-decoration-line-through"
+    case textDecorationNone = "text-decoration-none"
+    case textWrap = "text-wrap"
     case textNowrap = "text-nowrap"
     case textTruncate = "text-truncate"
+    
+    case textLowercase = "text-lowercase"
+    case textUppercase = "text-uppercase"
+    case textCapitalize = "text-capitalize"
     
     case textReset = "text-reset"
     
@@ -1840,6 +1952,7 @@ public enum Utility: String {
     
     case top0 = "top-0"
     case top50 = "top-50"
+    case top100 = "top-100"
     
     case tooltip
     
@@ -1849,10 +1962,16 @@ public enum Utility: String {
 
     case trClickable = "tr-clickable"
     
+    // MARK: - U
+    case userSelectAll = "user-select-all"
+    case userSelectAuto = "user-select-auto"
+    case userSelectNone = "user-select-none"
+    
     // MARK: - V
     case validFeedback = "valid-feedback"
     case validTooltip = "valid-tooltip"
     
+    case visible
     case visuallyHidden = "visually-hidden"
     case visuallyHiddenFocusable = "visually-hidden-focusable"
     case vr
