@@ -45,6 +45,12 @@ public class Component: TagRepresentable {
     }
     
     @discardableResult
+    func `class`(_ values: String...) -> Self {
+        _ = tag.class(values)
+        return self
+    }
+    
+    @discardableResult
     public func ariaLabel(_ value: String, _ condition: Bool = true) -> Self {
         tag
             .ariaLabel(value, condition)
