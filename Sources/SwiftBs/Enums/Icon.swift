@@ -23,5 +23,5 @@ public enum Icon: String {
     case biCheck2Square = "bi-check2-square"
     case biHandIndexThumb = "bi-hand-index-thumb"
     
-    var i: I { return I().class("bi \(self.rawValue)") }
+    public var i: I { return I().class("bi \(self.rawValue)") }
 }
