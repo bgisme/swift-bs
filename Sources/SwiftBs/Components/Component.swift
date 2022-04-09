@@ -45,11 +45,10 @@ public class Component: TagRepresentable {
     }
     
     @discardableResult
-    func `class`(insert values: String...) -> Self {
+    public func `class`(insert values: String...) -> Self {
         _ = tag.class(insert: values)
         return self
     }
-    
     
     @discardableResult
     public func ariaLabel(_ value: String, _ condition: Bool = true) -> Self {
