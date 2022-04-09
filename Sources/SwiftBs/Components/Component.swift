@@ -50,6 +50,7 @@ public class Component: TagRepresentable {
         return self
     }
     
+    
     @discardableResult
     public func ariaLabel(_ value: String, _ condition: Bool = true) -> Self {
         tag
