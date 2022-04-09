@@ -22,6 +22,11 @@ public enum Icon: String {
     case biEmojiHeartEyes = "bi-emoji-heart-eyes"
     case biCheck2Square = "bi-check2-square"
     case biHandIndexThumb = "bi-hand-index-thumb"
+}
+
+extension Icon: TagRepresentable {
     
-    public var i: I { return I().class("bi \(self.rawValue)") }
+    public func build() -> Tag {
+        I().class("bi \(self.rawValue)")
+    }
 }
