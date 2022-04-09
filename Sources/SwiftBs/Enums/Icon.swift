@@ -5,6 +5,8 @@
 //  Created by Brad Gourley on 4/9/22.
 //
 
+import SwiftHtml
+
 public enum Icon: String {
     case biAlarm = "bi-alarm"
     case biExclamationCircle = "bi-exclamation-circle"
@@ -20,4 +22,6 @@ public enum Icon: String {
     case biEmojiHeartEyes = "bi-emoji-heart-eyes"
     case biCheck2Square = "bi-check2-square"
     case biHandIndexThumb = "bi-hand-index-thumb"
+    
+    var i: I { return I().class("bi \(self.rawValue)") }
 }
