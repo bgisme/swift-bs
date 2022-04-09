@@ -28,12 +28,22 @@ extension Tag: AttributeValuable {
     
     @discardableResult
     public func `class`(insert classes: [Utility]?, _ condition: Bool = true) -> Self {
-        guard condition, let classes = classes, !classes.isEmpty else { return self }
+        self.class(insert: classes?.map{$0.rawValue}, condition)
+    }
+    
+    @discardableResult
+    public func `class`(insert values: String?..., if condition: Bool = true) -> Self {
+        self.class(insert: values.compactMap{$0}, condition)
+    }
+    
+    @discardableResult
+    public func `class`(insert values: [String]?, _ condition: Bool = true) -> Self {
+        guard condition, let values = values, !values.isEmpty else { return self }
         let value: String
         if let existing = self.value(.class) {
-            value = existing.add(classes)
+            value = existing.insert(values)
         } else {
-            value = String.classValue(classes)
+            value = String.classValue(values)
         }
         return attribute(.class, value)
     }

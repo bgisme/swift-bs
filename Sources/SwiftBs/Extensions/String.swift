@@ -53,10 +53,10 @@ extension String {
         classes.compactMap{ Utility.init(rawValue: $0) }
     }
     
-    public func add(_ classes: [Utility]) -> String {
-        let existing = self.classes
-        let merged = existing + classes.map{$0.rawValue}.filter{ !existing.contains($0) }
-        return Self.classValue(merged)
+    public func insert(_ values: [String]) -> String {
+        var merged = Set(self.classes)
+        _ = values.map{ merged.insert($0) }
+        return Self.classValue(Array(merged))
     }
     
     public func add(_ styles: [(String, String)]) -> String {

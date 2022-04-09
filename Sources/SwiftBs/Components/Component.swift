@@ -45,8 +45,8 @@ public class Component: TagRepresentable {
     }
     
     @discardableResult
-    func `class`(_ values: String...) -> Self {
-        _ = tag.class(values)
+    func `class`(insert values: String...) -> Self {
+        _ = tag.class(insert: values)
         return self
     }
     
