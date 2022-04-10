@@ -54,9 +54,12 @@ extension String {
     }
     
     public func insert(_ values: [String]) -> String {
-        var merged = Set(self.classes)
-        _ = values.map{ merged.insert($0) }
-        return Self.classValue(Array(merged))
+        // add values sequentially in case order of classes critical for css
+        var classes = self.classes
+        for value in values {
+            if !classes.contains(value) { classes.append(value) }
+        }
+        return Self.classValue(classes)
     }
     
     public func add(_ styles: [(String, String)]) -> String {
