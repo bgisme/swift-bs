@@ -97,18 +97,18 @@ public class AccordionHeader: Component {
                             id: String,
                             collapseId: String,
                             isCollapsed: Bool = false) {
-        let h2 = H2 {
-            AccordionButton(text,
-                            collapseId: collapseId,
-                            isCollapsed: isCollapsed)
+        self.init(id: id) {
+            H2 {
+                AccordionButton(text,
+                                collapseId: collapseId,
+                                isCollapsed: isCollapsed)
+            }
         }
-        
-        self.init(id: id, h2)
         self.isCollapsed(if: isCollapsed)
     }
     
-    public init(id: String, _ h2: H2) {
-        _ = h2
+    public init(id: String, h2: () -> H2) {
+        let h2 = h2()
             .class(insert: .accordionHeader)
             .id(id)
 
