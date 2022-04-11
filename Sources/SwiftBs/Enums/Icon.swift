@@ -24,6 +24,7 @@ public enum Icon: String {
     case biHandIndexThumb = "bi-hand-index-thumb"
     case biExclamationTriangle = "bi-exclamation-triangle"
     case biExclamationLg = "bi-exclamation-lg"
+    case biThreeDots = "bi-three-dots"
 }
 
 extension Icon: TagRepresentable {
