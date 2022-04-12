@@ -202,6 +202,7 @@ public class NavLink: Component {
         super.init(a)
     }
     
+    
     @discardableResult
     public func isActive(if condition: Bool = true) -> Self {
         tag
