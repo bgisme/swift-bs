@@ -18,6 +18,7 @@ public enum Icon: String {
     case biCoin = "bi-coin"
     case biCurrencyDollar = "bi-currency-dollar"
     case biEmojiHeartEyes = "bi-emoji-heart-eyes"
+    case biEnvelope = "bi-envelope"
     case biExclamationCircle = "bi-exclamation-circle"
     case biExclamationLg = "bi-exclamation-lg"
     case biExclamationTriangle = "bi-exclamation-triangle"
@@ -25,6 +26,7 @@ public enum Icon: String {
     case biGeo = "bi-geo"
     case biHandIndexThumb = "bi-hand-index-thumb"
     case biPlayCircle = "bi-play-circle"
+    case biTelephone = "bi-telephone"
     case biThreeDots = "bi-three-dots"
 }
 
