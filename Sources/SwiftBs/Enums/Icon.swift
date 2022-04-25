@@ -15,6 +15,7 @@ public enum Icon: String {
     case biChatQuote = "bi-chat-quote"
     case biChatLeftDots = "bi-chat-left-dots"
     case biCheck2Square = "bi-check2-square"
+    case biChatSquareQuote = "bi-chat-square-quote"
     case biCoin = "bi-coin"
     case biCurrencyDollar = "bi-currency-dollar"
     case biEmojiHeartEyes = "bi-emoji-heart-eyes"
