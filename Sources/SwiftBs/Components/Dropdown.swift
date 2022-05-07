@@ -6,7 +6,6 @@
 //
 
 import SwiftHtml
-import Darwin
 
 public class Dropdown: Component {
     
