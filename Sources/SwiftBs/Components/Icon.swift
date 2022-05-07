@@ -9,7 +9,7 @@ import SwiftHtml
 
 public class Icon: Component {
         
-    init(_ name: IconName) {
+    public init(_ name: IconName) {
         let tag = I().class("bi \(name.rawValue)")
         super.init(tag)
     }
