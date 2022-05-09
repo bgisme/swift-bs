@@ -110,7 +110,6 @@ public class AccordionHeader: Component {
         let h2 = h2()
             .class(insert: .accordionHeader)
             .id(id)
-
         super.init(h2)
         self.isCollapsed(if: isCollapsed)
     }
@@ -128,7 +127,10 @@ public class AccordionButton: Component {
     public convenience init(_ text: String,
                             collapseId: String,
                             isCollapsed: Bool = false) {
-        self.init(collapseId: collapseId, isCollapsed: isCollapsed, {Button(text)})
+        self.init(collapseId: collapseId,
+                  isCollapsed: isCollapsed) {
+            Button(text)
+        }
     }
     
     public init(collapseId: String,
