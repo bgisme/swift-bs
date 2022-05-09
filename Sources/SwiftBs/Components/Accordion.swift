@@ -128,19 +128,20 @@ public class AccordionButton: Component {
     public convenience init(_ text: String,
                             collapseId: String,
                             isCollapsed: Bool = false) {
-        self.init(collapseId: collapseId, {Button(text)})
-        self.isCollapsed(if: isCollapsed)
+        self.init(collapseId: collapseId, isCollapsed: isCollapsed, {Button(text)})
     }
     
-    public init(collapseId: String, _ button: () -> Button) {
+    public init(collapseId: String,
+                isCollapsed: Bool = false,
+                _ button: () -> Button) {
         let button = button()
             .class(insert: .accordionButton)
             .type(.button)
             .dataBsToggle(.collapse)
             .dataBsTarget(collapseId)
             .ariaControls(collapseId)
-        
         super.init(button)
+        self.isCollapsed(if: isCollapsed)
     }
     
     @discardableResult
