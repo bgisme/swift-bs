@@ -11,38 +11,46 @@ public class Collapse: TagRepresentable {
     
     public typealias Id = String
     
-    let triggersContainer: Tag?
+    let triggers: Tag?
     let buttons: [CollapseButton]
     let contents: [CollapseContent]
-
+    
     public convenience init(id: Id,
-                            button: (Id) -> CollapseButton,
-                            content: (Id) -> CollapseContent) {
-        self.init(triggersContainer: nil,
-                  buttons: [button(id)],
-                  contents: [content(id)])
+                            button: () -> Button,
+                            @TagBuilder contents: () -> [Tag]) {
+        self.init(triggers: nil,
+                  buttons: [CollapseButton(contentId: id, button: button)],
+                  contents: [CollapseContent(id: id, contents: contents)])
+    }
+    
+    public convenience init(id: Id,
+                            a: () -> A,
+                            @TagBuilder contents: () -> [Tag]) {
+        self.init(triggers: nil,
+                  buttons: [CollapseButton(contentId: id, a: a)],
+                  contents: [CollapseContent(id: id, contents: contents)])
     }
     
     public convenience init(ids: [Id],
                             TagBuilder triggers: ([Id]) -> Tag,
                             contents: ([Id]) -> [CollapseContent]) {
-        self.init(triggersContainer: triggers(ids),
+        self.init(triggers: triggers(ids),
                   buttons: [],
                   contents: contents(ids))
     }
     
-    private init(triggersContainer: Tag?,
+    private init(triggers: Tag?,
                  buttons: [CollapseButton],
                  contents: [CollapseContent]) {
-        self.triggersContainer = triggersContainer
+        self.triggers = triggers
         self.buttons = buttons
         self.contents = contents
     }
     
     @TagBuilder
     public func build() -> Tag {
-        if let triggersContainer = triggersContainer {
-            triggersContainer
+        if let triggers = triggers {
+            triggers
         }
         buttons
         contents
