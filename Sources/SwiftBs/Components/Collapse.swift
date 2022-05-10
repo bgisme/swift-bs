@@ -32,7 +32,7 @@ public class Collapse: TagRepresentable {
     }
     
     public convenience init(ids: [Id],
-                            TagBuilder triggers: ([Id]) -> Tag,
+                            @TagBuilder triggers: ([Id]) -> Tag,
                             contents: ([Id]) -> [CollapseContent]) {
         self.init(triggers: triggers(ids),
                   buttons: [],
