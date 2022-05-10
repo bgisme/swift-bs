@@ -11,16 +11,40 @@ public class Collapse: TagRepresentable {
     
     public typealias Id = String
     
-    let contents: [Tag]
+    let triggersContainer: Tag?
+    let buttons: [CollapseButton]
+    let contents: [CollapseContent]
 
-    public init(contentIds ids: [String],
-                p: ([Id]) -> P,
-                @TagBuilder contents: ([Id]) -> [Tag]) {
-        self.contents = [p(ids)] + contents(ids)
+    public convenience init(id: Id,
+                            button: (Id) -> CollapseButton,
+                            content: (Id) -> CollapseContent) {
+        self.init(triggersContainer: nil,
+                  buttons: [button(id)],
+                  contents: [content(id)])
+    }
+    
+    public convenience init(ids: [Id],
+                            TagBuilder triggers: ([Id]) -> Tag,
+                            contents: ([Id]) -> [CollapseContent]) {
+        self.init(triggersContainer: triggers(ids),
+                  buttons: [],
+                  contents: contents(ids))
+    }
+    
+    private init(triggersContainer: Tag?,
+                 buttons: [CollapseButton],
+                 contents: [CollapseContent]) {
+        self.triggersContainer = triggersContainer
+        self.buttons = buttons
+        self.contents = contents
     }
     
     @TagBuilder
     public func build() -> Tag {
+        if let triggersContainer = triggersContainer {
+            triggersContainer
+        }
+        buttons
         contents
     }
 }
@@ -29,8 +53,12 @@ public class CollapseButton: Component {
     
     let ids: [String]
     
-    public convenience init(contentIds ids: String..., a: () -> A) {
-        self.init(contentIds: ids, a: a)
+    public convenience init(contentId id: String, a: () -> A) {
+        self.init(contentIds: [id], a: a)
+    }
+    
+    public convenience init(contentId id: String, button: () -> Button) {
+        self.init(contentIds: [id], button: button)
     }
     
     public convenience init(contentIds ids: [String], a: () -> A) {
@@ -40,10 +68,6 @@ public class CollapseButton: Component {
             .href(ids.count < 2 ? "#\(ids.first ?? "")" : Utility.multiCollapse.rawValue)
 
         self.init(contentIds: ids, a)
-    }
-    
-    public convenience init(contentIds ids: String..., button: () -> Button) {
-        self.init(contentIds: ids, button: button)
     }
     
     public convenience init(contentIds ids: [String], button: () -> Button) {
