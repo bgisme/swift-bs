@@ -12,13 +12,15 @@ public class Collapse: TagRepresentable {
     public typealias Id = String
     
     let triggersContainer: Tag?
-    let buttons: [CollapseButton]
-    let content: CollapseContent
+    let contentsContainer: Tag?
+    let buttons: [CollapseButton]?
+    let content: CollapseContent?
     
     public convenience init(id: Id,
                             button: () -> Button,
                             @TagBuilder contents: () -> [Tag]) {
         self.init(triggersContainer: nil,
+                  contentsContainer: nil,
                   buttons: [CollapseButton(contentId: id, button: button)],
                   content: CollapseContent(id: id, contents: contents))
     }
@@ -27,6 +29,7 @@ public class Collapse: TagRepresentable {
                             a: () -> A,
                             @TagBuilder contents: () -> [Tag]) {
         self.init(triggersContainer: nil,
+                  contentsContainer: nil,
                   buttons: [CollapseButton(contentId: id, a: a)],
                   content: CollapseContent(id: id, contents: contents))
     }
@@ -35,14 +38,26 @@ public class Collapse: TagRepresentable {
                             @TagBuilder triggersContainer: ([Id]) -> Tag,
                             content: ([Id]) -> CollapseContent) {
         self.init(triggersContainer: triggersContainer(ids),
-                  buttons: [],
+                  contentsContainer: nil,
+                  buttons: nil,
                   content: content(ids))
     }
     
+    public convenience init(ids: [Id],
+                            triggersContainer: ([Id]) -> Tag,
+                            contentsContainer: ([Id]) -> Tag) {
+        self.init(triggersContainer: triggersContainer(ids),
+                  contentsContainer: contentsContainer(ids),
+                  buttons: nil,
+                  content: nil)
+    }
+    
     private init(triggersContainer: Tag?,
-                 buttons: [CollapseButton],
-                 content: CollapseContent) {
+                 contentsContainer: Tag?,
+                 buttons: [CollapseButton]?,
+                 content: CollapseContent?) {
         self.triggersContainer = triggersContainer
+        self.contentsContainer = contentsContainer
         self.buttons = buttons
         self.content = content
     }
@@ -52,8 +67,15 @@ public class Collapse: TagRepresentable {
         if let triggersContainer = triggersContainer {
             triggersContainer
         }
-        buttons
-        content
+        if let contentsContainer = contentsContainer {
+            contentsContainer
+        }
+        if let buttons = buttons {
+            buttons
+        }
+        if let content = content {
+            content
+        }
     }
 }
 
