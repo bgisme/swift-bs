@@ -11,49 +11,49 @@ public class Collapse: TagRepresentable {
     
     public typealias Id = String
     
-    let triggers: Tag?
+    let triggersContainer: Tag?
     let buttons: [CollapseButton]
-    let contents: [CollapseContent]
+    let content: CollapseContent
     
     public convenience init(id: Id,
                             button: () -> Button,
                             @TagBuilder contents: () -> [Tag]) {
-        self.init(triggers: nil,
+        self.init(triggersContainer: nil,
                   buttons: [CollapseButton(contentId: id, button: button)],
-                  contents: [CollapseContent(id: id, contents: contents)])
+                  content: CollapseContent(id: id, contents: contents))
     }
     
     public convenience init(id: Id,
                             a: () -> A,
                             @TagBuilder contents: () -> [Tag]) {
-        self.init(triggers: nil,
+        self.init(triggersContainer: nil,
                   buttons: [CollapseButton(contentId: id, a: a)],
-                  contents: [CollapseContent(id: id, contents: contents)])
+                  content: CollapseContent(id: id, contents: contents))
     }
     
     public convenience init(ids: [Id],
-                            @TagBuilder triggers: ([Id]) -> Tag,
-                            contents: ([Id]) -> [CollapseContent]) {
-        self.init(triggers: triggers(ids),
+                            @TagBuilder triggersContainer: ([Id]) -> Tag,
+                            content: ([Id]) -> CollapseContent) {
+        self.init(triggersContainer: triggersContainer(ids),
                   buttons: [],
-                  contents: contents(ids))
+                  content: content(ids))
     }
     
-    private init(triggers: Tag?,
+    private init(triggersContainer: Tag?,
                  buttons: [CollapseButton],
-                 contents: [CollapseContent]) {
-        self.triggers = triggers
+                 content: CollapseContent) {
+        self.triggersContainer = triggersContainer
         self.buttons = buttons
-        self.contents = contents
+        self.content = content
     }
     
     @TagBuilder
     public func build() -> Tag {
-        if let triggers = triggers {
-            triggers
+        if let triggersContainer = triggersContainer {
+            triggersContainer
         }
         buttons
-        contents
+        content
     }
 }
 
