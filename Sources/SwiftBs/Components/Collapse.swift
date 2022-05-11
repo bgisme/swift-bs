@@ -23,7 +23,7 @@ public class Collapse: TagRepresentable {
         self.init(triggersContainer: nil,
                   contentsContainer: nil,
                   buttons: [CollapseButton(contentId: id, button: button).isExpanded(if: isExpanded)],
-                  content: CollapseContent(id: id, contents: contents))
+                  content: CollapseContent(id: id, contents: contents).isExpanded(if: isExpanded))
     }
     
     public convenience init(id: Id,
@@ -33,7 +33,7 @@ public class Collapse: TagRepresentable {
         self.init(triggersContainer: nil,
                   contentsContainer: nil,
                   buttons: [CollapseButton(contentId: id, a: a).isExpanded(if: isExpanded)],
-                  content: CollapseContent(id: id, contents: contents))
+                  content: CollapseContent(id: id, contents: contents).isExpanded(if: isExpanded))
     }
     
     public convenience init(ids: [Id],
