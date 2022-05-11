@@ -17,20 +17,22 @@ public class Collapse: TagRepresentable {
     let content: CollapseContent?
     
     public convenience init(id: Id,
+                            isExpanded: Bool = false,
                             button: () -> Button,
                             @TagBuilder contents: () -> [Tag]) {
         self.init(triggersContainer: nil,
                   contentsContainer: nil,
-                  buttons: [CollapseButton(contentId: id, button: button)],
+                  buttons: [CollapseButton(contentId: id, button: button).isExpanded(if: isExpanded)],
                   content: CollapseContent(id: id, contents: contents))
     }
     
     public convenience init(id: Id,
+                            isExpanded: Bool = false,
                             a: () -> A,
                             @TagBuilder contents: () -> [Tag]) {
         self.init(triggersContainer: nil,
                   contentsContainer: nil,
-                  buttons: [CollapseButton(contentId: id, a: a)],
+                  buttons: [CollapseButton(contentId: id, a: a).isExpanded(if: isExpanded)],
                   content: CollapseContent(id: id, contents: contents))
     }
     
