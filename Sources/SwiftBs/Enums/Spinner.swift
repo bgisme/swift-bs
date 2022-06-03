@@ -1,6 +1,5 @@
 
 import SwiftHtml
-import Darwin
 
 public class Spinner: Component {
     
