@@ -6,7 +6,7 @@
 //
 
 import SwiftHtml
-import SwiftSvg
+
 
 public class Alert: Component {
 
