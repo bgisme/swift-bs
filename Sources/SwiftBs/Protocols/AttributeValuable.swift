@@ -1,9 +1,3 @@
-//
-//  AttributeValuable.swift
-//  
-//
-//  Created by Brad Gourley on 3/17/22.
-//
 
 public protocol AttributeValuable {
     

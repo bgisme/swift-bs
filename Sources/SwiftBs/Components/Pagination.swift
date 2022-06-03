@@ -1,9 +1,3 @@
-//
-//  Pagination.swift
-//  
-//
-//  Created by Brad Gourley on 3/18/22.
-//
 
 import SwiftHtml
 

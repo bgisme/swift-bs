@@ -1,10 +1,3 @@
-//
-//  ButtonGroup.swift
-//  
-//
-//  Created by Brad Gourley on 2/28/22.
-//
-
 /*
  
     ButtonGroupToolbar

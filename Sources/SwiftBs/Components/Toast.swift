@@ -1,9 +1,3 @@
-//
-//  Toast.swift
-//  
-//
-//  Created by Brad Gourley on 3/28/22.
-//
 
 import SwiftHtml
 

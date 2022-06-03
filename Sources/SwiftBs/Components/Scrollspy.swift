@@ -1,9 +1,3 @@
-//
-//  Scrollspy.swift
-//  
-//
-//  Created by Brad Gourley on 3/19/22.
-//
 
 import SwiftHtml
 

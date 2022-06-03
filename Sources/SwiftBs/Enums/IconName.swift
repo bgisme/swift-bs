@@ -1,9 +1,3 @@
-//
-//  IconName.swift
-//  
-//
-//  Created by Brad Gourley on 4/9/22.
-//
 
 public enum IconName: String {
     case bi123 = "bi-123"

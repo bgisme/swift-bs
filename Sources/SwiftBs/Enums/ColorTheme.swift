@@ -1,9 +1,3 @@
-//
-//  ColorTheme.swift
-//  
-//
-//  Created by Brad Gourley on 3/21/22.
-//
 
 public enum ColorTheme: String, CaseIterable {
     case primary

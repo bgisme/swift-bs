@@ -1,9 +1,3 @@
-//
-//  Breakpoint.swift
-//  
-//
-//  Created by Brad Gourley on 3/16/22.
-//
 
 public enum Breakpoint {
     case xs

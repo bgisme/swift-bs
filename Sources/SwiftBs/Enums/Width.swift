@@ -1,9 +1,3 @@
-//
-//  Width.swift
-//  
-//
-//  Created by Brad Gourley on 3/30/22.
-//
 
 public enum Width {
     case col

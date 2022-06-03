@@ -1,9 +1,3 @@
-//
-//  Tag+Utilities.swift
-//  
-//
-//  Created by Brad Gourley on 3/16/22.
-//
 
 import SwiftHtml
 

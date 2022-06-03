@@ -1,9 +1,3 @@
-//
-//  CloseButton.swift
-//  
-//
-//  Created by Brad Gourley on 3/9/22.
-//
 
 import SwiftHtml
 

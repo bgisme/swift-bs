@@ -1,9 +1,3 @@
-//
-//  Color.swift
-//  
-//
-//  Created by Brad Gourley on 3/21/22.
-//
 
 public enum Color: String, CaseIterable {
     case primary

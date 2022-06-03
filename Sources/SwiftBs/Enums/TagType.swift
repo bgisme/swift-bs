@@ -1,9 +1,3 @@
-//
-//  TagType.swift
-//  
-//
-//  Created by Brad Gourley on 3/23/22.
-//
 
 import SwiftHtml
 

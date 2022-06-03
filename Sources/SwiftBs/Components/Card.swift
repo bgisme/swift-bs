@@ -1,9 +1,3 @@
-//
-//  Card.swift
-//  
-//
-//  Created by Brad Gourley on 3/4/22.
-//
 
 import SwiftHtml
 

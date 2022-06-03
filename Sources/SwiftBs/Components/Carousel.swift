@@ -1,9 +1,3 @@
-//
-//  Carousel.swift
-//  
-//
-//  Created by Brad Gourley on 3/8/22.
-//
 
 import SwiftHtml
 

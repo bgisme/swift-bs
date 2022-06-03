@@ -1,9 +1,3 @@
-//
-//  Icon.swift
-//  
-//
-//  Created by Brad Gourley on 5/7/22.
-//
 
 import SwiftHtml
 

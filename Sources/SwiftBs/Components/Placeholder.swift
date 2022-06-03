@@ -1,9 +1,3 @@
-//
-//  Placeholder.swift
-//  
-//
-//  Created by Brad Gourley on 3/30/22.
-//
 
 import SwiftHtml
 

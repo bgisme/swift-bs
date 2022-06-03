@@ -1,9 +1,3 @@
-//
-//  Column.swift
-//  
-//
-//  Created by Brad Gourley on 3/19/22.
-//
 
 public enum Column {
     case col
