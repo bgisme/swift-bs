@@ -1443,7 +1443,7 @@ public enum Utility: String {
     case paginationLg = "pagination-lg"
     case paginationSm = "pagination-sm"
     
-    case pills
+    case pill
     
     case placeholder
     case placeholderGlow = "placeholder-glow"
