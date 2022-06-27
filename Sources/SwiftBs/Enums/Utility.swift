@@ -606,6 +606,7 @@ public enum Utility: String {
     case formFloating = "form-floating"
     case formLabel = "form-label"
     case formRange = "form-range"
+    case formSelect = "form-select"
     case formSelectLg = "form-select-lg"
     case formSelectSm = "form-select-sm"
     case formSwitch = "form-switch"
