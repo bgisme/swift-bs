@@ -50,6 +50,7 @@ public enum AttributeKey: String {
     case ariaHaspopup = "aria-haspopup"
     case ariaHidden = "aria-hidden"
     case ariaPressed = "aria-pressed"
+    case ariaSelected = "aria-selected"
     case autoComplete = "auto-complete"
     case dataBsInterval = "data-bs-interval"
     case dataBsKeyboard = "data-bs-keyboard"

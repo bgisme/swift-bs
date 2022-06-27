@@ -158,6 +158,12 @@ extension Tag {
     }
     
     @discardableResult
+    public func ariaSelected(_ value: Bool?, _ condition: Bool = true) -> Self {
+        guard condition else { return self }
+        return attr(.ariaSelected, String(value))
+    }
+    
+    @discardableResult
     public func ariaValuenow(_ value: String?, _ condition: Bool = true) -> Self {
         attr(.ariaValuenow, value, condition)
     }
