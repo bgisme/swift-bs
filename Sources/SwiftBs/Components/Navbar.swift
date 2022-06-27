@@ -112,7 +112,7 @@ public class NavbarBrand: Component {
     
     private override init(_ tag: Tag) {
         tag
-            .class(insert: .navbarBrand, .textTruncate)
+            .class(insert: .navbarBrand)
         
         super.init(tag)
     }
