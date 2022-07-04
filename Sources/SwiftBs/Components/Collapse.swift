@@ -129,15 +129,15 @@ public class CollapseContent: Component {
     /// contents ... anything
     public convenience init(id: String, @TagBuilder contents: () -> [Tag]) {
         let div = Div { contents() }
-        self.init(id: id, div: div)
+        self.init(id: id, content: div)
     }
     
-    public init(id: String, div: Div) {
-        _ = div
+    public init(id: String, content: Div) {
+        _ = content
             .class(insert: .collapse)
             .id(id)
         
-        super.init(div)
+        super.init(content)
     }
     
     ///@NOTE: style='max-width:...' applied to all children
