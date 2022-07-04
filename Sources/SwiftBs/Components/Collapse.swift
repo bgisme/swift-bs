@@ -129,10 +129,10 @@ public class CollapseContent: Component {
     /// contents ... anything
     public convenience init(id: String, @TagBuilder contents: () -> [Tag]) {
         let div = Div { contents() }
-        self.init(id: id, div)
+        self.init(id: id, div: div)
     }
     
-    private init(id: String, _ div: Div) {
+    public init(id: String, div: Div) {
         _ = div
             .class(insert: .collapse)
             .id(id)
