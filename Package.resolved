@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "swift-html",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/bgisme/swift-html.git",
+      "state" : {
+        "revision" : "2600d0cdeec1ec929d92ebde0f572460d8fec383",
+        "version" : "1.79.0"
+      }
+    }
+  ],
+  "version" : 2
+}

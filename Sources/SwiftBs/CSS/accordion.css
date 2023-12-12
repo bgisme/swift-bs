@@ -1,0 +1,15 @@
+.accordion-button.left:before {
+    
+}
+
+.accordion-button.rotate90:after {
+    --bs-accordion-btn-icon-transform: rotate(90deg);
+}
+
+.accordion-button.rotate180:after {
+    --bs-accordion-btn-icon-transform: rotate(180deg);
+}
+
+.accordion-button.rotate270:after {
+    --bs-accordion-btn-icon-transform: rotate(270deg);
+}
