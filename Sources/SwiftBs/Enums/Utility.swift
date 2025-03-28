@@ -1,11 +1,3 @@
-//
-//  Utility.swift
-//  
-//
-//  Created by BG on 2/9/22.
-//
-
-
 public enum Utility: String {
     // MARK: - A
     case accordion
@@ -1911,6 +1903,7 @@ public enum Utility: String {
     case stretchedLink = "stretched-link"
     
     // MARK: - T
+    case tab
     case tabContent = "tab-content"
     case tabPane = "tab-pane"
     case table
