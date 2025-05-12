@@ -1274,6 +1274,7 @@ public enum Utility: String {
     case navLink = "nav-link"
     case navPills = "nav-pills"
     case navTabs = "nav-tabs"
+    case navUnderline = "nav-underline"
     
     case needsValidation = "needs-validation"
     
